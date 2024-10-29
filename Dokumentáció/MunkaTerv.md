@@ -40,12 +40,13 @@ Az admin minden funkcióhoz eyszre hozzáfér, illetve Ö az aki regiszrálja a 
 - **Kurzus Forum:** felületet ad a kurzus értékeléssére a diákok számára. A táorok itt tehetnek közé tárgytemaiták és követelményeket.  
 - **Nyelv átálitása:** Átlehet álitani az oldal nyelvét magyaról angolra és visza.  
 ## Válaszotott technológiák
-- ![Angular](képek/angular.svg) Angular  
-- ![TypeScript](képek/typescript.svg) TypeScript  
-- ![Firebase](képek/icons8-firebase.svg) Firebase  
-- ![Html](képek/html.svg) Html  
-- ![SCSS](képek/sass.svg) SCSS  
-- ![Node.js](képek/nodejs.svg) Node.js   
+- <img src="képek/angular.svg" alt="Angular" style="width:40px; height:40px;"> Angular  
+- <img src="képek/typescript.svg" alt="TypeScript" style="width:40px; height:40px;"> TypeScript  
+- <img src="képek/icon8-firebase.svg" alt="Firebase" style="width:40px; height:40px;"> Firebase  
+- <img src="képek/html.svg" alt="Html" style="width:40px; height:40px;"> Html  
+- <img src="képek/sass.svg" alt="SCSS" style="width:40px; height:40px;"> SCSS  
+- <img src="képek/nodejs.svg" alt="Node.js" style="width:40px; height:40px;"> Node.js  
+   
 ## Piackutatás
 | | **Vesenytársak** | **[CooSpace](https://www.coosp.etr.u-szeged.hu)** | **[Neptun](https://neptun.szte.hu)** | **[Moodle](https://moodle.pte.hu)** | **[Kréta](https://klik-kreta.hu)** |
 --- | --- | --- | --- | --- | ---
