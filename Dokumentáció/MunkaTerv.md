@@ -40,12 +40,12 @@ Az admin minden funkcióhoz eyszre hozzáfér, illetve Ö az aki regiszrálja a 
 - **Kurzus Forum:** felületet ad a kurzus értékeléssére a diákok számára. A táorok itt tehetnek közé tárgytemaiták és követelményeket.  
 - **Nyelv átálitása:** Átlehet álitani az oldal nyelvét magyaról angolra és visza.  
 ## Válaszotott technológiák
-- <span><img src="képek/angular.svg" alt="Angular" style="width:24px; height:24px; vertical-align: middle;"> Angular</span>  
-- <span><img src="képek/typescript.svg" alt="TypeScript" style="width:24px; height:24px; vertical-align: middle;"> TypeScript</span>  
-- <span><img src="képek/icons8-firebase.svg" alt="Firebase" style="width:24px; height:24px; vertical-align: middle;"> Firebase</span>  
-- <span><img src="képek/html.svg" alt="Html" style="width:24px; height:24px; vertical-align: middle;"> Html</span>  
-- <span><img src="képek/sass.svg" alt="SCSS" style="width:24px; height:24px; vertical-align: middle;"> SCSS</span>  
-- <span><img src="képek/nodejs.svg" alt="Node.js" style="width:24px; height:24px; vertical-align: middle;"> Node.js</span>  
+- <span style="display: flex; align-items: center;"><img src="képek/angular.svg" alt="Angular" style="width:24px; height:24px; margin-right: 5px;"> Angular</span>  
+- <span style="display: flex; align-items: center;"><img src="képek/typescript.svg" alt="TypeScript" style="width:24px; height:24px; margin-right: 5px;"> TypeScript</span>  
+- <span style="display: flex; align-items: center;"><img src="képek/icons8-firebase.svg" alt="Firebase" style="width:24px; height:24px; margin-right: 5px;"> Firebase</span>  
+- <span style="display: flex; align-items: center;"><img src="képek/html.svg" alt="Html" style="width:24px; height:24px; margin-right: 5px;"> Html</span>  
+- <span style="display: flex; align-items: center;"><img src="képek/sass.svg" alt="SCSS" style="width:24px; height:24px; margin-right: 5px;"> SCSS</span>  
+- <span style="display: flex; align-items: center;"><img src="képek/nodejs.svg" alt="Node.js" style="width:24px; height:24px; margin-right: 5px;"> Node.js</span>    
 ## Piackutatás
 | | **Vesenytársak** | **[CooSpace](https://www.coosp.etr.u-szeged.hu)** | **[Neptun](https://neptun.szte.hu)** | **[Moodle](https://moodle.pte.hu)** | **[Kréta](https://klik-kreta.hu)** |
 --- | --- | --- | --- | --- | ---
