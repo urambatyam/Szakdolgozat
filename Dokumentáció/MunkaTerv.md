@@ -66,6 +66,8 @@ Az admin minden funkcióhoz eyszre hozzáfér, illetve Ö az aki regiszrálja a 
 | **Kurzusok véleményezése** |  | ❌ | ✅ | ❌ | ❌ |
 | **Tárgy tematika megadása** |  | ❌ | ✅ | ❌ | ❌ |
 | **Követelmények megadása** |  | ✅ | ❌ | ✅ | ❌ |
+### Megjegyzések
+Azt lehet megfigyelni, hogy a Rendszelgazda általi regisztrálás, a töbnyelvüség és a modern minimialista két-három alap színekből álló desing,  és az eletronikus ellenörzés alapvetőek az oktatási szoftverek piacán. Ezekre a funkciókra mint biztos alapra kiemelt figyelmet kell forditanom a fejlesztés során, de az is jól látszik hogy egyetlen egy piaci szerplő sem fokuszált a tantervek kezelésére vagy a kurzusok leirására. Ezeken a területken egy kiss szerencsével valami újat és egyesit alkothatok. 
 ## Use-Case
 ## Adatmodell
 ## képenyő képek
