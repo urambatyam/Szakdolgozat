@@ -4,3 +4,4 @@
 <a href="https://iconscout.com/icons/sass" class="text-underline font-size-sm" target="_blank">Sass</a> by <a href="https://iconscout.com/contributors/icon-mafia" class="text-underline font-size-sm" target="_blank">Icon Mafia</a>  
 <a href="https://iconscout.com/icons/html" class="text-underline font-size-sm" target="_blank">Html</a> by <a href="https://iconscout.com/contributors/icon-mafia" class="text-underline font-size-sm" target="_blank">Icon Mafia</a>  
 <a target="_blank" href="https://icons8.com/icon/62452/firebase">Firebase</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>  
+<a target="_blank" href="https://icons8.com/icon/set/angular/color">Angular</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> 
