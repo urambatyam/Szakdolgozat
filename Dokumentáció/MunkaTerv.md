@@ -73,4 +73,5 @@ Azt lehet megfigyelni, hogy a Rendszelgazda általi regisztrálás, a töbnyelv�
 ## képenyő tervek
 ## Ütemezés 
 ## Fórrásaim:
-- https://angular.dev  
+- https://angular.dev 
+- https://roadmap.schdesign.hu/schdesign/tutorial/markdown-alapok/   
