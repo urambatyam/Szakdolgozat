@@ -19,7 +19,7 @@ Csak kevesen veszik észre de a Neptun biztosít tárgy tematikákat letölthet�
  Problémának tartom azt is, hogy a diákonak nincs egy álandó platformuk,  ahol visszajelzést adhatnának a pedagogusaiiknak csak egy félévégi sablonos kérdöív van amikben olyan semilyne kérdéseket tesznek fel mint *"Ön szrint menyire volt felkészülve az oktató az órira"* amik csak hasonlóan lagymatag válaszokat lehet adni hogy *"Ja"* ami nem segít az oktatónak az esetleges hiányoságok detektálásában.  
 A felsorolt hibák orvosolására teszek késérletet a diplomamunkám formályában.   
 A tantervet olvashatóbbá teszem (*az alkalmazáson belül nem mint letölthető álomány*) azzal hogy szürhető és rendezhető lesz minden atributuma alapján,(*például: adja visza az összes 6. félvére ajánlot tárgyat kötlezően választható tárgyat keredit szerint csökenő sorendbe*).   
-Lehetővéteném hogy a tanuló megadott feltételei alpján egy a célkitözésének megfelelő vagy idő vagy kredit vagy kurzus számra minimalizált tantervet genráljon (*például: feltételek: MOdelalkotás specifikáció elvégzése, kalkulus II. nélkül. Célfügvéy: kurzus szám minimalizálása*) annak érdekében hogy az amibicióiknak megfelellő tantervet válaszhasanak.  
+Lehetővéteném hogy a tanuló megadott feltételei alpján egy a célkitözésének megfelelő vagy idő vagy kredit vagy kurzus számra minimalizált tantervet genráljon (*például: feltételek: Modelalkotás specifikáció elvégzése, kalkulus II. nélkül. Célfügvéy: kurzus szám minimalizálása*) annak érdekében hogy az amibicióiknak megfelellő tantervet válaszhasanak.  
 Azért hogy támpontokat adjak a tárgyfelvételi idöszakokban minden kurzushoz csatolok egy forumot a hol a diákok értékkelhetik a tárgyakat nehézség és hasznoság alapján illetve visza jelzéseket küldthetnek a tárgyról a tanároknak. Ugyan itt elérhetővéteném a tárgyhoz tartozó statisztikákat , illetve az lehetőséget biztositanék arra hogy az oktatók feltöltsék a tárgy tematikát és az előző év követelményét hogy mind ezt fomatálot alkban hogy finoman rá vezesem öket mit kell beleírnijuk.  
 Ebből már logikusan következik hogy több jogosuktsági szintet különböztetnék meg az webapon belül. névszerint Admin, tanár és diák.  
 A tanároknak lehetőségük lesz a tantervek létrehozására és modosítására illetve a hozájuk tartozó tárgyakhoz tartozó dolgozatok pontjainak/jegyinek beirását a diákjaik naplóiba, amit a diákok a saját felületükön tudnak megnézni.  
@@ -40,12 +40,12 @@ Az admin minden funkcióhoz eyszre hozzáfér, illetve Ö az aki regiszrálja a 
 - **Kurzus Forum:** felületet ad a kurzus értékeléssére a diákok számára. A táorok itt tehetnek közé tárgytemaiták és követelményeket.  
 - **Nyelv átálitása:** Átlehet álitani az oldal nyelvét magyaról angolra és visza.  
 ## Válaszotott technológiák
-- Angular  
-- TypeScript  
-- Firebase  
-- Html  
-- SCSS  
-- Node.js  
+- ![Angular](képek/angular.svg) Angular  
+- ![TypeScript](képek/typescript.svg) TypeScript  
+- ![Firebase](képek/icons8-firebase.svg) Firebase  
+- ![Html](képek/html.svg) Html  
+- ![SCSS](képek/sass.svg) SCSS  
+- ![Node.js](képek/nodejs.svg) Node.js   
 ## Piackutatás
 | | **Vesenytársak** | **[CooSpace](https://www.coosp.etr.u-szeged.hu)** | **[Neptun](https://neptun.szte.hu)** | **[Moodle](https://moodle.pte.hu)** | **[Kréta](https://klik-kreta.hu)** |
 --- | --- | --- | --- | --- | ---
