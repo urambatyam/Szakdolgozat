@@ -20,38 +20,48 @@ Azért hogy támpontokat adjak a tárgyfelvételi idöszakokban minden kurzushoz
 Ebből már logikusan következik hogy több jogosuktsági szintet különböztetnék meg az webapon belül. névszerint Admin, tanár és diák. A tanároknak lehetőségük lesz a tantervek létrehozására és modosítására illetve a hozájuk tartozó tárgyakhoz tartozó dolgozatok pontjainak/jegyinek beirását a diákjaik naplóiba, amit a diákok a saját felületükön tudnak megnézni meg nézni. Az admin minden funkcióhoz eyszre hozáfér illetve Ö az aki regiszrálja a többi felhasználot mint minden más oktatási szoftverben (Neptunra, Coospacere, Moodulere, stb... nem regisztrálhat akárki).     
 ## Funkcionális specifikáció
 ### Föbb funkciók:
--**Eltronikus ellnörző:** A tanárok képesek a diákjaik pontjait évközben szerzet pontjait illetve késöbbi jegyeiket naplózni, amit a diákok a saját felületükön képesek olvasni.
-**Tanterv készitő:** platformot piztosít a tanároknak a tantervek készitésében, modosításában.
--**Tanterv megjelenités:** Megjeleniti a tantervet a diákoknak.
--**Tanterv szürés:** szürhetővéteszi a tantervet tulajdonsági alapján a diákoknak.
--**Tanterv keresés:** kereshetővéteszi a tantervet a diákonak.
--**Tanerv rendezés:** Rendezhetővéteszi a tantervet egyes tulajdonságai alpján a diákonak.
--**Optimalizált tanterv generálása:** Személyre szoló tanterv generálása a diákonak megadot feltételek alapján és cél alpján.
--**Belépés:** Belépteti a felhasználokat.
--**Regisztrálás:** Az admin felhasználó létrehoz új felhasználókat.
--**Profil:** A felhasználói adatok megjelenitése modosítása.
--**Kijelentkezés:** Kilehet jelentkezni.
--**Kurzus Forum:** felületet ad a kurzus értékeléssére a diákok számára. A táorok itt tehetnek közé tárgytemaiták és követelményeket.
--**Nyelv átálitása:** Átlehet álitani az oldal nyelvét magyaról angolra és visza.
+- **Eltronikus ellnörző:** A tanárok képesek a diákjaik pontjait évközben szerzet pontjait illetve késöbbi jegyeiket naplózni, amit a diákok a saját felületükön képesek olvasni.  
+- **Tanterv készitő:** platformot piztosít a tanároknak a tantervek készitésében, modosításában.  
+- **Tanterv megjelenités:** Megjeleniti a tantervet a diákoknak.  
+- **Tanterv szürés:** szürhetővéteszi a tantervet tulajdonsági alapján a diákoknak.  
+- **Tanterv keresés:** kereshetővéteszi a tantervet a diákonak.  
+- **Tanerv rendezés:** Rendezhetővéteszi a tantervet egyes tulajdonságai alpján a diákonak.  
+- **Optimalizált tanterv generálása:** Személyre szoló tanterv generálása a diákonak megadot feltételek alapján és cél alpján.  
+- **Belépés:** Belépteti a felhasználokat.  
+- **Regisztrálás:** Az admin felhasználó létrehoz új felhasználókat.  
+- **Profil:** A felhasználói adatok megjelenitése modosítása.  
+- **Kijelentkezés:** Kilehet jelentkezni.  
+- **Kurzus Forum:** felületet ad a kurzus értékeléssére a diákok számára. A táorok itt tehetnek közé tárgytemaiták és követelményeket.  
+- **Nyelv átálitása:** Átlehet álitani az oldal nyelvét magyaról angolra és visza.  
 ## Válaszotott technológiák
--Angular  
--TypeScript  
--Firebase  
--Html  
--SCSS  
--Node.js  
+- Angular  
+- TypeScript  
+- Firebase  
+- Html  
+- SCSS  
+- Node.js  
 ## Piackutatás
 | | Vesenytársak | CooSpace | Neptun | Moodle | Kréta |
---- | --- | --- | --- | ---  | ---
 | Funkciók | |
---- | --- | --- | --- | ---  | ---
 | Belépés |  | I | I | I | I |
---- | --- | --- | --- | ---  | ---
 | Regisztráció Admin által |  | I | I | I | I |
-
+| Tanterv megjlenitése |  | X | I | X | X |
+| Tanterv rendezhetősége |  | X | I | X | X |
+| Tanterv szürhetősége |  | X | X | X | X |
+| Tanterv kershetősége |  | X | I | X | X |
+| Tanterv Optimalizálása |  | X | X | X | X |
+| Tanterv készitő |  | X | I | X | X |
+| Eletronikus ellenörző |  | I | I | I | I |
+| Kurzus Forum |  | I | X | I | I |
+| Statistikák generálása |  | I | I | I | I |
+| Többnyelvűség |  | I | I | I | I |
+| Modern minimalista megjelenés |  | I | I | I | I |
+| Kurzusok véleményezése |  | X | I | X | X |
+| Tárgy tematika megadása |  | X | I | X | X |
+| Követelmények megadása |  | I | X | I | X |
 ## Use-Case
 ## Adatmodell
 ## képenyő képek
 ## Ütemezés 
 ## Fórrásaim:
--https://angular.dev  
+- https://angular.dev  
