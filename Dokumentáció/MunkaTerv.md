@@ -40,12 +40,36 @@ Az admin minden funkcióhoz eyszre hozzáfér, illetve Ö az aki regiszrálja a 
 - **Kurzus Forum:** felületet ad a kurzus értékeléssére a diákok számára. A táorok itt tehetnek közé tárgytemaiták és követelményeket.  
 - **Nyelv átálitása:** Átlehet álitani az oldal nyelvét magyaról angolra és visza.  
 ## Válaszotott technológiák
-- <span style="display: flex; align-items: center;"><img src="képek/angular.svg" alt="Angular" style="width:24px; height:24px; margin-right: 5px;"> Angular</span>  
-- <span style="display: flex; align-items: center;"><img src="képek/typescript.svg" alt="TypeScript" style="width:24px; height:24px; margin-right: 5px;"> TypeScript</span>  
-- <span style="display: flex; align-items: center;"><img src="képek/icons8-firebase.svg" alt="Firebase" style="width:24px; height:24px; margin-right: 5px;"> Firebase</span>  
-- <span style="display: flex; align-items: center;"><img src="képek/html.svg" alt="Html" style="width:24px; height:24px; margin-right: 5px;"> Html</span>  
-- <span style="display: flex; align-items: center;"><img src="képek/sass.svg" alt="SCSS" style="width:24px; height:24px; margin-right: 5px;"> SCSS</span>  
-- <span style="display: flex; align-items: center;"><img src="képek/nodejs.svg" alt="Node.js" style="width:24px; height:24px; margin-right: 5px;"> Node.js</span>    
+
+<ul style="list-style-type: none; padding-left: 0;">
+    <li style="line-height: 250%;">
+        <img src="képek/angular.svg" alt="Angular" style="width: 1.5em; height: 1.5em; vertical-align: middle;">
+        <p style="display: inline; margin-left: 1.5em;">Angular</p>
+    </li>
+    <li style="line-height: 250%;">
+        <img src="képek/typescript.svg" alt="TypeScript" style="width: 1.5em; height: 1.5em; vertical-align: middle;">
+        <p style="display: inline; margin-left: 1.5em;">TypeScript</p>
+    </li>
+    <li style="line-height: 250%;">
+        <img src="képek/icons8-firebase.svg" alt="Firebase" style="width: 1.5em; height: 1.5em; vertical-align: middle;">
+        <p style="display: inline; margin-left: 1.5em;">Firebase</p>
+    </li>
+    <li style="line-height: 250%;">
+        <img src="képek/html.svg" alt="Html" style="width: 1.5em; height: 1.5em; vertical-align: middle;">
+        <p style="display: inline; margin-left: 1.5em;">Html</p>
+    </li>
+    <li style="line-height: 250%;">
+        <img src="képek/sass.svg" alt="SCSS" style="width: 1.5em; height: 1.5em; vertical-align: middle;">
+        <p style="display: inline; margin-left: 1.5em;">SCSS</p>
+    </li>
+    <li style="line-height: 250%;">
+        <img src="képek/nodejs.svg" alt="Node.js" style="width: 1.5em; height: 1.5em; vertical-align: middle;">
+        <p style="display: inline; margin-left: 1.5em;">Node.js</p>
+    </li>
+</ul>
+
+
+
 ## Piackutatás
 | | **Vesenytársak** | **[CooSpace](https://www.coosp.etr.u-szeged.hu)** | **[Neptun](https://neptun.szte.hu)** | **[Moodle](https://moodle.pte.hu)** | **[Kréta](https://klik-kreta.hu)** |
 --- | --- | --- | --- | --- | ---
