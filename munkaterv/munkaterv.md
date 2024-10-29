@@ -19,11 +19,24 @@ Lehetővéteném hogy a tanuló megadott feltételei alpján egy a célkitözés
 Azért hogy támpontokat adjak a tárgyfelvételi idöszakokban minden kurzushoz csatolok egy forumot a hol a diákok értékkelhetik a tárgyakat nehézség és hasznoság alapján illetve visza jelzéseket küldthetnek a tárgyról a tanároknak. Ugyan itt elérhetővéteném a tárgyhoz tartozó statisztikákat , illetve az lehetőséget biztositanék arra hogy az oktatók feltöltsék a tárgy tematikát és az előző év követelményét hogy mind ezt fomatálot alkban hogy finoman rá vezesem öket mit kell beleírnijuk.
 Ebből már logikusan következik hogy több jogosuktsági szintet különböztetnék meg az webapon belül. névszerint Admin, tanár és diák. A tanároknak lehetőségük lesz a tantervek létrehozására és modosítására illetve a hozájuk tartozó tárgyakhoz tartozó dolgozatok pontjainak/jegyinek beirását a diákjaik naplóiba, amit a diákok a saját felületükön tudnak megnézni meg nézni. Az admin minden funkcióhoz eyszre hozáfér illetve Ö az aki regiszrálja a többi felhasználot mint minden más oktatási szoftverben (Neptunra, Coospacere, Moodulere, stb... nem regisztrálhat akárki).     
 ## Funkcionális specifikáció
-
+### Föbb funkciók:
+-**Eltronikus ellnörző:** A tanárok képesek a diákjaik pontjait évközben szerzet pontjait illetve késöbbi jegyeiket naplózni, amit a diákok a saját felületükön képesek olvasni.
+**Tanterv készitő:** platformot piztosít a tanároknak a tantervek készitésében, modosításában.
+-**Tanterv megjelenités:** Megjeleniti a tantervet a diákoknak.
+-**Tanterv szürés:** szürhetővéteszi a tantervet tulajdonsági alapján a diákoknak.
+-**Tanterv keresés:** kereshetővéteszi a tantervet a diákonak.
+-**Tanerv rendezés:** Rendezhetővéteszi a tantervet egyes tulajdonságai alpján a diákonak.
+-**Optimalizált tanterv generálása:** Személyre szoló tanterv generálása a diákonak megadot feltételek alapján és cél alpján.
+-**Belépés:** Belépteti a felhasználokat.
+-**Regisztrálás:** Az admin felhasználó létrehoz új felhasználókat.
+-**Profil:** A felhasználói adatok megjelenitése modosítása.
+-**Kijelentkezés:** Kilehet jelentkezni.
+-**Kurzus Forum:** felületet ad a kurzus értékeléssére a diákok számára. A táorok itt tehetnek közé tárgytemaiták és követelményeket.
 ## Válaszotott technológiák
 ## Piackutatás
 ## Use-Case
 ## Adatmodell
+## képenyő képek
 ## Ütemezés 
 ## Fórrásaim:
 -https://angular.dev  
