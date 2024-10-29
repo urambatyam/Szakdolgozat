@@ -33,6 +33,12 @@ Ebből már logikusan következik hogy több jogosuktsági szintet különbözte
 -**Kijelentkezés:** Kilehet jelentkezni.
 -**Kurzus Forum:** felületet ad a kurzus értékeléssére a diákok számára. A táorok itt tehetnek közé tárgytemaiták és követelményeket.
 ## Válaszotott technológiák
+-Angular  
+-TypeScript  
+-Firebase  
+-Html  
+-SCSS  
+-Node.js  
 ## Piackutatás
 ## Use-Case
 ## Adatmodell
