@@ -32,6 +32,7 @@ Ebből már logikusan következik hogy több jogosuktsági szintet különbözte
 -**Profil:** A felhasználói adatok megjelenitése modosítása.
 -**Kijelentkezés:** Kilehet jelentkezni.
 -**Kurzus Forum:** felületet ad a kurzus értékeléssére a diákok számára. A táorok itt tehetnek közé tárgytemaiták és követelményeket.
+-**Nyelv átálitása:** Átlehet álitani az oldal nyelvét magyaról angolra és visza.
 ## Válaszotott technológiák
 -Angular  
 -TypeScript  
@@ -40,6 +41,14 @@ Ebből már logikusan következik hogy több jogosuktsági szintet különbözte
 -SCSS  
 -Node.js  
 ## Piackutatás
+| | Vesenytársak | CooSpace | Neptun | Moodle | Kréta |
+--- | --- | --- | --- | ---  | ---
+| Funkciók | |
+--- | --- | --- | --- | ---  | ---
+| Belépés |  | I | I | I | I |
+--- | --- | --- | --- | ---  | ---
+| Regisztráció Admin által |  | I | I | I | I |
+
 ## Use-Case
 ## Adatmodell
 ## képenyő képek
