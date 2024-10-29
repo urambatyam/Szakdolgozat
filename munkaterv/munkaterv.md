@@ -44,6 +44,7 @@ Ebből már logikusan következik hogy több jogosuktsági szintet különbözte
 | | Vesenytársak | CooSpace | Neptun | Moodle | Kréta |
 | Funkciók | |
 | Belépés |  | I | I | I | I |
+--- | --- | --- | --- | --- | ---
 | Regisztráció Admin által |  | I | I | I | I |
 | Tanterv megjlenitése |  | X | I | X | X |
 | Tanterv rendezhetősége |  | X | I | X | X |
