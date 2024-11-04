@@ -119,6 +119,44 @@ A menüsávot használva át navigálhat az admin felhaszáló a új felhasznál
 ![Belépés-oldal](ábrák/képernyőTervek/regisztráció.png)
 ## Egyed Kapcsolat
 ## Ütemezés 
+### Első félév:
+- Szeptember
+    - Porotípus írása kotlin kmp keretrendszerben AI használatával
+- Október
+    - projekt újra tervezése a követelmények ismeretében
+    - nyilatkozás Ai nem használatáról
+    - Szakmai motiváció megírása
+    - Use-case elkészitése
+    - Képernyő tervek elkészitése
+    - Egyed Kapcsolat diagram elkészitése
+    - Ütemtemezés elkészitése
+    - Git repositori létrehozása
+- November
+    - Projekt újra kezdése Angularban
+    - Angular keretrendszer alapjainak elsajátitása
+    - Firebase integrálása
+    - Autentikáció implementálása
+    - Oldalak létrehozása alapszintü routing létrehozása
+    - jogosultcság kezelés és Guard-val védet routing kialakitása
+    - Firebase FireStore adatbázis létrehozása
+    - CRUD müvelet létrehozása service-ekként
+- December
+    - Alapfunkciók implementálásank megkezdése
+### Második Félév:
+- Február
+    - Alap funkciók implementálásának befejezése.
+- Március
+    - Optimalizálási algoritmus implementálása
+- Április
+    - Design elkészitése
+    - Oldal szövegének lefordítása
+    - oldal Deploy-ása
+- Május
+    - Statikus tesztelés ESLint-vel
+    - Unit teszek készitése
+    - E2E tesztelés
+
+
 ## Fórrásaim:
 - https://angular.dev 
 - https://roadmap.schdesign.hu/schdesign/tutorial/markdown-alapok/   
