@@ -69,8 +69,55 @@ Az admin minden funkcióhoz eyszre hozzáfér, illetve Ö az aki regiszrálja a 
 ### Megjegyzések
 Azt lehet megfigyelni, hogy a Rendszelgazda általi regisztrálás, a töbnyelvüség és a modern minimialista két-három alap színekből álló desing,  és az eletronikus ellenörzés alapvetőek az oktatási szoftverek piacán. Ezekre a funkciókra mint biztos alapra kiemelt figyelmet kell forditanom a fejlesztés során, de az is jól látszik hogy egyetlen egy piaci szerplő sem fokuszált a tantervek kezelésére vagy a kurzusok leirására. Ezeken a területken egy kiss szerencsével valami újat és egyesit alkothatok. 
 ## Use-Case
-## Adatmodell
-## képenyő tervek
+### Látogató
+A látogató minden olyan felhasználó aki még nem jelentkezetbe. Csak bejelnezkezés és a NYelv átálitás(weboldal nyelvének átálitása) funkciókhoz fét hozzá.  
+
+![use-case-első-ábra](ábrák/use-case/use-case.svg)
+### Bejelentkezett felhasználó
+A bejelentkezett felhasználó képes megneézni a saját felhasználói adatrait megváltoztani a jelszvát megnézni a tantervet azt rendezni optimalizálni szűrni és keresni addot feltételek alapján, illetve minden a tantervben megjelenitett kurzushoz tartozik egy kurzus forum amit a tantervben rákatintva érhet el. A kurzus forumban lehetőségevan saját szavaival leírni mirőlszól a tárgy megadni hogy szerinte menyire nehéz és megnézni a statisztikákat a tárgytemetikát és a követelményeket és ki tud jelentkezni.
+
+![use-case-második-ábra](ábrák/use-case/use-case2.svg)
+### Diák Tanár és Admin felhasználó
+Mind a három felhasználó típús a Bejeletkezett felhasználóból öröklödik. Azaz minden funkcióval és jogosultcsággal rendelkezik mint az ős. A diák az örökölt funkciókon túl hozzáfér az elektronikus ellenörzőjéhez ahol képes megnézni a jegyei alakulását és felveni új tárgyakat. A tanár képes a saját kurzusához tartozó követelményeket és tárgytematikákat hozzáadni a kurzusforumhoz illetve értékelni a diákok félév közi és végi munkáikat (*a félévközi értékelés allat a dolgozatok pontszámaira míg a félév véginél az érdemjegyre gondolok. Azt hogy melyik tanár hozmelyik kurzus tartozik azt a tanterv tárgy felelős mezőből lehet megkapni.*). Az admin felhasználó értelem szerüen hozzáfér az összes emlietett funkcióhoz kivéve az diák ellenörzőjéhez, mivel a diákok jegyeihez már a tanár jegyek kezelése funciójából hozzáfér.
+
+![use-case-harmadik-ábra](ábrák/use-case/use-case3.svg)
+## Képernyő tervek
+A felhasználó Elöször a belépés oldalal talákozik ahol bejelentkezik jelszó azonosító párossal illetve leheőségében áll át álítani az oldal nyelvét az alapértelmezet magyarról.  
+
+![Belépés-oldal](ábrák/képernyőTervek/belepes.png)
+
+Sikeres bejelentkezés után a tanterv oldalára irányitodnak át ahol zürhezik rendezhetik kereshetik és optimalizálhatják is.  
+
+![Belépés-oldal](ábrák/képernyőTervek/tanterv.png)
+
+Ha itt tanterv oldalán rákatintanak egy kurzusra akor átirányitodnak a hozzá tartozó kurzus forumra, ahol megnézhetik a tárgy tematikát a követleményeket a statisztikáktat az értékeléseket és a többi felhasználó véleményét a térggyal kapcsolatosan innét a viszza nyillal lehet visza térni a tantervre.  
+
+![Belépés-oldal](ábrák/képernyőTervek/kurusForum.png)
+
+A menüsávot használva át navigálhatnak a profil oldara és megnézhetik a saját felhasználói adataikat a profil odalon és megváltoztathatják a jelszavukat.  
+
+![Belépés-oldal](ábrák/képernyőTervek/profil.png)
+
+A menüsávot használva át navigálhat a diák az elenörző oldara ahol megnézheti a saját elenörzöjét és hozzáadd hat új tárgyakat az aktív félévéhez.  
+
+![Belépés-oldal](ábrák/képernyőTervek/belepes.png)
+
+A menüsávot használva át navigálhat a tanár és az admin felhaszáló a jegyek kezelése oldalra hogy a kurzusát az aktivfélévben hallgató halgatók tanumányait érékeljek.  
+
+![Belépés-oldal](ábrák/képernyőTervek/jegyekKezelese.png)
+
+A menüsávot használva át navigálhat a tanár és az admin felhaszáló a tárgytamatika vagy követelmények kezelése oldalrakra hogy megadhasa ezeket az adatokat.(*MIvel mind két oldal terve ugyan az lenne így csak a tárgyteamtika kelelését mutatom.*).  
+
+![Belépés-oldal](ábrák/képernyőTervek/targykot.png)
+
+A menüsávot használva át navigálhat az admin felhaszáló tanterv készitő oldalra ahol létrehozhatja a tantervet. A pluszgombra katintva hozzáadd a minsusz gomra katintva pedig elvesz elemeket.  
+
+![Belépés-oldal](ábrák/képernyőTervek/tantervKészitő.png)
+
+A menüsávot használva át navigálhat az admin felhaszáló a új felhasználó kezelése oldalra ahol új felhasználót tud regisztrálni.  
+
+![Belépés-oldal](ábrák/képernyőTervek/regisztráció.png)
+## Egyed Kapcsolat
 ## Ütemezés 
 ## Fórrásaim:
 - https://angular.dev 
