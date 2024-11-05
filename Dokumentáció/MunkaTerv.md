@@ -118,6 +118,7 @@ A menüsávot használva át navigálhat az admin felhaszáló a új felhasznál
 
 ![Belépés-oldal](ábrák/képernyőTervek/regisztráció.png)
 ## Egyed Kapcsolat
+![EK](ábrák/EK/ek.svg)
 ## Ütemezés 
 ### Első félév:
 - Szeptember
@@ -160,3 +161,4 @@ A menüsávot használva át navigálhat az admin felhaszáló a új felhasznál
 ## Fórrásaim:
 - https://angular.dev 
 - https://roadmap.schdesign.hu/schdesign/tutorial/markdown-alapok/   
+- https://inf.u-szeged.hu/~gnemeth/adatbgyak/exe/EK_diagram/az_egyedkapcsolat_diagram_elemei.html  
