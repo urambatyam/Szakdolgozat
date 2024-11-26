@@ -1,11 +1,13 @@
-<nav>
-    <ul>
-        <li><a routerLink="/login" routerLinkActive="active">Bejelnetkezés</a></li>
-        <li><a routerLink="/registration" routerLinkActive="active">Regisztráció</a></li>
-        <li><a routerLink="/curriculum" routerLinkActive="active">Tanterv</a></li>
-        <li><a routerLink="/curriculum-developer" routerLinkActive="active">Tanterv készitő</a></li>
-        <li><a routerLink="/electronic-controller" routerLinkActive="active">Elenörző</a></li>
-        <li><a routerLink="/course-forum" routerLinkActive="active">Kurzus Forum</a></li>
-        <li><a routerLink="/profile" routerLinkActive="active">Profil</a></li>
-    </ul>
-</nav>
+<mat-toolbar color="primary" class="navigation-toolbar">
+    <mat-toolbar-row>
+      <button mat-button routerLink="/login" routerLinkActive="active">Bejelentkezés</button>
+      <button mat-button routerLink="/registration" routerLinkActive="active">Regisztráció</button>
+      <button mat-button routerLink="/curriculum" routerLinkActive="active">Tanterv</button>
+      <button mat-button routerLink="/curriculum-developer" routerLinkActive="active">Tanterv készítő</button>
+      <button mat-button routerLink="/electronic-controller" routerLinkActive="active">Ellenőrző</button>
+      <button mat-button routerLink="/course-forum" routerLinkActive="active">Kurzus Fórum</button>
+      <button mat-button routerLink="/profile" routerLinkActive="active">Profil</button>
+    </mat-toolbar-row>
+</mat-toolbar>
+  
+
