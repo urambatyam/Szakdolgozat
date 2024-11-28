@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, UserCredential } from '@angular/fire/auth';
-import { Observable, from } from 'rxjs';
-import { AngularFireAuth } from '@angular/fire/compat/auth'
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, User  } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +20,13 @@ export class AuthService {
 
   logout() {
     return this.auth.signOut();
-  } 
+  }
+  
+  isLoggedIn(): Observable<User | null> {
+    return new Observable((subscriber) => {
+      onAuthStateChanged(this.auth, (user) => {
+        subscriber.next(user);
+      });
+    });
+  }
 }

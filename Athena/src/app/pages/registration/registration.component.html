@@ -4,52 +4,27 @@
     </mat-card-header>
     
     <mat-card-content>
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <form [formGroup]="registForm" (ngSubmit)="onSubmit()">
+
         <mat-form-field>
           <mat-label>Felhasználónév</mat-label>
           <input matInput formControlName="userName" required>
-          @if(form.get('userName') != null && form.get('userName')!.invalid){
-            <mat-error>
-                Felhasználónév megadása kötelező
-              </mat-error>
-          }
         </mat-form-field><br>
   
         <mat-form-field>
           <mat-label>Email</mat-label>
           <input matInput formControlName="email" type="email" required>
-          
         </mat-form-field><br>
   
         <mat-form-field>
           <mat-label>Jelszó</mat-label>
-          <input 
-            matInput 
-            [type]="hide() ? 'password' : 'text'"
-            formControlName="password" 
-            required
-          >
-          <button 
-            mat-icon-button 
-            matSuffix 
-            (click)="clickEvent($event)" 
-            type="button"
-          >
+          <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" required>
+          <button mat-icon-button matSuffix (click)="clickEvent($event)" type="button">
             <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          @if(form.get('password') != null && form.get('password')!.invalid){
-            <mat-error>
-                Jelszó megadása kötelező (minimum 6 karakter)
-              </mat-error>
-          }
         </mat-form-field><br>
   
-        <button 
-          mat-raised-button 
-          color="primary" 
-          type="submit" 
-          [disabled]="form.invalid"
-        >
+        <button mat-raised-button color="primary" type="submit" [disabled]="registForm.invalid">
           Regisztráció
         </button>
       </form>

@@ -30,7 +30,7 @@ export class RegistrationComponent {
   fb = inject(FormBuilder);
   router = inject(Router);
 
-  form = this.fb.nonNullable.group({
+  registForm = this.fb.nonNullable.group({
     userName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
@@ -40,7 +40,7 @@ export class RegistrationComponent {
   hide = signal(true);
 
   constructor(private authService: AuthService) {
-    merge(this.form.statusChanges, this.form.valueChanges)
+    merge(this.registForm.statusChanges, this.registForm.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
   }
@@ -51,7 +51,7 @@ export class RegistrationComponent {
   }
 
   updateErrorMessage() {
-    const controls = this.form.controls;
+    const controls = this.registForm.controls;
     if (controls.userName.hasError('required')) {
       this.errorMessage.set('Felhasználónév megadása kötelező');
     } else if (controls.email.hasError('required')) {
@@ -68,13 +68,13 @@ export class RegistrationComponent {
   }
 
   onSubmit(): void {
-    console.log(this.form);
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
+    console.log(this.registForm);
+    if (this.registForm.invalid) {
+      this.registForm.markAllAsTouched();
       return;
     }
 
-    const { email, userName, password } = this.form.getRawValue();
+    const { email, userName, password } = this.registForm.getRawValue();
     this.authService.register(email, password).then(cred => {
       console.log(cred);
       })};

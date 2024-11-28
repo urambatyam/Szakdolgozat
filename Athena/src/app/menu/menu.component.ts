@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -11,6 +12,22 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
-export class MenuComponent {
-
+export class MenuComponent implements OnInit {
+  ngOnInit(): void {
+    this.auth.isLoggedIn().subscribe((user) => {
+      if (user) {
+        console.log('Felhasználó UID:', user.uid);
+        console.log('Felhasználó email:', user.email);
+        console.log('Profilkép URL:', user.photoURL);
+        console.log('Email ellenőrizve:', user.emailVerified);
+      } else {
+        console.log('Nincs bejelentkezve.');
+      }
+    });
+  }
+  auth = inject(AuthService);
+  logOut(){
+    console.log("kijelenkezés");
+    this.auth.logout();
+  } 
 }
