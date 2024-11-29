@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -13,13 +13,14 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent implements OnInit {
+  router = inject(Router)
   ngOnInit(): void {
     this.auth.isLoggedIn().subscribe((user) => {
       if (user) {
-        console.log('Felhasználó UID:', user.uid);
-        console.log('Felhasználó email:', user.email);
-        console.log('Profilkép URL:', user.photoURL);
-        console.log('Email ellenőrizve:', user.emailVerified);
+        //console.log('Felhasználó UID:', user.uid);
+        //console.log('Felhasználó email:', user.email);
+        //console.log('Profilkép URL:', user.photoURL);
+        //console.log('Email ellenőrizve:', user.emailVerified);
       } else {
         console.log('Nincs bejelentkezve.');
       }
@@ -29,5 +30,6 @@ export class MenuComponent implements OnInit {
   logOut(){
     console.log("kijelenkezés");
     this.auth.logout();
+    this.router.navigateByUrl('login');
   } 
 }

@@ -8,20 +8,58 @@
 
         <mat-form-field>
           <mat-label>Felhasználónév</mat-label>
-          <input matInput formControlName="userName" required>
+          <input matInput formControlName="userName" (blur)="updateErrorMessage()" required>
+          @if (registForm.get('userName')?.invalid) {
+            <mat-error>{{errorMessage()}}</mat-error>
+          }
         </mat-form-field><br>
   
         <mat-form-field>
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" type="email" required>
+          <input matInput formControlName="email" type="email" (blur)="updateErrorMessage()" required>
+          @if (registForm.get('email')?.invalid) {
+            <mat-error>{{errorMessage()}}</mat-error>
+          }
         </mat-form-field><br>
-  
+
         <mat-form-field>
           <mat-label>Jelszó</mat-label>
-          <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" required>
-          <button mat-icon-button matSuffix (click)="clickEvent($event)" type="button">
-            <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
+          <input matInput formControlName="password" type="text" (blur)="updateErrorMessage()" required>
+          @if (registForm.get('password')?.invalid) {
+            <mat-error>{{errorMessage()}}</mat-error>
+          }
+        </mat-form-field><br>
+
+        <mat-form-field>
+          <mat-label>Telefon szám</mat-label>
+          <input matInput formControlName="tel" type="tel" (blur)="updateErrorMessage()" required>
+          @if (registForm.get('tel')?.invalid) {
+            <mat-error>{{errorMessage()}}</mat-error>
+          }
+        </mat-form-field><br>
+
+        <mat-form-field>
+          <mat-label>Szak</mat-label>
+          <input matInput formControlName="major" type="text" (blur)="updateErrorMessage()" required>
+          @if (registForm.get('major')?.invalid) {
+            <mat-error>{{errorMessage()}}</mat-error>
+          }
+        </mat-form-field><br>
+
+        <mat-form-field>
+        <mat-label>Kezdés éve</mat-label>
+          <input matInput formControlName="date" type="number" (blur)="updateErrorMessage()" required>
+          @if (registForm.get('date')?.invalid) {
+            <mat-error>{{errorMessage()}}</mat-error>
+          }
+        </mat-form-field><br>
+
+        <mat-form-field>
+        <mat-label>Rang</mat-label>
+          <input matInput formControlName="rang" type="text" (blur)="updateErrorMessage()" required>
+          @if (registForm.get('rang')?.invalid) {
+            <mat-error>{{errorMessage()}}</mat-error>
+          }
         </mat-form-field><br>
   
         <button mat-raised-button color="primary" type="submit" [disabled]="registForm.invalid">
