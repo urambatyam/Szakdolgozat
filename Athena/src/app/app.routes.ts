@@ -1,11 +1,5 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './pages/login/login.component';
-import { RegistrationComponent } from './pages/registration/registration.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { ElectronicControllerComponent } from './pages/electronic-controller/electronic-controller.component';
-import { CurriculumComponent } from './pages/curriculum/curriculum.component';
-import { CurriculumDeveloperComponent } from './pages/curriculum-developer/curriculum-developer.component';
-import { CourseForumComponent } from './pages/course-forum/course-forum.component';
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
     {
@@ -14,41 +8,53 @@ export const routes: Routes = [
           import('./pages/registration/registration.component').then(
             (c) => c.RegistrationComponent
           ),
+        canActivate: [roleGuard],
+        data: { roles: ['admin'] }
     },
     {
         path: 'profile',
         loadComponent: () =>
             import('./pages/profile/profile.component').then(
               (c) => c.ProfileComponent
-            )
+            ),
+        canActivate: [roleGuard],
+        data: { roles: ['admin','student','teacher'] }
     },
     {
         path: 'electronic-controller',
         loadComponent: () =>
             import('./pages/electronic-controller/electronic-controller.component').then(
               (c) => c.ElectronicControllerComponent
-            )
+            ),
+        canActivate: [roleGuard],
+        data: { roles: ['student'] }
     },
     {
         path: 'curriculum',
         loadComponent: () =>
             import('./pages/curriculum/curriculum.component').then(
               (c) => c.CurriculumComponent
-            )
+            ),
+        canActivate: [roleGuard],
+        data: { roles: ['admin','student','teacher'] }
     },
     {
         path: 'curriculum-developer',
         loadComponent: () =>
             import('./pages/curriculum-developer/curriculum-developer.component').then(
               (c) => c.CurriculumDeveloperComponent
-            )
+            ),
+        canActivate: [roleGuard],
+        data: { roles: ['admin','teacher'] }
     },
     {
         path: 'course-forum',
         loadComponent: () =>
             import('./pages/course-forum/course-forum.component').then(
               (c) => c.CourseForumComponent
-            )
+            ),
+        canActivate: [roleGuard],
+        data: { roles: ['admin','student','teacher'] }
     },
     {
         path: 'login',

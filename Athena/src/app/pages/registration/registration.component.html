@@ -8,58 +8,101 @@
 
         <mat-form-field>
           <mat-label>Felhasználónév</mat-label>
-          <input matInput formControlName="userName" (blur)="updateErrorMessage()" required>
-          @if (registForm.get('userName')?.invalid) {
-            <mat-error>{{errorMessage()}}</mat-error>
-          }
+          <input matInput formControlName="userName"  required>
+          @if (registForm.get('userName')?.invalid && 
+          (registForm.get('userName')?.dirty || registForm.get('userName')?.touched)) {
+       <mat-error>
+         @if (registForm.get('userName')?.hasError('required')) {
+           Add meg a felhasználó nevet!
+         }
+         @if (registForm.get('userName')?.hasError('minlength')) {
+           A felhasználónév legalább 4 karakter!
+         }
+         @if (registForm.get('userName')?.hasError('maxlength')) {
+           A felhasználónév legfeljebb 12 karakter!
+         }
+       </mat-error>
+     }
         </mat-form-field><br>
   
         <mat-form-field>
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" type="email" (blur)="updateErrorMessage()" required>
-          @if (registForm.get('email')?.invalid) {
-            <mat-error>{{errorMessage()}}</mat-error>
-          }
+          <input matInput formControlName="email" type="email"  required>
+          @if (registForm.get('email')?.invalid && 
+          (registForm.get('email')?.dirty || registForm.get('email')?.touched)) {
+       <mat-error>
+         @if (registForm.get('email')?.hasError('required')) {
+           Add meg az email címet!
+         }
+         @if (registForm.get('email')?.hasError('email')) {
+           Ez nem egy érvényes email cím!
+         }
+       </mat-error>
+     }
         </mat-form-field><br>
 
         <mat-form-field>
           <mat-label>Jelszó</mat-label>
-          <input matInput formControlName="password" type="text" (blur)="updateErrorMessage()" required>
-          @if (registForm.get('password')?.invalid) {
-            <mat-error>{{errorMessage()}}</mat-error>
-          }
+          <input matInput formControlName="password" type="text"  required>
+          @if (registForm.get('password')?.invalid && 
+          (registForm.get('password')?.dirty || registForm.get('password')?.touched)) {
+       <mat-error>
+         @if (registForm.get('password')?.hasError('required')) {
+           Add meg a jelszót!
+         }
+         @if (registForm.get('password')?.hasError('pattern')) {
+           A jelszónak 6-24 karakter között kell lennie, 
+           és legalább egy betűt és számot kell tartalmaznia!
+         }
+       </mat-error>
+     }
         </mat-form-field><br>
 
         <mat-form-field>
           <mat-label>Telefon szám</mat-label>
-          <input matInput formControlName="tel" type="tel" (blur)="updateErrorMessage()" required>
-          @if (registForm.get('tel')?.invalid) {
-            <mat-error>{{errorMessage()}}</mat-error>
-          }
+          <input matInput formControlName="tel" type="tel" required>
+          @if (registForm.get('tel')?.invalid && 
+          (registForm.get('tel')?.dirty || registForm.get('tel')?.touched)) {
+       <mat-error>
+         Ez nem egy érvényes telefonszám! 
+         (Formátum: +36301234567)
+       </mat-error>
+     }
         </mat-form-field><br>
 
         <mat-form-field>
           <mat-label>Szak</mat-label>
-          <input matInput formControlName="major" type="text" (blur)="updateErrorMessage()" required>
-          @if (registForm.get('major')?.invalid) {
-            <mat-error>{{errorMessage()}}</mat-error>
-          }
+          <input matInput formControlName="major" type="text" required>
+          @if (registForm.get('major')?.invalid && 
+          (registForm.get('major')?.dirty || registForm.get('major')?.touched)) {
+       <mat-error>Add meg a szakot!</mat-error>
+     }
         </mat-form-field><br>
 
         <mat-form-field>
         <mat-label>Kezdés éve</mat-label>
-          <input matInput formControlName="date" type="number" (blur)="updateErrorMessage()" required>
-          @if (registForm.get('date')?.invalid) {
-            <mat-error>{{errorMessage()}}</mat-error>
-          }
+          <input matInput formControlName="date" type="number" required>
+          @if (registForm.get('date')?.invalid && 
+          (registForm.get('date')?.dirty || registForm.get('date')?.touched)) {
+       <mat-error>
+         @if (registForm.get('date')?.hasError('required')) {
+           Add meg a kezdés évét!
+         }
+         @if (registForm.get('date')?.hasError('pattern')) {
+           A kezdés év csak 4 jegyű szám lehet!
+         }
+       </mat-error>
+     }
         </mat-form-field><br>
 
         <mat-form-field>
         <mat-label>Rang</mat-label>
-          <input matInput formControlName="rang" type="text" (blur)="updateErrorMessage()" required>
-          @if (registForm.get('rang')?.invalid) {
-            <mat-error>{{errorMessage()}}</mat-error>
-          }
+          <input matInput formControlName="rang" type="text" required>
+          @if (registForm.get('rang')?.invalid && 
+          (registForm.get('rang')?.dirty || registForm.get('rang')?.touched)) {
+       <mat-error>Add meg a felhasználó rangját!</mat-error>
+     }
+
         </mat-form-field><br>
   
         <button mat-raised-button color="primary" type="submit" [disabled]="registForm.invalid">

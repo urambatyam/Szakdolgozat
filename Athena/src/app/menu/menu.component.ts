@@ -27,8 +27,9 @@ export class MenuComponent implements OnInit {
     });
   }
   auth = inject(AuthService);
+
   logOut(){
-    console.log("kijelenkezés");
+    console.log("Sikeres kijelenkezés");
     this.auth.logout();
     this.router.navigateByUrl('login');
   } 

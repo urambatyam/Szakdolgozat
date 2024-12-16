@@ -8,21 +8,34 @@
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <mat-form-field>
                 <mat-label>Email</mat-label>
-                <input matInput formControlName="email" required type="email" (blur)="updateErrorMessage()"/>
-                @if (loginForm.get('email')?.invalid) {
-                    <mat-error>{{errorMessage()}}</mat-error>
-                  }
+                <input matInput formControlName="email" required type="email" />
+                @if (loginForm.get('email')?.invalid && 
+                (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)) {
+                    <mat-error>
+                        @if (loginForm.get('email')?.hasError('required')) {
+                            Add meg az email címet!
+                        }
+                        @if (loginForm.get('email')?.hasError('email')) {
+                            Ez nem egy érvényes email cím!
+                        }
+                    </mat-error>
+                }
             </mat-form-field><br>
 
             <mat-form-field>
                 <mat-label>Jelszó</mat-label>
-                <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" required (blur)="updateErrorMessage()">
+                <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" required>
                 <button mat-icon-button matSuffix (click)="clickEvent($event)" type="button">
                   <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
                 </button>
-                @if (loginForm.get('password')?.invalid) {
-                    <mat-error>{{errorMessage()}}</mat-error>
-                  }
+                @if (loginForm.get('password')?.invalid && 
+                (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)) {
+                    <mat-error>
+                    @if (loginForm.get('password')?.hasError('required')) {
+                        Add meg az email címet!
+                    }
+                    </mat-error>
+                }
             </mat-form-field><br>
 
             <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">

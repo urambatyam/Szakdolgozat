@@ -29,6 +29,7 @@ import { IUser } from '../../models/IUser';
 export class RegistrationComponent {
   fb = inject(FormBuilder);
   user = inject(UsersService);
+  authService = inject(AuthService);
   registForm = this.fb.nonNullable.group({
     userName: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
     email: ['', [Validators.required, Validators.email]],
@@ -38,75 +39,6 @@ export class RegistrationComponent {
     date: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
     rang: ['', [Validators.required]]
   });
-
-  errorMessage = signal('');
-  hide = signal(true);
-
-  constructor(private authService: AuthService) {
-    merge(this.registForm.statusChanges, this.registForm.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateErrorMessage());
-  }
-
-  clickEvent(event: MouseEvent) {
-    this.hide.set(!this.hide());
-    event.stopPropagation();
-  }
-
-  updateErrorMessage() {
-    if (this.registForm.get('userName')?.hasError('required')) {
-      this.errorMessage.set('Add meg a felhasználó nevet!');
-    } else if (this.registForm.get('userName')?.hasError('minLength')) {
-      this.errorMessage.set('A felhasználó legalább 4 karakter!');
-    }else if (this.registForm.get('userName')?.hasError('maxLength')) {
-      this.errorMessage.set('A felhasználó legfejebb 12 karakter!');
-    }else {
-      this.errorMessage.set('');
-    }
-
-    if (this.registForm.get('email')?.hasError('required')) {
-      this.errorMessage.set('Add meg az email címet!');
-    } else if (this.registForm.get('email')?.hasError('email')) {
-      this.errorMessage.set('Ez nem egy valid email cím!');
-    } else {
-      this.errorMessage.set('');
-    }
-
-    if (this.registForm.get('password')?.hasError('required')) {
-      this.errorMessage.set('Add meg a jelszót!');
-    } else if (this.registForm.get('password')?.hasError('pattern')) {
-      this.errorMessage.set('A jelszónak 6-24 karakter között kell lennije, és legalább egy betüt és számot kell tartalmaznia!');
-    } else {
-      this.errorMessage.set('');
-    }
-
-    if (this.registForm.get('tel')?.hasError('pattern')) {
-      this.errorMessage.set('Ez nem egy valid telefonszám!');
-    } else {
-      this.errorMessage.set('');
-    }
-
-    if (this.registForm.get('major')?.hasError('required')) {
-      this.errorMessage.set('Add meg a szakot!');
-    } else {
-      this.errorMessage.set('');
-    }
-
-    if (this.registForm.get('date')?.hasError('required')) {
-      this.errorMessage.set('Add meg a kezdés évét!');
-    } else if (this.registForm.get('date')?.hasError('pattern')) {
-      this.errorMessage.set('A kezdés év csak 4 jegyű szám lehet!');
-    } else {
-      this.errorMessage.set('');
-    }
-
-    if (this.registForm.get('rang')?.hasError('required')) {
-      this.errorMessage.set('Add meg a felhasználó rangját!');
-    } else {
-      this.errorMessage.set('');
-    }
-
-  }
 
   onSubmit(): void {
     console.log(this.registForm);
