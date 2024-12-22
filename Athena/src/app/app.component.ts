@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MenuComponent } from "./menu/menu.component";
 import { AuthService } from './services/auth.service';
-import { IUser } from './models/IUser';
+import { User } from './models/user';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit{
           localStorage.setItem('user', '')
         }
         console.log('localStorage: ')
-        var logged:IUser = JSON.parse(localStorage.getItem('user') as string);
+        var logged:User = JSON.parse(localStorage.getItem('user') as string);
         console.log(logged)
       }
     )

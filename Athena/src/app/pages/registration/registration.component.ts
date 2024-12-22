@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { merge } from 'rxjs';
 import { UsersService } from '../../services/users.service';
-import { IUser } from '../../models/IUser';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-registration',
@@ -50,7 +50,7 @@ export class RegistrationComponent {
     this.authService.register(this.registForm.getRawValue().email, this.registForm.getRawValue().password).then(cred => {
       const userId = cred.user?.uid;
       if (userId){
-        const newUser:IUser = {
+        const newUser:User = {
           id : userId,
           name : this.registForm.getRawValue().userName,
           tel : this.registForm.getRawValue().tel,

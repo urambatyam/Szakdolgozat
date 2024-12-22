@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Firestore, collection, collectionData, doc, docData, setDoc, updateDoc, deleteDoc, query, where  } from '@angular/fire/firestore';
 import { Observable,from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { IUser } from '../models/IUser';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { IUser } from '../models/IUser';
 export class UsersService {
   firestore = inject(Firestore);
   usersCollection = collection(this.firestore, 'users');
-  add(user: IUser): Observable<string>{
+  add(user: User): Observable<string>{
     const userDocRef = doc(this.usersCollection, user.id);
 
     return from(setDoc(userDocRef, user)).pipe(
@@ -22,23 +22,23 @@ export class UsersService {
     );
   }
 
-  getAll(): Observable<IUser[]>{
+  getAll(): Observable<User[]>{
     return collectionData(this.usersCollection, {
       idField: 'id',
-    }) as Observable<IUser[]>;
+    }) as Observable<User[]>;
   }
 
-  getById(userId:string): Observable<IUser | null>{
+  getById(userId:string): Observable<User | null>{
     const userDocRef = doc(this.usersCollection, userId);
     return docData(userDocRef, { 
       idField: 'id' 
     }).pipe(
-      map(user => user ? user as IUser : null),
+      map(user => user ? user as User : null),
       catchError(() => of(null))
     );
   }
 
-  updateById(userId: string, userData: Partial<Omit<IUser, 'id'>>): Observable<void> {
+  updateById(userId: string, userData: Partial<Omit<User, 'id'>>): Observable<void> {
     const userDocRef = doc(this.usersCollection, userId);
     return from(updateDoc(userDocRef, userData)).pipe(
       catchError(error => {
@@ -58,7 +58,7 @@ export class UsersService {
     );
   }
   
-  findUsersByMajor(major: string): Observable<IUser[]> {
+  findUsersByMajor(major: string): Observable<User[]> {
     const usersQuery = query(
       this.usersCollection, 
       where('major', '==', major)
@@ -66,7 +66,7 @@ export class UsersService {
     
     return collectionData(usersQuery, { 
       idField: 'id' 
-    }) as Observable<IUser[]>;
+    }) as Observable<User[]>;
   }
 
 }
