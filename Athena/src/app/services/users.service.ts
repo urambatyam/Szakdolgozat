@@ -38,8 +38,9 @@ export class UsersService {
     );
   }
 
-  updateById(userId: string, userData: Partial<Omit<User, 'id'>>): Observable<void> {
-    const userDocRef = doc(this.usersCollection, userId);
+  updateById(user:User): Observable<void> {
+    const userDocRef = doc(this.usersCollection, user.id);
+    const { id, ...userData } = user;
     return from(updateDoc(userDocRef, userData)).pipe(
       catchError(error => {
         console.error('Error updating user:', error);

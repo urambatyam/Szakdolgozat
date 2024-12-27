@@ -46,16 +46,15 @@
           <input matInput formControlName="password" type="text"  required>
           @if (registForm.get('password')?.invalid && 
           (registForm.get('password')?.dirty || registForm.get('password')?.touched)) {
-       <mat-error>
-         @if (registForm.get('password')?.hasError('required')) {
-           Add meg a jelszót!
-         }
-         @if (registForm.get('password')?.hasError('pattern')) {
-           A jelszónak 6-24 karakter között kell lennie, 
-           és legalább egy betűt és számot kell tartalmaznia!
-         }
-       </mat-error>
-     }
+            <mat-error>
+              @if (registForm.get('password')?.hasError('required')) {
+                Add meg a jelszót!
+              } 
+              @if (registForm.get('password')?.hasError('pattern')) {
+                6-12 karakter hoszú és legalább egy betűt és számot kell tartalmaznia!
+              }
+            </mat-error>
+            }
         </mat-form-field><br>
 
         <mat-form-field>

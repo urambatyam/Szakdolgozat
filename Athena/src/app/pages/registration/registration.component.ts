@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -6,8 +6,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { merge } from 'rxjs';
 import { UsersService } from '../../services/users.service';
 import { User } from '../../models/user';
 
@@ -33,7 +31,7 @@ export class RegistrationComponent {
   registForm = this.fb.nonNullable.group({
     userName: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,24}$/)]],
+    password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,12}$/)]],
     tel: ['', [Validators.pattern(/^\+36\d{9}$/)]],
     major: ['', [Validators.required]],
     date: ['', [Validators.required, Validators.pattern(/^\d{4}$/)]],
