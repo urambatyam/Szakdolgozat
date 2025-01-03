@@ -1,5 +1,5 @@
-import { Component,inject, OnInit } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
+import { Component,inject, OnInit, signal } from '@angular/core';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,6 +9,10 @@ import { UsersService } from '../../services/users.service';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
 import { Observable } from 'rxjs';
+import {
+  MatDialog
+} from '@angular/material/dialog';
+import { EmailDialogComponent } from './email-dialog/email-dialog.component';
 
 @Component({
   selector: 'app-profile',
@@ -19,48 +23,55 @@ import { Observable } from 'rxjs';
         MatFormFieldModule, 
         MatIconModule, 
         MatButtonModule, 
-        ReactiveFormsModule
+        ReactiveFormsModule,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
+  readonly dialogNewPassword = signal('');
+  readonly dialogOldPassword = signal('');
+  readonly dialog = inject(MatDialog);
+
+  openPasswordDialog(): void {
+    const dialogRef = this.dialog.open(EmailDialogComponent, {
+      data: { email: this.dialogOldPassword(), password: this.dialogNewPassword()},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.dialogNewPassword.set(result.password);
+        this.dialogOldPassword.set(result.email);
+        console.log('result' + result);
+      }
+      this.auth.changePassword(this.dialogOldPassword(),this.dialogNewPassword());
+    });
+  }
+
+
   fb = inject(FormBuilder);
   user = inject(UsersService);
   auth = inject(AuthService);
+  email:string = '';
+
 
   updateUser:User|null = null;
   profilForm = this.fb.nonNullable.group(
       {
-      userName: ['', [ Validators.minLength(4), Validators.maxLength(12)]],
-      email: ['', [ Validators.email]],
-      password: ['', [ Validators.minLength(6), Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,24}$/)]],
-      password2: ['', ],
-      tel: ['', [Validators.pattern(/^\+36\d{9}$/)]],
+      userName: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
+      tel: ['', [Validators.required, Validators.pattern(/^\+36\d{9}$/)]],
       major: [{value: '', disabled: true}, ],
-      date: [{value: '', disabled: true}, [ Validators.pattern(/^\d{4}$/)]],
-      },
-      {
-        validators: this.passwordMatchValidator
+      date: [{value: '', disabled: true}, ],
+      email: [{value: '', disabled: true},],
       }
     );
-    passwordMatchValidator(group: AbstractControl) {
-      const password = group.get('password');
-      const password2 = group.get('password2');
-      
-      if (password && password2 && password.value !== password2.value) {
-        password2.setErrors({ passwordMismatch: true });
-        return { passwordMismatch: true };
-      }
-      
-      return null;
-    }
+
     ngOnInit() {
       const storedUser = localStorage.getItem('user');
+      console.log("van storedUser");
       
       if (!storedUser) {
         console.error('Nincs bejelentkezett felhasználó');
-        // Itt kezelheted a hibát, például átirányítás a login oldalra
         return;
       }
     
@@ -71,18 +82,22 @@ export class ProfileComponent implements OnInit {
           console.error('Hiányzó felhasználó ID');
           return;
         }
+        this.email = logged.email
+
     
         const loggedUser: Observable<User|null> = this.user.getById(logged.uid);
+
         loggedUser.subscribe({
           next: (user) => {
             if (user) {
+  
               this.updateUser = user;
               this.profilForm.patchValue({
                 userName: user.name,
-                email: user.email,
                 tel: user.tel,
                 major: user.major,
-                date: user.start.toString()
+                date: user.start.toString(),
+                email: logged.email
               });
             }
           },
@@ -106,7 +121,6 @@ export class ProfileComponent implements OnInit {
       const update: User = {
         ...this.updateUser,  
         name: formValues.userName || this.updateUser.name,
-        email: formValues.email || this.updateUser.email,
         tel: formValues.tel || this.updateUser.tel,
       };
       this.user.updateById(update).subscribe({
@@ -118,7 +132,6 @@ export class ProfileComponent implements OnInit {
         }
       });
     }
- 
-
   };
+  
 }

@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Email megváltoztatása</h2>
+<mat-dialog-content>
+  <p>Addja meg a jelszavát és az új email címét!</p>
+  <mat-form-field>
+    <mat-label>Jelszó</mat-label>
+    <input matInput [(ngModel)]="password" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput [(ngModel)]="email" />
+  </mat-form-field>  
+  <mat-form-field>
+    <mat-label>old</mat-label>
+    <input matInput [(ngModel)]="old" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Mégse</button>
+  <button mat-button [mat-dialog-close]="{password: password(), email: email(), old: old()}" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

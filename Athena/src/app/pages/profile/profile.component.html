@@ -22,22 +22,6 @@
                     </mat-error>
                 }
             </mat-form-field><br>
-
-            <mat-form-field>
-                <mat-label>Email</mat-label>
-                <input matInput formControlName="email" type="email">
-                @if (profilForm.get('email')?.invalid && 
-                (profilForm.get('email')?.dirty || profilForm.get('email')?.touched)) {
-                <mat-error>
-                    @if (profilForm.get('email')?.hasError('required')) {
-                        Add meg az email címet!
-                    }
-                    @if (profilForm.get('email')?.hasError('email')) {
-                        Ez nem egy érvényes email cím!
-                    }
-                </mat-error>
-                }
-            </mat-form-field><br>
       
             <mat-form-field>
                 <mat-label>Telefon szám</mat-label>
@@ -59,40 +43,17 @@
             <mat-form-field>
                 <mat-label>Kezdés éve</mat-label>
                 <input matInput formControlName="date" type="number" >
-            </mat-form-field><br>
-      
-            <mat-form-field>
-                <mat-label>Jelszó</mat-label>
-                <input matInput formControlName="password" type="text">
-                @if (profilForm.get('password')?.invalid && 
-                (profilForm.get('password')?.dirty || profilForm.get('password')?.touched)) {
-                <mat-error>
-                @if (profilForm.get('password')?.hasError('required')) {
-                    Add meg a jelszót!
-                }
-                @if (profilForm.get('password')?.hasError('pattern')) {
-                    A jelszónak 6-24 karakter között kell lennie, 
-                    és legalább egy betűt és számot kell tartalmaznia!
-                }
-                </mat-error>
-                }
-            </mat-form-field><br>
+            </mat-form-field><br>  
 
             <mat-form-field>
-                <mat-label>Jelszó újra</mat-label>
-                <input matInput formControlName="password2" type="text">
-                @if (profilForm.get('password2')?.invalid && 
-                (profilForm.get('password2')?.dirty || profilForm.get('password2')?.touched)) {
-                <mat-error>
-                @if (profilForm.get('password2')?.hasError('required')) {
-                    Kétszer kell megadni a  jelszót
-                }
-                @if (profilForm.get('password2')?.errors?.['passwordMismatch']) {
-                    A jelszavak nem egyeznek!
-                }
-                </mat-error>
-                }
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" type="email" >
             </mat-form-field><br>
+
+            
+            <button mat-raised-button color="primary" (click)="openPasswordDialog()" >
+                Jelszó megváltoztatása
+            </button><br>
 
             <button mat-raised-button color="primary" type="submit" [disabled]="profilForm.invalid">
                 Adatok Frisitése

@@ -41,7 +41,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
 
           if (!hasRole) {
             // Ha nincs meg a megfelelő szerepkör, átirányítjuk
-            router.navigate(['/unauthorized']);
+            router.navigate(['/login']);
             return false;
           }
 
