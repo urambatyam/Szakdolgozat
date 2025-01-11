@@ -14,7 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 
 @Component({
-  selector: 'app-email-dialog',
+  selector: 'app-password-dialog',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -26,12 +26,12 @@ import {MatInputModule} from '@angular/material/input';
     MatDialogActions,
     MatDialogClose,
   ],
-  templateUrl: './email-dialog.component.html',
-  styleUrl: './email-dialog.component.scss'
+  templateUrl: './password-dialog.component.html',
+  styleUrl: './password-dialog.component.scss'
 })
 
-export class EmailDialogComponent {
-  readonly dialogRef = inject(MatDialogRef<EmailDialogComponent>);
+export class PasswordDialogComponent {
+  readonly dialogRef = inject(MatDialogRef<PasswordDialogComponent>);
   readonly data = inject(MAT_DIALOG_DATA);
   readonly password = model<string>(this.data.password);
   readonly email = model<string>(this.data.email);

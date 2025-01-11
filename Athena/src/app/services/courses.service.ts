@@ -9,7 +9,7 @@ import { Course } from '../models/course';
 })
 export class CoursesService {
     firestore = inject(Firestore);
-    CoursesCollection = collection(this.firestore, 'Courses');
+    CoursesCollection = collection(this.firestore, 'course');
 
       add(Courses: Course): Observable<string>{
         const CoursesDocRef = doc(this.CoursesCollection, Courses.id);

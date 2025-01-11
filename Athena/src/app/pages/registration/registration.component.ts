@@ -38,6 +38,7 @@ export class RegistrationComponent {
     rang: ['', [Validators.required]]
   });
 
+
   onSubmit(): void {
     console.log(this.registForm);
     if (this.registForm.invalid) {

@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 import {
   MatDialog
 } from '@angular/material/dialog';
-import { EmailDialogComponent } from './email-dialog/email-dialog.component';
+import { PasswordDialogComponent } from './password-dialog/password-dialog.component';
 
 @Component({
   selector: 'app-profile',
@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
   readonly dialog = inject(MatDialog);
 
   openPasswordDialog(): void {
-    const dialogRef = this.dialog.open(EmailDialogComponent, {
+    const dialogRef = this.dialog.open(PasswordDialogComponent, {
       data: { email: this.dialogOldPassword(), password: this.dialogNewPassword()},
     });
 

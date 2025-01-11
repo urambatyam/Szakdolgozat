@@ -1,0 +1,15 @@
+.content-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.table-card {
+    flex: 4; 
+    margin-right: 16px;
+}
+
+.filter-card {
+    flex: 1; 
+    min-width: 20%; 
+}

@@ -9,7 +9,7 @@ import { Curriculum } from '../models/curriculum';
 })
 export class CurriculumsService {
     firestore = inject(Firestore);
-    curriculumssCollection = collection(this.firestore, 'curriculumss');
+    curriculumssCollection = collection(this.firestore, 'curriculum');
 
       add(curriculumss: Curriculum): Observable<void>{
         const curriculumssDocRef = doc(this.curriculumssCollection);
