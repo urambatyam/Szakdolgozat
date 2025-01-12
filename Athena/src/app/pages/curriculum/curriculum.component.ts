@@ -2,24 +2,19 @@ import { Component, inject, OnInit, ChangeDetectionStrategy, computed, signal} f
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { CurriculumsService } from '../../services/curriculums.service';
-import { Curriculum } from '../../models/curriculum';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../models/course';
+import { Task } from '../../models/tasks';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {FormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
-export interface Task {
-  name: string;
-  completed: boolean;
-  subtasks?: Task[];
-}
-interface Options {
-  value: string;
-  viewValue: string;
-}
+import { Name } from '../../models/curriculumNames';
+import { Curriculum } from '../../models/curriculum';
+
+
 
 @Component({
   selector: 'app-curriculum',
@@ -38,16 +33,13 @@ interface Options {
   styleUrl: './curriculum.component.scss'
 })
 export class CurriculumComponent implements OnInit {
-  specials: Options[] = [
-    {value: '-', viewValue: 'Nincs választva'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'},
+  specials: Name[] = [
+    {name: 'Nincs választva'},
   ];
-  kats: Options[] = [
-    {value: '-', viewValue: 'Nincs választva'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'},
-  ];
+  kats: Name[] = [
+    {name: 'Nincs választva'},
+  ];  
+  curs: Name[] = [];
   curriculumData = inject(CurriculumsService);
   courseData = inject(CoursesService);
   
@@ -58,31 +50,52 @@ export class CurriculumComponent implements OnInit {
   courses: Course[] = [];
   
   displayedColumns: string[] = ['name', 'id', 'kredit', 'recommendedSemester', 'subjectResponsible', 'prerequisite'];
-
+  
   ngOnInit(): void {
     console.log('Kezdeti értékek:', {
       curriculumName: this.curriculumName,
       specialization: this.specialization,
       category: this.category
     });
+    this.curriculumData.getAllNames().subscribe({
+      next: (names) => {
+        if(names){
+          this.curs = names
+          console.log('Name:', names[0].name);
+          this.curriculumData.getByNames(names[0].name).subscribe({
+            next: (curriculum) => {
+              console.log('NULLL', curriculum);
+              
+              if (curriculum) {
+                curriculum.forEach((c:Curriculum) => {
+                  console.log('Nyers c adat:', c);
 
-    this.curriculumData.getById("o8Oa0jwPJ6JroZazuktq").subscribe({
-      next: (curriculum) => {
-        console.log('Nyers curriculum adat:', curriculum);
-        
-        if (curriculum) {
-          this.curriculumName = curriculum.name;
-          this.specialization = curriculum.specialization;
-          this.category = curriculum.category;
-          
-          console.log('Frissített értékek:', {
-            curriculumName: this.curriculumName,
-            specialization: this.specialization,
-            category: this.category
+                  this.curriculumName = c.name;
+                  this.specials.push({name:c.specialization});
+                  this.kats.push({name:c.category});
+                  this.specialization = c.specialization;
+                  this.category = c.category;
+
+                });
+
+
+ 
+                console.log('Frissített értékek:', {
+                  curriculumName: this.curriculumName,
+                  specialization: this.specialization,
+                  category: this.category
+                });
+              }
+            }
           });
         }
+      },
+      error: (e) => {
+        alert("Nem sikerült a  tantervek neveit beolvasni! "+ e)
       }
     });
+
+
 
     this.courseData.getAll().subscribe({
       next: (courses) => {

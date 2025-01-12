@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, docData, setDoc, updateDoc, deleteDoc, query, where  } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, docData, setDoc, updateDoc, deleteDoc, query, where, getDocs, DocumentReference  } from '@angular/fire/firestore';
 import { Observable,from, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, switchMap  } from 'rxjs/operators';
 import { Curriculum } from '../models/curriculum';
+import { Name } from '../models/curriculumNames';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { Curriculum } from '../models/curriculum';
 export class CurriculumsService {
     firestore = inject(Firestore);
     curriculumssCollection = collection(this.firestore, 'curriculum');
+    curriculumsNamesCollection = collection(this.firestore, 'curriculumNames');
 
       add(curriculumss: Curriculum): Observable<void>{
         const curriculumssDocRef = doc(this.curriculumssCollection);
@@ -21,6 +23,11 @@ export class CurriculumsService {
         return collectionData(this.curriculumssCollection, {
           idField: 'id',
         }) as Observable<Curriculum[]>;
+      }      
+      getAllNames(): Observable<Name[]>{
+        return collectionData(this.curriculumsNamesCollection, {
+          idField: 'id',
+        }) as Observable<Name[]>;
       }
     
       getById(curriculumssId:string): Observable<Curriculum | null>{
@@ -32,7 +39,12 @@ export class CurriculumsService {
           catchError(() => of(null))
         );
       }
-    
+      
+      getByNames(name: string): Observable<Curriculum[]> {
+        const q = query(this.curriculumssCollection, where("name", "==", name));
+        return collectionData(q, { idField: 'id' }) as Observable<Curriculum[]>;
+      }
+   
       updateById(curriculumssId: string, curriculumssData: Partial<Omit<Curriculum, 'id'>>): Observable<void> {
         const curriculumssDocRef = doc(this.curriculumssCollection, curriculumssId);
         return from(updateDoc(curriculumssDocRef, curriculumssData)).pipe(

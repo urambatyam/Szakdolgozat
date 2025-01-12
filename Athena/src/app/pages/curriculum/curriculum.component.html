@@ -58,6 +58,16 @@
             <mat-card-title>Szűrők</mat-card-title>
             <mat-card-content>
                 <section>
+                  <mat-form-field>
+                    <mat-label>Tantervek</mat-label>
+                    <mat-select>
+                      @for (cur of curs; track cur) {
+                        <mat-option [value]="cur.name">{{cur.name}}</mat-option>
+                      }
+                    </mat-select>
+                </mat-form-field>
+                </section>
+                <section>
                     <span>
                       <mat-checkbox
                         [checked]="task().completed"
@@ -84,7 +94,7 @@
                         <mat-label>Kategória</mat-label>
                         <mat-select>
                           @for (special of specials; track special) {
-                            <mat-option [value]="special.value">{{special.viewValue}}</mat-option>
+                            <mat-option [value]="special.name">{{special.name}}</mat-option>
                           }
                         </mat-select>
                     </mat-form-field>                    
@@ -92,7 +102,7 @@
                         <mat-label>Specializáció</mat-label>
                         <mat-select>
                           @for (kat of kats; track kat) {
-                            <mat-option [value]="kat.value">{{kat.viewValue}}</mat-option>
+                            <mat-option [value]="kat.name">{{kat.name}}</mat-option>
                           }
                         </mat-select>
                     </mat-form-field>
@@ -102,7 +112,7 @@
                         <mat-label>Cél</mat-label>
                         <mat-select>
                           @for (kat of kats; track kat) {
-                            <mat-option [value]="kat.value">{{kat.viewValue}}</mat-option>
+                            <mat-option [value]="kat.name">{{kat.name}}</mat-option>
                           }
                         </mat-select>
                     </mat-form-field><br>
