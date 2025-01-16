@@ -96,7 +96,6 @@ applyFilter(event: Event, s:string, k:string) {
 
   tanterv:Special[] = [];
 
-  //specials = new Set<object>([{name:'összes', visible:true}]);
   specialsVis = new Map<string,boolean>([['összes', true]]);
   katsVis = new Map<string,boolean>([['összes', true]]);
   katsVisalfa = new Map<string,boolean>([['összes', true]]);

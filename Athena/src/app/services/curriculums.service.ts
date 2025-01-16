@@ -54,6 +54,11 @@ export class CurriculumsService {
           })
         );
       }
+
+      deleteByName(curriculumsName:string){
+        const q = query(this.curriculumssCollection, where("name", "==", curriculumsName));
+        const q2 = query(this.curriculumsNamesCollection, where("name", "==", curriculumsName));
+      }
     
       deleteById(curriculumssId:string){
         const curriculumssDocRef = doc(this.curriculumssCollection, curriculumssId);
