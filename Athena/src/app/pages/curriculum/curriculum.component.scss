@@ -4,12 +4,27 @@
     justify-content: space-between;
 }
 
-.table-card {
-    flex: 4; 
-    margin-right: 16px;
+#cardtan{
+    padding: 20px;
+    height: 90%;
+}
+
+.card-spec {
+
+    margin: 10px;
+}
+.card-kat {
+
+    margin: 10px;
 }
 
 .filter-card {
-    flex: 1; 
-    min-width: 20%; 
+    padding: 10px;
+    width: 20%; 
+    height: 100%;
+}
+
+#curriculumContiner{
+    width: 80%;
+    height: fit-content;
 }

@@ -1,18 +1,20 @@
-<mat-card>
+<mat-card id="cardtan">
     <mat-card-header>
       <mat-card-title>{{curriculumName}}</mat-card-title>
     </mat-card-header>
     
     <mat-card-content>
     <div class="content-container">
+      <div id="curriculumContiner">
       @for(special of tanterv; track special){
-        <mat-card  [style.display]=" specialsVis.get(special.name) ? 'block' : 'none'" class="table-card">
+        <mat-card  [style.display]=" specialsVis.get(special.name) ? 'block' : 'none'" class="card-spec">
           <mat-card-header>
               <mat-card-title>{{special.name}}</mat-card-title>
           </mat-card-header>
           <mat-card-content>
+            
         @for (kat of special.kats; track kat) {
-          <mat-card [style.display]=" katsVis.get(kat.name) ? 'block' : 'none'">
+          <mat-card class="card-kat" [style.display]=" katsVis.get(kat.name) ? 'block' : 'none'">
             <mat-card-header >
                 <mat-card-title>{{kat.name}}</mat-card-title>
             </mat-card-header>
@@ -74,7 +76,10 @@
         }
         </mat-card-content>
         </mat-card>
+        <br>
       }
+    </div>
+      
 
         <mat-card class="filter-card">
             <mat-card-title>Szűrők</mat-card-title>
