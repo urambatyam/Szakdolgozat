@@ -1,7 +1,6 @@
-import { Component, inject, OnInit, computed, signal, ChangeDetectorRef, ViewChildren, QueryList, ViewChild} from '@angular/core';
+import { Component, inject, OnInit, computed, signal, ViewChildren, QueryList} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { CurriculumsService } from '../../services/curriculums.service';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../models/course';
 import { Task } from '../../models/tasks';
@@ -12,18 +11,12 @@ import {MatSelectChange, MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import { Name } from '../../models/curriculumNames';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatIconModule } from '@angular/material/icon';
 import { Curriculum } from '../../models/curriculum';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
-interface Kategoria {
-  courseIds:MatTableDataSource<Course>,
-  name:string,
-}
-interface Special {
-  kats:Kategoria[],
-  name:string,
-}
+import { TantervService } from '../../services/tanterv.service';
+
+
 
 
 
@@ -57,7 +50,7 @@ apply(courseId: string) {
 applyFilter(event: Event, s:string, k:string) {
   console.log("event", event, " v ",);
   const filterValue = (event.target as HTMLInputElement).value;
-  const data = this.tanterv.find(sp => sp.name === s)?.kats.find(kt => kt.name === k)?.courseIds;
+  const data = this.tanterv?.specializations.find(sp => sp.name === s)?.categories.find(kt => kt.name === k)?.courseMatdata;
   if(data){
     data.filter = filterValue.trim().toLowerCase();
   }
@@ -74,12 +67,13 @@ applyFilter(event: Event, s:string, k:string) {
   }
 
   private updateSorting() {
-    this.tanterv.forEach((special, specialIndex) => {
-      special.kats.forEach((kat, katIndex) => {
+    this.tanterv?.specializations.forEach((special, specialIndex) => {
+      special.categories.forEach((kat, katIndex) => {
         const sortIndex = this.getSortIndex(specialIndex, katIndex);
         const sort = this.sortList.toArray()[sortIndex];
         if (sort) {
-          kat.courseIds.sort = sort;
+          if(kat.courseMatdata)
+            kat.courseMatdata.sort = sort;
         }
       });
     });
@@ -88,20 +82,20 @@ applyFilter(event: Event, s:string, k:string) {
   private getSortIndex(specialIndex: number, katIndex: number): number {
     let index = 0;
     for (let i = 0; i < specialIndex; i++) {
-      index += this.tanterv[i].kats.length;
+      index += this.tanterv?.specializations[i]?.categories?.length ?? 0;
     }
     return index + katIndex;
   }
  
 
-  tanterv:Special[] = [];
+  tanterv:Curriculum|null = null;
 
   specialsVis = new Map<string,boolean>([['összes', true]]);
   katsVis = new Map<string,boolean>([['összes', true]]);
   katsVisalfa = new Map<string,boolean>([['összes', true]]);
   curs: Name[] = [];
   
-  curriculumData = inject(CurriculumsService);
+  curriculumData = inject(TantervService);
   courseData = inject(CoursesService);
   
   curriculumName: string = "";
@@ -111,56 +105,52 @@ applyFilter(event: Event, s:string, k:string) {
 
   LoadCurriculum(name:string):void{
     this.visKat = false;
-    this.tanterv = []
+    this.tanterv = null
     this.curriculumName = name;
     this.specialsVis= new Map<string,boolean>([['összes', true]]);
     this.katsVis = new Map<string,boolean>([['összes', true]]);
 
-    this.curriculumData.getByNames(name).subscribe({
+    this.curriculumData.getCurriculumByName(name).subscribe({
       next: async (curriculum) => {  
         if (curriculum) {
-          const specialMap = new Map<string, Map<string, MatTableDataSource<Course>>>();
-          
-          curriculum.forEach(c => {
-        
-            this.specialsVis.set(c.specialization,true);
-            this.katsVis.set(c.category,true);
-            
-
-            if (!specialMap.has(c.specialization)) {
-              specialMap.set(c.specialization, new Map());
-            }
-            
-            const categoryMap = specialMap.get(c.specialization)!;
-            if (!categoryMap.has(c.category)) {
-              categoryMap.set(c.category, new MatTableDataSource<Course>([]));
-            }
-          });
-
-          this.tanterv = Array.from(specialMap.entries()).map(([specName, categories]) => ({
-            name: specName,
-            kats: Array.from(categories.entries()).map(([catName, subject]) => ({
-              name: catName,
-              courseIds: subject
+          this.tanterv = {
+            ...curriculum,
+            specializations: curriculum.specializations.map(sp => ({
+              ...sp,
+              categories: sp.categories.map(cat => ({
+                ...cat,
+                courseMatdata: new MatTableDataSource<Course>([]) // Itt inicializáljuk
+              }))
             }))
-          }));
-
-          curriculum.forEach(c => {
-            this.courseData.getById(c.courseId).subscribe({
-              next: (course) => {
-                if (course) {
-                  const special = this.tanterv.find(s => s.name === c.specialization);
-                  if (special) {
-                    const category = special.kats.find(k => k.name === c.category);
-                    if (category) {
-                      const currentCourses = category.courseIds.data;
-                      category.courseIds.data = [...currentCourses, course];
+          };
+          this.tanterv.specializations.forEach(sp => {
+            this.specialsVis.set(sp.name,true)
+            sp.categories.forEach(cat => {
+              this.katsVis.set(cat.name,true);
+              cat.courses.forEach(c => {
+                this.courseData.getById(c).subscribe({
+                  next: (course) => {
+                    if (course) {
+                      const special = this.tanterv?.specializations.find(s => s.name === sp.name);
+                      if (special) {
+                        const category = special.categories.find(k => k.name === cat.name);
+                        if (category) {
+                          
+                          // Most már biztosan létezik a courseMatdata
+                          if(category.courseMatdata){
+                            const currentCourses = category.courseMatdata.data || [];
+                            category.courseMatdata.data = [...currentCourses, course];
+                          }
+                        
+                        }
+                      }
                     }
                   }
-                }
-              }
-            });
-          });
+                });
+
+              })
+            })
+          })
           setTimeout(() => {
             this.updateSorting();
           });
@@ -170,7 +160,6 @@ applyFilter(event: Event, s:string, k:string) {
         console.log("ALL: ", this.tanterv);
       }
     });
-
   }
   
     ngOnInit(): void {
@@ -180,7 +169,9 @@ applyFilter(event: Event, s:string, k:string) {
       this.curriculumData.getAllNames().subscribe({
         next: (names) => {
           if(names){
+
             this.curs = names;
+            console.log("names", names)
             this.LoadCurriculum(names[0].name);
 
           }
@@ -201,7 +192,6 @@ applyFilter(event: Event, s:string, k:string) {
       {name: 'Kredit', completed: true},
       {name: 'Ajánlót félév', completed: true},
       {name: 'Tárgy felelős', completed: true},
-      {name: 'Előfeltétel', completed: true},
       {name: 'Felvétel', completed: true},
       {name: 'Kurzus Forum', completed: true},
     ],
@@ -238,9 +228,8 @@ applyFilter(event: Event, s:string, k:string) {
     if (subtasks[2].completed) this.displayedColumns.push('kredit');
     if (subtasks[3].completed) this.displayedColumns.push('recommendedSemester');
     if (subtasks[4].completed) this.displayedColumns.push('subjectResponsible');
-    if (subtasks[5].completed) this.displayedColumns.push('prerequisite');
-    if (subtasks[6].completed) this.displayedColumns.push('apply');
-    if (subtasks[7].completed) this.displayedColumns.push('course');
+    if (subtasks[5].completed) this.displayedColumns.push('apply');
+    if (subtasks[6].completed) this.displayedColumns.push('course');
   }
 
   KatonSelectionChange(event: MatSelectChange) {
@@ -272,7 +261,7 @@ applyFilter(event: Event, s:string, k:string) {
 
      
       this.katsVis= new Map<string,boolean>([['összes', true]]);;
-      this.tanterv.find(s => s.name === event.value)?.kats.map(k => {this.katsVis.set(k.name,true)}) 
+      //this.tanterv.find(s => s.name === event.value)?.kats.map(k => {this.katsVis.set(k.name,true)}) 
       this.visKat=true;
       console.log('visKat:', this.visKat);
       console.log('kats:', this.katsVis);

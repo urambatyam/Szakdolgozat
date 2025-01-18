@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, docData, setDoc, updateDoc, deleteDoc, query, where, getDocs, DocumentReference  } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, docData, setDoc, updateDoc, deleteDoc, query, where, getDocs, DocumentReference, writeBatch  } from '@angular/fire/firestore';
 import { Observable,from, of } from 'rxjs';
 import { catchError, map, switchMap  } from 'rxjs/operators';
 import { Curriculum } from '../models/curriculum';
@@ -13,11 +13,21 @@ export class CurriculumsService {
     curriculumssCollection = collection(this.firestore, 'curriculum');
     curriculumsNamesCollection = collection(this.firestore, 'curriculumNames');
 
-      add(curriculumss: Curriculum): Observable<void>{
-        const curriculumssDocRef = doc(this.curriculumssCollection);
-    
-        return from(setDoc(curriculumssDocRef, curriculumss));
+    addCurriculum(curriculum: Curriculum[]): Observable<void> {
+      const batch = writeBatch(this.firestore);
+      
+      curriculum.forEach(curr => {
+          const currRef = doc(this.curriculumssCollection);
+          batch.set(currRef, curr);
+      });
+
+      if (curriculum.length > 0) {
+          const nameRef = doc(this.curriculumsNamesCollection, curriculum[0].name);
+          batch.set(nameRef, { name: curriculum[0].name });
       }
+
+      return from(batch.commit());
+  }
     
       getAll(): Observable<Curriculum[]>{
         return collectionData(this.curriculumssCollection, {
@@ -55,10 +65,28 @@ export class CurriculumsService {
         );
       }
 
-      deleteByName(curriculumsName:string){
-        const q = query(this.curriculumssCollection, where("name", "==", curriculumsName));
-        const q2 = query(this.curriculumsNamesCollection, where("name", "==", curriculumsName));
-      }
+      updateCurriculum(name: string, newCurriculum: Curriculum[]): Observable<void> {
+        return this.deleteByName(name).pipe(
+            switchMap(() => this.addCurriculum(newCurriculum))
+        );
+    }
+
+      deleteByName(curriculumName: string): Observable<void> {
+        const batch = writeBatch(this.firestore);
+
+        return from(getDocs(query(this.curriculumssCollection, where("name", "==", curriculumName)))).pipe(
+            switchMap(snapshot => {
+                snapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+
+                const nameRef = doc(this.curriculumssCollection, curriculumName);
+                batch.delete(nameRef);
+
+                return from(batch.commit());
+            })
+        );
+    }
     
       deleteById(curriculumssId:string){
         const curriculumssDocRef = doc(this.curriculumssCollection, curriculumssId);

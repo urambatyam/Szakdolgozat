@@ -2,103 +2,86 @@
     <mat-card-header>
         <mat-card-title>{{title}}</mat-card-title>
     </mat-card-header>
-    <mat-card-content>
-        <table [dataSource]="tantervNevek" mat-table class="mat-elevation-z8">
-            <ng-container matColumnDef="name" >
-                <th mat-header-cell *matHeaderCellDef > Név </th>
-                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-                <td mat-footer-cell *matFooterCellDef></td>
-            </ng-container>
-
-            <ng-container matColumnDef="update">
-                <th mat-header-cell *matHeaderCellDef > Módosítás </th>
-                <td mat-cell *matCellDef="let element" > <button mat-fab (click)="toupdate(element.name)" ><mat-icon>update</mat-icon></button></td>
-                <td mat-footer-cell *matFooterCellDef></td>
-            </ng-container>
-
-            <ng-container matColumnDef="delete">
-                <th mat-header-cell *matHeaderCellDef > Törlés </th>
-                <td mat-cell *matCellDef="let element" > <button mat-fab (click)="todelete(element.name)" ><mat-icon>delete</mat-icon></button></td>
-                <td mat-footer-cell *matFooterCellDef><button mat-fab (click)="toPlus()" ><mat-icon>add</mat-icon></button></td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns "></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns ;"></tr>
-            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-
-        </table>
-        <br >
-        <form>
-            <table>
-                <tr>
-                    <td>
-                        <mat-form-field>
-                            <mat-label>Tanterv név</mat-label>
-                            <input matInput type="text">
-                        </mat-form-field>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <mat-form-field>
-                            <mat-label>specializáció</mat-label>
-                            <input matInput type="text">
-                        </mat-form-field>
-                    </td>
-                    <td><button mat-fab  ><mat-icon>add</mat-icon></button></td> 
-                </tr>
-                <tr>
-                    <table>
-                        <tr>
-                            <td>
-                                <mat-form-field>
-                                    <mat-label>Kategória</mat-label>
-                                    <input matInput type="text">
-                                </mat-form-field>
-                            </td>
-                            <td><button mat-fab  ><mat-icon>add</mat-icon></button></td>
-                        </tr>
-                        <tr>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <mat-form-field>
-                                            <mat-label>Kurzus név</mat-label>
-                                            <input matInput type="text">
-                                        </mat-form-field>
-                                    </td>                                    
-                                    <td>
-                                        <mat-form-field>
-                                            <mat-label>Ajánlott félév</mat-label>
-                                            <input matInput type="number">
-                                        </mat-form-field>
-                                    </td>                                    
-                                    <td>
-                                        <mat-form-field>
-                                            <mat-label>kredit</mat-label>
-                                            <input matInput type="number">
-                                        </mat-form-field>
-                                    </td>                                    
-                                    <td>
-                                        <mat-form-field>
-                                            <mat-label>Tárgyfelelős</mat-label>
-                                            <input matInput type="text">
-                                        </mat-form-field>
-                                    </td>                                    
-                                    <td>
-                                        <mat-form-field>
-                                            <mat-label>Előkövetelmények</mat-label>
-                                            <input matInput type="text">
-                                        </mat-form-field>
-                                    </td>
-                                    <td><button mat-fab  ><mat-icon>add</mat-icon></button></td>
-                                </tr>
-                            </table>
-                        </tr>
-                    </table>
-                </tr>
-            </table>
-        </form>
-
+    <mat-card-content  >
+      @if(!formVs){
+          <table [dataSource]="tantervNevek"  mat-table class="mat-elevation-z8" >
+              <ng-container matColumnDef="name" >
+                  <th mat-header-cell *matHeaderCellDef > Név </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                  <td mat-footer-cell *matFooterCellDef></td>
+              </ng-container>
+        
+              <ng-container matColumnDef="update">
+                  <th mat-header-cell *matHeaderCellDef > Módosítás </th>
+                  <td mat-cell *matCellDef="let element" > <button mat-fab (click)="toupdate(element.name)" ><mat-icon>update</mat-icon></button></td>
+                  <td mat-footer-cell *matFooterCellDef></td>
+              </ng-container>
+        
+              <ng-container matColumnDef="delete">
+                  <th mat-header-cell *matHeaderCellDef > Törlés </th>
+                  <td mat-cell *matCellDef="let element" > <button mat-fab (click)="todelete(element.name)" ><mat-icon>delete</mat-icon></button></td>
+                  <td mat-footer-cell *matFooterCellDef><button mat-fab (click)="create()" ><mat-icon>add</mat-icon></button></td>
+              </ng-container>
+        
+              <tr mat-header-row *matHeaderRowDef="displayedColumns "></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns ;"></tr>
+              <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        
+          </table>
+      }@else {
+          <form [formGroup]="tantervForm" (ngSubmit)="onSubmit()"  >
+              <!-- tName a form root szintjén -->
+              <div>
+                  <mat-label>Tanterv</mat-label><br>
+                  <input type="text" formControlName="tName">
+              </div>
+    
+              <div  formArrayName="specializations">
+                  @for (specialization of tantervForm.controls.specializations.controls; track spIndex; let spIndex = $index) {
+                      <div  class="form-specialization" [formGroupName]="spIndex">
+                          <mat-label>Specializáció</mat-label><br>
+                          <input type="text" formControlName="spName">
+                          <mat-icon (click)="removeSpecialization(spIndex)">remove</mat-icon>
+                          
+                          <!-- categories formArrayName hozzáadása -->
+                          <div formArrayName="categories">
+                              @for (category of specialization.controls.categories.controls; track ctIndex; let ctIndex = $index) {
+                                  <div class="form-category" [formGroupName]="ctIndex">
+                                      <mat-label>Kategória</mat-label><br>
+                                      <input type="text" formControlName="catName">
+                                      <mat-icon (click)="removeCategory(spIndex, ctIndex)">remove</mat-icon>
+                                      
+                                      <!-- courses formArrayName hozzáadása -->
+                                      <div formArrayName="courses">
+                                          @for (course of category.controls.courses.controls; track cIndex; let cIndex = $index) {
+                                              <div class="form-courses" [formGroupName]="cIndex">
+                                                  <mat-label>Kurzus</mat-label><br>
+                                                  <input type="text" formControlName="name">
+                                                  <input type="number" formControlName="kredit">
+                                                  <input type="number" formControlName="recommendedSemester">
+                                                  <input type="text" formControlName="subjectResponsible">
+                                                  <mat-icon (click)="removeCourses(spIndex, ctIndex, cIndex)">remove</mat-icon>
+                                              </div>
+                                          }
+                                          <mat-icon (click)="addCourses(spIndex, ctIndex)">add</mat-icon>
+                                      </div>
+                                  </div>
+                              }
+                              <mat-icon (click)="addCategory(spIndex)">add</mat-icon>
+                          </div>
+                      </div>
+                  }
+                  <mat-icon (click)="addSpecialization()">add</mat-icon>
+              </div>
+    
+              <div>
+                <button type="submit">Mentés</button>
+                <button type="button" (click)="close()">Mégse</button>
+              </div>
+          </form>
+  
+      }
+  
+  
     </mat-card-content>
-</mat-card>
+  </mat-card>

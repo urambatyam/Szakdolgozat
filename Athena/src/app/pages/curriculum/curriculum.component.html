@@ -6,14 +6,14 @@
     <mat-card-content>
     <div class="content-container">
       <div id="curriculumContiner">
-      @for(special of tanterv; track special){
+      @for(special of tanterv?.specializations; track special){
         <mat-card  [style.display]=" specialsVis.get(special.name) ? 'block' : 'none'" class="card-spec">
           <mat-card-header>
               <mat-card-title>{{special.name}}</mat-card-title>
           </mat-card-header>
           <mat-card-content>
             
-        @for (kat of special.kats; track kat) {
+        @for (kat of special.categories; track kat) {
           <mat-card class="card-kat" [style.display]=" katsVis.get(kat.name) ? 'block' : 'none'">
             <mat-card-header >
                 <mat-card-title>{{kat.name}}</mat-card-title>
@@ -23,7 +23,7 @@
                 <mat-label>Keresés</mat-label>
                 <input matInput (keyup)="applyFilter($event, special.name, kat.name)"  #input>
               </mat-form-field>
-                <table id="{{special.name}}_{{kat.name}}" #sort="matSort" mat-table  [dataSource]="kat.courseIds" matSort  class="mat-elevation-z8">
+                <table id="{{special.name}}_{{kat.name}}" #sort="matSort" mat-table  [dataSource]="kat.courses" matSort  class="mat-elevation-z8">
                     
                     <ng-container matColumnDef="name" >
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Név </th>

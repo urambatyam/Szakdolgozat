@@ -3,9 +3,9 @@ export interface Course {
     recommendedSemester:number,
     subjectResponsible: string,
     name:string,
-    prerequisite:string,
-    type:string,
     kredit:number,
     subjectMatter:string,
-    requirementsId:number
+    requirementsId:string
 }
+
+
