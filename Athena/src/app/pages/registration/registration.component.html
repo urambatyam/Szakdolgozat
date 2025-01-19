@@ -104,7 +104,15 @@
 
         </mat-form-field><br>
   
-        <button mat-raised-button color="primary" type="submit" [disabled]="registForm.invalid">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          type="submit" 
+          [disabled]="registForm.invalid || (loading$ | async)"
+          >
+          @if(loading$ | async){
+            <mat-spinner diameter="20"></mat-spinner>
+          }
           Regisztráció
         </button>
       </form>

@@ -136,10 +136,11 @@ applyFilter(event: Event, s:string, k:string) {
                         const category = special.categories.find(k => k.name === cat.name);
                         if (category) {
                           
-                          // Most már biztosan létezik a courseMatdata
+                          
                           if(category.courseMatdata){
                             const currentCourses = category.courseMatdata.data || [];
                             category.courseMatdata.data = [...currentCourses, course];
+                            console.log('cur ', category.courseMatdata.data)
                           }
                         
                         }
