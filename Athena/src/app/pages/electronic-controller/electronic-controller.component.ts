@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { TantervService } from '../../services/tanterv.service';
 
 @Component({
   selector: 'app-electronic-controller',
@@ -7,6 +8,13 @@ import { Component } from '@angular/core';
   templateUrl: './electronic-controller.component.html',
   styleUrl: './electronic-controller.component.scss'
 })
-export class ElectronicControllerComponent {
+export class ElectronicControllerComponent implements OnInit {
+  teszt = inject(TantervService);
+ngOnInit(): void {
+  this.valasz = 'gedgdeg'
+
+}
+valasz: any;
+
 
 }

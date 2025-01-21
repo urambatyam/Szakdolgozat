@@ -4,11 +4,18 @@ import { catchError, from, map, mergeMap, Observable, of, throwError } from 'rxj
 import { Curriculum } from '../models/curriculum';
 import { Specialization } from '../models/special';
 import { Category } from '../models/category';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TantervService {
+  private readonly url:string = 'http://localhost:8000'
+  constructor(private http: HttpClient) { }
+  readAll(){
+    return this.http.get<any>(this.url+'/api/tanterv')
+  }
+
   private readonly firestore = inject(Firestore);
   private readonly tantervCollection = collection(this.firestore, 'Curriculum');
 

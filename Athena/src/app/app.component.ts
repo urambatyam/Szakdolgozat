@@ -4,11 +4,13 @@ import { MenuComponent } from "./menu/menu.component";
 import { AuthService } from './services/auth.service';
 import { User } from './models/user';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MenuComponent],
+  imports: [
+    RouterOutlet, 
+    MenuComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
