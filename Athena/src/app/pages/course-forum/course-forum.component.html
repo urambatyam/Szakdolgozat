@@ -3,7 +3,9 @@
         <mat-card-title>{{title}} Kurzus Forum</mat-card-title>
     </mat-card-header>
     <mat-card-content  >
-        @if(!VisForm){
+        @if(forum){
+            <app-forum [courseId]="courseId" (backEvent)="backFromForum()" ></app-forum>
+        }@else if(!VisForm){
             <table [dataSource]="courseNames"  mat-table class="mat-elevation-z8" >
                 <ng-container matColumnDef="name" >
                     <th mat-header-cell *matHeaderCellDef > Név </th>

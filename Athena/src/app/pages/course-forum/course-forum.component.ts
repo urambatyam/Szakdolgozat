@@ -9,25 +9,31 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {  MatButtonModule } from '@angular/material/button';
 import { catchError, EMPTY, firstValueFrom, from, map, Subject, takeUntil, tap } from 'rxjs';
+import { ForumComponent } from "./forum/forum.component";
 
 @Component({
   selector: 'app-course-forum',
   standalone: true,
-  imports: [    
+  imports: [
     MatCardModule,
-      MatTableModule,
-      MatIconModule,
-      FormsModule,
-      MatIconModule,
-      MatFormFieldModule,
-      MatInputModule,
-      ReactiveFormsModule,
-      MatButtonModule,
-    ],
+    MatTableModule,
+    MatIconModule,
+    FormsModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    ForumComponent
+],
   templateUrl: './course-forum.component.html',
   styleUrl: './course-forum.component.scss'
 })
 export class CourseForumComponent implements OnInit, OnDestroy{
+backFromForum() {
+  this.forum = false;
+  this.courseId = '';
+}
   private getAllCourses$ = new Subject<void>();
   courseData = inject(CoursesService)
   VisForm: boolean = false;
@@ -42,6 +48,8 @@ export class CourseForumComponent implements OnInit, OnDestroy{
   courseNames: Course[] = [];
   title: any;
   displayedColumns: string[] = ['name', 'update', 'delete', 'view'];
+  forum: boolean = false;
+  courseId: string = '';
 
   ngOnInit():  void {
     this.VisForm = false;
@@ -68,6 +76,8 @@ export class CourseForumComponent implements OnInit, OnDestroy{
   
   toview(name: string) {
     console.log(name);
+    this.courseId = name;
+    this.forum = true;
   }
 
   async toupdate(name: string) {

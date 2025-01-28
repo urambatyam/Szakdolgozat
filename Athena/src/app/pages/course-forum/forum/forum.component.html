@@ -1,0 +1,40 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        {{course?.name}} fórum
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="forum-container">
+        <div class="course-details">
+          <h3>Kurzus adatok:</h3>
+          <p><strong>Név:</strong> {{course?.name}}</p>
+          <p><strong>Kredit:</strong> {{course?.kredit}}</p>
+          <p><strong>Ajánlott félév:</strong> {{course?.recommendedSemester}}</p>
+          <p><strong>Tárgyfelelős:</strong> {{course?.subjectResponsible}}</p>
+        </div>
+        
+        <div class="messages-container">
+          <h3>Üzenetek:</h3>
+          @for(message of messages; track message.text) {
+            <div class="message">
+              <strong>{{message.userName}}:</strong>
+              <p>{{message.text}}</p>
+            </div>
+          }
+        </div>
+
+        <form [formGroup]="forumForm" (ngSubmit)="onSubmit()" class="message-form">
+          <mat-form-field>
+            <mat-label>Hagyj üzenetet!</mat-label>
+            <input matInput type="text" formControlName="text">
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit">Küldés</button>
+        </form>
+      </div>
+      
+      <button mat-raised-button (click)="back()" class="back-button">
+        Vissza a kurzuslistához
+      </button>
+    </mat-card-content>
+  </mat-card>
