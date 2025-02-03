@@ -6,17 +6,17 @@
         <form [formGroup]="profilForm" (ngSubmit)="onSubmit()">
             <mat-form-field>
                 <mat-label>Felhasználónév</mat-label>
-                <input matInput formControlName="userName">
-                @if (profilForm.get('userName')?.invalid && 
-                (profilForm.get('userName')?.dirty || profilForm.get('userName')?.touched)) {
+                <input matInput formControlName="name">
+                @if (profilForm.get('name')?.invalid && 
+                (profilForm.get('name')?.dirty || profilForm.get('name')?.touched)) {
                     <mat-error>
-                        @if (profilForm.get('userName')?.hasError('required')) {
+                        @if (profilForm.get('name')?.hasError('required')) {
                             Add meg a felhasználó nevet!
                         }
-                        @if (profilForm.get('userName')?.hasError('minlength')) {
+                        @if (profilForm.get('name')?.hasError('minlength')) {
                             A felhasználónév legalább 4 karakter!
                         }
-                        @if (profilForm.get('userName')?.hasError('maxlength')) {
+                        @if (profilForm.get('name')?.hasError('maxlength')) {
                             A felhasználónév legfeljebb 12 karakter!
                         }
                     </mat-error>
@@ -24,30 +24,13 @@
             </mat-form-field><br>
       
             <mat-form-field>
-                <mat-label>Telefon szám</mat-label>
-                <input matInput formControlName="tel" type="tel">
-                @if (profilForm.get('tel')?.invalid && 
-                (profilForm.get('tel')?.dirty || profilForm.get('tel')?.touched)) {
-                <mat-error>
-                Ez nem egy érvényes telefonszám! 
-                (Formátum: +36301234567)
-                </mat-error>
-                }
-            </mat-form-field><br>
-      
-            <mat-form-field>
-                <mat-label>Szak</mat-label>
-                <input matInput formControlName="major" type="text" >
-            </mat-form-field><br>
-      
-            <mat-form-field>
-                <mat-label>Kezdés éve</mat-label>
-                <input matInput formControlName="date" type="number" >
-            </mat-form-field><br>  
-
-            <mat-form-field>
                 <mat-label>Email</mat-label>
                 <input matInput formControlName="email" type="email" >
+            </mat-form-field><br>
+
+            <mat-form-field>
+                <mat-label>Rang</mat-label>
+                <input matInput formControlName="role" type="text" >
             </mat-form-field><br>
 
             

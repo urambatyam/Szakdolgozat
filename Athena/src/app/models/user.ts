@@ -1,8 +1,6 @@
 export interface User{
-    id:string;
+    code?:string;
     name:string;
-    tel:string;
-    major:string;
-    start:number;
-    rang:string;
+    email: string;
+    role:string;
 }

@@ -1,14 +1,14 @@
-import { Component,inject, OnInit, signal } from '@angular/core';
+import { Component,inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { UsersService } from '../../services/users.service';
-import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/mysql/user.service';
+import { AuthService } from '../../services/mysql/auth.service';
 import { User } from '../../models/user';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import {
   MatDialog
 } from '@angular/material/dialog';
@@ -28,7 +28,12 @@ import { PasswordDialogComponent } from './password-dialog/password-dialog.compo
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit , OnDestroy{
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  private destroy$ = new Subject<void>();
   readonly dialogNewPassword = signal('');
   readonly dialogOldPassword = signal('');
   readonly dialog = inject(MatDialog);
@@ -44,94 +49,59 @@ export class ProfileComponent implements OnInit {
         this.dialogOldPassword.set(result.email);
         console.log('result' + result);
       }
-      this.auth.changePassword(this.dialogOldPassword(),this.dialogNewPassword());
+      this.user.updatePassword(this.dialogOldPassword(),this.dialogNewPassword(),this.dialogNewPassword());
     });
   }
 
 
   fb = inject(FormBuilder);
-  user = inject(UsersService);
+  user = inject(UserService);
   auth = inject(AuthService);
-  email:string = '';
-
 
   updateUser:User|null = null;
   profilForm = this.fb.nonNullable.group(
       {
-      userName: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
-      tel: ['', [Validators.required, Validators.pattern(/^\+36\d{9}$/)]],
-      major: [{value: '', disabled: true}, ],
-      date: [{value: '', disabled: true}, ],
-      email: [{value: '', disabled: true},],
+      name: ['', [ Validators.minLength(4), Validators.maxLength(12)]],
+      email: ['',[Validators.email]],
+      role: ['',[]]
       }
     );
 
     ngOnInit() {
-      const storedUser = localStorage.getItem('user');
-      console.log("van storedUser");
-      
-      if (!storedUser) {
-        console.error('Nincs bejelentkezett felhasználó');
-        return;
-      }
-    
-      try {
-        const logged = JSON.parse(storedUser);
-        
-        if (!logged.uid) {
-          console.error('Hiányzó felhasználó ID');
-          return;
+      this.auth.user$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (user) =>{
+          console.log('Be van jelentkezve')
+          this.profilForm.patchValue({
+            name: user?.name,
+            email: user?.email,
+            role: user?.role
+          });
+        },
+        error: () => {
+          console.log('Nincs van jelentkezve')
         }
-        this.email = logged.email
-
-    
-        const loggedUser: Observable<User|null> = this.user.getById(logged.uid);
-
-        loggedUser.subscribe({
-          next: (user) => {
-            if (user) {
-  
-              this.updateUser = user;
-              this.profilForm.patchValue({
-                userName: user.name,
-                tel: user.tel,
-                major: user.major,
-                date: user.start.toString(),
-                email: logged.email
-              });
-            }
-          },
-          error: (error) => {
-            console.error('Hiba a felhasználó betöltésekor:', error);
-          }
-        });
-      } catch (error) {
-        console.error('Hiba a localStorage feldolgozásakor:', error);
       }
-    }
+     );
+      }
+
   onSubmit(): void {
     console.log(this.profilForm);
     if (this.profilForm.invalid) {
       this.profilForm.markAllAsTouched();
       return;
     }
-    if (this.updateUser) {
-      const formValues = this.profilForm.getRawValue();
+    const formValues = this.profilForm.getRawValue();
+    this.user.update(formValues).subscribe({
+      next: () => {
+        console.log('Sikeres frissítés');
+      },
+      error: (error) => {
+        console.error('Hiba történt:', error);
+      }
+    });
 
-      const update: User = {
-        ...this.updateUser,  
-        name: formValues.userName || this.updateUser.name,
-        tel: formValues.tel || this.updateUser.tel,
-      };
-      this.user.updateById(update).subscribe({
-        next: () => {
-          console.log('Sikeres frissítés');
-        },
-        error: (error) => {
-          console.error('Hiba történt:', error);
-        }
-      });
-    }
   };
   
 }

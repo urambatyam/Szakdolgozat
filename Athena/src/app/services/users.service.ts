@@ -8,7 +8,7 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class UsersService {
-  firestore = inject(Firestore);
+  /*firestore = inject(Firestore);
   usersCollection = collection(this.firestore, 'users');
   add(user: User): Observable<string>{
     const userDocRef = doc(this.usersCollection, user.id);
@@ -68,6 +68,6 @@ export class UsersService {
     return collectionData(usersQuery, { 
       idField: 'id' 
     }) as Observable<User[]>;
-  }
+  }*/
 
 }
