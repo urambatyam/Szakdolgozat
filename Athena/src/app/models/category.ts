@@ -7,6 +7,7 @@ export interface Kategoria {
 }
 
 export interface Category {
+    id?: number,
     courses: string[],
     name:string,
     courseMatdata?:MatTableDataSource<Course>

@@ -1,8 +1,9 @@
 import { Category } from "./category";
 
 export interface Specialization {
-    categories: Category[],
+    id?:number,
     name:string,
+    categories: Category[],
 }
 
 export interface Special2 {

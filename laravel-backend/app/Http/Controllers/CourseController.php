@@ -46,6 +46,13 @@ class CourseController extends Controller
         return $course;
     }
 
+    public function getAllCoursesOFUser(String $user_code)
+    {
+        return Course::whereHas('user', function ($query) use ($user_code) {
+            $query->where('code', $user_code);
+        })->get();
+    }
+
     /**
      * Update the specified resource in storage.
      */

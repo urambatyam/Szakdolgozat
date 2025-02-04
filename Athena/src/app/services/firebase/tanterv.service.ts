@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { collection, collectionData, deleteDoc, doc, docData, Firestore, getDocs, query, setDoc, where, addDoc, updateDoc } from '@angular/fire/firestore';
 import { catchError, from, map, mergeMap, Observable, of, throwError } from 'rxjs';
-import { Curriculum } from '../models/curriculum';
-import { Specialization } from '../models/special';
-import { Category } from '../models/category';
+import { Curriculum } from '../../models/curriculum';
+import { Specialization } from '../../models/special';
+import { Category } from '../../models/category';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

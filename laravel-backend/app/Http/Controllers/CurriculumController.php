@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 
 class CurriculumController extends Controller
 {
-
+    public function index(){
+        return Curriculum::all();
+    }
 
     /**
      * Store a newly created resource in storage.

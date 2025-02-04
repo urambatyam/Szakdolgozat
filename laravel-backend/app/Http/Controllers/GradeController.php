@@ -38,6 +38,19 @@ class GradeController extends Controller
         return $garde;
     }
 
+    public function getAllGradesInCourse(String $courseName)
+    {
+        return Grade::whereHas('course', function ($query) use ($courseName) {
+            $query->where('name', $courseName);
+        })->get();
+    }
+    public function getAllGradesOFStudent(String $studentCode)
+    {
+        return Grade::whereHas('user', function ($query) use ($studentCode) {
+            $query->where('code', $studentCode);
+        })->get();
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -61,6 +74,7 @@ class GradeController extends Controller
 
         return ['message' => 'A jegy törölve lett!'];
     }
+    
 
     public function statisticAbaoutCourse(String $course_name)
     {

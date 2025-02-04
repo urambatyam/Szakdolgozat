@@ -43,7 +43,7 @@ class UserController extends Controller
     public function updatePassword(Request $request, User $user)
     {
     
-        // Validálás
+
         $request->validate([
             'current_password' => ['required', function ($attribute, $value, $fail) use ($user) {
                 if (!Hash::check($value, $user->password)) {

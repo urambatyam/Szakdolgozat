@@ -30,7 +30,9 @@ class CourseForumController extends Controller
      */
     public function show(String $course_name)
     {
-        return CourseForum::where('course_name', $course_name)->get();
+        return CourseForum::whereHas('course', function ($query) use ($course_name) {
+            $query->where('name', $course_name);
+        })->get();
     }
 
 
