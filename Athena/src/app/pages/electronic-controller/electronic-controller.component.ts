@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { TantervService } from '../../services/tanterv.service';
 
 @Component({
   selector: 'app-electronic-controller',
@@ -8,13 +7,9 @@ import { TantervService } from '../../services/tanterv.service';
   templateUrl: './electronic-controller.component.html',
   styleUrl: './electronic-controller.component.scss'
 })
-export class ElectronicControllerComponent implements OnInit {
-  teszt = inject(TantervService);
-ngOnInit(): void {
-  this.valasz = 'gedgdeg'
+export class ElectronicControllerComponent  {
 
-}
-valasz: any;
+valasz: any = '';
 
 
 }

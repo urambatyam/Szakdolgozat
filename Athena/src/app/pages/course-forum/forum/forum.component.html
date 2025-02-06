@@ -16,10 +16,10 @@
         
         <div class="messages-container">
           <h3>Üzenetek:</h3>
-          @for(message of messages; track message.text) {
+          @for(message of messages; track message.id) {
             <div class="message">
-              <strong>{{message.userName}}:</strong>
-              <p>{{message.text}}</p>
+              <strong>{{message.user_code}}:</strong>
+              <p>{{message.message}}</p>
             </div>
           }
         </div>

@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
             $table->integer('grade')->unsigned();
-            $table->string('course_name');
-            $table->foreign('course_name')->references('name')->on('courses')->cascadeOnDelete();
-            $table->string('user_code',5);
-            $table->foreign('user_code')->references('code')->on('users')->noActionOnDelete();
+            $table->foreignId('course_id')->constrained()->onDelete('cascade');
+            $table->string('user_code',5)->nullable();
+            $table->foreign('user_code')->references('code')->on('users')->nullOnDelete();
             $table->timestamps();
         });
     }

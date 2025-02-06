@@ -15,23 +15,22 @@ class CourseForumController extends Controller
     public function store(Request $request)
     {
         $values = $request->validate([
-            'course_name' => 'required|max:25|exists:courses,name|string',
+            'course_id' => 'required|max:25|exists:courses,id|string',
             'message' => 'required|max:255'
         ]);
 
         $forum = $request->user()->forums()->create($values);
         
         return $forum;
-        //return $values;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(String $course_name)
+    public function show(int $course_id)
     {
-        return CourseForum::whereHas('course', function ($query) use ($course_name) {
-            $query->where('name', $course_name);
+        return CourseForum::whereHas('course', function ($query) use ($course_id) {
+            $query->where('id', $course_id);
         })->get();
     }
 

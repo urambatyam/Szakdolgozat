@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Grade;
+use App\Models\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

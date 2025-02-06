@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Firestore, collection, collectionData, doc, docData, setDoc, updateDoc, deleteDoc, query, where} from '@angular/fire/firestore';
 import { Observable,from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Course } from '../models/course';
+import { Course } from '../../models/course';
 
 @Injectable({
   providedIn: 'root'

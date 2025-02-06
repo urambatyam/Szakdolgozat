@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('personal_access_tokens', function (Blueprint $table) {
             $table->id();
-            // Módosítjuk string típusúra a tokenable_id-t
             $table->string('tokenable_id');
             $table->string('tokenable_type');
             $table->string('name');

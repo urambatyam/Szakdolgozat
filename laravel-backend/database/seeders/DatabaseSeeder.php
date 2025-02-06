@@ -26,15 +26,18 @@ class DatabaseSeeder extends Seeder
         $courses = Course::factory()->count(20)->create([
             'user_code' => $teachers->random()->code
         ]);
-    
-        Grade::factory()->count(50)->create([
-            'user_code' => $students->random()->code,
-            'course_name' => $courses->random()->name
-        ]);
+
+        foreach($students as $student){
+            Grade::factory()->count(10)->create([
+                'user_code' => $student->code,
+                'course_id' => $courses->random()->id
+            ]);
+        }
+ 
 
         CourseForum::factory()->count(20)->create([
             'user_code' => User::inRandomOrder()->first()->code,
-            'course_name' => $courses->random()->name
+            'course_id' => $courses->random()->id
         ]);
 
         $curriculum = Curriculum::factory()->create();
@@ -52,7 +55,7 @@ class DatabaseSeeder extends Seeder
 
         foreach ($categories as $category) {
             $category->courses()->attach(
-                $courses->random(rand(2, 5))->pluck('name')->toArray()
+                $courses->random(rand(2, 5))->pluck('id')->toArray()
             );
         }
  

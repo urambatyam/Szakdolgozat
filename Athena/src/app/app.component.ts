@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MenuComponent } from "./menu/menu.component";
-import { AuthService } from './services/auth.service';
+import { AuthService } from './services/mysql/auth.service';
 import { User } from './models/user';
 
 @Component({
@@ -17,7 +17,7 @@ import { User } from './models/user';
 export class AppComponent implements OnInit{
   auth = inject(AuthService);
   ngOnInit(): void {
-    localStorage.setItem('user','');
+    /*localStorage.setItem('user','');
     this.auth.isLoggedIn().subscribe( 
       user => {
         if(user != null){
@@ -29,7 +29,7 @@ export class AppComponent implements OnInit{
         var logged:User = JSON.parse(localStorage.getItem('user') as string);
         console.log(logged)
       }
-    )
+    )*/
   }
   title = 'Athena';
 }

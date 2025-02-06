@@ -10,9 +10,9 @@ class Course extends Model
     /** @use HasFactory<\Database\Factories\CourseFactory> */
     use HasFactory;
 
-    protected $primaryKey = 'name'; 
+    /*protected $primaryKey = 'name'; 
     public $incrementing = false; 
-    protected $keyType = 'string';
+    protected $keyType = 'string';*/
 
     protected $fillable = [
         'name', 
@@ -27,14 +27,22 @@ class Course extends Model
         return $this->belongsTo(User::class, 'user_code', 'code');
     }
     
-    public function forums()
+    /*public function forums()
     {
         return $this->hasMany(CourseForum::class, 'course_name', 'name');
+    }*/
+    public function forums()
+    {
+        return $this->hasMany(CourseForum::class, 'course_id', 'id');
     }
 
-    public function grades()
+    /*public function grades()
     {
         return $this->hasMany(Grade::class, 'course_name', 'name');
+    }*/
+    public function grades()
+    {
+        return $this->hasMany(Grade::class, 'course_id', 'id');
     }
 
     public function categories()

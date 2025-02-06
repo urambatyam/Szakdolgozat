@@ -17,7 +17,7 @@ Route::apiResource('courses', CourseController::class)->middleware('auth:sanctum
 Route::get('/courses/user/{user_code}', [CourseController::class, 'getAllCoursesOFUser'])->middleware('auth:sanctum');
 
 
-Route::get('/course_forum/{course_name}', [CourseForumController::class, 'show'])->middleware('auth:sanctum');
+Route::get('/course_forum/{course_id}', [CourseForumController::class, 'show'])->middleware('auth:sanctum');
 Route::post('/course_forum', [CourseForumController::class, 'store'])->middleware('auth:sanctum');
 Route::delete('/course_forum/{id}', [CourseForumController::class, 'destroy'])->middleware('auth:sanctum');
 
@@ -26,9 +26,9 @@ Route::apiResource('user', UserController::class)->except(['store'])->middleware
 Route::put('/user/password', [UserController::class, 'updatePassword'])->middleware('auth:sanctum');
 
 Route::apiResource('grade', GradeController::class)->except(['show'])->middleware('auth:sanctum');
-Route::get('/grade/course/{course_name}', [GradeController::class, 'getAllGradesInCourse'])->middleware('auth:sanctum');
+Route::get('/grade/course/{course_id}', [GradeController::class, 'getAllGradesInCourse'])->middleware('auth:sanctum');
 Route::get('/grade/student/{student_code}', [GradeController::class, 'getAllGradesOFStudent'])->middleware('auth:sanctum');
-Route::get('/statistic/{course_name}', [GradeController::class, 'statisticAbaoutCourse'])->middleware('auth:sanctum');
+Route::get('/statistic/{course_id}', [GradeController::class, 'statisticAbaoutCourse'])->middleware('auth:sanctum');
 Route::get('/statistic', [GradeController::class, 'statisticAbaoutAll'])->middleware('auth:sanctum');
 
 

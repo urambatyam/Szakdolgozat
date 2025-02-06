@@ -1,10 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { Course } from '../../models/course';
 import { environment } from '../../../environments/environment';
-
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  current_page: number;
+  per_page: number;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -16,34 +21,46 @@ export class CourseService {
   
       createCourse(course: Course): Observable<Course>{
         return this.http.post<Course>(
-          environment.baseUrl+'/course',
+          environment.baseUrl+'/courses',
           course,
-          {headers: this.auth.getHeaders()}
-        );
-      }
-      getAllCourses(): Observable<Course[]>{
-        return this.http.get<Course[]>(
-          environment.baseUrl+'/course',
           {headers: this.auth.getHeaders()}
         );
       }
 
-      getAllCoursesOFUser(userCode:string): Observable<Course[]>{
-        return this.http.get<Course[]>(
-          environment.baseUrl+'/course/user'+userCode,
-          {headers: this.auth.getHeaders()}
+      getAllCoursesOFUser(
+        userCode: string,
+        page: number = 1,
+        perPage: number = 10,
+        sortField: string = 'name',
+        sortDirection: 'asc' | 'desc' = 'asc',
+        filter?: string
+      ): Observable<PaginatedResponse<Course>> {
+        const params = new HttpParams()
+          .set('page', page.toString())
+          .set('per_page', perPage.toString())
+          .set('sort_field', sortField)
+          .set('sort_direction', sortDirection)
+          .set('filter', filter || '');
+    
+        return this.http.get<PaginatedResponse<Course>>(
+          `${environment.baseUrl}/courses/user/${userCode}`,
+          {
+            headers: this.auth.getHeaders(),
+            params
+          }
         );
       }
+
       updateCourse(course: Course): Observable<Course>{
         return this.http.put<Course>(
-          environment.baseUrl+'/course',
+          environment.baseUrl+'/courses/'+course.id,
           course,
           {headers: this.auth.getHeaders()}
         );
       }
-      deleteCourse(courseId:number): Observable<Course>{
+      deleteCourse(course_id:number): Observable<Course>{
         return this.http.delete<any>(
-          environment.baseUrl+'/course/'+courseId,
+          environment.baseUrl+'/courses/'+course_id,
           {headers: this.auth.getHeaders()});
       }
 }

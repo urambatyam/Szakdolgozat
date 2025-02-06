@@ -11,7 +11,7 @@ class CoursePolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, Course $course): bool
     {
         return false;
     }
@@ -36,6 +36,11 @@ class CoursePolicy
      * Determine whether the user can update the model.
      */
     public function update(User $user): bool
+    {
+        return in_array($user->role, ['teacher', 'admin']);
+    }
+
+    public function getAllCoursesOFUser(User $user): bool
     {
         return in_array($user->role, ['teacher', 'admin']);
     }

@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { UsersService } from '../../services/users.service';
+//import { UsersService } from '../../services/mysql/users.service';
 import { User } from '../../models/user';
 import { BehaviorSubject, catchError, EMPTY, finalize, from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -39,7 +39,7 @@ export class RegistrationComponent implements OnDestroy {
     this.loadingSubject.complete();
   }
   fb = inject(FormBuilder);
-  user = inject(UsersService);
+  //user = inject(UsersService);
   //authService = inject(AuthService);
   auth = inject(AuthService);
   private snackBar = inject(MatSnackBar)

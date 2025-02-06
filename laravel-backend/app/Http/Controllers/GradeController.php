@@ -21,7 +21,7 @@ class GradeController extends Controller
     public function store(Request $request)
     {
         $values = $request->validate([
-            'course_name' => 'required|max:25|exists:courses,name|string',
+            'course_id' => 'required|max:25|exists:courses,id',
             'grade' => 'required|integer|min:0|max:5',
         ]);
 
@@ -38,10 +38,10 @@ class GradeController extends Controller
         return $garde;
     }
 
-    public function getAllGradesInCourse(String $courseName)
+    public function getAllGradesInCourse(int $course_id)
     {
-        return Grade::whereHas('course', function ($query) use ($courseName) {
-            $query->where('name', $courseName);
+        return Grade::whereHas('course', function ($query) use ($course_id) {
+            $query->where('id', $course_id);
         })->get();
     }
     public function getAllGradesOFStudent(String $studentCode)
@@ -76,7 +76,7 @@ class GradeController extends Controller
     }
     
 
-    public function statisticAbaoutCourse(String $course_name)
+    public function statisticAbaoutCourse(int $course_id)
     {
         return ['message' => 'Statisztika a kurzusról'];
     }

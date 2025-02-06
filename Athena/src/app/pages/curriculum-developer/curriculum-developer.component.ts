@@ -7,12 +7,12 @@ import { MatInputModule } from '@angular/material/input';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TantervService } from '../../services/tanterv.service';
+import { TantervService } from '../../services/firebase/tanterv.service';
 import { Curriculum } from '../../models/curriculum';
 import { Specialization} from '../../models/special';
 import { Category} from '../../models/category';
 import { Course } from '../../models/course';
-import { CoursesService } from '../../services/courses.service';
+import { CoursesService } from '../../services/firebase/courses.service';
 
 type FormCourse = FormGroup<{
   recommendedSemester:FormControl<number>
@@ -250,7 +250,7 @@ export class CurriculumDeveloperComponent implements OnInit {
             name: cV.controls.name.getRawValue(),
             kredit:cV.controls.kredit.getRawValue(),
             subjectMatter:'',
-            requirementsId: ''
+            //requirementsId: ''
           })
         })
         Sptemp.categories.push(Cattemp);

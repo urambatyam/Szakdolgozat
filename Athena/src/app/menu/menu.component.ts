@@ -3,7 +3,8 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/mysql/auth.service';
+import { firstValueFrom, from } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -15,7 +16,7 @@ import { AuthService } from '../services/auth.service';
 export class MenuComponent implements OnInit {
   router = inject(Router)
   ngOnInit(): void {
-    this.auth.isLoggedIn().subscribe((user) => {
+    /*this.auth.isLoggedIn().subscribe((user) => {
       if (user) {
         //console.log('Felhasználó UID:', user.uid);
         //console.log('Felhasználó email:', user.email);
@@ -24,13 +25,15 @@ export class MenuComponent implements OnInit {
       } else {
         console.log('Nincs bejelentkezve.');
       }
-    });
+    });*/
   }
   auth = inject(AuthService);
 
-  logOut(){
+  async logOut(){
     console.log("Sikeres kijelenkezés");
-    this.auth.logout();
+    await firstValueFrom(
+      from(this.auth.logout())
+    )
     this.router.navigateByUrl('login');
   } 
 }

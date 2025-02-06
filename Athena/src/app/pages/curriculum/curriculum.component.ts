@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, computed, signal, ViewChildren, QueryList} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { CoursesService } from '../../services/courses.service';
+import { CoursesService } from '../../services/firebase/courses.service';
 import { Course } from '../../models/course';
 import { Task } from '../../models/tasks';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -14,7 +14,7 @@ import { Name } from '../../models/curriculumNames';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { Curriculum } from '../../models/curriculum';
-import { TantervService } from '../../services/tanterv.service';
+import { TantervService } from '../../services/firebase/tanterv.service';
 
 
 
