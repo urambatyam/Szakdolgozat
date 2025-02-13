@@ -15,6 +15,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 
 Route::apiResource('courses', CourseController::class)->middleware('auth:sanctum');
 Route::get('/courses/user/{user_code}', [CourseController::class, 'getAllCoursesOFUser'])->middleware('auth:sanctum');
+Route::get('/courses-names', [CourseController::class, 'getAllCoursesNames'])->middleware('auth:sanctum');
+
 
 
 Route::get('/course_forum/{course_id}', [CourseForumController::class, 'show'])->middleware('auth:sanctum');

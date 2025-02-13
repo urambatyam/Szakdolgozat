@@ -38,7 +38,7 @@ export class ForumComponent implements OnInit , OnDestroy{
   });
   messages: CourseForum[] = [];
   async ngOnInit(): Promise<void> {
-    if(this.course){
+    if(this.course && this.course.name){
       try {
         from(this.forumData.getAllCourseForumsInCourse(this.course.name)).pipe(
           takeUntil(this.getforum$),

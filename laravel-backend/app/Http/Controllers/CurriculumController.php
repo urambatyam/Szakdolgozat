@@ -18,12 +18,12 @@ class CurriculumController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string',
-            'specializations' => 'required|array',
-            'specializations.*.name' => 'required|string',
-            'specializations.*.categories' => 'required|array',
-            'specializations.*.categories.*.name' => 'required|string',
-            'specializations.*.categories.*.courses' => 'required|array',
-            'specializations.*.categories.*.courses.*' => 'required|exists:courses,name',
+            'specializations' => 'array',
+            'specializations.*.name' => 'string',
+            'specializations.*.categories' => 'array',
+            'specializations.*.categories.*.name' => 'string',
+            'specializations.*.categories.*.courses' => 'array',
+            'specializations.*.categories.*.courses.*.id' => 'exists:courses,id|integer',
         ]);
 
         $curriculum = Curriculum::create([
@@ -39,7 +39,9 @@ class CurriculumController extends Controller
                 $category = $specialization->categories()->create([
                     'name' => $catData['name']
                 ]);
-                $category->courses()->attach($catData['courses']);   
+                foreach($catData['courses'] as $cData){
+                    $category->courses()->attach($cData['id']);
+                }   
             }
         }
 
@@ -54,9 +56,9 @@ class CurriculumController extends Controller
      */
     public function show(Curriculum $curriculum)
     {
-        return response()->json([
-            'curriculum' => $curriculum->load('specializations.categories.courses')
-        ]);
+        return response()->json(
+            $curriculum->load('specializations.categories.courses')
+        );
     }
 
     /**
@@ -65,13 +67,16 @@ class CurriculumController extends Controller
     public function update(Request $request, Curriculum $curriculum)
     {
         $validated = $request->validate([
+            'id' => 'required|exists:curricula,id|integer',
             'name' => 'required|string',
-            'specializations' => 'required|array',
-            'specializations.*.name' => 'required|string',
-            'specializations.*.categories' => 'required|array',
-            'specializations.*.categories.*.name' => 'required|string',
-            'specializations.*.categories.*.courses' => 'required|array',
-            'specializations.*.categories.*.courses.*' => 'required|exists:courses,name',
+            'specializations' => 'array',
+            'specializations.*.id' => 'exists:specializations,id|integer',
+            'specializations.*.name' => 'string',
+            'specializations.*.categories' => 'array',
+            'specializations.*.categories.*.id' => 'exists:categories,id|integer',
+            'specializations.*.categories.*.name' => 'string',
+            'specializations.*.categories.*.courses' => 'array',
+            'specializations.*.categories.*.courses.*.id' => 'exists:courses,id|integer',
         ]);
 
         $curriculum->name = $validated['name'];
@@ -88,9 +93,9 @@ class CurriculumController extends Controller
                 $category = $specialization->categories()->create([
                     'name' => $catData['name']
                 ]);
-
-                // Kurzusok hozzárendelése
-                $category->courses()->sync($catData['courses']);
+                foreach($catData['courses'] as $cData){
+                    $category->courses()->attach($cData['id']);
+                }                
             }
         }
 

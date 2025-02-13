@@ -119,7 +119,7 @@ export class TantervService {
     return collectionData(this.tantervCollection, { idField: 'id' }) as Observable<Curriculum[]>;
   }
 
-  getCurriculumByName(name: string): Observable<Curriculum | null> {
+  getCurriculumByName(name: string){/*
     const q = query(this.tantervCollection, where("name", "==", name));
 
     return from(getDocs(q)).pipe(
@@ -164,7 +164,7 @@ export class TantervService {
         return throwError(() => error);
       })
     );
-  }
+  */}
 
   async deleteCurriculum(name: string): Promise<void> {
     try {

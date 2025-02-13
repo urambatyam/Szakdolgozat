@@ -13,13 +13,13 @@
         
               <ng-container matColumnDef="update">
                   <th mat-header-cell *matHeaderCellDef > Módosítás </th>
-                  <td mat-cell *matCellDef="let element" > <button mat-fab (click)="toupdate(element.name)" ><mat-icon>update</mat-icon></button></td>
+                  <td mat-cell *matCellDef="let element" > <button mat-fab (click)="toupdate(element)" ><mat-icon>update</mat-icon></button></td>
                   <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
         
               <ng-container matColumnDef="delete">
                   <th mat-header-cell *matHeaderCellDef > Törlés </th>
-                  <td mat-cell *matCellDef="let element" > <button mat-fab (click)="todelete(element.name)" ><mat-icon>delete</mat-icon></button></td>
+                  <td mat-cell *matCellDef="let element" > <button mat-fab (click)="todelete(element)" ><mat-icon>delete</mat-icon></button></td>
                   <td mat-footer-cell *matFooterCellDef><button mat-fab (click)="create()" ><mat-icon>add</mat-icon></button></td>
               </ng-container>
         
@@ -32,7 +32,7 @@
           <form [formGroup]="tantervForm" (ngSubmit)="onSubmit()"  >
               <!-- tName a form root szintjén -->
               <div>
-                  <mat-label>Tanterv</mat-label><br>
+                  <mat-label>Tanterv neve</mat-label><br>
                   <input type="text" formControlName="tName">
               </div>
     
@@ -53,17 +53,21 @@
                                       
                                       <!-- courses formArrayName hozzáadása -->
                                       <div formArrayName="courses">
+                                        <mat-label>Kurzusok</mat-label><br>
                                           @for (course of category.controls.courses.controls; track cIndex; let cIndex = $index) {
-                                              <div class="form-courses" [formGroupName]="cIndex">
-                                                  <mat-label>Kurzus</mat-label><br>
-                                                  <input type="text" formControlName="name">
-                                                  <input type="number" formControlName="kredit">
-                                                  <input type="number" formControlName="recommendedSemester">
-                                                  <input type="text" formControlName="subjectResponsible">
-                                                  <mat-icon (click)="removeCourses(spIndex, ctIndex, cIndex)">remove</mat-icon>
-                                              </div>
+                                            <div class="form-courses" [formGroupName]="cIndex">
+                                                <input type="text" formControlName="name" [readonly]=true>
+                                                <mat-icon (click)="removeCourses(spIndex, ctIndex,cIndex)">remove</mat-icon><br>
+                                            </div>
                                           }
-                                          <mat-icon (click)="addCourses(spIndex, ctIndex)">add</mat-icon>
+                                          <select (change)="onCourseSelect($event, spIndex, ctIndex)">
+                                            <option value="">Válasz kurzust!</option>
+                                            @for(name of AllCourseNames; track name.id){
+                                                @if (name.id && !isCourseInCategory(spIndex, ctIndex, name.id)) {
+                                                    <option [value]="name.id">{{name.name}}</option>
+                                                }
+                                            }
+                                        </select>
                                       </div>
                                   </div>
                               }

@@ -27,6 +27,15 @@ export class CourseService {
         );
       }
 
+      getAllCoursesNames(): Observable<Course[]>{
+        return this.http.get<Course[]>(
+          `${environment.baseUrl}/courses-names`,
+          {
+            headers: this.auth.getHeaders(),
+          }
+        );
+      }
+
       getAllCoursesOFUser(
         userCode: string,
         page: number = 1,

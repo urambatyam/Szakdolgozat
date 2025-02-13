@@ -27,19 +27,11 @@ class Course extends Model
         return $this->belongsTo(User::class, 'user_code', 'code');
     }
     
-    /*public function forums()
-    {
-        return $this->hasMany(CourseForum::class, 'course_name', 'name');
-    }*/
     public function forums()
     {
         return $this->hasMany(CourseForum::class, 'course_id', 'id');
     }
 
-    /*public function grades()
-    {
-        return $this->hasMany(Grade::class, 'course_name', 'name');
-    }*/
     public function grades()
     {
         return $this->hasMany(Grade::class, 'course_id', 'id');

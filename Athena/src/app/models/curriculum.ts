@@ -9,7 +9,7 @@
 import { Specialization } from "./special";
 
 export interface Curriculum {
-    id?:number,
+    id:number|null,
     name:string,
     specializations: Specialization[]
 }

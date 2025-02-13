@@ -110,7 +110,7 @@ applyFilter(event: Event, s:string, k:string) {
     this.specialsVis= new Map<string,boolean>([['összes', true]]);
     this.katsVis = new Map<string,boolean>([['összes', true]]);
 
-    this.curriculumData.getCurriculumByName(name).subscribe({
+    /*this.curriculumData.getCurriculumByName(name).subscribe({
       next: async (curriculum) => {  
         if (curriculum) {
           this.tanterv = {
@@ -128,7 +128,7 @@ applyFilter(event: Event, s:string, k:string) {
             sp.categories.forEach(cat => {
               this.katsVis.set(cat.name,true);
               cat.courses.forEach(c => {
-                this.courseData.getById(c).subscribe({
+                /*this.courseData.getById(c).subscribe({
                   next: (course) => {
                     if (course) {
                       const special = this.tanterv?.specializations.find(s => s.name === sp.name);
@@ -160,7 +160,7 @@ applyFilter(event: Event, s:string, k:string) {
         this.katsVisalfa = this.katsVis;          
         console.log("ALL: ", this.tanterv);
       }
-    });
+    });*/
   }
   
     ngOnInit(): void {

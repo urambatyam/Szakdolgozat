@@ -52,11 +52,11 @@ export class CourseForumComponent implements OnInit, OnDestroy{
   update:boolean = false;
   private fb = inject(NonNullableFormBuilder);
   CourseForm = this.fb.group({
-    id: -1,
-    recommendedSemester: 0,
-    user_code: '',
-    name: '',
-    kredit: 0,
+    id: this.fb.control<number | null>(null),
+    recommendedSemester: this.fb.control<number | null>(null),
+    user_code: this.fb.control<string | null>(null),
+    name: this.fb.control<string | null>(null),
+    kredit: this.fb.control<number | null>(null),
   });
   courseNames: Course[] = [];
   title: any;
@@ -125,8 +125,6 @@ export class CourseForumComponent implements OnInit, OnDestroy{
 
   async toupdate(course: Course) {
     this.update = true;
-
-
     if (course) {
       if(course.id != undefined && typeof(course.id) == 'number' ){
         this.CourseForm.patchValue({
@@ -168,28 +166,32 @@ export class CourseForumComponent implements OnInit, OnDestroy{
   async onSubmit() {
     const formValues = this.CourseForm.getRawValue();
     
-    const newCourse = {
+    const newCourse:Course = {
       id: formValues.id==-1 ? null:formValues.id,
       recommendedSemester: formValues.recommendedSemester,
       user_code: formValues.user_code,
       name: formValues.name,
       kredit: formValues.kredit,
-      subjectMatter: '',
+      subjectMatter: null,
+      subjectResponsible: null,
     };
     console.log(newCourse);
 
     try {
-      if (this.update) {
-        await firstValueFrom(
-          from(this.courseData.updateCourse(newCourse))
-        );
-        console.log('Sikeresen frissítettem a kurzus adatait.');
-      } else {
-        await firstValueFrom(
-          from(this.courseData.createCourse(newCourse))
-        );
-        console.log('Sikeresen létrehoztam az új kurzust.');
+      if(newCourse.id != null){
+        if (this.update) {
+          await firstValueFrom(
+            from(this.courseData.updateCourse(newCourse))
+          );
+          console.log('Sikeresen frissítettem a kurzus adatait.');
+        } else {
+          await firstValueFrom(
+            from(this.courseData.createCourse(newCourse))
+          );
+          console.log('Sikeresen létrehoztam az új kurzust.');
+        }
       }
+
       this.VisForm = false;
       this.update = false;
     } catch (error) {

@@ -1,12 +1,11 @@
 export interface Course {
-    id?:string|number|null,
-    recommendedSemester:number,
-    subjectResponsible?: string,
-    user_code?: string | null,
-    name:string,
-    kredit:number,
-    subjectMatter:string,
-    //requirementsId:string
+    id:number|null,
+    recommendedSemester:number|null,
+    subjectResponsible: string|null,
+    user_code: string | null,
+    name:string|null,
+    kredit:number|null,
+    subjectMatter:string|null,
 }
 
 

@@ -20,6 +20,14 @@ class CourseController extends Controller
         return Course::all();
     }
 
+        /**
+     * Display a listing of the resource.
+     */
+    public function getAllCoursesNames()
+    {
+        return Course::select('id','name')->get();
+    }
+
     /**
      * Store a newly created resource in storage.
      */

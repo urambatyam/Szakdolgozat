@@ -11,8 +11,8 @@ export class CoursesService {
     firestore = inject(Firestore);
     CoursesCollection = collection(this.firestore, 'course');
 
-      add(Courses: Course): Observable<string>{
-        const CoursesDocRef = doc(this.CoursesCollection, Courses.name);
+      add(Courses: Course){
+        /*const CoursesDocRef = doc(this.CoursesCollection, Courses.name);
     
         return from(setDoc(CoursesDocRef, Courses)).pipe(
           map(() => Courses.name),
@@ -20,7 +20,7 @@ export class CoursesService {
             console.error('Error adding Courses:', error);
             throw error;
           })
-        );
+        );*/
       }
     
       getAll(): Observable<Course[]>{

@@ -20,7 +20,7 @@ class CourseFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->sentence(2), 
+            'name' => fake()->unique()->sentence(2), 
             'kredit'=> fake()->numberBetween(0,5), 
             'recommendedSemester'=> fake()->numberBetween(0,6), 
             'subjectMatter'=> fake()->paragraph()
