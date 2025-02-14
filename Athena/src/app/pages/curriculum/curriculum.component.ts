@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, computed, signal, ViewChildren, QueryList} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { CoursesService } from '../../services/firebase/courses.service';
+import { CourseService } from '../../services/mysql/course.service';
 import { Course } from '../../models/course';
 import { Task } from '../../models/tasks';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -14,7 +14,8 @@ import { Name } from '../../models/curriculumNames';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { Curriculum } from '../../models/curriculum';
-import { TantervService } from '../../services/firebase/tanterv.service';
+import { CurriculumService } from '../../services/mysql/curriculum.service';
+import { firstValueFrom, from, map } from 'rxjs';
 
 
 
@@ -39,15 +40,15 @@ import { TantervService } from '../../services/firebase/tanterv.service';
   styleUrl: './curriculum.component.scss'
 })
 export class CurriculumComponent implements OnInit {
-visKat: boolean = true;
-toCourseForm(courseId: string) {
+protected visKat: boolean = true;
+protected toCourseForm(courseId: number) {
     console.log("Irány a ", courseId, " kurzus forumra!")
 }
-apply(courseId: string) {
+protected apply(courseId: number) {
   console.log("Felveszem a ", courseId, " kurzust")
 }
 
-applyFilter(event: Event, s:string, k:string) {
+/*applyFilter(event: Event, s:string, k:string) {
   console.log("event", event, " v ",);
   const filterValue = (event.target as HTMLInputElement).value;
   const data = this.tanterv?.specializations.find(sp => sp.name === s)?.categories.find(kt => kt.name === k)?.courseMatdata;
@@ -85,7 +86,7 @@ applyFilter(event: Event, s:string, k:string) {
       index += this.tanterv?.specializations[i]?.categories?.length ?? 0;
     }
     return index + katIndex;
-  }
+  }*/
  
 
   tanterv:Curriculum|null = null;
@@ -95,92 +96,51 @@ applyFilter(event: Event, s:string, k:string) {
   katsVisalfa = new Map<string,boolean>([['összes', true]]);
   curs: Name[] = [];
   
-  curriculumData = inject(TantervService);
-  courseData = inject(CoursesService);
+  curriculumData = inject(CurriculumService);
+  courseData = inject(CourseService);
   
   curriculumName: string = "";
   displayedColumns: string[] = [];
  
 
 
-  LoadCurriculum(name:string):void{
+  async LoadCurriculum(id:number){
     this.visKat = false;
     this.tanterv = null
-    this.curriculumName = name;
     this.specialsVis= new Map<string,boolean>([['összes', true]]);
     this.katsVis = new Map<string,boolean>([['összes', true]]);
-
-    /*this.curriculumData.getCurriculumByName(name).subscribe({
-      next: async (curriculum) => {  
-        if (curriculum) {
-          this.tanterv = {
-            ...curriculum,
-            specializations: curriculum.specializations.map(sp => ({
-              ...sp,
-              categories: sp.categories.map(cat => ({
-                ...cat,
-                courseMatdata: new MatTableDataSource<Course>([]) // Itt inicializáljuk
-              }))
-            }))
-          };
-          this.tanterv.specializations.forEach(sp => {
-            this.specialsVis.set(sp.name,true)
-            sp.categories.forEach(cat => {
-              this.katsVis.set(cat.name,true);
-              cat.courses.forEach(c => {
-                /*this.courseData.getById(c).subscribe({
-                  next: (course) => {
-                    if (course) {
-                      const special = this.tanterv?.specializations.find(s => s.name === sp.name);
-                      if (special) {
-                        const category = special.categories.find(k => k.name === cat.name);
-                        if (category) {
-                          
-                          
-                          if(category.courseMatdata){
-                            const currentCourses = category.courseMatdata.data || [];
-                            category.courseMatdata.data = [...currentCourses, course];
-                            console.log('cur ', category.courseMatdata.data)
-                          }
-                        
-                        }
-                      }
-                    }
-                  }
-                });
-
-              })
-            })
-          })
-          setTimeout(() => {
-            this.updateSorting();
-          });
-
-        } 
-        this.katsVisalfa = this.katsVis;          
-        console.log("ALL: ", this.tanterv);
-      }
-    });*/
+    await firstValueFrom(
+      from(this.curriculumData.getCurriculum(id)).pipe(
+        map(
+          curriculum => {
+            this.curriculumName = curriculum.name
+            this.tanterv = curriculum
+            this.tanterv.specializations.forEach(sp => {
+              this.specialsVis.set(sp.name,true)
+              sp.categories.forEach(cat => {
+                this.katsVis.set(cat.name,true);})})
+          }
+        )
+      )
+    )
+    this.katsVisalfa = this.katsVis;  
+    console.log(this.tanterv);
   }
   
-    ngOnInit(): void {
-      
-      
+    async ngOnInit() {
       this.updateDisplayedColums();
-      this.curriculumData.getAllNames().subscribe({
-        next: (names) => {
-          if(names){
-
-            this.curs = names;
-            console.log("names", names)
-            this.LoadCurriculum(names[0].name);
-
-          }
-        },
-        error: (e) => {
-          alert("Nem sikerült a tantervek neveit beolvasni! "+ e)
-        }
-      });
+      await firstValueFrom(
+        from(this.curriculumData.getAllCurriculumNames()).pipe(
+          map(
+            names => {
+              this.curs = names
+              if(names[0].id){
+                this.LoadCurriculum(names[0].id);
+              }
+            }
+          )
+        )
+      )
     }
   
 
@@ -261,8 +221,9 @@ applyFilter(event: Event, s:string, k:string) {
       }
 
      
-      this.katsVis= new Map<string,boolean>([['összes', true]]);;
-      //this.tanterv.find(s => s.name === event.value)?.kats.map(k => {this.katsVis.set(k.name,true)}) 
+      this.katsVis= new Map<string,boolean>([['összes', true]]);
+
+      this.tanterv?.specializations.find(s => s.name === event.value)?.categories.map(k => {this.katsVis.set(k.name,true)}) 
       this.visKat=true;
       console.log('visKat:', this.visKat);
       console.log('kats:', this.katsVis);

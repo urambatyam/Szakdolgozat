@@ -16,6 +16,7 @@ import { catchError, EMPTY, firstValueFrom, from, map, Subject, takeUntil } from
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Course } from '../../models/course';
 import { CourseService } from '../../services/mysql/course.service';
+import { Name } from '../../models/curriculumNames';
 
 type FormCourse = FormGroup<{
   id:FormControl<number | null>
@@ -63,7 +64,7 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
   private courseNames$ = new Subject<void>();
   private update:boolean = false;
   protected displayedColumns: string[] = ['name', 'update', 'delete'];
-  protected tantervNevek = new MatTableDataSource<Curriculum>();
+  protected tantervNevek = new MatTableDataSource<Name>();
   protected title = "Tantervek";
   protected formVs = false;
   protected tantervForm:Form = this.fb.group({

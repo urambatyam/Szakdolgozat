@@ -92,24 +92,25 @@ export class CourseForumComponent implements OnInit, OnDestroy{
 
   async getAllCourses(){
     const user_code = await firstValueFrom(from(this.auth.user$).pipe(map(user=>{return user?.code ?? ''})))
-    from(this.courseData.getAllCoursesOFUser(
-      user_code,
-      this.currentPage + 1,
-      this.pageSize,
-      this.sortField,
-      this.sortDirection,
-      this.filterValue
-    )).pipe(
-      takeUntil(this.getAllCourses$),
-      map(response => {
-        this.courseNames = response.data;
-        this.totalItems = response.total;
-      }),
-      catchError(error => {
-        console.error('Hiba: ', error);
-        return EMPTY;
-      })
-    ).subscribe();
+    await firstValueFrom(
+      from(this.courseData.getAllCoursesOFUser(
+        user_code,
+        this.currentPage + 1,
+        this.pageSize,
+        this.sortField,
+        this.sortDirection,
+        this.filterValue
+      )).pipe(
+        map(response => {
+          this.courseNames = response.data;
+          this.totalItems = response.total;
+        }),
+        catchError(error => {
+          console.error('Hiba: ', error);
+          return EMPTY;
+        })
+      )
+    );
   }
   ngOnInit(): void {
     this.getAllCourses();
@@ -151,6 +152,7 @@ export class CourseForumComponent implements OnInit, OnDestroy{
           })
         )
       );
+      this.getAllCourses();
       console.log('Sikeresen töröltem '+course_id+' egy kurzust.');
     } catch (error) {
       console.error('Hiba:', error);
@@ -178,20 +180,23 @@ export class CourseForumComponent implements OnInit, OnDestroy{
     console.log(newCourse);
 
     try {
-      if(newCourse.id != null){
+      
         if (this.update) {
-          await firstValueFrom(
-            from(this.courseData.updateCourse(newCourse))
-          );
-          console.log('Sikeresen frissítettem a kurzus adatait.');
+          if(newCourse.id != null){
+            await firstValueFrom(
+              from(this.courseData.updateCourse(newCourse))
+            );
+            this.getAllCourses()
+            console.log('Sikeresen frissítettem a kurzus adatait.');
+          }
         } else {
           await firstValueFrom(
             from(this.courseData.createCourse(newCourse))
           );
+          this.getAllCourses()
           console.log('Sikeresen létrehoztam az új kurzust.');
         }
-      }
-
+      
       this.VisForm = false;
       this.update = false;
     } catch (error) {

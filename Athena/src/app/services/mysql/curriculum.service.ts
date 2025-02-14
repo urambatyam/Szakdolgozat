@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { environment } from '../../../environments/environment';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Curriculum } from '../../models/curriculum';
+import { Name } from '../../models/curriculumNames';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,8 @@ export class CurriculumService {
           );
         }
 
-        getAllCurriculumNames(): Observable<Curriculum[]>{
-          return this.http.get<Curriculum[]>(
+        getAllCurriculumNames(): Observable<Name[]>{
+          return this.http.get<Name[]>(
             '/api/curricula',
             {headers: this.auth.getHeaders()}
           );
