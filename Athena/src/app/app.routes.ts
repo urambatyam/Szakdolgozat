@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { roleGuard } from './guards/role.guard';
+import { Course } from './models/course';
 
 export const routes: Routes = [
     {
@@ -27,7 +28,7 @@ export const routes: Routes = [
               (c) => c.ElectronicControllerComponent
             ),
         canActivate: [roleGuard],
-        data: { roles: ['student'] }
+        data: { roles: ['admin','student','teacher'] }
     },
     {
         path: 'curriculum',
@@ -56,6 +57,15 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['admin','student','teacher'] }
     },
+    {
+      path: 'forum',
+      loadComponent: () =>
+          import('./pages/course-forum/forum/forum.component').then(
+            (c) => c.ForumComponent
+          ),
+      canActivate: [roleGuard],
+      data: { roles: ['admin','student','teacher'] }
+  },
     {
         path: 'login',
         loadComponent: () =>

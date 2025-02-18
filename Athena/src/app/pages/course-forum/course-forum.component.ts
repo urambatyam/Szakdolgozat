@@ -8,11 +8,12 @@ import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angul
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {  MatButtonModule } from '@angular/material/button';
-import { catchError, EMPTY, firstValueFrom, from, map, Subject, takeUntil, tap } from 'rxjs';
+import { catchError, EMPTY, firstValueFrom, from, map, Subject } from 'rxjs';
 import { ForumComponent } from "./forum/forum.component";
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { AuthService } from '../../services/mysql/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-forum',
@@ -27,7 +28,6 @@ import { AuthService } from '../../services/mysql/auth.service';
     MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,
-    ForumComponent,
     MatPaginatorModule,
     MatSortModule
 ],
@@ -38,36 +38,32 @@ export class CourseForumComponent implements OnInit, OnDestroy{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  totalItems = 0;
-  pageSize = 10;
-  currentPage = 0;
-  sortDirection: 'asc' | 'desc' = 'asc';
-  sortField = 'name';
-  filterValue = '';
-
+  protected totalItems = 0;
+  protected pageSize = 10;
+  protected currentPage = 0;
+  protected sortDirection: 'asc' | 'desc' = 'asc';
+  protected sortField = 'name';
+  protected filterValue = '';
+  private router = inject(Router)
   private getAllCourses$ = new Subject<void>();
-  courseData = inject(CourseService)
-  auth = inject(AuthService)
-  VisForm: boolean = false;
-  update:boolean = false;
+  private courseData = inject(CourseService)
+  private auth = inject(AuthService)
+  protected VisForm: boolean = false;
+  private update:boolean = false;
   private fb = inject(NonNullableFormBuilder);
-  CourseForm = this.fb.group({
+  protected CourseForm = this.fb.group({
     id: this.fb.control<number | null>(null),
     recommendedSemester: this.fb.control<number | null>(null),
     user_code: this.fb.control<string | null>(null),
     name: this.fb.control<string | null>(null),
     kredit: this.fb.control<number | null>(null),
   });
-  courseNames: Course[] = [];
-  title: any;
-  displayedColumns: string[] = ['name', 'update', 'delete', 'view'];
-  forum: boolean = false;
+  protected courseNames: Course[] = [];
+  protected title: any;
+  protected displayedColumns: string[] = ['name', 'update', 'delete', 'controller', 'view'];
   selectedCourse: Course|null = null;
 
-  backFromForum() {
-    this.forum = false;
-    this.selectedCourse = null;
-  }
+
 
   handlePageEvent(e: PageEvent) {
     this.currentPage = e.pageIndex;
@@ -118,10 +114,21 @@ export class CourseForumComponent implements OnInit, OnDestroy{
 
 
   
-  toview(course: Course) {
-    console.log(course.name);
-    this.selectedCourse = course;
-    this.forum = true;
+
+  protected toCourseForm(course: Course) {
+    this.router.navigate(
+      ['/forum'],
+      {state: {course: course}}
+    )
+    console.log("Irány a ", course, " kurzus forumra!")
+  }
+
+  protected toElectronicController(courseId:number, courseName:string){
+    this.router.navigate(
+      ['/electronic-controller'],
+      {state: {courseId: courseId, courseName: courseName}}
+    )
+    console.log("Irány a ", courseId, " ",courseName," elenörző!")
   }
 
   async toupdate(course: Course) {

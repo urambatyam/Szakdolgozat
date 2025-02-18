@@ -15,7 +15,7 @@ class CourseForumController extends Controller
     public function store(Request $request)
     {
         $values = $request->validate([
-            'course_id' => 'required|max:25|exists:courses,id|string',
+            'course_id' => 'required|max:25|exists:courses,id|integer',
             'message' => 'required|max:255'
         ]);
 

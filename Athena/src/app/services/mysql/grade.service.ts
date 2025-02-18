@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Grade } from '../../models/grade';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { PaginatedResponse } from '../../models/paginationResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,28 @@ export class GradeService {
         {headers: this.auth.getHeaders()}
       );
     }
-    getAllGradesInCourse(courseName:string): Observable<Grade[]>{
-      return this.http.get<Grade[]>(
-        environment.baseUrl+'/grade/course'+courseName,
-        {headers: this.auth.getHeaders()}
-      );
+    getAllGradesInCourse(
+      courseId: number,
+      page: number = 1,
+      perPage: number = 10,
+      sortField: string = 'user_code',
+      sortDirection: 'asc' | 'desc' = 'asc',
+      filter?: string
+    ): Observable<PaginatedResponse<Grade>>{
+      const params = new HttpParams()
+      .set('page', page.toString())
+      .set('per_page', perPage.toString())
+      .set('sort_field', sortField)
+      .set('sort_direction', sortDirection)
+      .set('filter', filter || '');
+
+    return this.http.get<PaginatedResponse<Grade>>(
+      `${environment.baseUrl}/grade/course/${courseId}`,
+      {
+        headers: this.auth.getHeaders(),
+        params
+      }
+    );
     }
     getAllGradesOFStudent(studentCode:string): Observable<Grade[]>{
       return this.http.get<Grade[]>(

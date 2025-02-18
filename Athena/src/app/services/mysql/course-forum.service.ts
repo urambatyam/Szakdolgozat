@@ -22,19 +22,13 @@ export class CourseForumService {
         }
 
   
-        getAllCourseForumsInCourse(courseName:string): Observable<CourseForum[]>{
+        getAllCourseForumsInCourse(courseId:number): Observable<CourseForum[]>{
           return this.http.get<CourseForum[]>(
-            environment.baseUrl+'/course_forum/'+courseName,
+            environment.baseUrl+'/course_forum/'+courseId,
             {headers: this.auth.getHeaders()}
           );
         }
-        /*updateCourseForum(courseForum: CourseForum): Observable<CourseForum>{
-          return this.http.put<CourseForum>(
-            environment.baseUrl+'/course_forum',
-            courseForum,
-            {headers: this.auth.getHeaders()}
-          );
-        }*/
+
         deleteCourseForum(courseForumId:number): Observable<CourseForum>{
           return this.http.delete<any>(
             environment.baseUrl+'/course_forum/'+courseForumId,

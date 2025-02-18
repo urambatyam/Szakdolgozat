@@ -11,7 +11,7 @@
           <p><strong>Név:</strong> {{course?.name}}</p>
           <p><strong>Kredit:</strong> {{course?.kredit}}</p>
           <p><strong>Ajánlott félév:</strong> {{course?.recommendedSemester}}</p>
-          <p><strong>Tárgyfelelős:</strong> {{course?.subjectResponsible}}</p>
+          <p><strong>Tárgyfelelős:</strong> {{course?.user_code}}</p>
         </div>
         
         <div class="messages-container">
@@ -34,7 +34,7 @@
       </div>
       
       <button mat-raised-button (click)="back()" class="back-button">
-        Vissza a kurzuslistához
+        Vissza
       </button>
     </mat-card-content>
   </mat-card>

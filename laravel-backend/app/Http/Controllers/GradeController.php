@@ -38,12 +38,26 @@ class GradeController extends Controller
         return $garde;
     }
 
-    public function getAllGradesInCourse(int $course_id)
+    public function getAllGradesInCourse(Request $request, int $course_id)
     {
+        $query = Grade::query();
+        // Sorting
+        $sortField = $request->input('sort_field', 'user_code');
+        $sortDirection = $request->input('sort_direction', 'asc');
+        $query->orderBy($sortField, $sortDirection);
+                
+        $perPage = $request->input('per_page', 10);
+
         return Grade::whereHas('course', function ($query) use ($course_id) {
             $query->where('id', $course_id);
-        })->get();
+        })
+        ->when($request->has('filter'), function($q) use ($request) {
+            return $q->where('user_code', 'like', '%' . $request->filter . '%');
+        })
+        ->orderBy($sortField, $sortDirection)
+        ->paginate($perPage);
     }
+    
     public function getAllGradesOFStudent(String $studentCode)
     {
         return Grade::whereHas('user', function ($query) use ($studentCode) {

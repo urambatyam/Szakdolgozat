@@ -16,6 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { Curriculum } from '../../models/curriculum';
 import { CurriculumService } from '../../services/mysql/curriculum.service';
 import { firstValueFrom, from, map } from 'rxjs';
+import { Router } from '@angular/router';
+import { state } from '@angular/animations';
 
 
 
@@ -41,53 +43,18 @@ import { firstValueFrom, from, map } from 'rxjs';
 })
 export class CurriculumComponent implements OnInit {
 protected visKat: boolean = true;
-protected toCourseForm(courseId: number) {
-    console.log("Irány a ", courseId, " kurzus forumra!")
+private router = inject(Router)
+protected toCourseForm(course: Course) {
+  this.router.navigate(
+    ['/forum'],
+    {state: {course: course}}
+  )
+  console.log("Irány a ", course, " kurzus forumra!")
 }
-protected apply(courseId: number) {
-  console.log("Felveszem a ", courseId, " kurzust")
+protected apply(course: Course) {
+  console.log("Felveszem a ", course, " kurzust")
 }
 
-/*applyFilter(event: Event, s:string, k:string) {
-  console.log("event", event, " v ",);
-  const filterValue = (event.target as HTMLInputElement).value;
-  const data = this.tanterv?.specializations.find(sp => sp.name === s)?.categories.find(kt => kt.name === k)?.courseMatdata;
-  if(data){
-    data.filter = filterValue.trim().toLowerCase();
-  }
-  
-}
-  @ViewChildren(MatSort) sortList!: QueryList<MatSort>;
-  
-  ngAfterViewInit() {
-    this.sortList.changes.subscribe(() => {
-      this.updateSorting();
-    });
-    
-    this.updateSorting();
-  }
-
-  private updateSorting() {
-    this.tanterv?.specializations.forEach((special, specialIndex) => {
-      special.categories.forEach((kat, katIndex) => {
-        const sortIndex = this.getSortIndex(specialIndex, katIndex);
-        const sort = this.sortList.toArray()[sortIndex];
-        if (sort) {
-          if(kat.courseMatdata)
-            kat.courseMatdata.sort = sort;
-        }
-      });
-    });
-  }
-
-  private getSortIndex(specialIndex: number, katIndex: number): number {
-    let index = 0;
-    for (let i = 0; i < specialIndex; i++) {
-      index += this.tanterv?.specializations[i]?.categories?.length ?? 0;
-    }
-    return index + katIndex;
-  }*/
- 
 
   tanterv:Curriculum|null = null;
 

@@ -3,9 +3,7 @@
         <mat-card-title>{{title}} Kurzus Forum</mat-card-title>
     </mat-card-header>
     <mat-card-content  >
-        @if(forum){
-            <app-forum [course]="selectedCourse" (backEvent)="backFromForum()" ></app-forum>
-        }@else if(!VisForm){
+       @if(!VisForm){
             <mat-form-field>
                 <mat-label>Keresés</mat-label>
                 <input matInput (keyup)="applyFilter($event)" placeholder="Kurzus neve...">
@@ -28,12 +26,19 @@
                     <td mat-cell *matCellDef="let element" > <button mat-fab (click)="todelete(element.id)" ><mat-icon>delete</mat-icon></button></td>
                     <td mat-footer-cell *matFooterCellDef></td>
                 </ng-container>
+
+                <ng-container matColumnDef="controller">
+                    <th mat-header-cell *matHeaderCellDef > Elenőrző </th>
+                    <td mat-cell *matCellDef="let element" > <button mat-fab (click)="toElectronicController(element.id,element.name)" ><mat-icon>edit</mat-icon></button></td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
   
                 <ng-container matColumnDef="view">
-                  <th mat-header-cell *matHeaderCellDef > Megnézés </th>
-                  <td mat-cell *matCellDef="let element" > <button mat-fab (click)="toview(element)" ><mat-icon>reorder</mat-icon></button></td>
+                  <th mat-header-cell *matHeaderCellDef > Forum </th>
+                  <td mat-cell *matCellDef="let element" > <button mat-fab (click)="toCourseForm(element)" ><mat-icon>reorder</mat-icon></button></td>
                   <td mat-footer-cell *matFooterCellDef><button mat-fab (click)="create()" ><mat-icon>add</mat-icon></button></td>
               </ng-container>
+      
           
                 <tr mat-header-row *matHeaderRowDef="displayedColumns "></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns ;"></tr>

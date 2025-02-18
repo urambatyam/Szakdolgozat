@@ -4,12 +4,7 @@ import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { Course } from '../../models/course';
 import { environment } from '../../../environments/environment';
-export interface PaginatedResponse<T> {
-  data: T[];
-  total: number;
-  current_page: number;
-  per_page: number;
-}
+import { PaginatedResponse } from '../../models/paginationResponse';
 @Injectable({
   providedIn: 'root'
 })
