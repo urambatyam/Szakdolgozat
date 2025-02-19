@@ -1,0 +1,111 @@
+/* Konténer a táblázatnak és a paginatornak */
+.table-container {
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  table {
+    width: 100%;
+    /* A táblázatnak ne legyen saját árnyéka */
+    box-shadow: none !important;
+  }
+  
+  /* Eltávolítjuk a paginator felső határát, hogy folytonosnak tűnjön a táblázattal */
+  .mat-mdc-paginator {
+    border-top: none;
+    background-color: white;
+  }
+  
+  /* Fő sor stílusai */
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  /* Kibontható részlet stílusai */
+  .example-element-detail {
+    overflow: hidden;
+    padding: 16px;
+  }
+  
+  /* A detail row teljes elrejtéséhez */
+  .example-detail-row {
+    height: 0;
+    overflow: hidden;
+    
+    /* Teljesen elrejti a tartalmat zárt állapotban */
+    &:not(.example-expanded-row) {
+      visibility: hidden;
+      display: none;
+    }
+  }
+  
+  /* Animációhoz szükséges */
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  /* Hover hatás a sorokra */
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+    cursor: pointer;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  /* Jegy szerkesztő stílusok */
+  .grade-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    margin: 8px 0;
+  }
+  
+  .student-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  /* Javított függőleges igazítás */
+  .grade-form {
+    display: flex;
+    align-items: center; /* Függőleges középre igazítás */
+    gap: 16px;
+  }
+  
+  /* Form mező javítások */
+  .grade-form mat-form-field {
+    margin-bottom: 0; /* Eltávolítjuk az alapértelmezett margót */
+  }
+  
+  /* Javítás a gomb és input függőleges igazításához */
+  .grade-form button {
+    margin-top: 0; /* Biztosítjuk, hogy a gombnak nincs extra margója */
+    height: 36px; /* Rögzített magasság a gombnak */
+  }
+  
+  /* Alapértelmezett Material design input magasság korrekciója */
+  ::ng-deep .grade-form .mat-mdc-form-field-flex {
+    align-items: center;
+  }
+  
+  /* Biztosítsuk hogy a form mezőnek nincs extra padding ami eltolná */
+  ::ng-deep .grade-form .mat-mdc-form-field-infix {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  
+  .back-button {
+    margin-top: 16px;
+  }
+  
+  mat-form-field {
+    margin-right: 16px;
+    margin-bottom: 16px;
+  }

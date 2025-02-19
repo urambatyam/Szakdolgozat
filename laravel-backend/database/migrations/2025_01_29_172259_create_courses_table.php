@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('user_code', 5)->nullable();
             $table->foreign('user_code')->references('code')->on('users')->nullOnDelete();
             $table->text('subjectMatter')->nullable();
+            $table->boolean('sezon');
             $table->timestamps();
         });
     }

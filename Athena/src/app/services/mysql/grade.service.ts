@@ -58,7 +58,7 @@ export class GradeService {
     }
     updateGrade(grade: Grade): Observable<Grade>{
       return this.http.put<Grade>(
-        environment.baseUrl+'/grade',
+        environment.baseUrl+'/grade/'+grade.id,
         grade,
         {headers: this.auth.getHeaders()}
       );
