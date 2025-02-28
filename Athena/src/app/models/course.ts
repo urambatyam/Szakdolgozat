@@ -6,6 +6,7 @@ export interface Course {
     name:string|null,
     kredit:number|null,
     subjectMatter:string|null,
+    sezon:boolean|null,
 }
 
 

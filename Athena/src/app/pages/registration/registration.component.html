@@ -81,6 +81,15 @@
        <mat-error>Add meg a felhasználó rangját!</mat-error>
      }
         </mat-form-field><br>
+
+        <mat-form-field>
+          <mat-label>tanterv</mat-label>
+          <mat-select formControlName="curriculum_id">
+            @for(curriculum of curriculums; track curriculum.id ){
+              <mat-option [value]="curriculum.id" >{{curriculum.name}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field><br>
   
         <button 
           mat-raised-button 

@@ -4,7 +4,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from '../services/mysql/auth.service';
-import { firstValueFrom, from } from 'rxjs';
+import { firstValueFrom, from, map} from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -14,20 +14,22 @@ import { firstValueFrom, from } from 'rxjs';
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent implements OnInit {
-  router = inject(Router)
-  ngOnInit(): void {
-    /*this.auth.isLoggedIn().subscribe((user) => {
-      if (user) {
-        //console.log('Felhasználó UID:', user.uid);
-        //console.log('Felhasználó email:', user.email);
-        //console.log('Profilkép URL:', user.photoURL);
-        //console.log('Email ellenőrizve:', user.emailVerified);
-      } else {
-        console.log('Nincs bejelentkezve.');
-      }
-    });*/
+  private router = inject(Router)
+  private auth = inject(AuthService);
+  protected role: 'student'|'teacher'|'admin'|null = null; 
+  async ngOnInit() {
+    await firstValueFrom(
+      from(this.auth.user$)
+        .pipe(
+          map(
+            user => {
+              this.role = user?.role ?? null;
+            }
+          )
+        )
+      );
   }
-  auth = inject(AuthService);
+  
 
   async logOut(){
     console.log("Sikeres kijelenkezés");
@@ -37,3 +39,7 @@ export class MenuComponent implements OnInit {
     this.router.navigateByUrl('login');
   } 
 }
+function form(user$: unknown) {
+  throw new Error('Function not implemented.');
+}
+

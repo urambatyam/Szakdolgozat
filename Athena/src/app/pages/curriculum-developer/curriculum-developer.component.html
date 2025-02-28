@@ -30,12 +30,11 @@
           </table>
       }@else {
           <form [formGroup]="tantervForm" (ngSubmit)="onSubmit()"  >
-              <!-- tName a form root szintjén -->
               <div>
                   <mat-label>Tanterv neve</mat-label><br>
                   <input type="text" formControlName="tName">
               </div>
-    
+                <!-- Specializációk -->
               <div  formArrayName="specializations">
                   @for (specialization of tantervForm.controls.specializations.controls; track spIndex; let spIndex = $index) {
                       <div  class="form-specialization" [formGroupName]="spIndex">
@@ -43,15 +42,17 @@
                           <input type="text" formControlName="spName">
                           <mat-icon (click)="removeSpecialization(spIndex)">remove</mat-icon>
                           
-                          <!-- categories formArrayName hozzáadása -->
+                          <!-- Kategoriák -->
                           <div formArrayName="categories">
                               @for (category of specialization.controls.categories.controls; track ctIndex; let ctIndex = $index) {
                                   <div class="form-category" [formGroupName]="ctIndex">
                                       <mat-label>Kategória</mat-label><br>
                                       <input type="text" formControlName="catName">
+                                      <mat-label>Minimum kredit</mat-label>
+                                      <input type="number" formControlName="min">
                                       <mat-icon (click)="removeCategory(spIndex, ctIndex)">remove</mat-icon>
                                       
-                                      <!-- courses formArrayName hozzáadása -->
+                                      <!-- Kurzusok -->
                                       <div formArrayName="courses">
                                         <mat-label>Kurzusok</mat-label><br>
                                           @for (course of category.controls.courses.controls; track cIndex; let cIndex = $index) {

@@ -17,4 +17,8 @@ class Curriculum extends Model
     {
         return $this->hasMany(Specialization::class);
     }
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'curriculum_id');
+    }
 }

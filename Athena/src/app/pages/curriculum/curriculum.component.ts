@@ -18,6 +18,8 @@ import { CurriculumService } from '../../services/mysql/curriculum.service';
 import { firstValueFrom, from, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { state } from '@angular/animations';
+import { GradeService } from '../../services/mysql/grade.service';
+import { AuthService } from '../../services/mysql/auth.service';
 
 
 
@@ -43,7 +45,9 @@ import { state } from '@angular/animations';
 })
 export class CurriculumComponent implements OnInit {
 protected visKat: boolean = true;
+protected viewMode: 'student' | 'other' = 'other';
 private router = inject(Router)
+private gradeData = inject(GradeService)
 protected toCourseForm(course: Course) {
   this.router.navigate(
     ['/forum'],
@@ -51,8 +55,21 @@ protected toCourseForm(course: Course) {
   )
   console.log("Irány a ", course, " kurzus forumra!")
 }
-protected apply(course: Course) {
-  console.log("Felveszem a ", course, " kurzust")
+protected async apply(course: Course) {
+  if(course.id){
+    console.log("felvesz: ",course.id);
+    await firstValueFrom(
+      from(this.gradeData.createGrade(course.id)).pipe(
+        map(
+          reponse =>{
+            console.log("Felveszem a ", course, " kurzust "+reponse)
+          }
+        )
+      )
+    )
+  }
+
+  
 }
 
 
@@ -62,9 +79,11 @@ protected apply(course: Course) {
   katsVis = new Map<string,boolean>([['összes', true]]);
   katsVisalfa = new Map<string,boolean>([['összes', true]]);
   curs: Name[] = [];
+  private mycurriculum:number|null = null;
   
   curriculumData = inject(CurriculumService);
   courseData = inject(CourseService);
+  auth = inject(AuthService);
   
   curriculumName: string = "";
   displayedColumns: string[] = [];
@@ -95,19 +114,31 @@ protected apply(course: Course) {
   }
   
     async ngOnInit() {
-      this.updateDisplayedColums();
       await firstValueFrom(
-        from(this.curriculumData.getAllCurriculumNames()).pipe(
-          map(
-            names => {
-              this.curs = names
-              if(names[0].id){
-                this.LoadCurriculum(names[0].id);
+        from(this.auth.user$).pipe(
+          map(user =>{
+            this.viewMode = user?.role === 'student' ? 'student':'other';
+            this.mycurriculum = user?.curriculum_id ?? null;
+          })
+        )
+      );
+      this.updateDisplayedColums();
+      if(this.viewMode === 'other'){
+        await firstValueFrom(
+          from(this.curriculumData.getAllCurriculumNames()).pipe(
+            map(
+              names => {
+                this.curs = names
+                if(names[0].id){
+                  this.LoadCurriculum(names[0].id);
+                }
               }
-            }
+            )
           )
         )
-      )
+      }else if(this.mycurriculum){
+        this.LoadCurriculum(this.mycurriculum);
+      }
     }
   
 
@@ -120,6 +151,7 @@ protected apply(course: Course) {
       {name: 'Kredit', completed: true},
       {name: 'Ajánlót félév', completed: true},
       {name: 'Tárgy felelős', completed: true},
+      {name: 'Szezon', completed: true},
       {name: 'Felvétel', completed: true},
       {name: 'Kurzus Forum', completed: true},
     ],
@@ -155,9 +187,10 @@ protected apply(course: Course) {
     if (subtasks[1].completed) this.displayedColumns.push('id');
     if (subtasks[2].completed) this.displayedColumns.push('kredit');
     if (subtasks[3].completed) this.displayedColumns.push('recommendedSemester');
-    if (subtasks[4].completed) this.displayedColumns.push('subjectResponsible');
-    if (subtasks[5].completed) this.displayedColumns.push('apply');
-    if (subtasks[6].completed) this.displayedColumns.push('course');
+    if (subtasks[4].completed) this.displayedColumns.push('sezon');
+    if (subtasks[5].completed) this.displayedColumns.push('subjectResponsible');
+    if (subtasks[6].completed) this.displayedColumns.push('apply');
+    if (subtasks[7].completed) this.displayedColumns.push('course');
   }
 
   KatonSelectionChange(event: MatSelectChange) {

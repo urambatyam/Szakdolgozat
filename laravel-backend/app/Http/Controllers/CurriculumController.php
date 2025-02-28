@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curriculum;
+use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Rules\CustomCurriculumValidation;
 
 class CurriculumController extends Controller
 {
@@ -22,29 +24,42 @@ class CurriculumController extends Controller
             'specializations.*.name' => 'string',
             'specializations.*.categories' => 'array',
             'specializations.*.categories.*.name' => 'string',
+            'specializations.*.categories.*.min' => 'integer|min:0',
             'specializations.*.categories.*.courses' => 'array',
             'specializations.*.categories.*.courses.*.id' => 'exists:courses,id|integer',
         ]);
+
 
         $curriculum = Curriculum::create([
             'name' => $validated['name']
         ]);
 
-        foreach ($validated['specializations'] as $specData) {
+        foreach( $validated['specializations'] as $specData){
             $specialization = $curriculum->specializations()->create([
-                'name' => $specData['name']
+                'name' => $specData['name'],
+                'min' => 0,
             ]);
+            $sepcMin = 0;
 
             foreach ($specData['categories'] as $catData) {
                 $category = $specialization->categories()->create([
-                    'name' => $catData['name']
+                    'name' => $catData['name'],
+                    'min' => $catData['min'],
+                    'max' => 0
                 ]);
+                $sumCourseKerdit = 0;
                 foreach($catData['courses'] as $cData){
+                    $course = Course::find($cData['id']);
+                    $sumCourseKerdit += $course->kredit;
                     $category->courses()->attach($cData['id']);
-                }   
+                }
+                $category->max = $sumCourseKerdit;
+                $category->save();
+                $sepcMin +=  $category->min;
             }
+            $specialization->min = $sepcMin;
+            $specialization->save();
         }
-
         return response()->json([
             'message' => 'Curriculum created successfully',
             'curriculum' => $curriculum->load('specializations.categories.courses')
@@ -75,6 +90,7 @@ class CurriculumController extends Controller
             'specializations.*.categories' => 'array',
             'specializations.*.categories.*.id' => 'exists:categories,id|integer',
             'specializations.*.categories.*.name' => 'string',
+            'specializations.*.categories.*.min' => 'integer|min:0',
             'specializations.*.categories.*.courses' => 'array',
             'specializations.*.categories.*.courses.*.id' => 'exists:courses,id|integer',
         ]);
@@ -86,17 +102,29 @@ class CurriculumController extends Controller
 
         foreach ($validated['specializations'] as $specData) {
             $specialization = $curriculum->specializations()->create([
-                'name' => $specData['name']
+                'name' => $specData['name'],
+                'min' => 0
             ]);
+            $sepcMin = 0;
 
             foreach ($specData['categories'] as $catData) {
                 $category = $specialization->categories()->create([
-                    'name' => $catData['name']
+                    'name' => $catData['name'],
+                    'min' => $catData['min'],
+                    'max' => 0
                 ]);
+                $sumCourseKerdit = 0;
                 foreach($catData['courses'] as $cData){
+                    $course = Course::find($cData['id']);
+                    $sumCourseKerdit += $course->kredit;
                     $category->courses()->attach($cData['id']);
-                }                
+                }  
+                $category->max = $sumCourseKerdit;
+                $category->save();
+                $sepcMin +=  $category->min;              
             }
+            $specialization->min = $sepcMin;
+            $specialization->save();
         }
 
         return response()->json([

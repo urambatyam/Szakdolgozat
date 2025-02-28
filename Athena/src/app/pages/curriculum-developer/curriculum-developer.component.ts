@@ -26,6 +26,7 @@ type FormCategory = FormGroup<{
   id:FormControl<number | null>
   catName: FormControl<string>
   courses: FormArray<FormCourse>
+  min: FormControl<number>
 }>;
 type FormSpecialization = FormGroup<{
   id:FormControl<number | null>
@@ -97,7 +98,7 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
   generateSpecialization():FormSpecialization{
     return this.fb.group({
       id: this.fb.control<number | null>(null),
-      spName: 'heje',
+      spName: this.fb.control<string>(''),
       categories: this.fb.array<FormCategory>([])
     })
   }    
@@ -105,6 +106,7 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
   generateCategory():FormCategory{
     return this.fb.group({
       id: this.fb.control<number | null>(null),
+      min: this.fb.control<number>(0),
       catName: '',
       courses: this.fb.array<FormCourse>([])
     })
@@ -199,7 +201,8 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
                   const catForm = this.generateCategory();
                   catForm.patchValue({
                     id: cat.id,
-                    catName: cat.name
+                    catName: cat.name,
+                    min: cat.min
                   });
 
                   // Kurzusok hozzáadása
@@ -277,13 +280,14 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
       const Sptemp:Specialization = {
         id: spV.controls.id.getRawValue() ?? null,
         name:spV.controls.spName.getRawValue(),
-        categories: []
+        categories: [],
       }
       this.tantervForm.controls.specializations.at(spI).controls.categories.controls.forEach((catV, catI)=>{
         const Cattemp:Category = {
           id: catV.controls.id.getRawValue() ?? null,
           name:catV.controls.catName.getRawValue(),
-          courses: []
+          courses: [],
+          min: catV.controls.min.getRawValue(),
         }
         this.tantervForm.controls.specializations.at(spI).controls.categories.at(catI).controls.courses.controls.forEach((cV,cI)=>{
           Cattemp.courses.push({
@@ -294,6 +298,7 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
             kredit:null,
             subjectMatter: null,
             user_code:null,
+            sezon:null
           })
         })
         Sptemp.categories.push(Cattemp);

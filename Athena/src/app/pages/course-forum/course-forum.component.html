@@ -66,6 +66,14 @@
                     <input matInput type="number" formControlName="recommendedSemester" >
                 </mat-form-field>
                 <mat-form-field>
+                    <mat-label>Szezon</mat-label>
+                    <mat-select formControlName="sezon" >
+                        <mat-option [value]="1" >Őssz</mat-option>
+                        <mat-option [value]="0" >Tavasz</mat-option>
+                        <mat-option [value]="2" >Őssz-Tavasz</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
                     <mat-label>Tárgyfelelős</mat-label>
                     <input matInput type="text" formControlName="user_code" >
                 </mat-form-field>

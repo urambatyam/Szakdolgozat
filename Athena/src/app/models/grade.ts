@@ -1,6 +1,8 @@
+
 export interface Grade {
-    id?:string,
+    id?:number,
     user_code:string,
-    course_id:string,
-    grade:number
+    course_id:number,
+    course_name?:string,
+    grade:number|null,
 }

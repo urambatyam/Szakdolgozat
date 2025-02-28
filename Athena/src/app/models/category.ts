@@ -10,7 +10,8 @@ export interface Category {
     id: number | null,
     courses: Course[],
     name:string,
-    courseMatdata?:MatTableDataSource<Course>
+    min:number,
+    max?:number,
 }
 
 export interface CategoryTable  extends Category {

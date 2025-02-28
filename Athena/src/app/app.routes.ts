@@ -22,13 +22,22 @@ export const routes: Routes = [
         data: { roles: ['admin','student','teacher'] }
     },
     {
-        path: 'electronic-controller',
+        path: 'grades',
         loadComponent: () =>
             import('./pages/electronic-controller/electronic-controller.component').then(
               (c) => c.ElectronicControllerComponent
             ),
         canActivate: [roleGuard],
-        data: { roles: ['admin','student','teacher'] }
+        data: { roles: ['student'] }
+    },
+    { 
+      path: 'courses-grades', 
+      loadComponent: () =>
+        import('./pages/electronic-controller/electronic-controller.component').then(
+          (c) => c.ElectronicControllerComponent
+        ),
+      canActivate: [roleGuard],
+      data: { roles: ['admin','teacher'] }
     },
     {
         path: 'curriculum',

@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy, OnDestroy} from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, OnDestroy, OnInit} from '@angular/core';
 //import { AuthService } from '../../services/auth.service';
 import { AuthService } from '../../services/mysql/auth.service';
 import { FormBuilder, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
@@ -9,10 +9,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 //import { UsersService } from '../../services/mysql/users.service';
 import { User } from '../../models/user';
-import { BehaviorSubject, catchError, EMPTY, finalize, from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, finalize, firstValueFrom, from, map, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AsyncPipe } from '@angular/common'; 
+import { MatSelectModule } from '@angular/material/select';
+import { Name } from '../../models/curriculumNames';
+import { CurriculumService } from '../../services/mysql/curriculum.service';
 
 @Component({
   selector: 'app-registration',
@@ -25,23 +28,37 @@ import { AsyncPipe } from '@angular/common';
     MatButtonModule, 
     ReactiveFormsModule,
     MatProgressSpinnerModule,
-    AsyncPipe
+    AsyncPipe,
+    MatSelectModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'
 })
-export class RegistrationComponent implements OnDestroy {
+export class RegistrationComponent implements OnDestroy, OnInit {
+  async ngOnInit() {
+    await firstValueFrom(
+      from(this.curriculumData.getAllCurriculumNames()).pipe(
+        map(c =>{
+          this.curriculums = c;
+        }),
+        catchError(error => {
+          console.log('Hiba: '+error)
+          return EMPTY;
+        }),
+      )
+    )
+  }
   private kikapcs$ = new Subject<void>();
   ngOnDestroy(): void {
     this.kikapcs$.next();
     this.kikapcs$.complete();
     this.loadingSubject.complete();
   }
-  fb = inject(FormBuilder);
-  //user = inject(UsersService);
-  //authService = inject(AuthService);
-  auth = inject(AuthService);
+  private fb = inject(FormBuilder);
+  private auth = inject(AuthService);
+  private curriculumData = inject(CurriculumService);
+  protected curriculums: Name[] = [];
   private snackBar = inject(MatSnackBar)
   private loadingSubject = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSubject.asObservable().pipe(
@@ -55,7 +72,8 @@ export class RegistrationComponent implements OnDestroy {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{6,12}$/)]],
     password_confirmation: ['', [Validators.required]],
-    role: ['', [Validators.required]]
+    role: this.fb.nonNullable.control<"student" | "teacher" | "admin">("student", Validators.required),
+    curriculum_id: this.fb.nonNullable.control<number|null>(null, Validators.required),
   },
   {
     validators: this.confirmed

@@ -3,8 +3,9 @@ import { inject, Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Grade } from '../../models/grade';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { PaginatedResponse } from '../../models/paginationResponse';
+import { Semester } from '../../models/semester';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,10 @@ export class GradeService {
     private http = inject(HttpClient);
     private auth = inject(AuthService);
 
-    createGrade(grade: Grade): Observable<Grade>{
+    createGrade(course_id : number): Observable<Grade>{
       return this.http.post<Grade>(
         environment.baseUrl+'/grade',
-        grade,
+        {course_id: course_id},
         {headers: this.auth.getHeaders()}
       );
     }
@@ -27,35 +28,20 @@ export class GradeService {
         {headers: this.auth.getHeaders()}
       );
     }
-    getAllGradesInCourse(
-      courseId: number,
-      page: number = 1,
-      perPage: number = 10,
-      sortField: string = 'user_code',
-      sortDirection: 'asc' | 'desc' = 'asc',
-      filter?: string
-    ): Observable<PaginatedResponse<Grade>>{
-      const params = new HttpParams()
-      .set('page', page.toString())
-      .set('per_page', perPage.toString())
-      .set('sort_field', sortField)
-      .set('sort_direction', sortDirection)
-      .set('filter', filter || '');
-
-    return this.http.get<PaginatedResponse<Grade>>(
-      `${environment.baseUrl}/grade/course/${courseId}`,
-      {
-        headers: this.auth.getHeaders(),
-        params
-      }
-    );
+    getAllGradesInCourse(courseId: number, params: any) {
+      return this.http.get<any>(
+        environment.baseUrl+`/grade/course/${courseId}`, 
+        {headers: this.auth.getHeaders(),params}
+      )
     }
-    getAllGradesOFStudent(studentCode:string): Observable<Grade[]>{
-      return this.http.get<Grade[]>(
-        environment.baseUrl+'/grade/student'+studentCode,
-        {headers: this.auth.getHeaders()}
+
+    getAllGradesOFStudent(studentCode:string, params: any){
+      return this.http.get<any>(
+        environment.baseUrl+'/grade/student/'+studentCode,
+        {headers: this.auth.getHeaders(),params}
       );
     }
+    
     updateGrade(grade: Grade): Observable<Grade>{
       return this.http.put<Grade>(
         environment.baseUrl+'/grade/'+grade.id,

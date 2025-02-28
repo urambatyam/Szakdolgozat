@@ -19,18 +19,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $curriculum = Curriculum::factory()->create();
+
         $admin = User::factory()->create(['role' => 'admin']);
         $teachers = User::factory()->count(4)->create(['role' => 'teacher']);
-        $students = User::factory()->count(10)->create(['role' => 'student']);
+        $students = User::factory()->count(10)->create(['role' => 'student', 'curriculum_id' => $curriculum->id]);
     
         $courses = Course::factory()->count(20)->create([
             'user_code' => $teachers->random()->code
         ]);
 
+        
+
         foreach($students as $student){
+            $randomCurese = $courses->random();
+            $randomCureseSemester = $randomCurese->sezon;
+            if($randomCureseSemester === null){
+                $randomCureseSemester = rand(0,1);
+            }
             Grade::factory()->count(10)->create([
                 'user_code' => $student->code,
-                'course_id' => $courses->random()->id
+                'course_id' => $randomCurese->id,
+                'sezon' => $randomCureseSemester,
             ]);
         }
  
@@ -40,23 +50,36 @@ class DatabaseSeeder extends Seeder
             'course_id' => $courses->random()->id
         ]);
 
-        $curriculum = Curriculum::factory()->create();
+        
 
         $specializations = Specialization::factory()->count(2)->create([
             'curriculum_id' => $curriculum->id
         ]);
 
         $categories = collect();
+        
         foreach ($specializations as $specialization) {
             $categories = $categories->merge(Category::factory(2)->create([
-                'specialization_id' => $specialization->id
+                'specialization_id' => $specialization->id,
             ]));
         }
-
         foreach ($categories as $category) {
+            $c = $courses->random(rand(2, 5));
+            $category->max = $c->sum('kredit');
+            $category->min =  $category->max - rand(0,$category->max);
+            $category->save(); 
             $category->courses()->attach(
-                $courses->random(rand(2, 5))->pluck('id')->toArray()
+                $c->pluck('id')->toArray() 
             );
+        }    
+        
+        foreach ($specializations as $specialization) {
+            foreach($categories as $category){
+                if($specialization->id === $category->specialization_id){
+                    $specialization->min += $category->min;
+                }
+            }
+            $specialization->save();
         }
  
     }

@@ -13,17 +13,15 @@ class Grade extends Model
     protected $fillable = [
         'grade',
         'user_code',
-        'course_id'
+        'course_id',
+        'year', 
+        'sezon'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_code', 'code');
     }
-    /*public function course()
-    {
-        return $this->belongsTo(Course::class, 'course_name', 'name');
-    }*/
 
     public function course()
     {

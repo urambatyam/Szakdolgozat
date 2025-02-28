@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { UserService } from '../../services/mysql/user.service';
 import { AuthService } from '../../services/mysql/auth.service';
 import { User } from '../../models/user';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { catchError, EMPTY, firstValueFrom, from, map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import {
   MatDialog
 } from '@angular/material/dialog';
@@ -54,54 +54,65 @@ export class ProfileComponent implements OnInit , OnDestroy{
   }
 
 
-  fb = inject(FormBuilder);
-  user = inject(UserService);
-  auth = inject(AuthService);
+  private fb = inject(FormBuilder);
+  private user = inject(UserService);
+  private auth = inject(AuthService);
 
   updateUser:User|null = null;
-  profilForm = this.fb.nonNullable.group(
+  protected profilForm = this.fb.nonNullable.group(
       {
       name: ['', [ Validators.minLength(4), Validators.maxLength(12)]],
       email: ['',[Validators.email]],
-      role: ['',[]]
+      role:  this.fb.nonNullable.control<"student" | "teacher" | "admin">("student"),
       }
     );
 
     ngOnInit() {
-      this.auth.user$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (user) =>{
-          console.log('Be van jelentkezve')
-          this.profilForm.patchValue({
-            name: user?.name,
-            email: user?.email,
-            role: user?.role
-          });
-        },
-        error: () => {
-          console.log('Nincs van jelentkezve')
-        }
-      }
-     );
-      }
+      this.getUSer();
+    }
 
-  onSubmit(): void {
+    private async getUSer(){
+      await firstValueFrom(
+        from(this.auth.user$).pipe(
+          map(user => {
+            this.profilForm.patchValue({
+              name: user?.name,
+              email: user?.email,
+              role: user?.role
+            });
+          }),
+          tap( r =>{
+            console.log('Sikeres felhasználói adat lekérés '+r);
+            }
+          ),
+          catchError(error => {
+            console.error('Hiba: ', error);
+            return EMPTY;
+          })
+        )
+      );
+    }
+
+  protected onSubmit(): void {
     console.log(this.profilForm);
     if (this.profilForm.invalid) {
       this.profilForm.markAllAsTouched();
       return;
     }
     const formValues = this.profilForm.getRawValue();
-    this.user.update(formValues).subscribe({
-      next: () => {
-        console.log('Sikeres frissítés');
-      },
-      error: (error) => {
-        console.error('Hiba történt:', error);
-      }
-    });
-
+    firstValueFrom(
+      from(this.user.update(formValues)).pipe(
+        tap( r =>{
+          console.log('Sikeres frissítés '+r);
+          }
+        ),
+        catchError(error => {
+          console.error('Hiba: ', error);
+          return EMPTY;
+        })
+      )
+    )
+    this.getUSer();
   };
   
 }

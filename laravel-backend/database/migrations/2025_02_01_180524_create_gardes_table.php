@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
-            $table->integer('grade')->unsigned();
+            $table->integer('grade')->unsigned()->nullable();
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->string('user_code',5)->nullable();
             $table->foreign('user_code')->references('code')->on('users')->nullOnDelete();
+            $table->boolean('sezon');
+            $table->integer('year')->unsigned();
             $table->timestamps();
         });
     }

@@ -14,6 +14,7 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { AuthService } from '../../services/mysql/auth.service';
 import { Router } from '@angular/router';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-course-forum',
@@ -29,7 +30,8 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     MatButtonModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatSelectModule,
 ],
   templateUrl: './course-forum.component.html',
   styleUrl: './course-forum.component.scss'
@@ -57,6 +59,7 @@ export class CourseForumComponent implements OnInit, OnDestroy{
     user_code: this.fb.control<string | null>(null),
     name: this.fb.control<string | null>(null),
     kredit: this.fb.control<number | null>(null),
+    sezon: this.fb.control<number>(2),
   });
   protected courseNames: Course[] = [];
   protected title: any;
@@ -124,8 +127,8 @@ export class CourseForumComponent implements OnInit, OnDestroy{
   }
 
   protected toElectronicController(courseId:number, courseName:string){
-    this.router.navigate(
-      ['/electronic-controller'],
+     this.router.navigate(
+      ['courses-grades'],
       {state: {courseId: courseId, courseName: courseName}}
     )
     console.log("Irány a ", courseId, " ",courseName," elenörző!")
@@ -134,6 +137,12 @@ export class CourseForumComponent implements OnInit, OnDestroy{
   async toupdate(course: Course) {
     this.update = true;
     if (course) {
+      let sezonV = 0
+      if(course.sezon === null){
+        sezonV = 2;
+      }else if(course.sezon){
+        sezonV = 1;
+      }
       if(course.id != undefined && typeof(course.id) == 'number' ){
         this.CourseForm.patchValue({
         id: course.id,
@@ -141,6 +150,7 @@ export class CourseForumComponent implements OnInit, OnDestroy{
         user_code: course.user_code ?? '',
         name: course.name,
         kredit: course.kredit,
+        sezon:sezonV,
         });
       }
  
@@ -174,6 +184,12 @@ export class CourseForumComponent implements OnInit, OnDestroy{
   }
   async onSubmit() {
     const formValues = this.CourseForm.getRawValue();
+    let sezonV:boolean|null = false;
+    if(formValues.sezon === 2){
+      sezonV = null;
+    }else if(formValues.sezon === 1){
+      sezonV = true;
+    }
     
     const newCourse:Course = {
       id: formValues.id==-1 ? null:formValues.id,
@@ -183,6 +199,7 @@ export class CourseForumComponent implements OnInit, OnDestroy{
       kredit: formValues.kredit,
       subjectMatter: null,
       subjectResponsible: null,
+      sezon: sezonV,
     };
     console.log(newCourse);
 
@@ -210,7 +227,6 @@ export class CourseForumComponent implements OnInit, OnDestroy{
       console.error('Hiba:', error);
     }
   }
-
 
   ngOnDestroy(): void {
     this.getAllCourses$.complete();

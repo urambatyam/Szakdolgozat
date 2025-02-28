@@ -19,6 +19,7 @@ return new class extends Migration
 
         Schema::create('specializations', function (Blueprint $table) {
             $table->id();
+            $table->integer('min')->unsigned();
             $table->foreignId('curriculum_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->timestamps();
@@ -26,6 +27,8 @@ return new class extends Migration
 
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->integer('min')->unsigned();
+            $table->integer('max')->unsigned();
             $table->foreignId('specialization_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->timestamps();

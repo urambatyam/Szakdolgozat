@@ -52,7 +52,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
+    public function curriculum()
+    {
+        return $this->belongsTo(Curriculum::class, 'curriculum_id');
+    }
     public function course()
     {
         return $this->hasMany(Course::class, 'user_code', 'code');

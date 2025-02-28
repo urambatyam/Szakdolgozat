@@ -7,6 +7,7 @@ use App\Models\User;
 //use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Resources\CourseResource;
 
 
 class CourseController extends Controller
@@ -39,7 +40,8 @@ class CourseController extends Controller
             'kredit' => 'required|integer|min:0',
             'recommendedSemester' => 'required|integer|min:0',
             'user_code' => 'nullable|exists:users,code',  
-            'subjectMatter' => 'nullable|string|max:255'
+            'subjectMatter' => 'nullable|string|max:255',
+            'sezon' => 'nullable|boolean',
         ]);
 
         $course = $request->user()->course()->create($values);
@@ -76,13 +78,13 @@ class CourseController extends Controller
         $user = User::where('code', $user_code)->first();
         
         if ($user->role === 'admin') {
-            return Course::orderBy($sortField, $sortDirection)
+            $result =  Course::orderBy($sortField, $sortDirection)
                 ->when($request->has('filter'), function($q) use ($request) {
                     return $q->where('name', 'like', '%' . $request->filter . '%');
                 })
                 ->paginate($perPage);
         } else {
-            return Course::whereHas('user', function ($query) use ($user_code) {
+            $result =  Course::whereHas('user', function ($query) use ($user_code) {
                 $query->where('code', $user_code);
             })
             ->when($request->has('filter'), function($q) use ($request) {
@@ -91,6 +93,7 @@ class CourseController extends Controller
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
         }
+        return CourseResource::collection($result);
     }
 
     /**
@@ -104,7 +107,8 @@ class CourseController extends Controller
             'kredit' => 'required|integer|min:0',
             'recommendedSemester' => 'required|integer|min:0',
             'user_code' => 'nullable|exists:users,code',  
-            'subjectMatter' => 'nullable|string|max:255'
+            'subjectMatter' => 'nullable|string|max:255',
+            'sezon' => 'nullable|boolean',
         ]);
 
         $course->update($values);

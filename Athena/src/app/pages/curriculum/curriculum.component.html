@@ -9,14 +9,20 @@
       @for(special of tanterv?.specializations; track special.id){
         <mat-card  [style.display]=" specialsVis.get(special.name) ? 'block' : 'none'" class="card-spec">
           <mat-card-header>
-              <mat-card-title>{{special.name}}</mat-card-title>
+              <mat-card-title-group>
+                <mat-card-title>{{special.name}}</mat-card-title>
+                <mat-card-subtitle>Teljesitendő kredit: {{special.min}}</mat-card-subtitle>
+              </mat-card-title-group>
           </mat-card-header>
           <mat-card-content>
             
         @for (kat of special.categories; track kat.id) {
           <mat-card class="card-kat" [style.display]=" katsVis.get(kat.name) ? 'block' : 'none'">
             <mat-card-header >
-                <mat-card-title>{{kat.name}}</mat-card-title>
+                <mat-card-title-group>
+                  <mat-card-title>{{kat.name}}</mat-card-title>
+                  <mat-card-subtitle>Minmum kredit: {{kat.min}} Összesen: {{kat.max}}</mat-card-subtitle>
+                </mat-card-title-group>
             </mat-card-header>
             <mat-card-content>
                 <table id="{{special.name}}_{{kat.name}}" #sort="matSort" mat-table  [dataSource]="kat.courses" matSort  class="mat-elevation-z8">
@@ -43,8 +49,25 @@
                     
                     <ng-container matColumnDef="subjectResponsible">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by subjectResponsible"> Tárgyfelelős </th>
-                        <td mat-cell *matCellDef="let element"> {{element.subjectResponsible}} </td>
-                    </ng-container>                  
+                        <td mat-cell *matCellDef="let element"> {{element.user_code}} </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="sezon">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by sezon"> Szezon </th>
+                      <td mat-cell *matCellDef="let element"> 
+                        @switch (element.sezon) {
+                          @case (1) {
+                            Őssz
+                          }
+                          @case(0){
+                            Tavasz
+                          }
+                          @default {
+                            Őssz-Tavasz
+                          }
+                        } 
+                      </td>
+                    </ng-container>  
                   
                     <ng-container matColumnDef="apply">
                       <th mat-header-cell *matHeaderCellDef > Felvétel </th>
@@ -73,14 +96,16 @@
             <mat-card-title>Szűrők</mat-card-title>
             <mat-card-content>
                 <form>
-                <mat-form-field>
-                    <mat-label>Tantervek</mat-label>
-                    <mat-select (selectionChange)="CuronSelectionChange($event)" >
-                      @for (cur of curs; track cur.id) {
-                        <mat-option [value]="cur.id">{{cur.name}}</mat-option>
-                      }
-                    </mat-select>
-                </mat-form-field><br>
+                  @if(this.viewMode === 'other'){
+                    <mat-form-field>
+                      <mat-label>Tantervek</mat-label>
+                      <mat-select (selectionChange)="CuronSelectionChange($event)" >
+                        @for (cur of curs; track cur.id) {
+                          <mat-option [value]="cur.id">{{cur.name}}</mat-option>
+                        }
+                      </mat-select>
+                  </mat-form-field><br>
+                  }
                     <span>
                       <mat-checkbox
                         [checked]="task().completed"
