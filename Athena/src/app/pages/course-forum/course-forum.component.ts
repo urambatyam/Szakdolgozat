@@ -15,6 +15,7 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { AuthService } from '../../services/mysql/auth.service';
 import { Router } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-course-forum',
@@ -32,6 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatPaginatorModule,
     MatSortModule,
     MatSelectModule,
+    TranslateModule
 ],
   templateUrl: './course-forum.component.html',
   styleUrl: './course-forum.component.scss'

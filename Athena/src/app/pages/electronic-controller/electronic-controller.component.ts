@@ -16,6 +16,7 @@ import { GradeService } from '../../services/mysql/grade.service';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { AuthService } from '../../services/mysql/auth.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
@@ -35,6 +36,7 @@ import { AuthService } from '../../services/mysql/auth.service';
         MatSortModule,
         MatInputModule,
         MatSelectModule,
+        TranslateModule
   ],
   animations: [
     trigger('detailExpand', [

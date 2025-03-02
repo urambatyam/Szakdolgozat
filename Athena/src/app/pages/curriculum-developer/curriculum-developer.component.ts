@@ -17,6 +17,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Course } from '../../models/course';
 import { CourseService } from '../../services/mysql/course.service';
 import { Name } from '../../models/curriculumNames';
+import { TranslateModule } from '@ngx-translate/core';
 
 type FormCourse = FormGroup<{
   id:FormControl<number | null>
@@ -53,6 +54,7 @@ type Form = FormGroup<{
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+    TranslateModule
   ],
   templateUrl: './curriculum-developer.component.html',
   styleUrl: './curriculum-developer.component.scss'

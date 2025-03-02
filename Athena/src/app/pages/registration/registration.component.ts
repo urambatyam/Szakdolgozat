@@ -16,6 +16,7 @@ import { AsyncPipe } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { Name } from '../../models/curriculumNames';
 import { CurriculumService } from '../../services/mysql/curriculum.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-registration',
@@ -29,7 +30,8 @@ import { CurriculumService } from '../../services/mysql/curriculum.service';
     ReactiveFormsModule,
     MatProgressSpinnerModule,
     AsyncPipe,
-    MatSelectModule
+    MatSelectModule,
+    TranslateModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './registration.component.html',

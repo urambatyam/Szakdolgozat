@@ -9,6 +9,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { CourseForum } from '../../../models/courseForum';
 import { Location } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-forum',
@@ -19,6 +20,7 @@ import { Location } from '@angular/common';
     MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,
+    TranslateModule
   ],
   templateUrl: './forum.component.html',
   styleUrl: './forum.component.scss'

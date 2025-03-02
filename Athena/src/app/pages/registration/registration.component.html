@@ -1,25 +1,25 @@
 <mat-card>
     <mat-card-header>
-      <mat-card-title>Regisztráció</mat-card-title>
+      <mat-card-title>{{'regist.TITLE' | translate }}</mat-card-title>
     </mat-card-header>
     
     <mat-card-content>
       <form [formGroup]="registForm" (ngSubmit)="onSubmit()">
 
         <mat-form-field>
-          <mat-label>Felhasználónév</mat-label>
+          <mat-label>{{'regist.NAME' | translate }}</mat-label>
           <input matInput formControlName="name"  required>
           @if (registForm.get('name')?.invalid && 
           (registForm.get('name')?.dirty || registForm.get('userName')?.touched)) {
        <mat-error>
          @if (registForm.get('name')?.hasError('required')) {
-           Add meg a felhasználó nevet!
+           {{'regist.NO_NAME' | translate }}
          }
          @if (registForm.get('name')?.hasError('minlength')) {
-           A felhasználónév legalább 4 karakter!
+           {{'regist.MIN_NAME' | translate }}
          }
          @if (registForm.get('name')?.hasError('maxlength')) {
-           A felhasználónév legfeljebb 12 karakter!
+           {{'regist.MAX_NAME' | translate }}
          }
        </mat-error>
      }
@@ -32,58 +32,58 @@
           (registForm.get('email')?.dirty || registForm.get('email')?.touched)) {
        <mat-error>
          @if (registForm.get('email')?.hasError('required')) {
-           Add meg az email címet!
+           {{'regist.NO_EMAIL' | translate }}
          }
          @if (registForm.get('email')?.hasError('email')) {
-           Ez nem egy érvényes email cím!
+           {{'regist.NOT_VALID_EMAIL' | translate }}
          }
        </mat-error>
      }
         </mat-form-field><br>
 
         <mat-form-field>
-          <mat-label>Jelszó</mat-label>
+          <mat-label>{{'regist.PASSWORD' | translate }}</mat-label>
           <input matInput formControlName="password" type="text"  required>
           @if (registForm.get('password')?.invalid && 
           (registForm.get('password')?.dirty || registForm.get('password')?.touched)) {
             <mat-error>
               @if (registForm.get('password')?.hasError('required')) {
-                Add meg a jelszót!
+                {{'regist.NO_PASSWORD' | translate }}
               } 
               @if (registForm.get('password')?.hasError('pattern')) {
-                6-12 karakter hoszú és legalább egy betűt és számot kell tartalmaznia!
+                {{'regist.NOT_VALID_PASSWORD' | translate }}
               }
             </mat-error>
             }
         </mat-form-field><br>
 
         <mat-form-field>
-          <mat-label>Jelszó újra</mat-label>
+          <mat-label>{{'regist.PASSWORD_AGAIN' | translate }}</mat-label>
           <input matInput formControlName="password_confirmation" type="text"  required>
           @if (registForm.get('password_confirmation')?.invalid && 
           (registForm.get('password_confirmation')?.dirty || registForm.get('password_confirmation')?.touched)) {
             <mat-error>
               @if (registForm.get('password_confirmation')?.hasError('required')) {
-                Add meg a jelszót újra!
+                {{'regist.NO_PASSWORD_AGAIN' | translate }}
               } 
               @if (registForm.get('password_confirmation')?.hasError('notConfirmed')) {
-                A jelszók nem egyeznek!
+                {{'regist.PASSWORD_NOT_MATCH' | translate }}
               }
             </mat-error>
             }
         </mat-form-field><br>
 
         <mat-form-field>
-        <mat-label>Rang</mat-label>
+        <mat-label>{{'regist.ROLE' | translate }}</mat-label>
           <input matInput formControlName="role" type="text" required>
           @if (registForm.get('role')?.invalid && 
           (registForm.get('role')?.dirty || registForm.get('role')?.touched)) {
-       <mat-error>Add meg a felhasználó rangját!</mat-error>
+       <mat-error>{{'regist.NO_ROLE' | translate }}</mat-error>
      }
         </mat-form-field><br>
 
         <mat-form-field>
-          <mat-label>tanterv</mat-label>
+          <mat-label>{{'regist.CURRICULUM' | translate }}</mat-label>
           <mat-select formControlName="curriculum_id">
             @for(curriculum of curriculums; track curriculum.id ){
               <mat-option [value]="curriculum.id" >{{curriculum.name}}</mat-option>
@@ -100,7 +100,7 @@
           @if(loading$ | async){
             <mat-spinner diameter="20"></mat-spinner>
           }
-          Regisztráció
+          {{'regist.REGIST' | translate }}
         </button>
       </form>
     </mat-card-content>

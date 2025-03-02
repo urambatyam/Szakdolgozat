@@ -1,26 +1,17 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>Adataim:</mat-card-title>
+        <mat-card-title>{{'profile.TITLE' | translate }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <form [formGroup]="profilForm" (ngSubmit)="onSubmit()">
             <mat-form-field>
-                <mat-label>Felhasználónév</mat-label>
+                <mat-label>{{'profile.CODE' | translate }}</mat-label>
+                <input matInput formControlName="code">
+            </mat-form-field><br>
+
+            <mat-form-field>
+                <mat-label>{{'profile.NAME' | translate }}</mat-label>
                 <input matInput formControlName="name">
-                @if (profilForm.get('name')?.invalid && 
-                (profilForm.get('name')?.dirty || profilForm.get('name')?.touched)) {
-                    <mat-error>
-                        @if (profilForm.get('name')?.hasError('required')) {
-                            Add meg a felhasználó nevet!
-                        }
-                        @if (profilForm.get('name')?.hasError('minlength')) {
-                            A felhasználónév legalább 4 karakter!
-                        }
-                        @if (profilForm.get('name')?.hasError('maxlength')) {
-                            A felhasználónév legfeljebb 12 karakter!
-                        }
-                    </mat-error>
-                }
             </mat-form-field><br>
       
             <mat-form-field>
@@ -29,18 +20,17 @@
             </mat-form-field><br>
 
             <mat-form-field>
-                <mat-label>Rang</mat-label>
+                <mat-label>{{'profile.ROLE' | translate }}</mat-label>
                 <input matInput formControlName="role" type="text" >
             </mat-form-field><br>
 
             
             <button mat-raised-button color="primary" (click)="openPasswordDialog()" >
-                Jelszó megváltoztatása
+                {{'profile.PASSWORD_CHANGE' | translate }}
             </button><br>
-
-            <button mat-raised-button color="primary" type="submit" [disabled]="profilForm.invalid">
-                Adatok Frisitése
-            </button>
+            <button mat-raised-button color="primary" (click)="openPasswordDialog()" >
+                {{'profile.EMAIL_CHANGE' | translate }}
+            </button><br>
         </form>
     </mat-card-content>
 </mat-card>

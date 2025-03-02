@@ -13,6 +13,7 @@ import {
   MatDialog
 } from '@angular/material/dialog';
 import { PasswordDialogComponent } from './password-dialog/password-dialog.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +25,7 @@ import { PasswordDialogComponent } from './password-dialog/password-dialog.compo
         MatIconModule, 
         MatButtonModule, 
         ReactiveFormsModule,
+        TranslateModule
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'

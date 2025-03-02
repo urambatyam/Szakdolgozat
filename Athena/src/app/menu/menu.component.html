@@ -1,21 +1,30 @@
 <mat-toolbar color="primary" class="navigation-toolbar">
     <mat-toolbar-row>
-      <button mat-button routerLink="/login" routerLinkActive="active">Bejelentkezés</button>
       
-        <button mat-button routerLink="/registration" routerLinkActive="active">Regisztráció</button>
-      
-      <button mat-button routerLink="/curriculum" routerLinkActive="active">Tanterv</button>
-      
-        <button mat-button routerLink="/curriculum-developer" routerLinkActive="active">Tanterv készítő</button>
-      
-      
-        <button mat-button routerLink="/grades" routerLinkActive="active">Ellenőrző</button>
-      
-      
-        <button mat-button routerLink="/course-forum" routerLinkActive="active">Kurzus Fórum</button>
-      
-      <button mat-button routerLink="/profile" routerLinkActive="active">Profil</button>
-      <button mat-button (click)="logOut()">Kijelentkezés</button>
+        @if(this.role !== null){
+          <button mat-button routerLink="/curriculum" routerLinkActive="active">{{'menu.CURRICULUM' | translate }}</button>
+        }
+        @if(this.role === 'student'){
+          <button mat-button routerLink="/grades" routerLinkActive="active">{{'menu.GRADES' | translate }}</button>
+        }
+        @if(this.role === 'admin'){
+          <button mat-button routerLink="/curriculum-developer" routerLinkActive="active">{{'menu.CURRICULUM-DEVELOPER' | translate }}</button>
+        }
+        @if(this.role === 'admin' || this.role === 'teacher'){
+          <button mat-button routerLink="/course-forum" routerLinkActive="active">{{'menu.COURSE-FORUM' | translate }}</button>
+        }
+        @if(this.role === 'admin'){
+          <button mat-button routerLink="/registration" routerLinkActive="active">{{'menu.REGISTRATION' | translate }}</button>
+        }
+        @if(this.role !== null){
+          <button mat-button routerLink="/login" routerLinkActive="active">{{'menu.LOGIN' | translate }}</button>
+          <button mat-button routerLink="/profile" routerLinkActive="active">{{'menu.PROFILE' | translate }}</button>
+          <button mat-button (click)="logOut()">{{'menu.LOGOUT' | translate }}</button>
+        }
+        <mat-select [(value)]="selectedLang" (selectionChange)="changeLang($event)">
+          <mat-option value="hu">magyar</mat-option>
+          <mat-option value="en">Angol</mat-option>
+        </mat-select>
     </mat-toolbar-row>
 </mat-toolbar>
   

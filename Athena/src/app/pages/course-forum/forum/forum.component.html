@@ -1,21 +1,21 @@
 <mat-card>
     <mat-card-header>
       <mat-card-title>
-        {{course?.name}} fórum
+        {{course?.name}} {{'forum.FORUM' | translate }}
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="forum-container">
         <div class="course-details">
-          <h3>Kurzus adatok:</h3>
-          <p><strong>Név:</strong> {{course?.name}}</p>
-          <p><strong>Kredit:</strong> {{course?.kredit}}</p>
-          <p><strong>Ajánlott félév:</strong> {{course?.recommendedSemester}}</p>
-          <p><strong>Tárgyfelelős:</strong> {{course?.user_code}}</p>
+          <h3>{{'forum.DATAILS' | translate }}</h3>
+          <p><strong>{{'curriculum.NAME' | translate }}:</strong> {{course?.name}}</p>
+          <p><strong>{{'curriculum.KREDIT' | translate }}:</strong> {{course?.kredit}}</p>
+          <p><strong>{{'curriculum.RS' | translate }}:</strong> {{course?.recommendedSemester}}</p>
+          <p><strong>{{'curriculum.SUBJECT_RESPONSIBLE' | translate }}:</strong> {{course?.user_code}}</p>
         </div>
         
         <div class="messages-container">
-          <h3>Üzenetek:</h3>
+          <h3>{{'forum.Massage' | translate }}:</h3>
           @for(message of messages; track message.id) {
             <div class="message">
               <strong>{{message.user_code}}:</strong>
@@ -26,15 +26,15 @@
 
         <form [formGroup]="forumForm" (ngSubmit)="onSubmit()" class="message-form">
           <mat-form-field>
-            <mat-label>Hagyj üzenetet!</mat-label>
+            <mat-label>{{'forum.Massage_SEND' | translate }}</mat-label>
             <input matInput type="text" formControlName="text">
           </mat-form-field>
-          <button mat-raised-button color="primary" type="submit">Küldés</button>
+          <button mat-raised-button color="primary" type="submit">{{'forum.SEND' | translate }}</button>
         </form>
       </div>
       
       <button mat-raised-button (click)="back()" class="back-button">
-        Vissza
+        {{'forum.BACK' | translate }}
       </button>
     </mat-card-content>
   </mat-card>

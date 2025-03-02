@@ -10,6 +10,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { from, merge, Subject, takeUntil, tap } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ import { from, merge, Subject, takeUntil, tap } from 'rxjs';
     MatFormFieldModule, 
     MatIconModule, 
     MatButtonModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'

@@ -6,19 +6,19 @@
       @if(!formVs){
           <table [dataSource]="tantervNevek"  mat-table class="mat-elevation-z8" >
               <ng-container matColumnDef="name" >
-                  <th mat-header-cell *matHeaderCellDef > Név </th>
+                  <th mat-header-cell *matHeaderCellDef >{{'curriculum-develepor.NAME' | translate }}</th>
                   <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                   <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
         
               <ng-container matColumnDef="update">
-                  <th mat-header-cell *matHeaderCellDef > Módosítás </th>
+                  <th mat-header-cell *matHeaderCellDef >{{'curriculum-develepor.MODIFY' | translate }}</th>
                   <td mat-cell *matCellDef="let element" > <button mat-fab (click)="toupdate(element)" ><mat-icon>update</mat-icon></button></td>
                   <td mat-footer-cell *matFooterCellDef></td>
               </ng-container>
         
               <ng-container matColumnDef="delete">
-                  <th mat-header-cell *matHeaderCellDef > Törlés </th>
+                  <th mat-header-cell *matHeaderCellDef > {{'curriculum-develepor.DELETE' | translate }} </th>
                   <td mat-cell *matCellDef="let element" > <button mat-fab (click)="todelete(element)" ><mat-icon>delete</mat-icon></button></td>
                   <td mat-footer-cell *matFooterCellDef><button mat-fab (click)="create()" ><mat-icon>add</mat-icon></button></td>
               </ng-container>
@@ -31,14 +31,14 @@
       }@else {
           <form [formGroup]="tantervForm" (ngSubmit)="onSubmit()"  >
               <div>
-                  <mat-label>Tanterv neve</mat-label><br>
+                  <mat-label> {{'curriculum-develepor.CURRICULUM_NAME' | translate }}</mat-label><br>
                   <input type="text" formControlName="tName">
               </div>
                 <!-- Specializációk -->
               <div  formArrayName="specializations">
                   @for (specialization of tantervForm.controls.specializations.controls; track spIndex; let spIndex = $index) {
                       <div  class="form-specialization" [formGroupName]="spIndex">
-                          <mat-label>Specializáció</mat-label><br>
+                          <mat-label>{{'curriculum-develepor.SPECIALIZATION' | translate }}</mat-label><br>
                           <input type="text" formControlName="spName">
                           <mat-icon (click)="removeSpecialization(spIndex)">remove</mat-icon>
                           
@@ -46,15 +46,15 @@
                           <div formArrayName="categories">
                               @for (category of specialization.controls.categories.controls; track ctIndex; let ctIndex = $index) {
                                   <div class="form-category" [formGroupName]="ctIndex">
-                                      <mat-label>Kategória</mat-label><br>
+                                      <mat-label>{{'curriculum-develepor.CATEGORY' | translate }}</mat-label><br>
                                       <input type="text" formControlName="catName">
-                                      <mat-label>Minimum kredit</mat-label>
+                                      <mat-label>{{'curriculum-develepor.CATEGORY_MIN' | translate }}</mat-label>
                                       <input type="number" formControlName="min">
                                       <mat-icon (click)="removeCategory(spIndex, ctIndex)">remove</mat-icon>
                                       
                                       <!-- Kurzusok -->
                                       <div formArrayName="courses">
-                                        <mat-label>Kurzusok</mat-label><br>
+                                        <mat-label>{{'curriculum-develepor.COURSE' | translate }}</mat-label><br>
                                           @for (course of category.controls.courses.controls; track cIndex; let cIndex = $index) {
                                             <div class="form-courses" [formGroupName]="cIndex">
                                                 <input type="text" formControlName="name" [readonly]=true>
@@ -62,7 +62,7 @@
                                             </div>
                                           }
                                           <select (change)="onCourseSelect($event, spIndex, ctIndex)">
-                                            <option value="">Válasz kurzust!</option>
+                                            <option value="">{{'curriculum-develepor.COURSE_CHOOSE' | translate }}</option>
                                             @for(name of AllCourseNames; track name.id){
                                                 @if (name.id && !isCourseInCategory(spIndex, ctIndex, name.id)) {
                                                     <option [value]="name.id">{{name.name}}</option>
@@ -80,13 +80,10 @@
               </div>
     
               <div>
-                <button type="submit">Mentés</button>
-                <button type="button" (click)="close()">Mégse</button>
+                <button type="submit">{{'curriculum-develepor.SAVE' | translate }}</button>
+                <button type="button" (click)="close()">{{'curriculum-develepor.CLOSE' | translate }}</button>
               </div>
           </form>
-  
-      }
-  
-  
+        }
     </mat-card-content>
   </mat-card>

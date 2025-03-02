@@ -11,7 +11,7 @@
           <mat-card-header>
               <mat-card-title-group>
                 <mat-card-title>{{special.name}}</mat-card-title>
-                <mat-card-subtitle>Teljesitendő kredit: {{special.min}}</mat-card-subtitle>
+                <mat-card-subtitle>{{'curriculum.MIN_KREDIT' | translate }} {{special.min}}</mat-card-subtitle>
               </mat-card-title-group>
           </mat-card-header>
           <mat-card-content>
@@ -21,61 +21,61 @@
             <mat-card-header >
                 <mat-card-title-group>
                   <mat-card-title>{{kat.name}}</mat-card-title>
-                  <mat-card-subtitle>Minmum kredit: {{kat.min}} Összesen: {{kat.max}}</mat-card-subtitle>
+                  <mat-card-subtitle>{{'curriculum.CAT_MIN_KREDIT' | translate }} {{kat.min}} {{'curriculum.SUM' | translate }} {{kat.max}}</mat-card-subtitle>
                 </mat-card-title-group>
             </mat-card-header>
             <mat-card-content>
                 <table id="{{special.name}}_{{kat.name}}" #sort="matSort" mat-table  [dataSource]="kat.courses" matSort  class="mat-elevation-z8">
                     
                     <ng-container matColumnDef="name" >
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Név </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> {{'curriculum.NAME' | translate }} </th>
                         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                     </ng-container>
                     
                     <ng-container matColumnDef="id">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id"> Kód </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id"> ID </th>
                         <td mat-cell *matCellDef="let element"> {{element.id}} </td>
                     </ng-container>
                     
                     <ng-container matColumnDef="kredit">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by kredit"> Kredit. </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by kredit"> {{'curriculum.KREDIT' | translate }} </th>
                         <td mat-cell *matCellDef="let element"> {{element.kredit}} </td>
                     </ng-container>
                     
                     <ng-container matColumnDef="recommendedSemester">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by recommendedSemester"> Ajánlott félév </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by recommendedSemester"> {{'curriculum.RS' | translate }} </th>
                         <td mat-cell *matCellDef="let element"> {{element.recommendedSemester}} </td>
                     </ng-container>
                     
                     <ng-container matColumnDef="subjectResponsible">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by subjectResponsible"> Tárgyfelelős </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by subjectResponsible"> {{'curriculum.SUBJECT_RESPONSIBLE' | translate }} </th>
                         <td mat-cell *matCellDef="let element"> {{element.user_code}} </td>
                     </ng-container>
                     
                     <ng-container matColumnDef="sezon">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by sezon"> Szezon </th>
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by sezon"> {{'curriculum.SEZON' | translate }} </th>
                       <td mat-cell *matCellDef="let element"> 
                         @switch (element.sezon) {
                           @case (1) {
-                            Őssz
+                            {{'curriculum.FALL' | translate }}
                           }
                           @case(0){
-                            Tavasz
+                            {{'curriculum.SPRING' | translate }}
                           }
                           @default {
-                            Őssz-Tavasz
+                            {{'curriculum.FALL_SPRING' | translate }}
                           }
                         } 
                       </td>
                     </ng-container>  
                   
                     <ng-container matColumnDef="apply">
-                      <th mat-header-cell *matHeaderCellDef > Felvétel </th>
+                      <th mat-header-cell *matHeaderCellDef > {{'curriculum.APPLY' | translate }} </th>
                       <td mat-cell *matCellDef="let element" > <button mat-fab (click)="apply(element)" ><mat-icon>upgrade</mat-icon></button> </td>
                     </ng-container> 
                     
                     <ng-container matColumnDef="course">
-                      <th mat-header-cell *matHeaderCellDef > Kurzus Forum </th>
+                      <th mat-header-cell *matHeaderCellDef > {{'curriculum.COURSE_FORUM' | translate }} </th>
                       <td mat-cell *matCellDef="let element" > <button mat-fab (click)="toCourseForm(element)" ><mat-icon>forum</mat-icon></button>  </td>
                     </ng-container>
 
@@ -93,12 +93,12 @@
       
 
         <mat-card class="filter-card">
-            <mat-card-title>Szűrők</mat-card-title>
+            <mat-card-title>{{'curriculum.FILLTER' | translate }}</mat-card-title>
             <mat-card-content>
                 <form>
                   @if(this.viewMode === 'other'){
                     <mat-form-field>
-                      <mat-label>Tantervek</mat-label>
+                      <mat-label>{{'curriculum.CURRICULUMS' | translate }}</mat-label>
                       <mat-select (selectionChange)="CuronSelectionChange($event)" >
                         @for (cur of curs; track cur.id) {
                           <mat-option [value]="cur.id">{{cur.name}}</mat-option>
@@ -127,7 +127,7 @@
                       </ul>
                     </span>
                     <mat-form-field>
-                        <mat-label>Specializáció</mat-label>
+                        <mat-label>{{'curriculum.SPECIALIZATION' | translate }}</mat-label>
                         <mat-select (selectionChange)="SpeconSelectionChange($event)" >
                           @for (special of specialsVis.keys(); track special) {
                             <mat-option [value]="special">{{special}}</mat-option>
@@ -136,7 +136,7 @@
                     </mat-form-field> 
                     @if(visKat){
                       <mat-form-field >
-                        <mat-label  >Kategória</mat-label>
+                        <mat-label  >{{'curriculum.CATEGORY' | translate }}</mat-label>
                         <mat-select  (selectionChange)="KatonSelectionChange($event)">
                           @for (kat of katsVis.keys(); track kat) {
                             <mat-option [value]="kat">{{kat}}</mat-option>
@@ -148,7 +148,7 @@
 
                     <br>
                     <mat-form-field>
-                        <mat-label>Cél</mat-label>
+                        <mat-label>{{'curriculum.GOAL' | translate }}</mat-label>
                         <mat-select (selectionChange)="GoalonSelectionChange($event)" >
                           @for (special of specialsVis.keys(); track special) {
                             <mat-option [value]="special">{{special}}</mat-option>
@@ -156,10 +156,10 @@
                         </mat-select>
                     </mat-form-field><br>
                     <mat-form-field>
-                        <mat-label>Feltétekek</mat-label>
-                        <input matInput  type="text" placeholder="+tárgy, -tárgy">
+                        <mat-label>{{'curriculum.CONDITIONS' | translate }}</mat-label>
+                        <input matInput  type="text" placeholder="{{'curriculum.CONDITIONS_PLASEHOLDER' | translate }}">
                     </mat-form-field><br>
-                    <button mat-button >Optimalizálás</button>
+                    <button mat-button >{{'curriculum.OPTIMALIZATION' | translate }}</button>
                   </form>
             </mat-card-content>
         </mat-card>

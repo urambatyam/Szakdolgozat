@@ -8,21 +8,11 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-
   private http = inject(HttpClient);
-  private tokenSecret = 'titok';
   private LoggedUser = new BehaviorSubject<User | null>(null);
+  public user$ = this.LoggedUser.asObservable();
 
-  user$ = this.LoggedUser.asObservable();
-
-  constructor(){
-    const token = localStorage.getItem(this.tokenSecret);
-    if(token){
-      this.getUser();
-    }
-  }
-
-  login(email:string, password:string): Observable<any>{
+  public login(email:string, password:string): Observable<any>{
     return this.http.post<any>(
       environment.baseUrl+'/login',
       {email,password},)
@@ -34,7 +24,7 @@ export class AuthService {
       );
   }
 
-  logout(){
+  public logout(){
     const headers = this.getHeaders();
     return this.http.post<any>(
       environment.baseUrl+'/logout',
@@ -47,7 +37,8 @@ export class AuthService {
         })
       );
   }
-  register(newUser:User): Observable<any>{
+
+  public register(newUser:User): Observable<any>{
     const headers = this.getHeaders();
     return this.http.post<any>(
       environment.baseUrl+'/register',
@@ -58,19 +49,6 @@ export class AuthService {
           this.LoggedUser.next(response.user);
         })
       );
-  }
-
-  private getUser(){
-    const headers = this.getHeaders();
-    this.http.get<User>(
-      environment.baseUrl+'/user',
-      {headers}).subscribe({
-        next: (user) => this.LoggedUser.next(user),
-        error: () => {
-          localStorage.removeItem('token');
-          this.LoggedUser.next(null);
-        }
-      });
   }
 
   public getHeaders(): HttpHeaders {

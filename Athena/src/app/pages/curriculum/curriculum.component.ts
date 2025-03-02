@@ -15,11 +15,13 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { Curriculum } from '../../models/curriculum';
 import { CurriculumService } from '../../services/mysql/curriculum.service';
-import { firstValueFrom, from, map } from 'rxjs';
+import { firstValueFrom, from, map, of, startWith, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 import { state } from '@angular/animations';
 import { GradeService } from '../../services/mysql/grade.service';
 import { AuthService } from '../../services/mysql/auth.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -38,7 +40,8 @@ import { AuthService } from '../../services/mysql/auth.service';
         FormsModule,
         MatButtonModule,
         MatIconModule,
-        MatSortModule
+        MatSortModule,
+        TranslateModule
   ],
   templateUrl: './curriculum.component.html',
   styleUrl: './curriculum.component.scss'
@@ -47,6 +50,7 @@ export class CurriculumComponent implements OnInit {
 protected visKat: boolean = true;
 protected viewMode: 'student' | 'other' = 'other';
 private router = inject(Router)
+private translate = inject(TranslateService)
 private gradeData = inject(GradeService)
 protected toCourseForm(course: Course) {
   this.router.navigate(
@@ -114,6 +118,39 @@ protected async apply(course: Course) {
   }
   
     async ngOnInit() {
+      this.translate.onLangChange
+      .pipe(
+        startWith(null), // Azonnali első végrehajtás
+        switchMap(() => {
+          // A fő név fordítása
+          const taskName = this.translate.instant('curriculum.ALL_FIELDS'); // Feltételezem, hogy 'összes' fordítása 'curriculum.ALL' kulcs alatt van
+          
+          // Minden nyelv változáskor frissítsük a subtasks listát
+          const subtasks = [
+            {name: this.translate.instant('curriculum.NAME'), completed: true},
+            {name: 'ID', completed: true},
+            {name: this.translate.instant('curriculum.KREDIT'), completed: true},
+            {name: this.translate.instant('curriculum.RS'), completed: true},
+            {name: this.translate.instant('curriculum.SUBJECT_RESPONSIBLE'), completed: true},
+            {name: this.translate.instant('curriculum.SEZON'), completed: true},
+            {name: this.translate.instant('curriculum.APPLY'), completed: true},
+            {name: this.translate.instant('curriculum.COURSE_FORUM'), completed: true},
+          ];
+          
+          return of({ taskName, subtasks });
+        })
+      )
+      .subscribe(({ taskName, subtasks }) => {
+        // Signal frissítése az új értékekkel
+        this.task.update(value => ({
+          ...value,
+          name: taskName,
+          subtasks
+        }));
+      });
+
+
+
       await firstValueFrom(
         from(this.auth.user$).pipe(
           map(user =>{
@@ -141,23 +178,29 @@ protected async apply(course: Course) {
       }
     }
   
-
-  readonly task = signal<Task>({
-    name: 'Összes mező',
+    task = signal<Task>({
+      name: '', // Ez lesz majd lefordítva
+      completed: true,
+      subtasks: []
+    });
+  /*readonly task = signal<Task>({
+    name: 'összes',
     completed: true,
     subtasks: [
-      {name: 'Név', completed: true},
-      {name: 'Kód', completed: true},
-      {name: 'Kredit', completed: true},
-      {name: 'Ajánlót félév', completed: true},
-      {name: 'Tárgy felelős', completed: true},
-      {name: 'Szezon', completed: true},
-      {name: 'Felvétel', completed: true},
-      {name: 'Kurzus Forum', completed: true},
+      {name: firstValueFrom(from(this.translate.stream('curriculum.NAME')).pipe(map(t =>{return t.key}))), completed: true},
+      {name: 'ID', completed: true},
+      {name: this.translate.instant('curriculum.KREDIT'), completed: true},
+      {name: this.translate.stream('curriculum.RS'), completed: true},
+      {name: this.translate.stream('curriculum.SUBJECT_RESPONSIBLE'), completed: true},
+      {name: this.translate.stream('curriculum.SEZON'), completed: true},
+      {name: this.translate.stream('curriculum.APPLY'), completed: true},
+      {name: this.translate.stream('curriculum.COURSE_FORUM'), completed: true},
     ],
-  });
+  });*/
 
   readonly partiallyComplete = computed(() => {
+    console.log(firstValueFrom(from(this.translate.stream('curriculum.NAME').pipe(map(t =>{console.log('t');console.log(t)})))))
+    console.log(this.translate.stream('curriculum.RS'))
     const task = this.task();
     if (!task.subtasks) {
       return false;

@@ -1,0 +1,110 @@
+{
+    "menu": {
+        "CURRICULUM": "Curriculum",
+        "GRADES": "Electronic controller",
+        "CURRICULUM-DEVELOPER": "Curriculum developor",
+        "COURSE-FORUM": "Course forum",
+        "REGISTRATION": "registration",
+        "LOGIN": "Login",
+        "PROFILE": "Profile",
+        "LOGOUT": "Logout"
+    },
+    "login":{
+        "TITLE": "login",
+        "PASSWORD": "Password",
+        "NO_EMAIL": "Enter your email address!",
+        "NOT_VALID_EMAIL": "This is not a valid email address!",
+        "NO_PASSWORD": "Enter your password!",
+        "LOGIN": "Login"
+    },
+    "profile":{
+        "TITLE": "My Details:",
+        "CODE": "Athena code",
+        "NAME": "Name",
+        "ROLE": "Rank",
+        "PASSWORD_CHANGE": "Change Password",
+        "EMAIL_CHANGE": "Change Email"
+    },
+    "regist":{
+        "TITLE": "Registration",
+        "NAME": "Name",
+        "NO_NAME": "Enter your username!",
+        "MIN_NAME": "Username must be at least 4 characters!",
+        "MAX_NAME": "The username can be up to 12 characters!",
+        "NO_EMAIL": "Enter your email address!",
+        "NOT_VALID_EMAIL": "This is not a valid email address!",
+        "PASSWORD": "Password",
+        "NO_PASSWORD":"Enter the password!",
+        "NOT_VALID_PASSWORD": "It must be 6-12 characters long and contain at least one letter and one number!",
+        "PASSWORD_AGAIN": "Password again",
+        "NO_PASSWORD_AGAIN": "Please enter your password again!",
+        "PASSWORD_NOT_MATCH": "The passwords don't match!",
+        "ROLE": "Rank",
+        "NO_ROLE": "Enter the user's rank!",
+        "CURRICULUM": "Curriculum",
+        "REGIST": "Registration"
+    },
+"electronic-controller":{
+        "SEARCH": "Search",
+        "SEMESTER": "Semester",
+        "COURSE_NAME": "Course name",
+        "GRADE": "Grade",
+        "Subject_Submission": "Subject submission",
+        "CODE": "Athena code",
+        "BACK": "back"
+    },
+    "curriculum-develepor":{
+        "NAME": "Name",
+        "MODIFY": "Modify",
+        "DELETE": "Delete",
+        "CURRICULUM_NAME": "Curriculum name",
+        "SPECIALIZATION": "Specialization",
+        "CATEGORY": "Category",
+        "CATEGORY_MIN": "Minimum credit",
+        "COURSE": "Course",
+        "COURSE_CHOOSE": "Choose a course!",
+        "SAVE": "Save",
+        "CLOSE": "Close"
+    },
+    "curriculum":{
+        "MIN_KREDIT": "Credits to be completed: ",
+        "CAT_MIN_KREDIT": "Minimum credit: ",
+        "SUM": "Sum: ",
+        "NAME": "Name",
+        "CODE":"Athena code",
+        "KREDIT": "Credit",
+        "RS": "Recommended semester",
+        "SUBJECT_RESPONSIBLE": "Subject responsible",
+        "SEZON": "Sezon",
+        "FALL": "Autumn",
+        "SPRING": "Spring",
+        "FALL_SPRING": "Autumn-Spring",
+        "APPLY": "Apply",
+        "COURSE_FORUM": "Course forum",
+        "ALL_FIELDS": "All fields",
+        "FILLTER": "Filters",
+        "CURRICULUMS": "Curriculums",
+        "SPECIALIZATION": "Specialization",
+        "CATEGORY": "Category",
+        "GOAL": "Purpose",
+        "CONDITIONS": "Conditions",
+        "CONDITIONS_PLASEHOLDER": "+subject, -subject",
+        "OPTIMALIZATION": "Optimization"
+    },
+    "course-forum":{
+        "SEARCH_PLASEHOLDER": "Course name...",
+        "NAME": "Name",
+        "MODIFY": "Modify",
+        "DELETE": "Delete",
+        "GRADES": "Controller",
+        "FORUM": "Forum"
+    },
+    "forum":{
+        "FORUM": "Forum",
+        "DATAILS": "Course details:",
+        "Massage": "Messages",
+        "Massage_SEND": "Post to the forum",
+        "BACK": "Back",
+        "SEND": "Send"
+    }
+}

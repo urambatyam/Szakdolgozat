@@ -1,0 +1,110 @@
+{
+    "menu": {
+        "CURRICULUM": "Tanterv",
+        "GRADES": "Ellenörző",
+        "CURRICULUM-DEVELOPER": "Tanterv készitő",
+        "COURSE-FORUM": "Kurzusforum",
+        "REGISTRATION": "Regisztráció",
+        "LOGIN": "Bejelentkezés",
+        "PROFILE": "Profil",
+        "LOGOUT": "Kijelentkezés"
+    },
+    "login":{
+        "TITLE": "Bejelentkezés",
+        "PASSWORD": "Jelszó",
+        "NO_EMAIL": "Add meg az email címet!",
+        "NOT_VALID_EMAIL": "Ez nem egy érvényes email cím!",
+        "NO_PASSWORD": "Add meg a jelszót!",
+        "LOGIN": "Belépés"
+    },
+    "profile":{
+        "TITLE": "Adataim:",
+        "CODE": "Athena kód",
+        "NAME": "Név",
+        "ROLE": "Rang",
+        "PASSWORD_CHANGE": "Jelszó megváltoztatása",
+        "EMAIL_CHANGE": "Email megváltoztatása"
+    },
+    "regist":{
+        "TITLE": "Regisztráció",
+        "NAME": "Név",
+        "NO_NAME": "Add meg a felhasználó nevet!",
+        "MIN_NAME": "A felhasználónév legalább 4 karakter!",
+        "MAX_NAME": "A felhasználónév legfeljebb 12 karakter!",
+        "NO_EMAIL": "Add meg az email címet!",
+        "NOT_VALID_EMAIL": "Ez nem egy érvényes email cím!",
+        "PASSWORD": "Jelszó",
+        "NO_PASSWORD":"Add meg a jelszót!",
+        "NOT_VALID_PASSWORD": "6-12 karakter hoszú és legalább egy betűt és számot kell tartalmaznia!",
+        "PASSWORD_AGAIN": "Jelszó újra",
+        "NO_PASSWORD_AGAIN": "Add meg a jelszót újra!",
+        "PASSWORD_NOT_MATCH": "A jelszók nem egyeznek!",
+        "ROLE": "Rang",
+        "NO_ROLE": "Add meg a felhasználó rangját!",
+        "CURRICULUM": "Tanterv",
+        "REGIST": "Regisztráció"
+    },
+    "electronic-controller":{
+        "SEARCH": "Keresés",
+        "SEMESTER": "Félév",
+        "COURSE_NAME": "Kurzus neve",
+        "GRADE": "Osztályzat",
+        "Subject_Submission": "Tárgyleadás",
+        "CODE": "Athéna kód",
+        "BACK": "Vissza"
+    },
+    "curriculum-develepor":{
+        "NAME": "Név",
+        "MODIFY": "Módosítás",
+        "DELETE": "Törlés",
+        "CURRICULUM_NAME": "Tanterv neve",
+        "SPECIALIZATION": "Speacializáció",
+        "CATEGORY": "Kategoria",
+        "CATEGORY_MIN": "Minimum kredit",
+        "COURSE": "Kurzus",
+        "COURSE_CHOOSE": "Választ kurzus!",
+        "SAVE": "Mentés",
+        "CLOSE": "Mégse"
+    },
+    "curriculum":{
+        "MIN_KREDIT": "Teljesitendő kredit: ",
+        "CAT_MIN_KREDIT": "Minmum kredit: ",
+        "SUM": "Összesen: ",
+        "NAME": "Név",
+        "CODE":"Athena kód",
+        "KREDIT": "Kredit",
+        "RS": "Ajánlott félév",
+        "SUBJECT_RESPONSIBLE": "Tárgyfelelős",
+        "SEZON": "Szezon",
+        "FALL": "Őssz",
+        "SPRING": "Tavasz",
+        "FALL_SPRING": "Őssz-Tavasz",
+        "APPLY": "Felvétel",
+        "COURSE_FORUM": "Kurzusforum",
+        "ALL_FIELDS": "Minden mező",
+        "FILLTER": "Szürők",
+        "CURRICULUMS": "Tantervek",
+        "SPECIALIZATION": "Speacializáció",
+        "CATEGORY": "Kategoria",
+        "GOAL": "Cél",
+        "CONDITIONS": "Feltételek",
+        "CONDITIONS_PLASEHOLDER": "+tárgy, -tárgy",
+        "OPTIMALIZATION": "Optimalizálás"
+    },
+    "course-forum":{
+        "SEARCH_PLASEHOLDER": "Kurzus neve...",
+        "NAME": "Név",
+        "MODIFY": "Módosítás",
+        "DELETE": "Törlés",
+        "GRADES": "Ellenörző",
+        "FORUM": "Forum"
+    },
+    "forum":{
+        "FORUM": "Forum",
+        "DATAILS": "Kurzus adatai:",
+        "Massage": "Üzenetek",
+        "Massage_SEND": "Szólj hozzá!",
+        "BACK": "Vissza",
+        "SEND": "Küldés"
+    }
+}
