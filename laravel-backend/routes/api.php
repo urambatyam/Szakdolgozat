@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseForumController;
 use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SubjectMatterController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -32,6 +33,10 @@ Route::get('/grade/course/{course_id}', [GradeController::class, 'getAllGradesIn
 Route::get('/grade/student/{student_code}', [GradeController::class, 'getAllGradesOFStudent'])->middleware('auth:sanctum');
 Route::get('/statistic/{course_id}', [GradeController::class, 'statisticAbaoutCourse'])->middleware('auth:sanctum');
 Route::get('/statistic', [GradeController::class, 'statisticAbaoutAll'])->middleware('auth:sanctum');
+
+Route::get('/subjectMatter/{course_id}', [SubjectMatterController::class, 'getSubjectMatterOfCourse'])->middleware('auth:sanctum');
+Route::put('/subjectMatter', [SubjectMatterController::class, 'update'])->middleware('auth:sanctum');
+
 
 
 

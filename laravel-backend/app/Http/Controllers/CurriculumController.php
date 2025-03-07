@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Curriculum;
 use App\Models\Course;
+use App\Models\User;
+use App\Models\Grade;
 use Illuminate\Http\Request;
-use App\Rules\CustomCurriculumValidation;
+use Illuminate\Support\Facades\Auth;
+
 
 class CurriculumController extends Controller
 {
@@ -71,9 +74,26 @@ class CurriculumController extends Controller
      */
     public function show(Curriculum $curriculum)
     {
-        return response()->json(
-            $curriculum->load('specializations.categories.courses')
-        );
+        if(Auth::check() && Auth::user()->role === 'student'){
+            /** @var User $student */
+            $student = Auth::user();
+            $curriculum->load('specializations.categories.courses');
+            $studentGrades = $student->grades()->where('grade','!=',1)->pluck('course_id')->all();
+            foreach($curriculum->specializations as $specialization){
+                foreach($specialization->categories as $category){
+                    foreach($category->courses as $course){
+                        $course->completed = in_array($course->id, $studentGrades);
+                    }
+                }
+            }
+            return response()->json($curriculum);
+        }else{
+            return response()->json(
+                $curriculum->load('specializations.categories.courses')
+            );
+        }
+        
+ 
     }
 
     /**

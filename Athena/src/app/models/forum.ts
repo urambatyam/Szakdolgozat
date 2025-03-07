@@ -2,6 +2,6 @@ export interface Forum {
     id:string,
     userId:string,
     courseId:number,
-    date:string,
+    date:Date,
     message:string
 }

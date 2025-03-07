@@ -1,15 +1,15 @@
 import { Component,  inject, OnInit} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Course } from '../../../models/course';
-import { CourseForumService } from '../../../services/mysql/course-forum.service';
-import { catchError, EMPTY, firstValueFrom, from, map, tap } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { CourseForum } from '../../../models/courseForum';
 import { Location } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import {MatListModule} from '@angular/material/list';
+import { MessagesComponent } from "./messages/messages.component";
+import { SubjectTopicComponent } from "./subject-topic/subject-topic.component";
+import { CourseStatisticsComponent } from "./course-statistics/course-statistics.component";
 
 @Component({
   selector: 'app-forum',
@@ -18,63 +18,33 @@ import { TranslateModule } from '@ngx-translate/core';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule,
     MatButtonModule,
-    TranslateModule
-  ],
+    MatListModule,
+    TranslateModule,
+    MessagesComponent,
+    SubjectTopicComponent,
+    CourseStatisticsComponent
+],
   templateUrl: './forum.component.html',
   styleUrl: './forum.component.scss'
 })
 export class ForumComponent implements OnInit {
-
-
   private location = inject(Location);
-  private fb = inject(NonNullableFormBuilder);
-  private forumData = inject(CourseForumService);
   protected course: Course | null = null;
+  protected option:'massages'|'topic'|'statistics' = 'massages'
 
-  forumForm = this.fb.group({
-    text: ''
-  });
-  protected messages: CourseForum[] = [];
-  private getForums(courseId:number){
-    firstValueFrom(from(this.forumData.getAllCourseForumsInCourse(courseId)).pipe(
-      map(
-        forums => {
-          this.messages = forums;
-        }
-      ),
-      catchError(error => {console.error('Hiba:', error);return EMPTY;})
-    ))
-  }
   async ngOnInit(): Promise<void> {
     const state = history.state;
     this.course = state.course;
-    if(this.course && this.course.id){
-      this.getForums(this.course.id);
-    }
-  }
-  async onSubmit() {
-    if (this.forumForm.valid) {
-        if(this.course && this.course.id && this.forumForm.value.text){
-          const newMessage: CourseForum = {
-            course_id: this.course.id,
-            message: this.forumForm.value.text,
-          };
-          await firstValueFrom(
-            from(this.forumData.createCourseForum(newMessage)).pipe(
-              tap(() => {this.forumForm.reset();})
-            )
-          )
-          this.getForums(this.course.id);
-        }
-    }
   }
 
-  back() {
+  protected changeOption(option: 'massages'|'topic'|'statistics'): void {
+    this.option = option;
+  }
+
+
+
+  protected back() {
     this.location.back();
   }
-
-
-
 }

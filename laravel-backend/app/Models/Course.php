@@ -38,4 +38,8 @@ class Course extends Model
     {
         return $this->belongsToMany(Category::class, 'category_course');
     }
+    public function subjectMatter()
+    {
+        return $this->hasOne(SubjectMatter::class);
+    }
 }

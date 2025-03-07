@@ -1,14 +1,74 @@
-#container{
+@use '@angular/material' as mat;
+
+  
+  #container {
     display: flex;
     flex-direction: row;
+    height: 90%;
+    width: 100%;
+  }
+  
+  .course-details {
+    flex: 3; 
+    padding: 5%;
+    height: 80%;
+  }
+  
+  .forum-container {
+    flex: 7; 
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    overflow: hidden; 
+  }
+  
+  #forum {
+    flex-grow: 1;
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+    gap: 5%; 
+    padding-right: 10%; 
+    height: 80%;
+  }
+  
+  .message-form {
+    flex-shrink: 0; // Nem zsugorodik
+    margin-top: 5%;
+    display: flex;
+    align-items: center;
+    gap: 5%;
+    height: 20%; // Rögzített magasság
+    padding-top: 16px;
+    border-top: 1px solid #e0e0e0; // Elválasztó vonal
+  }
+  
+  .message-form mat-form-field {
+    flex-grow: 1;
+  }
+  
+  .back-button {
+    margin-top: 16px;
+    align-self: flex-start;
+  }
+
+
+  
+ .selectedOption {
+  @include mat.list-overrides((
+    list-item-container-color: rgb(78, 191, 236),
+    list-item-label-text-color: #fff,
+  ));
+  
 }
 
-#courseData{
-    width: 50%;
-    height: 100%;
-}
-
-form{
-    width: 50%;
-    height: 100%;
-}
+  .selecteAble:hover{
+    @include mat.list-overrides((
+      list-item-container-color: rgb(205, 231, 235),
+      list-item-hover-label-text-color: var(--mat-primary-500),
+    ));
+  }
+  .selecteAble{
+    border-radius: 10em;
+  }
+  

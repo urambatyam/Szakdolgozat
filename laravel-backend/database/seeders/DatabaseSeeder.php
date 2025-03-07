@@ -9,6 +9,7 @@ use App\Models\Grade;
 use App\Models\CourseForum;
 use App\Models\Curriculum;
 use App\Models\Specialization;
+use App\Models\SubjectMatter;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -28,6 +29,11 @@ class DatabaseSeeder extends Seeder
         $courses = Course::factory()->count(20)->create([
             'user_code' => $teachers->random()->code
         ]);
+        foreach($courses as $course){
+            SubjectMatter::factory()->create([
+                'course_id' => $course->id
+            ]);
+        }
 
         
 

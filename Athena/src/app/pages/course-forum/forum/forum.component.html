@@ -1,40 +1,49 @@
-<mat-card>
-    <mat-card-header>
-      <mat-card-title>
-        {{course?.name}} {{'forum.FORUM' | translate }}
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="forum-container">
-        <div class="course-details">
-          <h3>{{'forum.DATAILS' | translate }}</h3>
-          <p><strong>{{'curriculum.NAME' | translate }}:</strong> {{course?.name}}</p>
-          <p><strong>{{'curriculum.KREDIT' | translate }}:</strong> {{course?.kredit}}</p>
-          <p><strong>{{'curriculum.RS' | translate }}:</strong> {{course?.recommendedSemester}}</p>
-          <p><strong>{{'curriculum.SUBJECT_RESPONSIBLE' | translate }}:</strong> {{course?.user_code}}</p>
-        </div>
-        
-        <div class="messages-container">
-          <h3>{{'forum.Massage' | translate }}:</h3>
-          @for(message of messages; track message.id) {
-            <div class="message">
-              <strong>{{message.user_code}}:</strong>
-              <p>{{message.message}}</p>
-            </div>
-          }
-        </div>
-
-        <form [formGroup]="forumForm" (ngSubmit)="onSubmit()" class="message-form">
-          <mat-form-field>
-            <mat-label>{{'forum.Massage_SEND' | translate }}</mat-label>
-            <input matInput type="text" formControlName="text">
-          </mat-form-field>
-          <button mat-raised-button color="primary" type="submit">{{'forum.SEND' | translate }}</button>
-        </form>
+<mat-card class="full-height">
+  <mat-card-header>
+    <mat-card-title>
+      {{course?.name}} {{'forum.FORUM' | translate }}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="full-height">
+    <div id="container">
+      <div class="course-details">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>
+              {{'forum.DATAILS' | translate }}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-list color="primary">
+              <mat-list-item>{{'curriculum.NAME' | translate }}: {{course?.name}}</mat-list-item>
+              <mat-list-item>{{'curriculum.KREDIT' | translate }} {{course?.kredit}}</mat-list-item>
+              <mat-list-item>{{'curriculum.RS' | translate }}: {{course?.recommendedSemester}}</mat-list-item>
+              <mat-list-item>{{'curriculum.SUBJECT_RESPONSIBLE' | translate }}: {{course?.user_code}}</mat-list-item>
+              <mat-list-item >Median: ?</mat-list-item>
+              <mat-list-item  class="selecteAble"  (click)="changeOption('topic')" [class.selectedOption]="option === 'topic'">Tárgytematika</mat-list-item>
+              <mat-list-item class="selecteAble" (click)="changeOption('massages')" [class.selectedOption]="option === 'massages'">Forum</mat-list-item>
+              <mat-list-item class="selecteAble" (click)="changeOption('statistics')" [class.selectedOption]="option === 'statistics'">Statisztikák</mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
       </div>
-      
-      <button mat-raised-button (click)="back()" class="back-button">
-        {{'forum.BACK' | translate }}
-      </button>
-    </mat-card-content>
-  </mat-card>
+      <div class="forum-container">
+        @switch (option) {
+          @case ("massages") {
+            <app-messages [courseId]="course?.id ?? null"></app-messages>
+          }
+          @case ("topic") {
+            <app-subject-topic></app-subject-topic>
+          }          
+          @case ("statistics") {
+            <app-course-statistics></app-course-statistics>
+          }
+          @default {<app-messages></app-messages>}
+        }
+      </div>
+    </div>
+    <button mat-raised-button (click)="back()" class="back-button">
+      {{'forum.BACK' | translate }}
+    </button>
+  </mat-card-content>
+</mat-card>

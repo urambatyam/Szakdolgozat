@@ -15,7 +15,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { Curriculum } from '../../models/curriculum';
 import { CurriculumService } from '../../services/mysql/curriculum.service';
-import { firstValueFrom, from, map, of, startWith, switchMap } from 'rxjs';
+import { catchError, EMPTY, firstValueFrom, from, map, of, startWith, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { state } from '@angular/animations';
 import { GradeService } from '../../services/mysql/grade.service';
@@ -64,11 +64,14 @@ protected async apply(course: Course) {
     console.log("felvesz: ",course.id);
     await firstValueFrom(
       from(this.gradeData.createGrade(course.id)).pipe(
-        map(
-          reponse =>{
-            console.log("Felveszem a ", course, " kurzust "+reponse)
-          }
-        )
+        tap(      reponse =>{
+          console.log("Felveszem a ", course, " kurzust "+reponse)
+          course.completed = true
+        }),
+        catchError(error => {
+          console.error('Hiba: ', error);
+          return EMPTY;
+        })
       )
     )
   }
@@ -120,12 +123,10 @@ protected async apply(course: Course) {
     async ngOnInit() {
       this.translate.onLangChange
       .pipe(
-        startWith(null), // Azonnali első végrehajtás
+        startWith(null), 
         switchMap(() => {
-          // A fő név fordítása
-          const taskName = this.translate.instant('curriculum.ALL_FIELDS'); // Feltételezem, hogy 'összes' fordítása 'curriculum.ALL' kulcs alatt van
+          const taskName = this.translate.instant('curriculum.ALL_FIELDS'); 
           
-          // Minden nyelv változáskor frissítsük a subtasks listát
           const subtasks = [
             {name: this.translate.instant('curriculum.NAME'), completed: true},
             {name: 'ID', completed: true},
@@ -141,7 +142,6 @@ protected async apply(course: Course) {
         })
       )
       .subscribe(({ taskName, subtasks }) => {
-        // Signal frissítése az új értékekkel
         this.task.update(value => ({
           ...value,
           name: taskName,

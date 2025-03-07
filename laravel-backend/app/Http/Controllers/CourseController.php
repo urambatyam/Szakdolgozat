@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\CourseResource;
+use App\Models\SubjectMatter;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 
 class CourseController extends Controller
@@ -44,9 +47,29 @@ class CourseController extends Controller
             'sezon' => 'nullable|boolean',
         ]);
 
-        $course = $request->user()->course()->create($values);
-
-        return $course;
+        try {
+            $course = DB::transaction(function () use ($request, $values) {
+                $course = $request->user()->course()->create($values);
+            
+                if ($course) {
+                    SubjectMatter::create([
+                        'course_id' => $course->id,
+                    ]);
+                }
+    
+                return $course;
+            });
+    
+            return response()->json([
+                'message' => 'Course created successfully',
+                'course' => $course
+            ], 201); 
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Failed to create course',
+                'error' => $e->getMessage()
+            ], 500); 
+        }
     }
 
     /**

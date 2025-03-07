@@ -158,6 +158,50 @@ A menüsávot használva át navigálhat az admin felhaszáló a új felhasznál
     - Unit teszek készitése
     - E2E tesztelés
 
+## **Optimalizálás**  
+
+### Multi periodikus egészértékü programozás
+
+Specializáció | Kategoriák
+---|---
+spec1 |kat1, kat2
+spec2 | kat3
+
+Kategóriák | Kurzusok | Minimum keredit
+---|---|---
+kat1|k1, k2, k4, k5| 9
+kat2| k3, k6, k7 | 8
+kat3| k8, k1, k2| 7
+
+Kurzusok|Kredit|Követelmény|Szezon|Ajánlott félév
+---|---|---|---|---
+k1 | 3 | - | Bármikor | 1
+k2 | 3 | - | Ősz | 1
+k3 | 2 | - | Tavasz | 2
+k4 | 4 | k2 | Ősz | 3
+k5 | 4 | k4 | Tavasz | 4
+k6 | 5 | k3 | Bármikor | 3
+k7 | 8 | - | Tavasz | 2
+k8 | 4 | - | Ősz | 1
+
+$c_{i,t}$ = Az i-edik típusú kurzusból hány darabot választunkbe a t-edik félévben.  
+$v_i$ = Az i-edik kurzus kredit értéke  
+T = a félévek száma  
+n = a kurzusok száma
+$k_i$ = kategoriák minmum kerditje,
+$s_i$ = specializációk
+
+Z = $ \sum_{t=1}^T \sum_{i=1}^n c_{i,t}->min$  
+
+**Feltételek:**  
+$\sum_{i=1}^n \cdot v_i \leq 40$ $\forall t | 1 \leq t \leq T$  
+$x_{i,t} \geq 0, x_{i,t} \in \Z$
+$\sum_{t=1}^T \sum_{i=1}^n v_i \cdot c_{i,t} \geq minum követelmény$
+
+
+
+
+
 
 ## Fórrásaim:
 - https://angular.dev 

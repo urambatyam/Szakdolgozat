@@ -1,0 +1,29 @@
+// src/theme.scss
+
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+/*
+$red-palette
+$green-palette oké
+$blue-palette oké
+$yellow-palette
+$cyan-palette oké
+$magenta-palette
+$orange-palette
+$chartreuse-palette
+$spring-green-palette
+$azure-palette
+$violet-palette
+$rose-palette
+*/
+$theme: mat.define-theme((
+  color: (
+    primary: mat.$cyan-palette,
+  )
+));
+
+html {
+    @include mat.all-component-themes($theme);
+}

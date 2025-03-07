@@ -7,6 +7,8 @@ export interface Course {
     kredit:number|null,
     subjectMatter:string|null,
     sezon:boolean|null,
+    completed?:boolean,
+    subjectMatterId?:number|null,
 }
 
 
