@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\Grade;
+use MathPHP\Statistics\Average;
+use MathPHP\Statistics\Descriptive;
+use MathPHP\Statistics\Regression;
+use MathPHP\Statistics\Distribution;
 
 class GradeController extends Controller
 {
@@ -169,9 +173,96 @@ class GradeController extends Controller
     }
     
 
+
     public function statisticAbaoutCourse(int $course_id)
     {
-        return ['message' => 'Statisztika a kurzusról'];
+        $data = Grade::whereHas('course', function ($query) use ($course_id) {
+            $query->select('grade','year','sezon')->where('id', $course_id);
+        })->get();
+
+        $gradesWithOuthNull = collect($data["grade"])->filter(function($item){
+            return $item !== null;
+        })->values()->all();
+
+        function completionRate(object $grades){
+            $result = [
+                "completed" => 0,
+                "failed" =>0,
+                "absent" => 0
+            ];
+            foreach($grades as $item){
+                switch($item->grade){
+                    case 1:
+                        $result['failed']++;
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                        $result['completed']++;
+                        break;
+                    default:
+                        $result['absent']++;
+                        break;
+                    }
+            }
+            return $result;
+        }
+    
+        $completionRate = completionRate($data);
+        $mean = Average::mean($gradesWithOuthNull);
+        $st = Descriptive::standardDeviation($gradesWithOuthNull);
+        $allGradesFrequency = Distribution::frequency($gradesWithOuthNull);
+
+        $semesters = [];
+        foreach($data as $d){
+            $key = $d['year'].'-'.($d['sezon'] ? 1:0);
+            if(!isset($semesters[$key])){
+                $semesters[$key] = [
+                    'grades' => [],
+                ];
+            }
+            $semesters[$key]['grades'][] = $d['grade'];
+        }
+
+        foreach($semesters as $s_key => $s){
+            $semesters[$s_key]["completionStats"] = completionRate((object)$data->where('year',substr($s_key, 0, 4))->where('sezon',substr($s_key, -1))->all());
+            $gradesWONULL = collect($semesters[$s_key]["grades"])->filter(function($item){
+                return $item !== null;
+            })->values()->all();
+            $semesters[$s_key]["grade"] = $gradesWONULL;
+            $semesters[$s_key]["gradeDistribution"] = Distribution::frequency($semesters[$s_key]["grade"]);
+            $semesters[$s_key]["meam"] = Average::mean($semesters[$s_key]["grade"]);
+            $semesters[$s_key]["standardDeviation"] = Descriptive::standardDeviation($semesters[$s_key]["grade"]);
+            $semesters[$s_key]["quartiles"] = Descriptive::quartiles($gradesWONULL);
+            
+        }
+        ksort($semesters);
+        $semesterAverages = [];
+        $index = 1;
+        foreach ($semesters as $semesterData) {
+            $semesterAverages[] = [$index + 1, $semesterData["meam"]];
+            $index++;
+        }
+        if(count($semesterAverages) >= 2){
+            $semesterRegression = new Regression\Linear($semesterAverages)->getParameters();
+        }else{
+            $semesterRegression = ['m' => 0, 'b' => 0];
+        }
+
+        $statisic = (object)[
+            "meam" => $mean,
+            "standardDeviation" => $st,
+            "gradeDistribution" => $allGradesFrequency,
+            "completionStats" => $completionRate,
+            "Allgrade" => $gradesWithOuthNull,
+            "quartiles"=> Descriptive::quartiles($gradesWithOuthNull),
+            "m" => $semesterRegression['m'],
+            "b" => $semesterRegression['b'],
+            "semesters" => $semesters
+        ];
+
+        return $statisic;
     }
 
     public function statisticAbaoutAll()
