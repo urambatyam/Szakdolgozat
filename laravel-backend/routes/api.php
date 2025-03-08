@@ -31,7 +31,7 @@ Route::put('/user/password', [UserController::class, 'updatePassword'])->middlew
 Route::apiResource('grade', GradeController::class)->except(['show'])->middleware('auth:sanctum');
 Route::get('/grade/course/{course_id}', [GradeController::class, 'getAllGradesInCourse'])->middleware('auth:sanctum');
 Route::get('/grade/student/{student_code}', [GradeController::class, 'getAllGradesOFStudent'])->middleware('auth:sanctum');
-Route::get('/statistic/{course_id}', [GradeController::class, 'statisticAbaoutCourse'])->middleware('auth:sanctum');
+Route::get('/statistic/{course_id}', [GradeController::class, 'statisticAbaoutCourse']);
 Route::get('/statistic', [GradeController::class, 'statisticAbaoutAll'])->middleware('auth:sanctum');
 
 Route::get('/subjectMatter/{course_id}', [SubjectMatterController::class, 'getSubjectMatterOfCourse'])->middleware('auth:sanctum');

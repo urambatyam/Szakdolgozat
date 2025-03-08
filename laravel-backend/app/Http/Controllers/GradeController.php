@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\Grade;
 use MathPHP\Statistics\Average;
@@ -84,70 +83,70 @@ class GradeController extends Controller
     }
     
     public function getAllGradesOFStudent(Request $request, String $studentCode)
-{
-    $query = Grade::whereHas('user', function ($query) use ($studentCode) {
-        $query->where('code', $studentCode);
-    });
-
-    if ($request->has('filter')) {
-        $query->whereHas('course', function ($q) use ($request) {
-            $q->where('name', 'like', '%' . $request->filter . '%');
-        });
-    }
-
-    if ($request->has('year') && $request->has('sezon')) {
-        $query->where('year', $request->year)
-            ->where('sezon', $request->sezon);
-    }
-
-    $query->orderBy('year', 'asc');
-    $query->orderBy('sezon', 'asc');
-
-    $perPage = $request->input('per_page', 10);
-    $gardeData = $query->paginate($perPage);
-
-    $gardeData->getCollection()->transform(function ($grade) {
-        $grade->course_name = $grade->course->name;
-        return $grade;
-    });
-
-    $semesters = Grade::whereHas('user', function ($query) use ($studentCode) {
-        $query->where('code', $studentCode);
-    })
-        ->select('year', 'sezon')
-        ->distinct()
-        ->get()
-        ->map(function ($item) {
-            return (object) [ // Itt alakítjuk objektummá a tömböt.
-                'year' => $item->year,
-                'sezon' => $item->sezon,
-                'current' => false,
-            ];
+    {
+        $query = Grade::whereHas('user', function ($query) use ($studentCode) {
+            $query->where('code', $studentCode);
         });
 
-    $nowY = date("Y");
-    $nowS = date("n") >= 9 ? true : false;
-    $currentInSemester = false;
-
-    foreach ($semesters as $semester) {
-        if ($semester->year == $nowY && $semester->sezon == $nowS) {
-            $semester->current = true;
-            $currentInSemester = true;
-            break;
+        if ($request->has('filter')) {
+            $query->whereHas('course', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->filter . '%');
+            });
         }
-    }
-    if (!$currentInSemester) {
-        $semesters->push((object) [ 
-            'year' => $nowY,
-            'sezon' => $nowS,
-            'current' => true,
-        ]);
-    }
 
-    $semesters = $semesters->sortBy([['year', 'desc'], ['sezon', 'desc']])->values();
+        if ($request->has('year') && $request->has('sezon')) {
+            $query->where('year', $request->year)
+                ->where('sezon', $request->sezon);
+        }
 
-    return ['grades' => $gardeData, 'semesters' => $semesters];
-}
+        $query->orderBy('year', 'asc');
+        $query->orderBy('sezon', 'asc');
+
+        $perPage = $request->input('per_page', 10);
+        $gardeData = $query->paginate($perPage);
+
+        $gardeData->getCollection()->transform(function ($grade) {
+            $grade->course_name = $grade->course->name;
+            return $grade;
+        });
+
+        $semesters = Grade::whereHas('user', function ($query) use ($studentCode) {
+            $query->where('code', $studentCode);
+        })
+            ->select('year', 'sezon')
+            ->distinct()
+            ->get()
+            ->map(function ($item) {
+                return (object) [ // Itt alakítjuk objektummá a tömböt.
+                    'year' => $item->year,
+                    'sezon' => $item->sezon,
+                    'current' => false,
+                ];
+            });
+
+        $nowY = date("Y");
+        $nowS = date("n") >= 9 ? true : false;
+        $currentInSemester = false;
+
+        foreach ($semesters as $semester) {
+            if ($semester->year == $nowY && $semester->sezon == $nowS) {
+                $semester->current = true;
+                $currentInSemester = true;
+                break;
+            }
+        }
+        if (!$currentInSemester) {
+            $semesters->push((object) [ 
+                'year' => $nowY,
+                'sezon' => $nowS,
+                'current' => true,
+            ]);
+        }
+
+        $semesters = $semesters->sortBy([['year', 'desc'], ['sezon', 'desc']])->values();
+
+        return ['grades' => $gardeData, 'semesters' => $semesters];
+    }
     /**
      * Update the specified resource in storage.
      */
@@ -177,10 +176,10 @@ class GradeController extends Controller
     public function statisticAbaoutCourse(int $course_id)
     {
         $data = Grade::whereHas('course', function ($query) use ($course_id) {
-            $query->select('grade','year','sezon')->where('id', $course_id);
+            $query->where('id', $course_id);
         })->get();
-
-        $gradesWithOuthNull = collect($data["grade"])->filter(function($item){
+        
+        $gradesWithOuthNull = $data->pluck('grade')->filter(function($item){
             return $item !== null;
         })->values()->all();
 
@@ -208,7 +207,7 @@ class GradeController extends Controller
             }
             return $result;
         }
-    
+
         $completionRate = completionRate($data);
         $mean = Average::mean($gradesWithOuthNull);
         $st = Descriptive::standardDeviation($gradesWithOuthNull);
@@ -226,26 +225,31 @@ class GradeController extends Controller
         }
 
         foreach($semesters as $s_key => $s){
-            $semesters[$s_key]["completionStats"] = completionRate((object)$data->where('year',substr($s_key, 0, 4))->where('sezon',substr($s_key, -1))->all());
+            $currentSemesterGrades = $data->where('year',substr($s_key, 0, 4))->where('sezon',substr($s_key, -1))->values();
+            $semesters[$s_key]["completionStats"] = completionRate($currentSemesterGrades);
+
             $gradesWONULL = collect($semesters[$s_key]["grades"])->filter(function($item){
                 return $item !== null;
             })->values()->all();
+
             $semesters[$s_key]["grade"] = $gradesWONULL;
             $semesters[$s_key]["gradeDistribution"] = Distribution::frequency($semesters[$s_key]["grade"]);
             $semesters[$s_key]["meam"] = Average::mean($semesters[$s_key]["grade"]);
             $semesters[$s_key]["standardDeviation"] = Descriptive::standardDeviation($semesters[$s_key]["grade"]);
             $semesters[$s_key]["quartiles"] = Descriptive::quartiles($gradesWONULL);
-            
+            unset($semesters[$s_key]['grades']);
         }
         ksort($semesters);
         $semesterAverages = [];
         $index = 1;
         foreach ($semesters as $semesterData) {
-            $semesterAverages[] = [$index + 1, $semesterData["meam"]];
-            $index++;
+            $semesterAverages[] = [$index, $semesterData["meam"]];
+            $index++; 
         }
-        if(count($semesterAverages) >= 2){
-            $semesterRegression = new Regression\Linear($semesterAverages)->getParameters();
+
+        if(count($semesterAverages) > 2){
+            $regression = new Regression\Linear($semesterAverages);
+            $semesterRegression = $regression->getParameters();
         }else{
             $semesterRegression = ['m' => 0, 'b' => 0];
         }
@@ -259,11 +263,12 @@ class GradeController extends Controller
             "quartiles"=> Descriptive::quartiles($gradesWithOuthNull),
             "m" => $semesterRegression['m'],
             "b" => $semesterRegression['b'],
-            "semesters" => $semesters
+            "semesters" => $semesters,
         ];
 
         return $statisic;
     }
+
 
     public function statisticAbaoutAll()
     {
