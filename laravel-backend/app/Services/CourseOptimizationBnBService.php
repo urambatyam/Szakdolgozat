@@ -569,60 +569,100 @@ class CourseOptimizationBnBService
      */
     public function getCreditsBreakdown(array $studyPlan): array
     {
-        // Feltételezve, hogy ez a függvény helyes és változatlan
+        // A felhasználó által preferált verzió (feltételezve, hogy visszaállította)
         $categoryCredits = [];
-        $coursesInPlan = [];
-        if (!isset($studyPlan['semesters']) || !is_array($studyPlan['semesters'])) { return []; }
+        $courses = [];
+
+        // Ellenőrizzük, hogy a studyPlan tartalmazza-e a 'semesters' kulcsot és az tömb-e
+        if (!isset($studyPlan['semesters']) || !is_array($studyPlan['semesters'])) {
+            // Kezeljük le az esetet, pl. üres tömb visszaadása vagy hiba jelzése
+             return []; // Vagy egy specifikusabb hiba struktúra
+        }
+
+
         foreach ($studyPlan['semesters'] as $semester) {
-            if (is_array($semester) && isset($semester['courses']) && is_array($semester['courses'])) {
+            if (is_array($semester) && isset($semester['courses'])) {
                 foreach ($semester['courses'] as $course) {
+                    // Biztonsági ellenőrzés, hogy a $course tömb és tartalmazza a szükséges kulcsokat
                     if(is_array($course) && isset($course['id']) && isset($course['kredit'])){
-                         if (!isset($coursesInPlan[$course['id']])) { $coursesInPlan[$course['id']] = $course['kredit']; }
+                        $courses[] = $course;
                     }
                 }
             }
         }
-        foreach ($coursesInPlan as $courseId => $kredit) {
-            if (!isset($this->courseCategories[$courseId])) { continue; }
-            foreach ($this->courseCategories[$courseId] as $categoryId) {
-                 if (!isset($categoryCredits[$categoryId])) { $categoryCredits[$categoryId] = 0; }
-                 if (is_numeric($kredit)) { $categoryCredits[$categoryId] += $kredit; }
+
+        foreach ($courses as $course) {
+            $courseId = $course['id'];
+
+            // Ellenőrizzük, hogy létezik-e a kurzushoz kategória információ
+            if (!isset($this->courseCategories[$courseId])) {
+                continue; // Ha nincs, kihagyjuk
             }
-        }
-        $result = [];
-        $relevantSpecializationIds = $this->relevantCategories ? $this->relevantCategories->pluck('specialization_id')->unique()->toArray() : [];
-        if(!isset($this->curriculum->specializations) || !is_iterable($this->curriculum->specializations)){ return []; }
-        foreach ($this->curriculum->specializations as $specialization) {
-            if(!is_object($specialization) || !isset($specialization->name) || !isset($specialization->min)){ continue; }
-            $isRelevantOrRequired = $specialization->required || in_array($specialization->id, $relevantSpecializationIds);
-            if (!$isRelevantOrRequired) { continue; }
-            $specResult = [
-                'specialization_name' => $specialization->name, 'categories' => [],
-                'is_completed' => true, 'credits_earned' => 0,
-                'min' => $specialization->min, 'required' => $specialization->required
-            ];
-            $totalSpecCreditsEarned = 0;
-            if(!isset($specialization->categories) || !is_iterable($specialization->categories)){
-                 if (!$specialization->required) continue;
-            } else {
-                foreach ($specialization->categories as $category) {
-                    if(!is_object($category) || !isset($category->id) || !isset($category->name) || !isset($category->min)){ continue; }
-                    $isRelevantCategory = $this->relevantCategories && $this->relevantCategories->contains('id', $category->id);
-                    $creditsEarned = $categoryCredits[$category->id] ?? 0;
-                    $isCategoryCompleted = $creditsEarned >= $category->min;
-                    $specResult['categories'][] = [
-                        'category_name' => $category->name, 'min' => $category->min,
-                        'max' => $category->max ?? 0, 'credits_earned' => $creditsEarned,
-                        'is_completed' => $isCategoryCompleted,
-                    ];
-                    if ($isRelevantCategory) { $totalSpecCreditsEarned += $creditsEarned; }
-                    if ($isRelevantCategory && !$isCategoryCompleted) { $specResult['is_completed'] = false; }
+
+            foreach ($this->courseCategories[$courseId] as $categoryId) {
+                if (!isset($categoryCredits[$categoryId])) {
+                    $categoryCredits[$categoryId] = 0;
+                }
+                // Biztonsági ellenőrzés, hogy a kredit numerikus érték
+                if(is_numeric($course['kredit'])){
+                    $categoryCredits[$categoryId] += $course['kredit'];
                 }
             }
-             if ($totalSpecCreditsEarned < $specialization->min) { $specResult['is_completed'] = false; }
-             $specResult['credits_earned'] = $totalSpecCreditsEarned;
-            $result[] = $specResult;
         }
+
+        $result = [];
+        // Ellenőrizzük, hogy a $this->curriculum->specializations létezik és iterálható-e
+        if(!isset($this->curriculum->specializations) || !is_iterable($this->curriculum->specializations)){
+            return []; // Vagy hiba jelzése
+        }
+
+        foreach ($this->curriculum->specializations as $index => $specialization) {
+            // Biztonsági ellenőrzés, hogy $specialization objektum és vannak tulajdonságai
+            if(!is_object($specialization) || !isset($specialization->name) || !isset($specialization->min)){
+                 continue;
+            }
+
+            $result[$index] = [
+                'specialization_name' => $specialization->name,
+                'categories' => [],
+                'is_completed' => true,
+                'credits_earned' => 0,
+                'max' => 0, // Ezt a mezőt lehet, hogy a Controller tölti fel, itt inicializáljuk
+                'min' => $specialization->min
+            ];
+
+            // Ellenőrizzük, hogy a $specialization->categories létezik és iterálható-e
+            if(!isset($specialization->categories) || !is_iterable($specialization->categories)){
+                 continue; // Kihagyjuk ezt a specializációt, ha nincsenek kategóriái
+            }
+
+
+            foreach ($specialization->categories as $category) {
+                 // Biztonsági ellenőrzés, hogy $category objektum és vannak tulajdonságai
+                 if(!is_object($category) || !isset($category->id) || !isset($category->name) || !isset($category->min)){
+                     continue;
+                 }
+
+                $creditsEarned = $categoryCredits[$category->id] ?? 0;
+
+                $result[$index]['categories'][] = [
+                    'category_name' => $category->name,
+                    'min' => $category->min,
+                    'max' => $category->max ?? 0, // Használjunk null coalescing operátort, ha a max nem mindig létezik
+                    'credits_earned' => $creditsEarned,
+                    'is_completed' => $creditsEarned >= $category->min,
+                ];
+
+                // Biztonsági ellenőrzés a max értékre
+                $result[$index]['max'] += $category->max ?? 0;
+                $result[$index]['credits_earned'] += $creditsEarned;
+
+                if ($creditsEarned < $category->min) {
+                    $result[$index]['is_completed'] = false;
+                }
+            }
+        }
+
         return $result;
     }
 
@@ -642,6 +682,5 @@ class CourseOptimizationBnBService
         return true;
     }
 
-    // isMandatoryCourse függvény eltávolítva, mivel nem használtuk.
 
 }
