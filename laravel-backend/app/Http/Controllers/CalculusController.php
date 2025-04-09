@@ -18,8 +18,7 @@ class CalculusController extends Controller
 {
     public function optimalizeByBnB(Request $request){
         $history = [];
-        $nagativ = [30];
-        $pozitiv = [38,40];
+   
         $values = $request->validate([
             'curriculum_id' => 'required|exists:curricula,id',
             'creditLimit' => 'required|integer|min:1',
@@ -29,6 +28,26 @@ class CalculusController extends Controller
             'pozitivIds' => 'array',
         ]);
         $startWith = now()->month >= 9 ? true : false;
+        $pozitivCoursesData = [];
+        foreach ($values['pozitivIds'] as $pId) {
+            $course = Course::find($pId);
+            if ($course) { // Ellenőrizzük, hogy létezik-e a kurzus
+                $courseCategories = $course->categories()->pluck('category_id')->toArray();
+                $allCoursePreRequisites = $course->prerequisites()->pluck('prerequisite_course_id')->toArray();
+                $pozitivCoursesData[$pId] = [ // Közvetlenül a cél tömbbe tesszük, ID-val indexelve
+                    'id' => $course->id,
+                    'name' => $course->name,
+                    'kredit' => $course->kredit,
+                    'recommendedSemester' => $course->recommendedSemester,
+                    'sezon' => $course->sezon,
+                    'categories' => $courseCategories,
+                    // Adjunk hozzá egy 'efficiency'-t is, ha később hasznos lehet
+                    'efficiency' => ($course->kredit * count($courseCategories)),
+                    // Adjunk hozzá előkövetelményeket is
+                    'prerequisites' => $allCoursePreRequisites
+                ];
+            }
+        }
 
         $curriculum = Curriculum::find($values['curriculum_id']);
         $curriculum->load('specializations.categories.courses');
@@ -43,6 +62,8 @@ class CalculusController extends Controller
                 true,
                 $values['considerRecommendations'],
                 $history,
+                $values['negativIds'],
+                $pozitivCoursesData,
             );
             
         }else{
@@ -51,6 +72,8 @@ class CalculusController extends Controller
                 true,
                 $values['considerRecommendations'],
                 [],
+                $values['negativIds'],
+                $pozitivCoursesData,
             );
         }
         $creditsBreakdown = $optimizer->getCreditsBreakdown($optimizedPlan);
