@@ -1,0 +1,41 @@
+<mat-card>
+    <mat-card-content>
+        @switch (statisctics) {
+            @case ('a'){
+                <div id="avarage" ></div>
+            }
+            @case ('lr'){
+                <div id="linearRegression" ></div>
+            }
+            @case ('p'){
+                <div id="progress" ></div>
+                <mat-card class="progress-card">
+                    <mat-card-title>Szoftverfejlesztés: {{ completedCredits }}/{{ totalCredits }} kredit ({{ progress | number:'1.0-0' }}%)</mat-card-title>
+                    
+                    <mat-card-content>
+                        @for(subject of subjects; track $index){
+                            <div  class="subject-container">
+                                <span>{{ subject.name }}:</span>
+                                <mat-progress-bar [color]="subject.color" [value]="(subject.earned / subject.total) * 100"></mat-progress-bar>
+                                <span>{{ subject.earned }}/{{ subject.total }} kredit</span>
+                            </div>
+                        }
+   
+                    </mat-card-content>
+                </mat-card>
+                  
+            }
+            @case ('aa'){
+                <div id='allAvarage'></div>
+            }
+        }
+    </mat-card-content>
+    <mat-card-footer>
+        <button mat-icon-button (click)="navigatePrevious()">
+            <mat-icon>arrow_back_ios</mat-icon>
+          </button>
+          <button mat-icon-button (click)="navigateNext()">
+            <mat-icon>arrow_forward_ios</mat-icon>
+          </button>
+    </mat-card-footer>
+</mat-card>

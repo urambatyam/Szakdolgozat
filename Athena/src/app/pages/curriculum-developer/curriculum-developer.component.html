@@ -40,6 +40,8 @@
                       <div  class="form-specialization" [formGroupName]="spIndex">
                           <mat-label>{{'curriculum-develepor.SPECIALIZATION' | translate }}</mat-label><br>
                           <input type="text" formControlName="spName">
+                          <input type="radio" [id]="spIndex" name="required" formControlName="required" [value]="spIndex">
+                          <label [for]="spIndex">Kötelező</label>
                           <mat-icon (click)="removeSpecialization(spIndex)">remove</mat-icon>
                           
                           <!-- Kategoriák -->

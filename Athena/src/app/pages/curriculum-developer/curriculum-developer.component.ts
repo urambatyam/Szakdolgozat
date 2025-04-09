@@ -32,6 +32,7 @@ type FormCategory = FormGroup<{
 type FormSpecialization = FormGroup<{
   id:FormControl<number | null>
   spName: FormControl<string>
+  required: FormControl<number>
   categories: FormArray<FormCategory>
 }>;
 type Form = FormGroup<{
@@ -72,7 +73,7 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
   protected formVs = false;
   protected tantervForm:Form = this.fb.group({
     id: this.fb.control<number | null>(null),
-    tName: '',
+    tName: this.fb.control<string>(''),
     specializations: this.fb.array<FormSpecialization>([])
   });
   protected AllCourseNames:Course[] = [];
@@ -101,6 +102,7 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
     return this.fb.group({
       id: this.fb.control<number | null>(null),
       spName: this.fb.control<string>(''),
+      required: this.fb.control<number>(-1),
       categories: this.fb.array<FormCategory>([])
     })
   }    
@@ -195,7 +197,8 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
                 const specForm = this.generateSpecialization();
                 specForm.patchValue({
                   id: spec.id,
-                  spName: spec.name
+                  spName: spec.name,
+                  required: spec.required ? 1 : 0
                 });
 
                 // Kategóriák hozzáadása
@@ -279,9 +282,11 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
       specializations: []
     };
     this.tantervForm.controls.specializations.controls.forEach((spV, spI)=>{
+      console.log("spv. req: ",spV.controls.required.getRawValue())
       const Sptemp:Specialization = {
         id: spV.controls.id.getRawValue() ?? null,
         name:spV.controls.spName.getRawValue(),
+        required: spI == spV.controls.required.getRawValue() ? true : false,
         categories: [],
       }
       this.tantervForm.controls.specializations.at(spI).controls.categories.controls.forEach((catV, catI)=>{

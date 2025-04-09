@@ -10,6 +10,8 @@ import {MatListModule} from '@angular/material/list';
 import { MessagesComponent } from "./messages/messages.component";
 import { SubjectTopicComponent } from "./subject-topic/subject-topic.component";
 import { CourseStatisticsComponent } from "./course-statistics/course-statistics.component";
+import { AuthService } from '../../../services/mysql/auth.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-forum',
@@ -30,10 +32,20 @@ import { CourseStatisticsComponent } from "./course-statistics/course-statistics
 })
 export class ForumComponent implements OnInit {
   private location = inject(Location);
+  private auth = inject(AuthService);
   protected course: Course | null = null;
   protected option:'massages'|'topic'|'statistics' = 'massages'
-
+//a
   async ngOnInit(): Promise<void> {
+    let u1:any
+    await this.auth.user$.pipe(
+      map(u => {
+        u1 = u;
+      })
+    )
+    console.log('u1')
+    console.log(u1)
+    
     const state = history.state;
     this.course = state.course;
   }

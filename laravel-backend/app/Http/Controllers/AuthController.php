@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends Controller
 {
@@ -60,5 +62,14 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
+    }
+    public function role(Request $request)
+    {
+        if (Auth::check()) {
+            return Auth::user();
+        }
+        return response()->json([
+            'message' => 'Unauthorized'
+        ], 401);
     }
 }

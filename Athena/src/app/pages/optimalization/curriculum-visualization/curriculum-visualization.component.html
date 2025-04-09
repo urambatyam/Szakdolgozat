@@ -1,0 +1,128 @@
+<div class="curriculum-plan-container">
+  <div #svgContainer>
+  <svg [attr.viewBox]="getViewBox()" xmlns="http://www.w3.org/2000/svg">
+    <!-- Félév címkék és kurzusok -->
+    <g class="semester-labels">
+      @for (semesterData of optimizedPlan.semesters; track $index) {
+        @if (semesterData) {
+          <g [attr.transform]="'translate(' + getSemesterXPosition($index+1) + ', 0)'">
+            <!-- Félév vonal -->
+            <path [attr.d]="getSemesterLinePath(semesterData)" fill="none" stroke="#006a6a" stroke-width="2"/>
+            <path [attr.d]="getSemesterLeftTick()" fill="none" stroke="#006a6a" stroke-width="2"/>
+            <path [attr.d]="getSemesterRightTick(semesterData)" fill="none" stroke="#006a6a" stroke-width="2"/>
+            
+            <!-- Félév címke -->
+            <text 
+              [attr.x]="getSemesterWidth(semesterData) / 2" 
+              y="20" 
+              text-anchor="middle" 
+              font-family="Helvetica" 
+              font-size="16" 
+              fill="currentColor">
+              {{$index+1}}. félév
+            </text>
+            
+            <!-- Kredit összeg -->
+            <text 
+              [attr.x]="getSemesterWidth(semesterData) / 2" 
+              y="50" 
+              text-anchor="middle" 
+              font-family="Helvetica" 
+              font-size="14" 
+              fill="currentColor">
+              {{semesterData.total_credits}} kredit
+            </text>
+            <!-- Üres félév jelzése -->
+            @if (semesterData.courses.length === 0) {
+              <text 
+                [attr.x]="getSemesterWidth(semesterData) / 2" 
+                y="120" 
+                text-anchor="middle" 
+                font-family="Helvetica" 
+                font-size="14" 
+                fill="#888888">
+                Nincs kurzus
+              </text>
+            }
+
+            <!-- Kurzusok -->
+            @for (course of semesterData.courses; track course.id; let i = $index) {
+              <g [attr.transform]="getCourseTransform(i, semesterData.courses.length)">
+                <ellipse 
+                  cx="0" 
+                  cy="0" 
+                  rx="60" 
+                  ry="40" 
+                  fill="#f3fff9" 
+                  stroke="#006a6a"/>
+                <text 
+                  x="0" 
+                  y="-10" 
+                  text-anchor="middle" 
+                  font-family="Helvetica" 
+                  font-size="15" 
+                  font-weight="bold">
+                  {{course.name}}
+                </text>
+                <text 
+                  x="0" 
+                  y="15" 
+                  text-anchor="middle" 
+                  font-family="Helvetica" 
+                  font-size="12">
+                  {{course.kredit}} kredit
+                </text>
+              </g>
+            }
+          </g>
+        }
+      }
+    </g>
+
+    <!-- Üres szakasz vonal az utolsó félév után -->
+    <g [attr.transform]="'translate(' + getTotalSemestersWidth() + ', 0)'">
+      <path d="M 0 30 L 200 30" fill="none" stroke="#006a6a" stroke-width="2"/>
+      <path d="M 0 22.5 L 0 37.5" fill="none" stroke="#006a6a" stroke-width="2"/>
+      <path d="M 200 37.5 L 200 22.5" fill="none" stroke="#006a6a" stroke-width="2"/>
+    </g>
+
+    <!-- Összegző doboz -->
+    <g [attr.transform]="'translate(' + (getTotalSemestersWidth() + 30) + ', 76)'">
+      <rect 
+        width="140" 
+        height="90" 
+        rx="12" 
+        ry="12" 
+        fill="#f5f5f5" 
+        stroke="#666666"/>
+      <text 
+        x="70" 
+        y="30" 
+        text-anchor="middle" 
+        font-family="Helvetica" 
+        font-size="14">
+        {{optimizedPlan.total_semesters}} félév
+      </text>
+      <text 
+        x="70" 
+        y="55" 
+        text-anchor="middle" 
+        font-family="Helvetica" 
+        font-size="14">
+        {{optimizedPlan.total_credits}} kredit
+      </text>
+      <text 
+        x="70" 
+        y="80" 
+        text-anchor="middle" 
+        font-family="Helvetica" 
+        font-size="14">
+        {{optimizedPlan.total_courses}} kurzus
+      </text>
+    </g>
+  </svg>
+</div>
+<div class="controls">
+  <button style="position: relative; left: 94%;" mat-flat-button color="primary" (click)="downloadSvgAsPng()">Letöltés</button>
+</div>
+</div>

@@ -78,6 +78,39 @@
                     <input matInput type="text" formControlName="user_code" >
                 </mat-form-field>
                 <br>
+                <mat-form-field>
+                    <mat-label>{{ 'Előkövetelmények' | translate }}</mat-label>
+                    <mat-chip-grid #chipGrid aria-label="Prerequisites selection">
+                        @for(prereq of selectedPrerequisites; track prereq.id){
+                            <mat-chip-row (removed)="removePrerequisite(prereq)">
+                                {{ prereq.name }}
+                                <button matChipRemove>
+                                <mat-icon>cancel</mat-icon>
+                                </button>
+                            </mat-chip-row>
+                        }
+
+                      <input 
+                        #prereqInput
+                        [matChipInputFor]="chipGrid"
+                        [matAutocomplete]="prereqAutocomplete"
+                        [matChipInputSeparatorKeyCodes]="separatorKeyCodes"
+                        (matChipInputTokenEnd)="addPrerequisite($event)"
+                        class="w-full"
+                      />
+                    </mat-chip-grid>
+                    
+                    <mat-autocomplete 
+                      #prereqAutocomplete="matAutocomplete"
+                      (optionSelected)="onPrerequisiteSelected($event)"
+                    >
+                    @for(course of courseNames; track course.id){
+                        <mat-option [value]="course">
+                            {{ course.name }}
+                          </mat-option>
+                    }
+                    </mat-autocomplete>
+                  </mat-form-field>
                 <span>
                     <button mat-raised-button  type="submit" >{{'curriculum-develepor.SAVE' | translate }}</button>
                     <button  mat-raised-button type="button" (click)="close()" >{{'curriculum-develepor.CLOSE' | translate }}</button>

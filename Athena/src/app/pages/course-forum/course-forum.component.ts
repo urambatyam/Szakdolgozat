@@ -16,11 +16,16 @@ import { AuthService } from '../../services/mysql/auth.service';
 import { Router } from '@angular/router';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { Name } from '../../models/curriculumNames';
 @Component({
   selector: 'app-course-forum',
   standalone: true,
   imports: [
+    MatChipsModule,
+    MatAutocompleteModule,
     MatCardModule,
     MatTableModule,
     MatIconModule,
@@ -39,9 +44,16 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './course-forum.component.scss'
 })
 export class CourseForumComponent implements OnInit, OnDestroy{
+
+
+
+  
+  selectedPrerequisites: Name[] = [];
+  separatorKeyCodes = [ENTER, COMMA];
+  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
+
   protected totalItems = 0;
   protected pageSize = 10;
   protected currentPage = 0;
@@ -62,14 +74,50 @@ export class CourseForumComponent implements OnInit, OnDestroy{
     name: this.fb.control<string | null>(null),
     kredit: this.fb.control<number | null>(null),
     sezon: this.fb.control<number>(2),
+    prerequisites: this.fb.control<Name[] | null>(null),
   });
   protected courseNames: Course[] = [];
   protected title: any;
   protected displayedColumns: string[] = ['name', 'update', 'delete', 'controller', 'view'];
   selectedCourse: Course|null = null;
 
-
-
+  addPrerequisite(event: MatChipInputEvent) {
+    const input = event.input;
+    const value = event.value.trim();
+  
+    if (value) {
+      const matchedCourse = this.courseNames.find(
+        c => c.name?.toLowerCase() === value.toLowerCase()
+      );
+  
+      if (matchedCourse && matchedCourse.id && matchedCourse.name &&!this.selectedPrerequisites.some(p => p.id === matchedCourse.id)) {
+        this.selectedPrerequisites.push({
+          id: matchedCourse.id, 
+          name: matchedCourse.name
+        });
+        
+        this.CourseForm.get('prerequisites')?.setValue(this.selectedPrerequisites);
+        input.value = '';
+      }
+    }
+  }
+  removePrerequisite(course: Name) {
+    const index = this.selectedPrerequisites.findIndex(p => p.id === course.id);
+    if (index >= 0) {
+      this.selectedPrerequisites.splice(index, 1);
+      // Frissítse a form értékét
+      this.CourseForm?.get('prerequisites')?.setValue(this.selectedPrerequisites);
+    
+    }
+  }
+  onPrerequisiteSelected(event: MatAutocompleteSelectedEvent) {
+    const selectedCourse = event.option.value;
+    if (!this.selectedPrerequisites.some(p => p.id === selectedCourse.id)) {
+      this.selectedPrerequisites.push(selectedCourse);
+      // Frissítse a form értékét
+      this.CourseForm?.get('prerequisites')?.setValue(this.selectedPrerequisites);
+    }
+  }
   handlePageEvent(e: PageEvent) {
     this.currentPage = e.pageIndex;
     this.pageSize = e.pageSize;
@@ -138,6 +186,7 @@ export class CourseForumComponent implements OnInit, OnDestroy{
 
   async toupdate(course: Course) {
     this.update = true;
+    this.selectedPrerequisites = [];
     if (course) {
       let sezonV = 0
       if(course.sezon === null){
@@ -146,6 +195,9 @@ export class CourseForumComponent implements OnInit, OnDestroy{
         sezonV = 1;
       }
       if(course.id != undefined && typeof(course.id) == 'number' ){
+        if (course.prerequisites && course.prerequisites.length > 0) {
+          this.selectedPrerequisites = [];
+        }
         this.CourseForm.patchValue({
         id: course.id,
         recommendedSemester: course.recommendedSemester,
@@ -153,6 +205,7 @@ export class CourseForumComponent implements OnInit, OnDestroy{
         name: course.name,
         kredit: course.kredit,
         sezon:sezonV,
+        prerequisites: []
         });
       }
  
@@ -202,6 +255,9 @@ export class CourseForumComponent implements OnInit, OnDestroy{
       subjectMatter: null,
       subjectResponsible: null,
       sezon: sezonV,
+      prerequisites: formValues.prerequisites ? 
+      formValues.prerequisites.map(prereq => prereq.id) : 
+      null,
     };
     console.log(newCourse);
 
@@ -216,6 +272,8 @@ export class CourseForumComponent implements OnInit, OnDestroy{
             console.log('Sikeresen frissítettem a kurzus adatait.');
           }
         } else {
+          console.log(newCourse);
+          
           await firstValueFrom(
             from(this.courseData.createCourse(newCourse))
           );

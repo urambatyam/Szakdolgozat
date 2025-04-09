@@ -20,6 +20,7 @@ return new class extends Migration
         Schema::create('specializations', function (Blueprint $table) {
             $table->id();
             $table->integer('min')->unsigned();
+            $table->boolean('required')->default(false);
             $table->foreignId('curriculum_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->timestamps();

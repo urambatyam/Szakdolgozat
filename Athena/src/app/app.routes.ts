@@ -22,6 +22,24 @@ export const routes: Routes = [
         data: { roles: ['admin','student','teacher'] }
     },
     {
+      path: 'optimalization',
+      loadComponent: () =>
+          import('./pages/optimalization/optimalization.component').then(
+            (c) => c.OptimalizationComponent
+          ),
+      canActivate: [roleGuard],
+      data: { roles: ['admin','student','teacher'] }
+  },
+    {
+      path: 'statistic',
+      loadComponent: () =>
+          import('./pages/statistics/statistics.component').then(
+            (c) => c.StatisticsComponent
+          ),
+      canActivate: [roleGuard],
+      data: { roles: ['admin','student','teacher'] }
+    },
+    {
         path: 'grades',
         loadComponent: () =>
             import('./pages/electronic-controller/electronic-controller.component').then(

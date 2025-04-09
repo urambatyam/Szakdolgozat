@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\CourseResource;
+use App\Models\CoursePrerequisite;
 use App\Models\SubjectMatter;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -45,6 +46,7 @@ class CourseController extends Controller
             'user_code' => 'nullable|exists:users,code',  
             'subjectMatter' => 'nullable|string|max:255',
             'sezon' => 'nullable|boolean',
+            'prerequisites' => 'nullable'
         ]);
 
         try {
@@ -55,6 +57,20 @@ class CourseController extends Controller
                     SubjectMatter::create([
                         'course_id' => $course->id,
                     ]);
+                  
+                    if ($request->prerequisites ) {
+                        $prerequisites = $request->prerequisites;
+                        foreach ($prerequisites as $prerequisite) {
+                            CoursePrerequisite::create([
+                                'course_id' => $course->id,
+                                'prerequisite_course_id' => $prerequisite
+                            ]);
+                        }
+                    }else{
+                        CoursePrerequisite::create([
+                            'course_id' => $course->id,
+                        ]);
+                    }
                 }
     
                 return $course;
@@ -132,7 +148,19 @@ class CourseController extends Controller
             'user_code' => 'nullable|exists:users,code',  
             'subjectMatter' => 'nullable|string|max:255',
             'sezon' => 'nullable|boolean',
+            'prerequisites' => 'nullable'
         ]);
+
+        if ($request->prerequisites ) {
+            CoursePrerequisite::where('course_id', $course->id)->delete();
+            $prerequisites = $request->prerequisites;
+            foreach ($prerequisites as $prerequisite) {
+                CoursePrerequisite::create([
+                    'course_id' => $course->id,
+                    'prerequisite_course_id' => $prerequisite
+                ]);
+            }
+        }
 
         $course->update($values);
 

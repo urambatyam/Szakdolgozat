@@ -23,7 +23,7 @@ class Course extends Model
     {
         return $this->belongsTo(User::class, 'user_code', 'code');
     }
-    
+
     public function forums()
     {
         return $this->hasMany(CourseForum::class, 'course_id', 'id');
@@ -41,5 +41,15 @@ class Course extends Model
     public function subjectMatter()
     {
         return $this->hasOne(SubjectMatter::class);
+    }
+
+    public function prerequisites()
+    {
+        return $this->hasMany(CoursePrerequisite::class);
+    }
+
+    public function isPrerequisiteFor()
+    {
+        return $this->hasMany(CoursePrerequisite::class, 'prerequisite_course_id');
     }
 }

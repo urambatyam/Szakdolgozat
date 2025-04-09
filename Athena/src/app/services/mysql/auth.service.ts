@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { User } from '../../models/user';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +49,23 @@ export class AuthService {
           this.LoggedUser.next(response.user);
         })
       );
+  }
+
+  public checkAuthentication(): Observable<User | null> {
+    const headers = this.getHeaders();
+    return this.http.post<User | null>(
+      environment.baseUrl+`/role`,
+      {},
+      {headers}
+    ).pipe(
+      tap(user => {
+        this.LoggedUser.next(user);
+      }),
+      catchError(() => {
+        this.LoggedUser.next(null);
+        return of(null);
+      })
+    );
   }
 
   public getHeaders(): HttpHeaders {

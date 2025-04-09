@@ -1,0 +1,211 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{"Optimalizáció" | translate}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <section>
+      <form [formGroup]="optimizationForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>{{"tanterv" | translate}}</mat-label>
+          <mat-select formControlName="curriculum_id" (selectionChange)="selectedCurriculumChange($event)">
+            <mat-option>{{"Nincs kiválasztott" | translate}}</mat-option>
+            @for(curriculum of curriculumNames; track curriculum.id){
+              <mat-option [value]="curriculum.id">{{ curriculum.name }}</mat-option>
+            }
+          </mat-select>
+          @if(optimizationForm.get('curriculum_id')?.touched && optimizationForm.get('curriculum_id')?.invalid){
+            <mat-error>{{"Tanterv kiválasztása kötelező" | translate}}</mat-error>
+          }
+        </mat-form-field>
+        <!--Specializációk-->
+        <mat-form-field >
+          <mat-label>{{"Specializációk" | translate}}</mat-label>
+          <mat-chip-grid #chipGrid aria-label="Fruit selection">
+            @for (spec of selectedSpecializations(); track $index) {
+              <mat-chip-row (removed)="removeSpecialization(spec)">
+                {{spec.name}}
+                <button matChipRemove [attr.aria-label]="'remove ' + spec.name">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            }
+          </mat-chip-grid>
+          <input
+            name="currentFruit"
+            placeholder="New Fruit..."
+            #fruitInput
+            [disabled]="selectedCurriculum == null"
+            [(ngModel)]="currentSpecInput " [ngModelOptions]="{standalone: true}"
+            [matChipInputFor]="chipGrid"
+            [matAutocomplete]="auto"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="addSpecialization($event)"
+          />
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSpecialization($event); fruitInput.value = ''">
+            @for (spec of filteredSpecializations(); track spec.id) {
+              <mat-option [value]="spec">{{spec.name}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+
+
+
+        <!--Negativ-->
+        <mat-form-field >
+          <mat-label>{{"Negativ" | translate}}</mat-label>
+          <mat-chip-grid #negChipGrid aria-label="Negative selection">
+            @for (neg of selectedNegativs(); track $index) {
+              <mat-chip-row (removed)="removeNegativ(neg)">
+                {{neg.name}}
+                <button matChipRemove [attr.aria-label]="'remove ' + neg.name">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            }
+          </mat-chip-grid>
+          <input
+            placeholder="New negative..."
+            #negInput
+            [disabled]="selectedCurriculum == null"
+            [(ngModel)]="currentNegInput" [ngModelOptions]="{standalone: true}"
+            [matChipInputFor]="negChipGrid"
+            [matAutocomplete]="negAuto"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="addNegativ($event)"
+          />
+          <mat-autocomplete #negAuto="matAutocomplete" (optionSelected)="selectedNegativ($event); negInput.value = ''">
+            @for (spec of filteredNegativs(); track spec.id) {
+              <mat-option [value]="spec">{{spec.name}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+ 
+
+        <!--Pozitiv-->
+        <mat-form-field >
+          <mat-label>{{"Pozitiv" | translate}}</mat-label>
+          <mat-chip-grid #pozChipGrid aria-label="Pozitiv selection">
+            @for (po of selectedPozs(); track $index) {
+              <mat-chip-row (removed)="removePozitiv(po)">
+                {{po.name}}
+                <button matChipRemove [attr.aria-label]="'remove ' + po.name">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            }
+          </mat-chip-grid>
+          <input
+            placeholder="New Pozitiv..."
+            #pozInput
+            [disabled]="selectedCurriculum == null"
+            [(ngModel)]="currentPozInput" [ngModelOptions]="{standalone: true}"
+            [matChipInputFor]="pozChipGrid"
+            [matAutocomplete]="pozAuto"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="addPozitiv($event)"
+          />
+          <mat-autocomplete #pozAuto="matAutocomplete" (optionSelected)="selectedPozitiv($event); pozInput.value = ''">
+            @for (po of filteredPozs(); track po.id) {
+              <mat-option [value]="po">{{po.name}}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      
+
+
+
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>{{ 'kurzus limit' | translate }}</mat-label>
+          <input matInput type="number" formControlName="creditLimit">
+          <mat-error *ngIf="creditLimitControl?.hasError('required')">
+            {{ 'VALIDATION.REQUIRED' | translate }}
+          </mat-error>
+          <mat-error *ngIf="creditLimitControl?.hasError('min')">
+            {{ 'VALIDATION.MIN_VALUE' | translate: {min: 1} }}
+          </mat-error>
+        </mat-form-field>
+
+        <div>
+          <label>{{"Algoritmus" | translate}}</label><br>
+          <mat-radio-group formControlName="algorithm">
+            <mat-radio-button value="bnb" checked="true" color="primary">{{"Branch and Bound" | translate}}</mat-radio-button>
+            <mat-radio-button value="greedy" color="primary">{{"Mohó" | translate}}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+  
+
+        
+        
+        <mat-checkbox formControlName="considerRecommendations" color="primary">{{"Ajánlott félév szerint" | translate}}</mat-checkbox>
+        
+        <button mat-raised-button color="primary" type="submit" [disabled]="formInvalid || isLoading" class="submit-button">
+          <span>{{ isLoading ? ('Optimalizálás folyamatban...' | translate) : ('Tanterv optimalizálása' | translate) }}</span>
+        </button>
+      </form>
+    </section><br>
+    
+    @if(optimizationResult){
+      <section>
+        <app-curriculum-visualization [optimizedPlan]="optimizationResult.optimizedPlan"></app-curriculum-visualization>
+        <br>
+        <div class="curriculum-container">
+          <div class="cards-grid">
+            @for(spec of optimizationResult.creditsBreakdown; track $index){
+              <mat-card class="spec-card">
+                <mat-card-header>
+                  <div class="header-content">
+                    <mat-card-title>{{spec.specialization_name}}</mat-card-title>
+                    <div class="spec-stats">
+                      <div class="credits-display">
+                        <span class="earned">{{spec.credits_earned}}</span>
+                        <span class="separator">/</span>
+                        <span class="required">{{spec.min}}</span>
+                      </div>
+                      <div class="completion-badge" [class.completed]="spec.is_completed" [class.incomplete]="!spec.is_completed">
+                        {{spec.is_completed ? 'Teljesítve' : 'Nem teljesítve'}}
+                      </div>
+                    </div>
+                  </div>
+                </mat-card-header>
+        
+                <mat-card-content>
+                  <div class="spec-progress-container">
+                    <div class="progress-bar-container">
+                      <div class="progress-bar-background"></div>
+                      <div class="progress-bar-fill" 
+                           [style.width.%]="(spec.credits_earned / spec.min) * 100 > 100 ? 100 : (spec.credits_earned / spec.min) * 100">
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div class="categories-container">
+                    @for(cat of spec.categories; track $index){
+                      <div class="category-item">
+                        <div class="category-header">
+                          <span class="category-name">{{cat.category_name}}</span>
+                          <div class="category-stats">
+                            <span class="earned">{{cat.credits_earned}}</span>
+                            <span class="separator">/</span>
+                            <span class="required">{{cat.min}}</span>
+                          </div>
+                        </div>
+                        
+                        <div class="category-progress-container">
+                          <div class="progress-bar-background"></div>
+                          <div class="progress-bar-fill" 
+                               [style.width.%]="(cat.credits_earned / cat.min) * 100 > 100 ? 100 : (cat.credits_earned / cat.min) * 100">
+                          </div>
+          
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            }
+          </div>
+        </div>
+      </section>
+    }
+  </mat-card-content>
+</mat-card>

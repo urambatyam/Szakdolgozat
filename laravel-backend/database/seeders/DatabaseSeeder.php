@@ -10,7 +10,7 @@ use App\Models\CourseForum;
 use App\Models\Curriculum;
 use App\Models\Specialization;
 use App\Models\SubjectMatter;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\CoursePrerequisite;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -30,6 +30,9 @@ class DatabaseSeeder extends Seeder
             'user_code' => $teachers->random()->code
         ]);
         foreach($courses as $course){
+            CoursePrerequisite::factory()->create([
+                'course_id' => $course->id
+            ]);
             SubjectMatter::factory()->create([
                 'course_id' => $course->id
             ]);
@@ -87,6 +90,9 @@ class DatabaseSeeder extends Seeder
             }
             $specialization->save();
         }
+        $randomSpecialization = $specializations->random();
+        $randomSpecialization->required = true;
+        $randomSpecialization->save();
  
     }
 }

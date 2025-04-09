@@ -26,7 +26,7 @@ export class CurriculumService {
 
         getAllCurriculumNames(): Observable<Name[]>{
           return this.http.get<Name[]>(
-            '/api/curricula',
+            environment.baseUrl+'/curricula',
             {headers: this.auth.getHeaders()}
           );
         }

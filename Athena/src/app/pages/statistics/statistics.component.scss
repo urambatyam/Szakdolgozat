@@ -1,0 +1,26 @@
+.progress-card {
+    max-width: 600px;
+    margin: auto;
+    padding: 16px;
+  }
+  
+  .subject-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 12px;
+    width: 100%;
+  }
+  
+  mat-progress-bar {
+    flex-grow: 1; /* Kitölti a rendelkezésre álló helyet */
+    height: 200px; /* Megnövelt magasság */
+    border-radius: 8px; /* Lekerekített sarkok */
+    overflow: hidden;
+  }
+  
+  .mat-progress-bar-fill::after {
+    border-radius: 8px; /* A belső töltőelem is lekerekített */
+  }
+  

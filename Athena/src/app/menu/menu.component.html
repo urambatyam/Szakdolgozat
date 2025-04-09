@@ -3,6 +3,7 @@
       
         @if(this.role !== null){
           <button mat-button routerLink="/curriculum" routerLinkActive="active">{{'menu.CURRICULUM' | translate }}</button>
+          <button mat-button routerLink="/statistic" routerLinkActive="active">{{'Satatisztika' | translate }}</button>
         }
         @if(this.role === 'student'){
           <button mat-button routerLink="/grades" routerLinkActive="active">{{'menu.GRADES' | translate }}</button>
@@ -19,6 +20,7 @@
         @if(this.role !== null){
           <button mat-button routerLink="/login" routerLinkActive="active">{{'menu.LOGIN' | translate }}</button>
           <button mat-button routerLink="/profile" routerLinkActive="active">{{'menu.PROFILE' | translate }}</button>
+          <button mat-button routerLink="/optimalization" routerLinkActive="active">{{'Tanterv optimalizáció' | translate }}</button>
           <button mat-button (click)="logOut()">{{'menu.LOGOUT' | translate }}</button>
         }
         <mat-select [(value)]="selectedLang" (selectionChange)="changeLang($event)">

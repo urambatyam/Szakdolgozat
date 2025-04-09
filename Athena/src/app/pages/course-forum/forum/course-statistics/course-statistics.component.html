@@ -1,1 +1,29 @@
-<p>course-statistics works!</p>
+<mat-card>
+    <mat-card-content>
+        @switch (statisctics) {
+            @case ('d'){
+                <div id="distrubution" ></div>
+            }
+            @case ('gr'){
+                <div id="gradeRate" ></div>
+            }
+            @case ('cr'){
+                <div id="completionRate" ></div>
+            }
+            @case ('lr'){
+                <div id="linearRegression" ></div>
+            }
+            @case ('bp'){
+                <div id='boxplot'></div>
+            }
+        }
+    </mat-card-content>
+    <mat-card-footer>
+        <button mat-icon-button (click)="navigatePrevious()">
+            <mat-icon>arrow_back_ios</mat-icon>
+          </button>
+          <button mat-icon-button (click)="navigateNext()">
+            <mat-icon>arrow_forward_ios</mat-icon>
+          </button>
+    </mat-card-footer>
+</mat-card>

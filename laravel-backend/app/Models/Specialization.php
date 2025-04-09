@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Specialization extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','curriculum_id','min'];
+    protected $fillable = ['name','curriculum_id','min','required'];
 
     public function curriculum(): BelongsTo
     {

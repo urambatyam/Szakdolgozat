@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Auth;
 class CurriculumController extends Controller
 {
     public function index(){
+        if(Auth::check() && Auth::user()->role === 'student'){
+            /** @var User $student */
+            $student = Auth::user();
+
+            return Curriculum::find($student->curriculum_id);
+        }
         return Curriculum::all();
     }
 
@@ -25,6 +31,7 @@ class CurriculumController extends Controller
             'name' => 'required|string',
             'specializations' => 'array',
             'specializations.*.name' => 'string',
+            'specializations.*.required' => 'boolean',
             'specializations.*.categories' => 'array',
             'specializations.*.categories.*.name' => 'string',
             'specializations.*.categories.*.min' => 'integer|min:0',
@@ -40,6 +47,7 @@ class CurriculumController extends Controller
         foreach( $validated['specializations'] as $specData){
             $specialization = $curriculum->specializations()->create([
                 'name' => $specData['name'],
+                'required' => $specData['required'],
                 'min' => 0,
             ]);
             $sepcMin = 0;
@@ -106,6 +114,7 @@ class CurriculumController extends Controller
             'name' => 'required|string',
             'specializations' => 'array',
             'specializations.*.id' => 'exists:specializations,id|integer',
+            'specializations.*.required' => 'boolean',
             'specializations.*.name' => 'string',
             'specializations.*.categories' => 'array',
             'specializations.*.categories.*.id' => 'exists:categories,id|integer',
@@ -123,6 +132,7 @@ class CurriculumController extends Controller
         foreach ($validated['specializations'] as $specData) {
             $specialization = $curriculum->specializations()->create([
                 'name' => $specData['name'],
+                'required' => $specData['required'],
                 'min' => 0
             ]);
             $sepcMin = 0;
