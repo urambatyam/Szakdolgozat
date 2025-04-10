@@ -144,7 +144,7 @@
       </form>
     </section><br>
     
-    @if(optimizationResult){
+    @if(allreqmet){
       <section>
         <app-curriculum-visualization [optimizedPlan]="optimizationResult.optimizedPlan"></app-curriculum-visualization>
         <br>
@@ -206,6 +206,8 @@
           </div>
         </div>
       </section>
+    }@else if(allreqmet === false) {
+      <mat-error>{{noOptimum}}</mat-error>
     }
   </mat-card-content>
 </mat-card>

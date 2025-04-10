@@ -66,11 +66,11 @@ specializations: string[] = []; // Ez a specializációkhoz kell
 allCourses: Name[] = []; // Összes elérhető kurzus (ID és név)
 isLoading = false;
 creditsBreakdown: any[] = []; // Ez valószínűleg a vizualizációhoz kell, marad
-
+protected allreqmet: boolean | null = null;
 private fb = inject(NonNullableFormBuilder);
 private curriculumService = inject(CurriculumService);
 private optimalizationService = inject(OptimalizationService);
-
+protected noOptimum = null
 protected optimizationForm: FormGroup = this.fb.group({
   curriculum_id: [null, Validators.required],
   algorithm: ['greedy', Validators.required], // Alapértelmezett lehet 'greedy' vagy 'bnb'
@@ -190,6 +190,7 @@ loadCurriculumDetails(id: number): void {
 
 
 async onSubmit(): Promise<void> {
+  this.allreqmet = null;
   if (this.optimizationForm.invalid) {
     // Mark all fields as touched to show errors
     Object.values(this.optimizationForm.controls).forEach(control => {
@@ -221,8 +222,16 @@ async onSubmit(): Promise<void> {
     const result = await firstValueFrom(
       this.optimalizationService.optimizeCurriculum(optimizationData)
     );
-    this.optimizationResult = result;
-    console.log('Optimalizálás eredménye:', this.optimizationResult);
+    console.log('all_requirements_met:', result.optimizedPlan.all_requirements_met);
+    console.log('warnings:', result.optimizedPlan.warnings);
+    this.allreqmet = result.optimizedPlan.all_requirements_met
+    if(this.allreqmet){
+      this.optimizationResult = result;
+    }else{
+      this.noOptimum = result.optimizedPlan.warnings;
+    }
+    console.log('Optimalizáció:', this.noOptimum, " ", this.optimizationResult);
+    
   } catch (error) {
     console.error('Optimalizálási hiba:', error);
     // Itt lehetne felhasználóbarát hibaüzenetet megjeleníteni
