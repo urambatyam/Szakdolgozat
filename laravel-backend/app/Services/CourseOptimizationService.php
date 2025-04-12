@@ -8,7 +8,8 @@ use Illuminate\Support\Collection;
 /**
  * Kurzusok optimalizálása mohó algoritmus alapján.
  *
- * 
+ * @property int $timeLimit idő limit másdopercben
+ * @property float $startTime kezdés ideje
  */
 class CourseOptimizationService
 {
@@ -18,6 +19,8 @@ class CourseOptimizationService
     private int $maxCreditsPerSemester = 30;
     private array $allCoursePreRequisites = [];
     private ?Collection $relevantCategories = null;
+    private int $timeLimit = 59;
+    private float $startTime;
 
     public function __construct(Curriculum $curriculum, int $maxCreditsPerSemester = 30)
     {
@@ -101,6 +104,7 @@ class CourseOptimizationService
         array $nagativIds = [],
         array $pozitivCoursesData = []
     ): array {
+        $this->startTime = microtime(true);
         foreach ($this->curriculum->specializations as $sp) {
             if ($sp->required && !in_array($sp->id, $selectedSpecializationIds)) {
                 $selectedSpecializationIds[] = $sp->id;
@@ -160,8 +164,8 @@ class CourseOptimizationService
         $isFallSemester = $startWithFall;
         $availableCourses = $relevantCourses;
         $positiveCoursesTaken = [];
-        $maxTotalSemesters = 20; 
         $emptySemesterCount = 0;
+        $timeLimitReached = false;
 
         if (!empty($history)) {
             $lastHistorySemesterIndex = -1;
@@ -192,7 +196,13 @@ class CourseOptimizationService
         }
 
 
-        while ($currentSemester <= $maxTotalSemesters) {
+        while (true) {
+            if (microtime(true) - $this->startTime > $this->timeLimit) {
+                $timeLimitReached = true;
+                $studyPlan['warnings'][] = "Az algoritmus elérte az időkorlátot ({$this->timeLimit}s) a tervezés közben.";
+                break; 
+            }
+
             if ($emptySemesterCount >= 2) {
                 $studyPlan['warnings'][] = "Az algoritmus megállt, mert 2 egymást követő félévben nem sikerült kurzust felvenni.\n";
                 break;
@@ -205,11 +215,11 @@ class CourseOptimizationService
             if ($allCategoriesDone && $allPositiveDone) {
                 break; 
             }
+
             $currentSemesterPlan = ['is_fall' => $isFallSemester, 'courses' => [], 'total_credits' => 0];
             $creditsThisSemester = 0;
             $coursesAddedThisSemesterIds = [];
             $courseAdded = false;
-            $skippedDueToRecommendedThisSemester = false;
             $seasonFilter = $isFallSemester ? 1 : 0;
 
             // 1. Pozitív kurzusok ellenőrzése és felvétele ha lehet
@@ -243,7 +253,6 @@ class CourseOptimizationService
 
 
             // Mohó algoritmus
-            // megnézem hogy ebben a félévben milyen kurzosk elérhetők amiket már nem vetem fel
             $semesterAvailableCourses = [];
             foreach ($availableCourses as $courseId => $course) {
                 if (!in_array($courseId, $coursesAddedThisSemesterIds) && ($course['sezon'] === null || $course['sezon'] === $seasonFilter)) {
@@ -285,9 +294,7 @@ class CourseOptimizationService
                     } else {
                          unset($availableCourses[$courseId]); 
                     }
-                }elseif ($considerRecommendedSemester && !$recommendedOk) {
-                    $skippedDueToRecommendedThisSemester = true;
-               }
+                }
             }
             $currentSemesterPlan['total_credits'] = $creditsThisSemester;
             $studyPlan['semesters'][] = $currentSemesterPlan;
@@ -328,8 +335,8 @@ class CourseOptimizationService
             $isFallSemester = !$isFallSemester;
 
         }
-        $finalRemainingPositiveIds = array_diff(array_keys($positiveCoursesToTake), $positiveCoursesTaken);
 
+        $finalRemainingPositiveIds = array_diff(array_keys($positiveCoursesToTake), $positiveCoursesTaken);
         $allCategoriesCompleted = !in_array(false, $categoriesCompleted, true);
 
         if (!$allCategoriesCompleted) {
@@ -386,10 +393,6 @@ class CourseOptimizationService
         $studyPlan['total_courses'] = $totalCourses;
         $studyPlan['total_semesters'] = count($studyPlan['semesters']);
         $studyPlan['all_requirements_met'] = $allCategoriesCompleted && empty($finalRemainingPositiveIds); 
-
-        if ($currentSemester > $maxTotalSemesters && !$studyPlan['all_requirements_met']) {
-             $studyPlan['warnings'][] = "Az algoritmus elérte a maximális félévszámot ({$maxTotalSemesters}) anélkül, hogy minden követelmény teljesült volna.\n";
-        }
         
         if (empty($studyPlan['warnings'])) { unset($studyPlan['warnings']); }
 

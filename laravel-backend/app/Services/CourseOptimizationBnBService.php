@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Course;
 use App\Models\Curriculum;
 use Illuminate\Support\Collection;
 
@@ -20,9 +19,12 @@ use Illuminate\Support\Collection;
  * @property array $positiveCourseIds A kötelezően felveendő (pozitív) kurzusok ID-jai.
  * @property array|null $bestSolution A legjobb talált megoldás állapota.
  * @property int $bestSolutionCost A legjobb talált megoldás költsége (pl. kurzusok száma).
- * @property int $nodesExplored A bejárt csomópontok száma (debug).
+ * @property int $nodesExplored A bejárt csomópontok száma.
  * @property bool $considerRecommendedSemester Figyelembe vegye-e az ajánlott félévet.
  * @property bool $startWithFall Kezdés őszi (true) vagy tavaszi (false) félévvel.
+ * @property int $timeLimit idő limit másdopercben
+ * @property float $startTime kezdés ideje
+ * 
  */
 class CourseOptimizationBnBService
 {
@@ -40,7 +42,6 @@ class CourseOptimizationBnBService
     private int $nodesExplored = 0;
     private bool $considerRecommendedSemester = false;
     private bool $startWithFall = true;
-    private int $maxIterations = 1000000;
     private int $timeLimit = 59;
     private float $startTime;
 
@@ -74,7 +75,7 @@ class CourseOptimizationBnBService
             }
         }
     }
-        /**
+    /**
      * Ellenőrzi, hogy a megadott feltételekkel egyáltalán lehetséges-e megoldás.
      * 
      * @param array $positiveCoursesToTake A pozitív kurzusok adatai
@@ -83,14 +84,14 @@ class CourseOptimizationBnBService
      */
     private function isProblemSolvable(array $positiveCoursesToTake, array $negativeIds): array
     {
-        // 1. Ellenőrzés: Pozitív kurzus ne legyen a negatív listában
+        //Pozitív kurzus nem lehet a negatív listában
         foreach (array_keys($positiveCoursesToTake) as $positiveCourseId) {
             if (in_array($positiveCourseId, $negativeIds)) {
                 return [false, "Konfliktus: A(z) {$this->allCourses[$positiveCourseId]->name} kötelező kurzus szerepel a tiltólistán is."];
             }
         }
         
-        // 2. Ellenőrzés: Pozitív kurzus előkövetelménye ne legyen a negatív listában
+        //Pozitív kurzus előkövetelményei se legyenek a negatív listában
         foreach ($positiveCoursesToTake as $courseId => $courseData) {
             if (!isset($courseData['prerequisites'])) continue;
             
@@ -103,13 +104,13 @@ class CourseOptimizationBnBService
             }
         }
         
-        // 3. Ellenőrzés: kategória követelmények teljesíthetősége
+        //kategória követelmények teljesíthetősége
         $availableCreditsPerCategory = [];
         foreach ($this->relevantCategoryIds as $categoryId) {
             $availableCreditsPerCategory[$categoryId] = 0;
         }
         
-        // Számoljuk össze a releváns és nem tiltott kurzusok kreditjeit kategóriánként
+        //releváns és nem tiltott kurzusok kreditjei kategóriánként összedva
         foreach ($this->allCourses as $courseId => $course) {
             if (in_array($courseId, $negativeIds)) continue;
             
@@ -133,64 +134,9 @@ class CourseOptimizationBnBService
             }
         }
         
-        // 4. Ellenőrzés: pozitív kurzusok közötti előkövetelmény-lánc vizsgálata
-        $prerequisiteGraph = [];
-        $visited = [];
-        $stack = [];
-        
-        // Gráf építése
-        foreach ($positiveCoursesToTake as $courseId => $courseData) {
-            if (!isset($prerequisiteGraph[$courseId])) {
-                $prerequisiteGraph[$courseId] = [];
-            }
-            
-            if (isset($courseData['prerequisites'])) {
-                foreach ($courseData['prerequisites'] as $prereqId) {
-                    if (!isset($prerequisiteGraph[$prereqId])) {
-                        $prerequisiteGraph[$prereqId] = [];
-                    }
-                    $prerequisiteGraph[$prereqId][] = $courseId;
-                }
-            }
-        }
-        
-        // Körkörös függőségek keresése (kör a gráfban)
-        foreach (array_keys($positiveCoursesToTake) as $courseId) {
-            if (isset($prerequisiteGraph[$courseId])) {
-                $visited = [];
-                $stack = [];
-                if ($this->hasCycle($courseId, $prerequisiteGraph, $visited, $stack)) {
-                    return [false, "Körkörös függőség észlelhető a kötelező kurzusok között."];
-                }
-            }
-        }
-        
         return [true, ""];
     }
 
-    /**
-     * Ellenőrzi, hogy van-e kör a gráfban (körkörös függőség).
-     */
-    private function hasCycle($node, $graph, &$visited, &$stack): bool
-    {
-        if (!isset($visited[$node])) {
-            $visited[$node] = true;
-            $stack[$node] = true;
-            
-            if (isset($graph[$node])) {
-                foreach ($graph[$node] as $neighbor) {
-                    if (!isset($visited[$neighbor]) && $this->hasCycle($neighbor, $graph, $visited, $stack)) {
-                        return true;
-                    } else if (isset($stack[$neighbor])) {
-                        return true;
-                    }
-                }
-            }
-        }
-        
-        unset($stack[$node]);
-        return false;
-    }
 
     /**
      * Ez Generálja az optimális tantervet Branch and Bound algoritmussal.
@@ -214,7 +160,6 @@ class CourseOptimizationBnBService
         $this->bestSolution = null;
         $this->bestSolutionCost = PHP_INT_MAX;
         $this->nodesExplored = 0;
-        //$this->positiveCourseIds = [];
 
         // Kötelező specializáció hozzáadása
         foreach($this->curriculum->specializations as $sp){
@@ -236,18 +181,18 @@ class CourseOptimizationBnBService
 
         // A negativ kurzusokra épülő kurzusokat beleteszem a negativba
         $processedNegativeIds = []; 
-        $queue = $nagativIds; 
+        $tempNagativIds = $nagativIds; 
         $allNegativeIds = $nagativIds;
 
-        while (!empty($queue)) {
-            $currentCourseId = array_shift($queue); 
+        while (!empty($tempNagativIds)) {
+ 
+            $currentCourseId = array_shift($tempNagativIds); 
 
             if (in_array($currentCourseId, $processedNegativeIds)) {
                 continue; 
             }
             $processedNegativeIds[] = $currentCourseId; 
 
-            
             $courseModel = $this->allCourses[$currentCourseId];
             if ($courseModel) {
                 $dependentCourseIds = $courseModel->isPrerequisiteFor()->pluck('course_id')->toArray();
@@ -255,7 +200,7 @@ class CourseOptimizationBnBService
                 foreach ($dependentCourseIds as $dependentId) {
                     if (!in_array($dependentId, $allNegativeIds)) {
                         $allNegativeIds[] = $dependentId; 
-                        $queue[] = $dependentId;         
+                        $tempNagativIds[] = $dependentId;         
                     }
                 }
             }
@@ -359,10 +304,8 @@ class CourseOptimizationBnBService
         // Eredmény visszaadása
         if ($this->bestSolution === null) {
             $reason = "Unknown reason";
-            if ($this->nodesExplored >= $this->maxIterations) {
-                $reason = "Maximum iterations exceeded";
-            } elseif (microtime(true) - $this->startTime >= $this->timeLimit) {
-                $reason = "Time limit exceeded";
+            if (microtime(true) - $this->startTime >= $this->timeLimit) {
+                $reason = "Az algoritmus elérte az időkorlátot ({$this->timeLimit}s) a tervezés közben.";
             }
             
             return [
@@ -371,7 +314,7 @@ class CourseOptimizationBnBService
                 'total_courses' => 0,
                 'total_semesters' => 0, 
                 'all_requirements_met' => false,
-                'warnings' => ["No valid curriculum found with the given conditions. ($reason)"],
+                'warnings' => ["Nem találtunk lehetséges tantervet a jellenlegi feltételek szerint. ($reason)"],
                 'nodes_explored' => $this->nodesExplored,
             ];
         }
@@ -405,14 +348,9 @@ class CourseOptimizationBnBService
         }
         $visitedStates[$stateHash] = true;
         $this->nodesExplored++;
-    
-        // Check iteration and time limits
-        if ($this->nodesExplored > $this->maxIterations) {
-            return; // Exceeded max iterations, stop searching
-        }
         
         if (microtime(true) - $this->startTime > $this->timeLimit) {
-            return; // Exceeded time limit, stop searching
+            return; 
         }
 
         // 1. Megoldás ellenőrzése
@@ -435,8 +373,6 @@ class CourseOptimizationBnBService
         $availableCourses = $this->getAvailableCourses($state);
 
         // 4. Elágazás (Branching)
-        $movedToNextSemester = false;
-
         if ($state['semesterCredits'] < $this->maxCreditsPerSemester) {
             foreach ($availableCourses as $courseId => $course) {
                 if ($state['semesterCredits'] + $course['kredit'] <= $this->maxCreditsPerSemester) {
@@ -446,16 +382,8 @@ class CourseOptimizationBnBService
             }
         }
 
-        // Ha a félév tele van, vagy a fenti ciklus lefutott 
-        // Lépjünk a következő félévre.
-        if (!$movedToNextSemester) {
-             $newStateNextSem = $this->moveToNextSemester($state);
-             // Biztonsági limit a félévszámra
-             if ($newStateNextSem['semester'] <= 20) {
-                 $this->branchAndBound($newStateNextSem, $positiveCoursesToTake);
-                 $movedToNextSemester = true;
-             }
-        }
+        $newStateNextSem = $this->moveToNextSemester($state);
+        $this->branchAndBound($newStateNextSem, $positiveCoursesToTake);
     }
 
     /**
@@ -631,8 +559,9 @@ class CourseOptimizationBnBService
     private function takeCourse(array $state, int $courseId, array $course): array
     {
         $newState = $state;
-        if (!in_array($courseId, $newState['selectedCourses'])) { $newState['selectedCourses'][] = $courseId; }
-        if (!in_array($courseId, $newState['completedCourses'])) { $newState['completedCourses'][] = $courseId; }
+        if (!in_array($courseId, $newState['selectedCourses'])) 
+        { $newState['selectedCourses'][] = $courseId; }
+        //if (!in_array($courseId, $newState['completedCourses'])) { $newState['completedCourses'][] = $courseId; }
 
         if (isset($course['categories']) && is_array($course['categories'])) { 
             foreach ($course['categories'] as $categoryId) {
@@ -656,6 +585,11 @@ class CourseOptimizationBnBService
     {
         $newState = $state;
         $currentSemesterNum = $newState['semester'];
+        foreach ($newState['semesterCourses'] as $completedCourseInSemester) {
+            if (!in_array($completedCourseInSemester['id'], $newState['completedCourses'])) {
+                $newState['completedCourses'][] = $completedCourseInSemester['id'];
+            }
+        }
         if (!empty($newState['semesterCourses'])) {
             $newState['plan'][] = [
                 'semester_num' => $currentSemesterNum,
