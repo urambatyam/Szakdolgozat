@@ -106,5 +106,20 @@
         "Massage_SEND": "Post to the forum",
         "BACK": "Back",
         "SEND": "Send"
-    }
+    },
+    
+        "chart": {
+          "title": "Kurzus je555gyeinek alakulása félévenként",
+          "grades": "Jegye5k",
+          "semesters": "Fél5évek",
+          "max": "Maxi5mum",
+          "q3": "Felső kva5rtilis (Q3)",
+          "median": "Medi5án",
+          "q1": "Alsó kva5rtilis (Q1)",
+          "min": "Minim5um",
+          "noData": "Nin5cs adat",
+          "noSemesterData": "A kurzushoz5 nincsenek féléves jegyadatok"
+        }
+      
+      
 }

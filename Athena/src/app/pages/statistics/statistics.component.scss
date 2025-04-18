@@ -1,26 +1,126 @@
-.progress-card {
-    max-width: 600px;
-    margin: auto;
-    padding: 16px;
-  }
-  
-  .subject-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-top: 12px;
-    width: 100%;
-  }
-  
-  mat-progress-bar {
-    flex-grow: 1; /* Kitölti a rendelkezésre álló helyet */
-    height: 200px; /* Megnövelt magasság */
-    border-radius: 8px; /* Lekerekített sarkok */
-    overflow: hidden;
-  }
-  
-  .mat-progress-bar-fill::after {
-    border-radius: 8px; /* A belső töltőelem is lekerekített */
-  }
-  
+.spec-card {
+  flex: 1 1 300px;
+  min-width: 300px;
+  border-left: 4px solid #3f51b5;
+  background-color: #f3fff9;
+}
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.spec-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.credits-display {
+  font-size: 16px;
+}
+
+.earned {
+  font-weight: bold;
+  color: #3f51b5;
+}
+
+.separator {
+  margin: 0 2px;
+}
+
+.required {
+  color: #555;
+}
+.completion-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.completed {
+  background-color: #4caf50;
+  color: white;
+}
+
+.incomplete {
+  background-color: #ff9800;
+  color: white;
+}
+
+.spec-progress-container {
+  position: relative;
+  margin: 16px 0;
+}
+
+.progress-bar-container {
+  position: relative;
+  height: 24px;
+  width: 100%;
+  overflow: hidden; /* Ez megakadályozza, hogy a zöld sáv kilógjon */
+  border-radius: 12px;
+}
+.progress-bar-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #dae5e4;
+  border-radius: 12px;
+}
+
+.progress-bar-fill {
+  position: absolute;
+  height: 100%;
+  background-color: #006a6a;
+  border-radius: 12px;
+  transition: width 0.3s ease;
+}
+.categories-container {
+  margin-top: 24px;
+}
+
+.category-item {
+  margin-bottom: 16px;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.category-name {
+  font-weight: 500;
+}
+
+.category-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-icon {
+  display: flex;
+  align-items: center;
+}
+
+.status-icon.completed {
+  color: #4caf50;
+}
+
+.status-icon.incomplete {
+  color: #ff9800;
+}
+
+.category-progress-container {
+  position: relative;
+  height: 16px;
+  overflow: hidden; /* Ez megakadályozza, hogy a zöld sáv kilógjon */
+  border-radius: 8px;
+}
+.cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}

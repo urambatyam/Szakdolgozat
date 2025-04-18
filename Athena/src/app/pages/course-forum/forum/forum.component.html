@@ -36,7 +36,7 @@
             <app-subject-topic></app-subject-topic>
           }          
           @case ("statistics") {
-            <app-course-statistics></app-course-statistics>
+            <app-course-statistics [courseId]="course?.id ?? 0" ></app-course-statistics>
           }
           @default {<app-messages></app-messages>}
         }

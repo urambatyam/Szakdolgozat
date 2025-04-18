@@ -33,12 +33,14 @@ Route::apiResource('grade', GradeController::class)->except(['show'])->middlewar
 Route::get('/grade/course/{course_id}', [GradeController::class, 'getAllGradesInCourse'])->middleware('auth:sanctum');
 Route::get('/grade/student/{student_code}', [GradeController::class, 'getAllGradesOFStudent'])->middleware('auth:sanctum');
 
-Route::get('/statistic/{course_id}', [CalculusController::class, 'statisticAbaoutCourse']);
+Route::get('/statisticCB/{course_id}', [CalculusController::class, 'courseBoxplot']);
 Route::get('/statisticCCR/{course_id}', [CalculusController::class, 'coursecompletionRate']);
+Route::get('/statisticCGR/{course_id}', [CalculusController::class, 'courseGradeRate']);
 Route::get('/statisticCLR/{course_id}', [CalculusController::class, 'courseLinearRegression']);
 Route::get('/statisticCD/{course_id}', [CalculusController::class, 'courseDistribution']);
 
 Route::get('/statisticTSCC', [CalculusController::class, 'statisticToStudentCompletedCredits'])->middleware('auth:sanctum');
+Route::get('/statisticSP', [CalculusController::class, 'statisticStudentProgress'])->middleware('auth:sanctum');
 Route::get('/statisticASLR', [CalculusController::class, 'statisticAbaoutStudentLinearisRegressio'])->middleware('auth:sanctum');
 Route::get('/statisticAST', [CalculusController::class, 'statisticAbaoutStudentTAN'])->middleware('auth:sanctum');
 Route::get('/statisticAT', [CalculusController::class, 'statisticAllTAN'])->middleware('auth:sanctum');

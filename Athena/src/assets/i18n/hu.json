@@ -106,5 +106,20 @@
         "Massage_SEND": "Szólj hozzá!",
         "BACK": "Vissza",
         "SEND": "Küldés"
-    }
+    },
+    
+        "chart": {
+          "title": "Kurzus jegyeinek alakulása félévenként",
+          "grades": "Jegyek",
+          "semesters": "Félévek",
+          "max": "Maximum",
+          "q3": "Felső kvartilis (Q3)",
+          "median": "Medián",
+          "q1": "Alsó kvartilis (Q1)",
+          "min": "Minimum",
+          "noData": "Nincs adat",
+          "noSemesterData": "A kurzushoz nincsenek féléves jegyadatok"
+        }
+      
+      
 }

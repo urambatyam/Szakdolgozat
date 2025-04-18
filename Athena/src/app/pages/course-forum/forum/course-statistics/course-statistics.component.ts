@@ -1,16 +1,15 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, OnInit, inject } from '@angular/core';
+import { Component, AfterViewInit, OnInit, inject, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { createGR } from './charts/gradesRate';
 import { creatD } from './charts/distrubution';
-import { creatLR } from './charts/linearRegression';
+import { createLR } from './charts/linearRegression';
 import { creatCR } from './charts/completionRate';
 import { creatBP } from './charts/boxplot';
 import { StatisticsService } from '../../../../services/mysql/statistics.service';
-//https://plotly.com/javascript/box-plots/
-//https://plotly.com/javascript/pie-charts/#basic-pie-chart
-//https://community.plotly.com/t/regresssion-line-in-javascript/87801/2
+import { TranslateService } from '@ngx-translate/core';
+
 
 
 @Component({
@@ -20,14 +19,15 @@ import { StatisticsService } from '../../../../services/mysql/statistics.service
   templateUrl: './course-statistics.component.html',
   styleUrl: './course-statistics.component.scss'
 })
-export class CourseStatisticsComponent implements OnInit , AfterViewInit {  
-  private statisticData = inject(StatisticsService);
-  getdistrubutionData(){}
-  getgradeRateData(){}
-  getcompletionRateData(){}
-  getlinearRegressionData(){}
-  getboxplotData(){}
+export class CourseStatisticsComponent implements  AfterViewInit { 
+  @Input() courseId:number = 0;
   
+  private statisticsService  = inject(StatisticsService);
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('hu');
+    translate.use('hu');
+  }
+
   private _statistics: 'd' | 'gr' | 'cr' | 'lr' | 'bp' = 'd';
   statisticsTypes: ('d' | 'gr' | 'cr' | 'lr' | 'bp')[] = ['d', 'gr', 'cr', 'lr', 'bp'];
   statisticsLabels: {[key: string]: string} = {
@@ -47,24 +47,84 @@ export class CourseStatisticsComponent implements OnInit , AfterViewInit {
     
     // Aszinkron módon frissítsd a diagramot a változásdetektálási hiba elkerülése érdekében
     setTimeout(() => {
-      switch(value) {
-        case 'd':
-          creatD();
-          break;
-        case 'gr':
-          createGR();
-          break;
-        case 'cr':
-          creatCR();
-          break;
-        case 'lr':
-          creatLR();
-          break;
-        case 'bp':
-            creatBP();
-            break;
-      }
+      this.renderCurrentChart();
     });
+  }
+  // Adatok lekérése
+  getdistrubutionData() {
+    if (this.courseId > 0) {
+      this.statisticsService.courseDistribution(this.courseId).subscribe({
+        next: (data) => {
+          creatD(data);
+        },
+        error: (error) => console.error('Error loading distribution data', error)
+      });
+    }
+  }
+
+  getgradeRateData() {
+    if (this.courseId > 0) {
+      this.statisticsService.courseGradeRate(this.courseId).subscribe({
+        next: (data) => {
+          createGR(data);
+        },
+        error: (error) => console.error('Error loading grade rate data', error)
+      });
+    }
+  }
+
+  getcompletionRateData() {
+    if (this.courseId > 0) {
+      this.statisticsService.courseCompletionRate(this.courseId).subscribe({
+        next: (data) => {
+          creatCR(data);
+        },
+        error: (error) => console.error('Error loading completion rate data', error)
+      });
+    }
+  }
+
+  getlinearRegressionData() {
+    if (this.courseId > 0) {
+      this.statisticsService.courseLinearRegression(this.courseId).subscribe({
+        next: (data) => {
+          createLR(data);
+        },
+        error: (error) => console.error('Error loading linear regression data', error)
+      });
+    }
+  }
+
+  getboxplotData() {
+    if (this.courseId > 0) {
+      this.statisticsService.courseBoxplot(this.courseId).subscribe({
+        next: (data) => {
+          creatBP(data);
+        },
+        error: (error) => console.error('Error loading boxplot data', error)
+      });
+    }
+  }
+
+  // Aktuális diagram kirajzolása
+  renderCurrentChart() {
+    switch(this._statistics) {
+      case 'd':
+        this.getdistrubutionData();
+        break;
+      case 'gr':
+        this.getgradeRateData();
+        break;
+      case 'cr':
+        this.getcompletionRateData();
+        break;
+      case 'lr':
+        this.getlinearRegressionData();
+        break;
+      case 'bp':
+        this.getboxplotData();
+        break;
+    }
   }
 
   // Nyilakkal navigáció
@@ -80,24 +140,8 @@ export class CourseStatisticsComponent implements OnInit , AfterViewInit {
     this.statisctics = this.statisticsTypes[nextIndex];
   }
 
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  ngOnInit(): void {
-   // this.creatD();
-  }
   ngAfterViewInit(): void {
-    creatD();
+    // Az első diagram betöltése
+    this.renderCurrentChart();
   }
 }

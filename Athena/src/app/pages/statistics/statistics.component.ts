@@ -4,21 +4,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { StatisticsService } from '../../services/mysql/statistics.service';
-import { createA } from './charts/Avarage';
-import { createAA } from './charts/AllAvarege';
+import { createT } from './charts/tan';
 import { createP } from './charts/progress';
-import { createLR } from './charts/linearRegression';
+import { createLR } from '../course-forum/forum/course-statistics/charts/linearRegression';
 import { CommonModule } from '@angular/common';
-interface CategoryData {
-  name: string;
-  earnedCredits: number;
-  totalCredits: number;
-}
-
-interface SpecializationData {
-  name: string;
-  categories: CategoryData[];
-}
+import { catchError, EMPTY, firstValueFrom, from, map } from 'rxjs';
+import { createAT } from './charts/AllTan';
+// //charts/linearRegression'
 @Component({
   selector: 'app-statistics',
   standalone: true,
@@ -27,67 +19,106 @@ interface SpecializationData {
   styleUrl: './statistics.component.scss'
 })
 export class StatisticsComponent implements AfterViewInit{
-  totalCredits = 44;
-  completedCredits = 12;
-  progress = (this.completedCredits / this.totalCredits) * 100;
 
-  subjects = [
-    { name: 'Matematika', earned: 8, total: 20, color: 'accent' },
-    { name: 'Informatika', earned: 4, total: 24, color: 'warn' },
-  ];
-   myData: SpecializationData[] = [
-    {
-      name: 'Szoftverfejlesztés',
-      categories: [
-        { name: 'Matematika', earnedCredits: 8, totalCredits: 20 },
-        { name: 'Informatika', earnedCredits: 4, totalCredits: 24 },
-      ],
-    },
-    {
-      name: 'Adatbányászat',
-      categories: [
-        { name: 'Matematika', earnedCredits: 12, totalCredits: 20 },
-        { name: 'Informatika', earnedCredits: 10, totalCredits: 24 },
-      ],
-    },
-  ];
+  private statisticsService  = inject(StatisticsService);
+  protected progressData:any = [];
+
   ngAfterViewInit(): void {
-    createP(this.myData);
+    this.renderCurrentChart();
   }
-  private statisticData = inject(StatisticsService);
-  private _statistics: 'p' | 'a' | 'lr' | 'aa'  = 'p';
-  statisticsTypes: ('p' | 'a' | 'lr' | 'aa')[] = ['p' , 'a' , 'lr' , 'aa'];
+  private _statistics: 'p' | 't' | 'lr' | 'at'  = 'p';
+  statisticsTypes: ('p' | 't' | 'lr' | 'at')[] = ['p' , 't' , 'lr' , 'at'];
   statisticsLabels: {[key: string]: string} = {
     'p': 'Előrehaladás',
-    'a': 'Tanulmányi átlag',
+    't': 'Tanulmányi átlag',
     'lr': 'Lineáris regresszió',
-    'aa': 'Összesitet tatnulmányi átlag',
+    'at': 'Összesitet tatnulmányi átlag',
   };
 
-  get statisctics(): 'p' | 'a' | 'lr' | 'aa'{
+  get statisctics(): 'p' | 't' | 'lr' | 'at'{
     return this._statistics;
   }
 
-  set statisctics(value: 'p' | 'a' | 'lr' | 'aa') {
+  set statisctics(value: 'p' | 't' | 'lr' | 'at') {
     this._statistics = value;
-    // Aszinkron módon frissítsd a diagramot a változásdetektálási hiba elkerülése érdekében
     setTimeout(() => {
-      switch(value) {
-        case 'p':
-          createP(this.myData);
-          break;
-        case 'a':
-          createA();
-          break;
-        case 'lr':
-          createLR();
-          break;
-        case 'aa':
-          createAA();
-          break;
-      }
+      this.renderCurrentChart();
     });
   }
+  renderCurrentChart() {
+    switch(this._statistics) {
+      case 'p':
+        this.progress();
+        break;
+      case 't':
+        this.tan();
+        break;
+      case 'lr':
+        this.linearRegression();
+        break;
+      case 'at':
+        this.alltan();
+        break;
+    }
+  }
+  tan(){
+    firstValueFrom(
+      from(this.statisticsService.studentTAN())
+        .pipe(
+          map(response => {
+            console.log(response);
+            createT(response);
+          }),
+          catchError(error => {
+            console.error('Hiba: ', error);
+            return EMPTY;
+          }))
+    );
+  }
+  linearRegression(){
+    firstValueFrom(
+      from(this.statisticsService.studentLinearisRegression())
+        .pipe(
+          map(response => {
+            console.log(response);
+            createLR(response);
+          }),
+          catchError(error => {
+            console.error('Hiba: ', error);
+            return EMPTY;
+          }))
+    );
+  }
+  alltan(){
+    firstValueFrom(
+      from(this.statisticsService.allTAN())
+        .pipe(
+          map(response => {
+            console.log(response);
+            createAT(response);
+          }),
+          catchError(error => {
+            console.error('Hiba: ', error);
+            return EMPTY;
+          }))
+    );
+  }
+  progress(){
+    firstValueFrom(
+      from(this.statisticsService.progres())
+        .pipe(
+          map(response => {
+            console.log(response);
+            this.progressData = response;
+          }),
+          catchError(error => {
+            console.error('Hiba: ', error);
+            return EMPTY;
+          }))
+    );
+  }
+
+
 
   // Nyilakkal navigáció
   navigatePrevious() {

@@ -1,6 +1,6 @@
 import Plotly, { Data, Layout } from 'plotly.js-dist-min';
 
-export function createLR() {
+export function createLkR(response?:any) {
     const semesterLabels: string[] = [
       '2022/1',
       '2022/2',
