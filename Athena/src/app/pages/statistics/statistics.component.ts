@@ -5,11 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { StatisticsService } from '../../services/mysql/statistics.service';
 import { createT } from './charts/tan';
-import { createP } from './charts/progress';
 import { createLR } from '../course-forum/forum/course-statistics/charts/linearRegression';
 import { CommonModule } from '@angular/common';
 import { catchError, EMPTY, firstValueFrom, from, map } from 'rxjs';
-import { createAT } from './charts/AllTan';
+import { createAT } from './charts/allTan';
 // //charts/linearRegression'
 @Component({
   selector: 'app-statistics',

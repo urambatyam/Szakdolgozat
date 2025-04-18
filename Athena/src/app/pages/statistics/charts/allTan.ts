@@ -1,4 +1,3 @@
-import { O } from '@angular/cdk/keycodes';
 import Plotly, { Data, Layout, PlotData } from 'plotly.js-dist-min';
 
 function formatSemesterName(key: string): string {
