@@ -10,10 +10,13 @@
         "LOGOUT": "Kijelentkezés"
     },
     "login":{
+        "INVALID_CREDENTIALS": "Hibás felhasználói kód vagy jelszó.",
+        "GENERIC_ERROR": "Hiba történt a bejelentkezés során. Kérjük, próbálja újra később.",
+        "CODE": "Athena kód",
+        "CODE_REQUIRED": "Add meg az Athena kódodat!",
+        "CODE_PATTERN": "Érvénytelen Athena kód!",
         "TITLE": "Bejelentkezés",
         "PASSWORD": "Jelszó",
-        "NO_EMAIL": "Add meg az email címet!",
-        "NOT_VALID_EMAIL": "Ez nem egy érvényes email cím!",
         "NO_PASSWORD": "Add meg a jelszót!",
         "LOGIN": "Belépés"
     },

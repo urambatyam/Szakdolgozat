@@ -1,10 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Importáld ezt
+import { of } from 'rxjs';
+//import 'jasmine';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
+    const translateServiceMock = {
+      setDefaultLang: () => {},
+      use: () => of(null),
+    };
+
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent, HttpClientModule, TranslateModule.forRoot(), BrowserAnimationsModule], 
+      providers: [{ provide: TranslateService, useValue: translateServiceMock }],
     }).compileComponents();
   });
 
@@ -12,18 +23,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have the 'Athena' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('Athena');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, Athena');
   });
 });

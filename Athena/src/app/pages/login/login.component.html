@@ -2,33 +2,33 @@
     <mat-card-header>
         <mat-card-title>
             {{'login.TITLE' | translate}}
-        </mat-card-title>
+        </mat-card-title><br>
     </mat-card-header>
+    <img class="athena" mat-card-image src="assets/imgs/athena_icon.svg" alt="Athena">
     <mat-card-content>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <mat-form-field>
-                <mat-label>Email</mat-label>
-                <input matInput formControlName="email" required type="email" />
-                @if (loginForm.get('email')?.invalid && 
-                (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)) {
+                <mat-label>{{'login.CODE' | translate}}</mat-label>
+                <input matInput formControlName="code" required type="text" />
+                @if (loginForm.get('code')?.invalid &&
+                (loginForm.get('code')?.dirty || loginForm.get('code')?.touched)) {
                     <mat-error>
-                        @if (loginForm.get('email')?.hasError('required')) {
-                            {{'login.NO_EMAIL' | translate}}
+                        @if (loginForm.get('code')?.hasError('required')) {
+                            {{'login.CODE_REQUIRED' | translate}}
                         }
-                        @if (loginForm.get('email')?.hasError('email')) {
-                            {{'login.NOT_VALID_EMAIL' | translate}}
+                        @if (loginForm.get('code')?.hasError('pattern')) {
+                            {{'login.CODE_PATTERN' | translate}}
                         }
                     </mat-error>
                 }
             </mat-form-field><br>
-
             <mat-form-field>
                 <mat-label>{{'login.PASSWORD' | translate}}</mat-label>
-                <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" required>
-                <button mat-icon-button matSuffix (click)="clickEvent($event)" type="button">
-                  <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password" required>
+                <button mat-icon-button matSuffix (click)="togglePasswordVisibility($event)" type="button">
+                  <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
                 </button>
-                @if (loginForm.get('password')?.invalid && 
+                @if (loginForm.get('password')?.invalid &&
                 (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)) {
                     <mat-error>
                     @if (loginForm.get('password')?.hasError('required')) {
@@ -37,7 +37,9 @@
                     </mat-error>
                 }
             </mat-form-field><br>
-
+            @if (errorMessage()) {
+                <mat-error class="form-error">{{ errorMessage() | translate }}</mat-error>
+            }
             <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
                 {{'login.LOGIN' | translate}}
             </button>

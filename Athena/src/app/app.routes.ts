@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
 import { roleGuard } from './guards/role.guard';
-import { Course } from './models/course';
-
+/**
+ * Az alakamazás utvonalit denfiniálja és a komponenseket lazy-loding töltibe és levidi a roleGuard-val
+ */
 export const routes: Routes = [
     {
         path: 'registration',
@@ -102,4 +103,3 @@ export const routes: Routes = [
     },
     {path: '**', redirectTo: 'login'},
 ];
-//https://www.youtube.com/watch?v=dT3f0KTdNyA

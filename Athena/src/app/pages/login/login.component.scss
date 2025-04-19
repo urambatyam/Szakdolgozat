@@ -1,0 +1,29 @@
+mat-card{
+    position: relative;
+    display: flex;
+    min-width: fit-content;
+    height: 80%;
+    min-height: fit-content;
+    align-items: center;
+    padding: 2%;
+}
+.athena{
+    width: 15em;
+    height: 31em;
+}
+mat-card-title{
+    padding: 5%;
+    color: #006a6a;
+    font-weight: bold;
+    font-size: 2em;
+}
+form{
+    padding: 4%;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+.form-error{
+    text-align: center;
+    padding: 0.5em;
+}

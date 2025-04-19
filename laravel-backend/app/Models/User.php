@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+/**
+ * A felhasználó modelje
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -18,7 +19,7 @@ class User extends Authenticatable
     protected $keyType = 'string';
 
     /**
-     * The attributes that are mass assignable.
+     * A tulajdonságok, amelyek tömegesen hozzárendelhetők.
      *
      * @var list<string>
      */
@@ -27,11 +28,12 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'code'
+        'code',
+        'curriculum_id'
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * A tulajdonságok, amelyeket el kell rejteni a JSON szerializálás során
      *
      * @var list<string>
      */
@@ -41,8 +43,8 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
+     * Automatikusan kasztolja az tulajdonságok a megadott adattípusokra
+     * 
      * @return array<string, string>
      */
     protected function casts(): array
@@ -52,18 +54,42 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    /**
+     * Lekéri a felhasználóhoz tartozó tantervet.
+     * Egy felhasználó egy tantervhez tartozik.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function curriculum()
     {
         return $this->belongsTo(Curriculum::class, 'curriculum_id');
     }
+    /**
+     * Lekéri a felhasználóhoz  tartozó kurzusokat.
+     * Egy felhasználó több kurzusért is felelős lehet.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function course()
     {
         return $this->hasMany(Course::class, 'user_code', 'code');
     }
+    /**
+     * Lekéri a felhasználó által írt fórumbejegyzéseket.
+     * Egy felhasználó több fórumbejegyzést is írhat.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function forums()
     {
         return $this->hasMany(CourseForum::class, 'user_code', 'code');
     }
+    /**
+     * Lekéri a felhasználóhoz tartozó érdemjegyeket.
+     * Egy felhasználónak több érdemjegye is lehet.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function grades()
     {
         return $this->hasMany(Grade::class, 'user_code', 'code');

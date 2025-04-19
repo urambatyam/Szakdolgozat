@@ -12,10 +12,10 @@ export class AuthService {
   private LoggedUser = new BehaviorSubject<User | null>(null);
   public user$ = this.LoggedUser.asObservable();
 
-  public login(email:string, password:string): Observable<any>{
+  public login(code:string, password:string): Observable<any>{
     return this.http.post<any>(
       environment.baseUrl+'/login',
-      {email,password},)
+      {code,password},)
       .pipe(
         tap(response => {
           localStorage.setItem('token', response.token);

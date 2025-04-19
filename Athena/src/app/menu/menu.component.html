@@ -1,33 +1,76 @@
-<mat-toolbar color="primary" class="navigation-toolbar">
-    <mat-toolbar-row >
-      
-        @if(this.role !== null){
-          <button mat-button routerLink="/curriculum" routerLinkActive="active">{{'menu.CURRICULUM' | translate }}</button>
-          <button mat-button routerLink="/statistic" routerLinkActive="active">{{'Satatisztika' | translate }}</button>
-        }
-        @if(this.role === 'student'){
-          <button mat-button routerLink="/grades" routerLinkActive="active">{{'menu.GRADES' | translate }}</button>
-        }
-        @if(this.role === 'admin'){
-          <button mat-button routerLink="/curriculum-developer" routerLinkActive="active">{{'menu.CURRICULUM-DEVELOPER' | translate }}</button>
-        }
-        @if(this.role === 'admin' || this.role === 'teacher'){
-          <button mat-button routerLink="/course-forum" routerLinkActive="active">{{'menu.COURSE-FORUM' | translate }}</button>
-        }
-        @if(this.role === 'admin'){
-          <button mat-button routerLink="/registration" routerLinkActive="active">{{'menu.REGISTRATION' | translate }}</button>
-        }
-        @if(this.role !== null){
-          <button mat-button routerLink="/login" routerLinkActive="active">{{'menu.LOGIN' | translate }}</button>
-          <button mat-button routerLink="/profile" routerLinkActive="active">{{'menu.PROFILE' | translate }}</button>
-          <button mat-button routerLink="/optimalization" routerLinkActive="active">{{'Tanterv optimalizáció' | translate }}</button>
-          <button mat-button (click)="logOut()">{{'menu.LOGOUT' | translate }}</button>
-        }
-        <mat-select [(value)]="selectedLang" (selectionChange)="changeLang($event)">
-          <mat-option value="hu">magyar</mat-option>
-          <mat-option value="en">Angol</mat-option>
-        </mat-select>
-    </mat-toolbar-row>
-</mat-toolbar>
+<mat-sidenav-container id="sidenav-container">
+  <mat-sidenav #drawer [mode]="(isHandset$ | async) ? 'over' : 'side'" >
+    <mat-nav-list (click)="closeSidenav()">
+      @if( this.role !== null){
+        <a mat-list-item routerLink="/curriculum" routerLinkActive="active">{{'menu.CURRICULUM' | translate }}</a>
+        <a mat-list-item routerLink="/statistic" routerLinkActive="active">{{'Satatisztika' | translate }}</a>
+      }
+      @if( this.role === 'student'){
+        <a mat-list-item routerLink="/grades" routerLinkActive="active">{{'menu.GRADES' | translate }}</a>
+      }
+      @if( this.role === 'admin'){
+        <a mat-list-item routerLink="/curriculum-developer" routerLinkActive="active">{{'menu.CURRICULUM-DEVELOPER' | translate }}</a>
+      }
+      @if(this.role === 'admin' || this.role === 'teacher'){
+        <a mat-list-item routerLink="/course-forum" routerLinkActive="active">{{'menu.COURSE-FORUM' | translate }}</a>
+      }
+      @if( this.role === 'admin'){
+        <a mat-list-item routerLink="/registration" routerLinkActive="active">{{'menu.REGISTRATION' | translate }}</a>
+      }
+      @if( this.role !== null){
+        <a mat-list-item routerLink="/profile" routerLinkActive="active">{{'menu.PROFILE' | translate }}</a>
+        <a mat-list-item routerLink="/optimalization" routerLinkActive="active">{{'Tanterv optimalizáció' | translate }}</a>
+        <a mat-list-item (click)="logOut()">{{'menu.LOGOUT' | translate }}</a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar>
+        <mat-toolbar-row >
+          @if( (isHandset$ | async) && this.role !== null ){
+            <button  mat-icon-button (click)="drawer.toggle()">
+              <mat-icon>menu</mat-icon>
+            </button>   
+          }@else {
+            @if(  this.role !== null){
+              <button mat-button routerLink="/curriculum" routerLinkActive="active">{{'menu.CURRICULUM' | translate }}</button>
+              <button mat-button routerLink="/statistic" routerLinkActive="active">{{'Satatisztika' | translate }}</button>
+            }
+            @if( this.role === 'student'){
+              <button mat-button routerLink="/grades" routerLinkActive="active">{{'menu.GRADES' | translate }}</button>
+            }
+            @if( this.role === 'admin'){
+              <button mat-button routerLink="/curriculum-developer" routerLinkActive="active">{{'menu.CURRICULUM-DEVELOPER' | translate }}</button>
+            }
+            @if( this.role === 'admin' || this.role === 'teacher'){
+              <button mat-button routerLink="/course-forum" routerLinkActive="active">{{'menu.COURSE-FORUM' | translate }}</button>
+            }
+            @if( this.role === 'admin'){
+              <button mat-button routerLink="/registration" routerLinkActive="active">{{'menu.REGISTRATION' | translate }}</button>
+            }
+            @if( this.role !== null){
+              <button mat-button routerLink="/profile" routerLinkActive="active">{{'menu.PROFILE' | translate }}</button>
+              <button mat-button routerLink="/optimalization" routerLinkActive="active">{{'Tanterv optimalizáció' | translate }}</button>
+              <button mat-button (click)="logOut()">{{'menu.LOGOUT' | translate }}</button>
+            }
+          }
+            <span class="spacer"></span>
+            <mat-select class="language-selector" [(value)]="selectedLang" (selectionChange)="changeLang($event)">
+              <mat-option value="hu">HU</mat-option>
+              <mat-option value="en">EN</mat-option>
+            </mat-select>
+            
+            <img class="menu-logo" src="assets/imgs/owl.svg" alt="Athena Logo">
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+
+
   
 

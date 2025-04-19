@@ -10,10 +10,13 @@
         "LOGOUT": "Logout"
     },
     "login":{
+        "INVALID_CREDENTIALS": "Invalid user code or password.",
+        "GENERIC_ERROR": "An error occurred during login. Please try again later.",
+        "CODE": "Athena code",
+        "CODE_REQUIRED": "Enter your Athena code!",
+        "CODE_PATTERN": "Not valid Athena code!",
         "TITLE": "login",
         "PASSWORD": "Password",
-        "NO_EMAIL": "Enter your email address!",
-        "NOT_VALID_EMAIL": "This is not a valid email address!",
         "NO_PASSWORD": "Enter your password!",
         "LOGIN": "Login"
     },
