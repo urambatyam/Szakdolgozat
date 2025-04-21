@@ -1,120 +1,168 @@
-import { Component,inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { UserService } from '../../services/mysql/user.service';
 import { AuthService } from '../../services/mysql/auth.service';
-import { User } from '../../models/user';
-import { catchError, EMPTY, firstValueFrom, from, map, Observable, Subject, takeUntil, tap } from 'rxjs';
-import {
-  MatDialog
-} from '@angular/material/dialog';
-import { PasswordDialogComponent } from './password-dialog/password-dialog.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { catchError, EMPTY, Subject, takeUntil, tap } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from './dialog/dialog.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core'; 
+import { CommonModule } from '@angular/common';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; 
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [
-        MatCardModule, 
-        MatInputModule, 
-        MatFormFieldModule, 
-        MatIconModule, 
-        MatButtonModule, 
-        ReactiveFormsModule,
-        TranslateModule
+    CommonModule,
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    MatSnackBarModule 
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
-export class ProfileComponent implements OnInit , OnDestroy{
-  ngOnDestroy(): void {
+/**
+ * A felhasználó adatainak megjelenítése, jelszó, email változtatás.
+ */
+export class ProfileComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+  private dialog = inject(MatDialog);
+  private fb = inject(FormBuilder);
+  private auth = inject(AuthService);
+  private snackBar = inject(MatSnackBar); 
+  private translate = inject(TranslateService); 
+
+  protected profilForm = this.fb.nonNullable.group({
+    code: [{ value: "", disabled: true }],
+    name: [{ value: "", disabled: true }],
+    email: [{ value: "", disabled: true }],
+    role: this.fb.nonNullable.control<"student" | "teacher" | "admin">({ value: "student", disabled: true }),
+  });
+
+  /**
+  * Az oldal inicializálása, feliratkozik a felhasználói adatokra.
+  * @returns void
+  */
+  public ngOnInit(): void {
+    this.subscribeToUserUpdates(); 
+  }
+
+  /**
+   * Az oldal megsemmisülésekor lezárja a feliratkozásokat.
+   * @returns void
+   */
+  public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
-  private destroy$ = new Subject<void>();
-  readonly dialogNewPassword = signal('');
-  readonly dialogOldPassword = signal('');
-  readonly dialog = inject(MatDialog);
 
-  openPasswordDialog(): void {
-    const dialogRef = this.dialog.open(PasswordDialogComponent, {
-      data: { email: this.dialogOldPassword(), password: this.dialogNewPassword()},
+  /**
+   * Feliratkozik az AuthService user$ observable-jére és frissíti a formot.
+   */
+  private subscribeToUserUpdates(): void {
+    this.auth.user$.pipe(
+      takeUntil(this.destroy$),
+      tap(user => {
+        if (user) {
+          this.profilForm.patchValue({
+            code: user.code,
+            name: user.name,
+            email: user.email,
+            role: user.role
+          }, { emitEvent: false });
+        } else {
+          this.profilForm.reset();
+        }
+      }),
+      catchError(error => {
+        console.error('Hiba a felhasználói adatokra való feliratkozáskor: ', error);
+        this.showSnackbar('profile.ERROR_LOADING_USER_DATA', 'error-snackbar');
+        return EMPTY;
+      })
+    ).subscribe();
+  }
+
+  /**
+   * Megnyit egy dialógust a jelszó/email megváltoztatásához.
+   * @param isPassword - Igaz, ha jelszómódosítás, hamis, ha email módosítás.
+   * @returns void
+   */
+  openDialog(isPassword: boolean): void {
+    const currentUserCode = this.profilForm.getRawValue().code;
+    const currentUserEmail = this.profilForm.getRawValue().email;
+
+    if (!currentUserCode) {
+      console.error("Felhasználói kód nem elérhető a dialógus megnyitásához.");
+      this.showSnackbar('profile.ERROR_USER_CODE_MISSING', 'error-snackbar');
+      return;
+    }
+
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+          code: currentUserCode,
+          email: currentUserEmail,
+          isPassword: isPassword,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        this.dialogNewPassword.set(result.password);
-        this.dialogOldPassword.set(result.email);
-        console.log('result' + result);
+
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(result => {
+      if (result) {
+        console.log('Dialógus bezárva, eredmény: ', result);
+
+        const updateObservable = isPassword
+          ? this.auth.updatePassword(currentUserCode, result.password, result.new) 
+          : this.auth.updateEmail(currentUserCode, result.password, result.new);
+
+        updateObservable.pipe(
+          catchError(error => {
+            console.error('Hiba a frissítés során: ', error);
+            const errorKey = isPassword ? 'profile.ERROR_PASSWORD_UPDATE' : 'profile.ERROR_EMAIL_UPDATE';
+            this.showSnackbar(errorKey, 'error-snackbar', { message: error.message || 'Ismeretlen hiba' });
+            return EMPTY;
+          })
+        ).subscribe({
+          next: () => {
+            const successKey = isPassword ? 'profile.SUCCESS_PASSWORD_UPDATE' : 'profile.SUCCESS_EMAIL_UPDATE';
+            this.showSnackbar(successKey, 'success-snackbar');
+            console.log(isPassword ? 'Jelszó frissítési folyamat sikeres.' : 'Email frissítési folyamat sikeres.');
+          },
+        });
+      } else {
+        console.log('Dialógus bezárva eredmény nélkül (Mégse gomb).');
       }
-      this.user.updatePassword(this.dialogOldPassword(),this.dialogNewPassword(),this.dialogNewPassword());
     });
   }
 
-
-  private fb = inject(FormBuilder);
-  private user = inject(UserService);
-  private auth = inject(AuthService);
-
-  updateUser:User|null = null;
-  protected profilForm = this.fb.nonNullable.group(
-      {
-      name: ['', [ Validators.minLength(4), Validators.maxLength(12)]],
-      email: ['',[Validators.email]],
-      role:  this.fb.nonNullable.control<"student" | "teacher" | "admin">("student"),
-      }
-    );
-
-    ngOnInit() {
-      this.getUSer();
-    }
-
-    private async getUSer(){
-      await firstValueFrom(
-        from(this.auth.user$).pipe(
-          map(user => {
-            this.profilForm.patchValue({
-              name: user?.name,
-              email: user?.email,
-              role: user?.role
-            });
-          }),
-          tap( r =>{
-            console.log('Sikeres felhasználói adat lekérés '+r);
-            }
-          ),
-          catchError(error => {
-            console.error('Hiba: ', error);
-            return EMPTY;
-          })
-        )
-      );
-    }
-
-  protected onSubmit(): void {
-    console.log(this.profilForm);
-    if (this.profilForm.invalid) {
-      this.profilForm.markAllAsTouched();
-      return;
-    }
-    const formValues = this.profilForm.getRawValue();
-    firstValueFrom(
-      from(this.user.update(formValues)).pipe(
-        tap( r =>{
-          console.log('Sikeres frissítés '+r);
-          }
-        ),
-        catchError(error => {
-          console.error('Hiba: ', error);
-          return EMPTY;
-        })
-      )
-    )
-    this.getUSer();
-  };
-  
+  /**
+   * Segédfüggvény MatSnackBar megjelenítéséhez fordítással.
+   * @param messageKey - A fordítási kulcs az üzenethez.
+   * @param panelClass - CSS osztály a snackbar stílusozásához.
+   * @param interpolateParams - Opcionális paraméterek a fordításhoz.
+   * @param duration - Megjelenítési időtartam (ms).
+   */
+  private showSnackbar(
+    messageKey: string,
+    panelClass: string = '',
+    interpolateParams?: object,
+    duration: number = 4000 
+  ): void {
+    this.translate.get(messageKey, interpolateParams).pipe(takeUntil(this.destroy$)).subscribe((translatedMessage: string) => {
+      this.snackBar.open(translatedMessage, this.translate.instant('GENERAL.CLOSE'), { 
+        duration: duration,
+        panelClass: [panelClass] 
+      });
+    });
+  }
 }

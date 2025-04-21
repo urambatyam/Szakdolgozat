@@ -7,7 +7,8 @@
         "REGISTRATION": "Regisztráció",
         "LOGIN": "Bejelentkezés",
         "PROFILE": "Profil",
-        "LOGOUT": "Kijelentkezés"
+        "LOGOUT": "Kijelentkezés",
+        "STATISTIC": "Statistika"
     },
     "login":{
         "INVALID_CREDENTIALS": "Hibás felhasználói kód vagy jelszó.",
@@ -20,11 +21,23 @@
         "NO_PASSWORD": "Add meg a jelszót!",
         "LOGIN": "Belépés"
     },
+    "GENERAL":{
+        "CLOSE": "Bezárás"
+    },
     "profile":{
+        "ERROR_PASSWORD_UPDATE": "A jelszó megváltoztatása sikertelen!",
+        "ERROR_EMAIL_UPDATE": "A email megváltoztatása sikertelen!",
+        "SUCCESS_PASSWORD_UPDATE": "A jelszó megváltoztatása sikeresen megtörtént!",
+        "SUCCESS_EMAIL_UPDATE": "A email megváltoztatása sikeresen megtörtént!",
+        "ERROR_USER_CODE_MISSING": "A Athena kód hiányzik!",
         "TITLE": "Adataim:",
         "CODE": "Athena kód",
         "NAME": "Név",
         "ROLE": "Rang",
+        "PASSWORD":"Jelszó",
+        "CURRENT_EMAIL": "Jellenlegi email",
+        "NEW_EMAIL": "új email",
+        "NEW_PASSWORD": "új jelszó",
         "PASSWORD_CHANGE": "Jelszó megváltoztatása",
         "EMAIL_CHANGE": "Email megváltoztatása"
     },

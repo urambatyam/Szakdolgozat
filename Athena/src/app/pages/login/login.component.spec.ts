@@ -8,9 +8,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router'; 
 import { RouterTestingModule } from '@angular/router/testing'; 
 import { HttpErrorResponse } from '@angular/common/http'; 
-
+//import 'jasmine';
 const authServiceMock = {
-    login: jasmine.createSpy('login').and.returnValue(of({ user: { code: 'TEST01' }, token: 'test-token' })),
+    login: jasmine.createSpy('login').and.returnValue(of({ user: { code: 'TEST1' }, token: 'test-token' })),
     user$: of({ role: 'student' }),
     logout: jasmine.createSpy('logout').and.returnValue(of(null))
 };
@@ -59,62 +59,62 @@ describe('LoginComponent', () => {
   });
 
   it('should toggle hidePassword signal on togglePasswordVisibility call', () => {
-    const initialValue = component.hidePassword();
+    const initialValue = component['hidePassword']();
     const mockEvent = new MouseEvent('click');
     spyOn(mockEvent, 'stopPropagation'); 
 
-    component.togglePasswordVisibility(mockEvent);
+    component['togglePasswordVisibility'](mockEvent);
 
-    expect(component.hidePassword()).toBe(!initialValue); 
+    expect(component['hidePassword']()).toBe(!initialValue); 
     expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1); 
   });
 
   it('should mark form as touched and not call login if form is invalid', () => {
-    spyOn(component.loginForm, 'markAllAsTouched'); 
+    spyOn(component['loginForm'], 'markAllAsTouched'); 
 
-    component.onSubmit(); 
+    component['onSubmit'](); 
 
-    expect(component.loginForm.markAllAsTouched).toHaveBeenCalledTimes(1);
+    expect(component['loginForm'].markAllAsTouched).toHaveBeenCalledTimes(1);
     expect(authServiceMock.login).not.toHaveBeenCalled();
     expect(router.navigateByUrl).not.toHaveBeenCalled();
   });
 
   it('should call authService.login and navigate on successful submit', fakeAsync(() => {
-    component.loginForm.setValue({ code: 'TEST01', password: 'password123' });
-    authServiceMock.login.and.returnValue(of({ user: { code: 'TEST01' }, token: 'test-token' }));
+    component['loginForm'].setValue({ code: 'TEST1', password: 'password123' });
+    authServiceMock.login.and.returnValue(of({ user: { code: 'TEST1' }, token: 'test-token' }));
 
-    component.onSubmit();
+    component['onSubmit']();
     tick(); 
 
-    expect(authServiceMock.login).toHaveBeenCalledOnceWith('TEST01', 'password123');
+    expect(authServiceMock.login).toHaveBeenCalledOnceWith('TEST1', 'password123');
     expect(router.navigateByUrl).toHaveBeenCalledOnceWith('curriculum');
-    expect(component.errorMessage()).toBe(''); 
+    expect(component['errorMessage']()).toBe(''); 
   }));
 
   it('should set INVALID_CREDENTIALS error message on 401 error', fakeAsync(() => {
-    component.loginForm.setValue({ code: 'WRONG1', password: 'password123' });
+    component['loginForm'].setValue({ code: 'WRON1', password: 'password123' });
     const errorResponse = new HttpErrorResponse({ status: 401, statusText: 'Unauthorized' });
     authServiceMock.login.and.returnValue(throwError(() => errorResponse));
 
-    component.onSubmit();
+    component['onSubmit']();
     tick(); 
 
-    expect(authServiceMock.login).toHaveBeenCalledOnceWith('WRONG1', 'password123');
+    expect(authServiceMock.login).toHaveBeenCalledOnceWith('WRON1', 'password123');
     expect(router.navigateByUrl).not.toHaveBeenCalled();
-    expect(component.errorMessage()).toBe('login.INVALID_CREDENTIALS'); 
+    expect(component['errorMessage']()).toBe('login.INVALID_CREDENTIALS'); 
   }));
 
   it('should set GENERIC_ERROR error message on other errors', fakeAsync(() => {
-    component.loginForm.setValue({ code: 'TEST01', password: 'password123' });
+    component['loginForm'].setValue({ code: 'TEST1', password: 'password123' });
     const errorResponse = new HttpErrorResponse({ status: 500, statusText: 'Server Error' });
     authServiceMock.login.and.returnValue(throwError(() => errorResponse));
 
-    component.onSubmit();
+    component['onSubmit']();
     tick(); 
 
-    expect(authServiceMock.login).toHaveBeenCalledOnceWith('TEST01', 'password123');
+    expect(authServiceMock.login).toHaveBeenCalledOnceWith('TEST1', 'password123');
     expect(router.navigateByUrl).not.toHaveBeenCalled();
-    expect(component.errorMessage()).toBe('login.GENERIC_ERROR'); 
+    expect(component['errorMessage']()).toBe('login.GENERIC_ERROR'); 
   }));
 
 });

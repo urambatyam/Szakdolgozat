@@ -12,6 +12,7 @@ import {
 } from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-password-dialog',
@@ -25,17 +26,20 @@ import {MatInputModule} from '@angular/material/input';
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
+    TranslateModule,
   ],
-  templateUrl: './password-dialog.component.html',
-  styleUrl: './password-dialog.component.scss'
+  templateUrl: './dialog.component.html',
+  styleUrl: './dialog.component.scss'
 })
 
-export class PasswordDialogComponent {
-  readonly dialogRef = inject(MatDialogRef<PasswordDialogComponent>);
+export class DialogComponent {
+  readonly dialogRef = inject(MatDialogRef<DialogComponent>);
   readonly data = inject(MAT_DIALOG_DATA);
-  readonly password = model<string>(this.data.password);
+  readonly code = model<string>(this.data.code);
   readonly email = model<string>(this.data.email);
-  readonly old = model<string>(this.data.old);
+  readonly isPassword = model<string>(this.data.isPassword);
+  readonly password = model<string>('');
+  readonly new = model<string>('');
 
   onNoClick(): void {
     this.dialogRef.close();

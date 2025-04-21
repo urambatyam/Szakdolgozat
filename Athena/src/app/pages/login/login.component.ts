@@ -34,12 +34,10 @@ export class LoginComponent {
   private auth = inject(AuthService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
-
-  hidePassword = signal(true); 
-  errorMessage = signal(''); 
-
-  loginForm = this.fb.nonNullable.group({
-    code: ['', [Validators.required, Validators.pattern('^[0-9A-Z]{6}$')]],
+  protected hidePassword = signal(true); 
+  protected errorMessage = signal(''); 
+  protected loginForm = this.fb.nonNullable.group({
+    code: ['', [Validators.required, Validators.pattern('^[0-9A-Z]{5}$')]],
     password: ['', [Validators.required]]
   });
 
@@ -47,8 +45,9 @@ export class LoginComponent {
    * A jelszó mező láthatóságát váltja (megjelenít/elrejt).
    * Megállítja az esemény továbbterjedését.
    * @param event Az egérkattintás eseményobjektuma.
+   * @return void
    */
-  togglePasswordVisibility(event: MouseEvent): void {
+  protected togglePasswordVisibility(event: MouseEvent): void {
     this.hidePassword.set(!this.hidePassword());
     event.stopPropagation();
   }
@@ -57,17 +56,15 @@ export class LoginComponent {
    * Kezeli a bejelentkezési űrlap elküldését.
    * Validálja az űrlapot, meghívja az AuthService login metódusát,
    * kezeli a sikeres bejelentkezést (navigáció) és a hibákat (hibaüzenet).
+   * @return Promise<void>
    */
-  async onSubmit(): Promise<void> { 
+  protected async onSubmit(): Promise<void> { 
     this.errorMessage.set('');
-
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
-
     const { code, password } = this.loginForm.getRawValue();
-
     try {
       await firstValueFrom(
         this.auth.login(code, password).pipe(

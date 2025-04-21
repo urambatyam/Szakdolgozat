@@ -7,7 +7,8 @@
         "REGISTRATION": "registration",
         "LOGIN": "Login",
         "PROFILE": "Profile",
-        "LOGOUT": "Logout"
+        "LOGOUT": "Logout",
+        "STATISTIC": "Statistic"
     },
     "login":{
         "INVALID_CREDENTIALS": "Invalid user code or password.",
@@ -20,11 +21,23 @@
         "NO_PASSWORD": "Enter your password!",
         "LOGIN": "Login"
     },
+    "GENERAL":{
+        "CLOSE": "Close"
+    },
     "profile":{
+        "ERROR_PASSWORD_UPDATE": "The password update was unsuccessful!",
+        "ERROR_EMAIL_UPDATE": "The email update was unsuccessful!",
+        "SUCCESS_PASSWORD_UPDATE": "The password update was successful!",
+        "SUCCESS_EMAIL_UPDATE": "The email update was successful!",
+        "ERROR_USER_CODE_MISSING": "The Athena code is missing!",
         "TITLE": "My Details:",
         "CODE": "Athena code",
         "NAME": "Name",
         "ROLE": "Rank",
+        "PASSWORD":"Password",
+        "CURRENT_EMAIL": "Current email",
+        "NEW_EMAIL": "New email",
+        "NEW_PASSWORD": "New password",
         "PASSWORD_CHANGE": "Change Password",
         "EMAIL_CHANGE": "Change Email"
     },

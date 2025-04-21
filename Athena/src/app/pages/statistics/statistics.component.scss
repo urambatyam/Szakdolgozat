@@ -124,3 +124,26 @@
   flex-wrap: wrap;
   gap: 16px;
 }
+mat-card-title{
+  padding: 0.5em;
+  color: #006a6a;
+  font-weight: bold;
+  font-size: 2em;
+}
+
+mat-card{
+  position: relative;
+  display: flex;
+  min-width: fit-content;
+  height: 80%;
+  min-height: fit-content;
+  //align-items: center;
+  padding: 0.5em;
+}
+
+#prev{
+  align-items: start;
+}
+#next{
+  align-items: end;
+}

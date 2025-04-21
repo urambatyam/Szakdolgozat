@@ -14,6 +14,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('/role', [AuthController::class, 'role'])->middleware('auth:sanctum');
+Route::put('/changePassword', [UserController::class, 'ChangePassword'])->middleware('auth:sanctum');
+Route::put('/changeEmail', [UserController::class, 'ChangeEmail'])->middleware('auth:sanctum');
 
 Route::apiResource('courses', CourseController::class)->middleware('auth:sanctum');
 Route::get('/courses/user/{user_code}', [CourseController::class, 'getAllCoursesOFUser'])->middleware('auth:sanctum');

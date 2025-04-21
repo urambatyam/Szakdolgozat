@@ -1,5 +1,6 @@
 <?php
-
+//https://mailtrap.io/blog/send-email-in-laravel/
+//https://dev.to/yasserelgammal/generate-random-password-in-laravel-4003
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -9,6 +10,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse; 
 use Illuminate\Validation\ValidationException; 
+use Illuminate\Support\Facades\Mail; // <-- Hozzáadva
+use App\Mail\NewUserRegistered;      // <-- Hozzáadva
+use Illuminate\Support\Facades\Log; 
 
 /**
  * Kezeli a felhasználói hitelesítési műveleteket: regisztráció, bejelentkezés, kijelentkezés.
@@ -18,8 +22,9 @@ class AuthController extends Controller
     /**
      * Új felhasználó regisztrálása a rendszerbe.
      *
-     * Generál egy egyedi felhasználói kódot (`code`), hash-eli a jelszót (a User modell 'hashed' cast-ja által),
-     * létrehozza a felhasználót, majd generál egy Sanctum API tokent.
+     * Generál egy egyedi felhasználói kódot (`code`), generál egy jelszót,
+     * létrehozza a felhasználót (a jelszó hashelése a User modellen keresztül történik),
+     * majd emailt küld a felhasználónak és az adminnak a belépési adatokkal.
      *
      * @param Request $request A bejövő HTTP kérés.
      * @return JsonResponse A létrehozott felhasználó adatait és az API tokent tartalmazó JSON válasz.
@@ -30,13 +35,12 @@ class AuthController extends Controller
         $values = $request->validate([
             'name' => 'required|max:25|string',
             'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|confirmed|min:6', 
             'role' => 'nullable|in:student,teacher,admin',
             'curriculum_id' => 'nullable|exists:curricula,id' 
         ]);
 
         do {
-            $codeChars = str_split(Str::upper(Str::random(6))); 
+            $codeChars = str_split(Str::upper(Str::random(5))); 
             $numberCount = rand(2, 4);
             $positionsToReplace = array_rand($codeChars, $numberCount);
             if (!is_array($positionsToReplace)) {
@@ -50,14 +54,33 @@ class AuthController extends Controller
 
         } while ($exists);
 
-        $values['code'] = $code; 
+        $values['code'] = $code;
+        $values['password'] = Str::password(12,true, true, true, false); 
         $user = User::create($values);
-        $token = $user->createToken('titok'); 
+        $adminEmail = "salt90502@gmail.com";
+        try {
+            // Küldés az új felhasználónak
+            Mail::to($user->email)->send(new NewUserRegistered($user, $values['password']));
 
+            // Másolat küldése az adminnak (ugyanazzal a sablonnal)
+            if ($adminEmail) { // Csak akkor küldjön, ha be van állítva
+                 Mail::to($adminEmail)->send(new NewUserRegistered($user, $values['password']));
+            }
+
+        } catch (\Exception $e) {
+            // Hiba logolása, ha az email küldés sikertelen
+            Log::error('Regisztrációs email küldése sikertelen: ' . $user->email . ' Hiba: ' . $e->getMessage());
+            // Fontos: Döntsd el, mi történjen ilyenkor. Lehet, hogy a felhasználót létrehoztad,
+            // de az email nem ment ki. Visszaadhatsz egy figyelmeztetést.
+             return response()->json([
+                 'message' => 'Felhasználó létrehozva, de az értesítő email küldése sikertelen!',
+                 // Csak a biztonságos adatokat adjuk vissza
+                 'user' => $user
+             ], 201); // Létrehozva, de figyelmeztetéssel
+        }
         return response()->json([
-            'user' => $user,
-            'token' => $token->plainTextToken,
-            'token_type' => 'Bearer'
+            'message' => 'Felhasználó sikeresen regisztrálva. Az adatok emailben elküldve.',
+            'user' => $user
         ], 201); 
     }
 

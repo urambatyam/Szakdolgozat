@@ -9,11 +9,12 @@ import { createLR } from '../course-forum/forum/course-statistics/charts/linearR
 import { CommonModule } from '@angular/common';
 import { catchError, EMPTY, firstValueFrom, from, map } from 'rxjs';
 import { createAT } from './charts/allTan';
+import { TranslateModule } from '@ngx-translate/core';
 // //charts/linearRegression'
 @Component({
   selector: 'app-statistics',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, MatButtonModule, MatProgressBarModule, CommonModule],
+  imports: [TranslateModule,MatCardModule, MatIconModule, MatButtonModule, MatProgressBarModule, CommonModule],
   templateUrl: './statistics.component.html',
   styleUrl: './statistics.component.scss'
 })
@@ -21,6 +22,7 @@ export class StatisticsComponent implements AfterViewInit{
 
   private statisticsService  = inject(StatisticsService);
   protected progressData:any = [];
+  protected title: "statistics.PROGRESS" | "statistics.TAN" | "statistics.LINEAR_REGRESSION" | "statistics.ALL_TAN" = "statistics.PROGRESS";
 
   ngAfterViewInit(): void {
     this.renderCurrentChart();
@@ -48,15 +50,19 @@ export class StatisticsComponent implements AfterViewInit{
     switch(this._statistics) {
       case 'p':
         this.progress();
+        this.title = "statistics.PROGRESS";
         break;
       case 't':
         this.tan();
+        this.title = "statistics.TAN";
         break;
       case 'lr':
         this.linearRegression();
+        this.title = "statistics.LINEAR_REGRESSION";
         break;
       case 'at':
         this.alltan();
+        this.title = "statistics.ALL_TAN";
         break;
     }
   }

@@ -22,13 +22,24 @@ export class UserService {
     );
   }
 
-  updatePassword(currentPassword: string, newPassword: string, newPasswordConfirmation: string): Observable<any> {
+  updatePassword(code:string,currentPassword: string, newPassword: string): Observable<any> {
     return this.http.put<any>(
-      environment.baseUrl+'/user/password',
+      environment.baseUrl+'/user/passwordChange',
       {
-        current_password: currentPassword,
-        password: newPassword,
-        password_confirmation: newPasswordConfirmation
+        code: code,
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      },
+      { headers: this.auth.getHeaders() }
+    );
+  }
+  updateEmail(code:string,password:string,newEmail: string): Observable<any> {
+    return this.http.put<any>(
+      environment.baseUrl+'/user/emailChange',
+      {
+        code: code,
+        password: password,
+        newEmail: newEmail,
       },
       { headers: this.auth.getHeaders() }
     );

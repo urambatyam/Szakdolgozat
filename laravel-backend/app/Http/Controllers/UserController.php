@@ -39,25 +39,41 @@ class UserController extends Controller
 
         return $user;
     }
-    public function updatePassword(Request $request, User $user)
+    public function ChangePassword(Request $request)
     {
-    
-
-        $request->validate([
-            'current_password' => ['required', function ($attribute, $value, $fail) use ($user) {
-                if (!Hash::check($value, $user->password)) {
-                    $fail('A jelenlegi jelszó helytelen.');
-                }
-            }],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            $values = $request->validate([
+                'code' => 'required|string|exists:users,code',
+                'currentPassword' => 'required|string|min:6|max:12',
+                'newPassword' => 'required|string|min:6|max:12',
+            ]);
+            $user = User::find($values['code']);
+            if (!$user || !Hash::check($values['currentPassword'], $user->password)) {
+                return response()->json([
+                    'message' => 'Hibás felhasználói jelszó vagy kód.' 
+                ], 401); 
+            }
+            $user->update([
+                'password' => $values['newPassword']
+            ]);
+            return response()->json(['message' => 'A jelszó sikeresen frissítve.'], 200);
+    }
+    public function ChangeEmail(Request $request)
+    {
+        $values = $request->validate([
+            'code' => 'required|string|exists:users,code',
+            'password' => 'required|string|min:6|max:12',
+            'newEmail' => 'required|string|email|unique:users,email',
         ]);
-    
-        // Jelszó frissítése
+        $user = User::find($values['code']);
+        if (!$user || !Hash::check($values['password'], $user->password)) {
+            return response()->json([
+                'message' => 'Hibás felhasználói jelszó vagy kód.' 
+            ], 401); 
+        }
         $user->update([
-            'password' => Hash::make($request->password)
+            'email' => $values['newEmail']
         ]);
-    
-        return response()->json(['message' => 'A jelszó sikeresen frissítve.'], 200);
+        return response()->json(['message' => 'A Email sikeresen frissítve.'], 200);
     }
     /**
      * Remove the specified resource from storage.

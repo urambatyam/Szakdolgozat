@@ -42,54 +42,24 @@
         </mat-form-field><br>
 
         <mat-form-field>
-          <mat-label>{{'regist.PASSWORD' | translate }}</mat-label>
-          <input matInput formControlName="password" type="text"  required>
-          @if (registForm.get('password')?.invalid && 
-          (registForm.get('password')?.dirty || registForm.get('password')?.touched)) {
-            <mat-error>
-              @if (registForm.get('password')?.hasError('required')) {
-                {{'regist.NO_PASSWORD' | translate }}
-              } 
-              @if (registForm.get('password')?.hasError('pattern')) {
-                {{'regist.NOT_VALID_PASSWORD' | translate }}
-              }
-            </mat-error>
-            }
-        </mat-form-field><br>
-
-        <mat-form-field>
-          <mat-label>{{'regist.PASSWORD_AGAIN' | translate }}</mat-label>
-          <input matInput formControlName="password_confirmation" type="text"  required>
-          @if (registForm.get('password_confirmation')?.invalid && 
-          (registForm.get('password_confirmation')?.dirty || registForm.get('password_confirmation')?.touched)) {
-            <mat-error>
-              @if (registForm.get('password_confirmation')?.hasError('required')) {
-                {{'regist.NO_PASSWORD_AGAIN' | translate }}
-              } 
-              @if (registForm.get('password_confirmation')?.hasError('notConfirmed')) {
-                {{'regist.PASSWORD_NOT_MATCH' | translate }}
-              }
-            </mat-error>
-            }
-        </mat-form-field><br>
-
-        <mat-form-field>
-        <mat-label>{{'regist.ROLE' | translate }}</mat-label>
-          <input matInput formControlName="role" type="text" required>
-          @if (registForm.get('role')?.invalid && 
-          (registForm.get('role')?.dirty || registForm.get('role')?.touched)) {
-       <mat-error>{{'regist.NO_ROLE' | translate }}</mat-error>
-     }
-        </mat-form-field><br>
-
-        <mat-form-field>
-          <mat-label>{{'regist.CURRICULUM' | translate }}</mat-label>
-          <mat-select formControlName="curriculum_id">
-            @for(curriculum of curriculums; track curriculum.id ){
-              <mat-option [value]="curriculum.id" >{{curriculum.name}}</mat-option>
-            }
+          <mat-label>{{'regist.ROLE' | translate }}</mat-label>
+          <mat-select formControlName="role">
+            <mat-option value="student" >{{"student" | translate}}</mat-option>
+            <mat-option value='teacher' >{{"teacher" | translate}}</mat-option>
+            <mat-option value='admin' >{{"admin" | translate}}</mat-option>
           </mat-select>
         </mat-form-field><br>
+        @if( registForm.get('role')?.value === 'student'){
+          <mat-form-field>
+            <mat-label>{{'regist.CURRICULUM' | translate }}</mat-label>
+            <mat-select formControlName="curriculum_id">
+              @for(curriculum of curriculums; track curriculum.id ){
+                <mat-option [value]="curriculum.id" >{{curriculum.name}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field><br>
+        }
+
   
         <button 
           mat-raised-button 

@@ -3,9 +3,9 @@
     <mat-nav-list (click)="closeSidenav()">
       @if( this.role !== null){
         <a mat-list-item routerLink="/curriculum" routerLinkActive="active">{{'menu.CURRICULUM' | translate }}</a>
-        <a mat-list-item routerLink="/statistic" routerLinkActive="active">{{'Satatisztika' | translate }}</a>
       }
       @if( this.role === 'student'){
+        <a mat-list-item routerLink="/statistic" routerLinkActive="active">{{'menu.STATISTIC' | translate }}</a>
         <a mat-list-item routerLink="/grades" routerLinkActive="active">{{'menu.GRADES' | translate }}</a>
       }
       @if( this.role === 'admin'){
@@ -35,9 +35,9 @@
           }@else {
             @if(  this.role !== null){
               <button mat-button routerLink="/curriculum" routerLinkActive="active">{{'menu.CURRICULUM' | translate }}</button>
-              <button mat-button routerLink="/statistic" routerLinkActive="active">{{'Satatisztika' | translate }}</button>
             }
             @if( this.role === 'student'){
+              <button mat-button routerLink="/statistic" routerLinkActive="active">{{'menu.STATISTIC' | translate }}</button>
               <button mat-button routerLink="/grades" routerLinkActive="active">{{'menu.GRADES' | translate }}</button>
             }
             @if( this.role === 'admin'){
