@@ -13,12 +13,36 @@ use MathPHP\Statistics\Descriptive;
 use MathPHP\Statistics\Regression;
 use MathPHP\Statistics\Distribution;
 use App\Models\Grade;
+use App\Models\User; 
+use Illuminate\Http\JsonResponse; 
+use Illuminate\Validation\ValidationException; 
+use Exception; 
 
+/**
+ * @Controller CalculusController
+ * @description
+ * Ez a kontroller felelős a kurzusoptimalizálási algoritmusok futtatásáért
+ * (Branch and Bound, Greedy) és különböző statisztikai számítások elvégzéséért
+ * kurzusokhoz és hallgatókhoz kapcsolódóan (pl. boxplot, teljesítési arány, KKI).
+ */
 class CalculusController extends Controller
 {
-    public function optimalizeByBnB(Request $request){
+    /**
+     * Optimális tantervtervet generál a Branch and Bound algoritmus segítségével.
+     * Figyelembe veszi a tantervet, kreditlimitet, választott specializációkat,
+     * ajánlásokat, teljesített tárgyakat (ha a felhasználó diák),
+     * és a felhasználó által megadott preferenciákat (pozitív/negatív kurzusok).
+     *
+     * @param Request $request A HTTP kérés, amely tartalmazza a szükséges paramétereket
+     *                         ('curriculum_id', 'creditLimit', 'selectedSpecializationIds', stb.).
+     * @return array Tartalmazza az optimalizált tantervtervet ('optimizedPlan')
+     *               és a kreditek félévenkénti bontását ('creditsBreakdown').
+     * @throws ValidationException Ha a bemeneti adatok validálása sikertelen.
+     */
+    public function optimalizeByBnB(Request $request): array
+    {
         $history = [];
-   
+
         $values = $request->validate([
             'curriculum_id' => 'required|exists:curricula,id',
             'creditLimit' => 'required|integer|min:1',
@@ -31,19 +55,17 @@ class CalculusController extends Controller
         $pozitivCoursesData = [];
         foreach ($values['pozitivIds'] as $pId) {
             $course = Course::find($pId);
-            if ($course) { // Ellenőrizzük, hogy létezik-e a kurzus
+            if ($course) {
                 $courseCategories = $course->categories()->pluck('category_id')->toArray();
                 $allCoursePreRequisites = $course->prerequisites()->pluck('prerequisite_course_id')->toArray();
-                $pozitivCoursesData[$pId] = [ // Közvetlenül a cél tömbbe tesszük, ID-val indexelve
+                $pozitivCoursesData[$pId] = [
                     'id' => $course->id,
                     'name' => $course->name,
                     'kredit' => $course->kredit,
                     'recommendedSemester' => $course->recommendedSemester,
                     'sezon' => $course->sezon,
                     'categories' => $courseCategories,
-                    // Adjunk hozzá egy 'efficiency'-t is, ha később hasznos lehet
                     'efficiency' => ($course->kredit * count($courseCategories)),
-                    // Adjunk hozzá előkövetelményeket is
                     'prerequisites' => $allCoursePreRequisites
                 ];
             }
@@ -65,7 +87,7 @@ class CalculusController extends Controller
                 $values['negativIds'],
                 $pozitivCoursesData,
             );
-            
+
         }else{
             $optimizedPlan = $optimizer->generateOptimalPlan(
                 $values['selectedSpecializationIds'],
@@ -80,11 +102,24 @@ class CalculusController extends Controller
         return [
             "optimizedPlan" => $optimizedPlan,
             "creditsBreakdown" => $creditsBreakdown,
-            
+
             ];
     }
 
-    public function optimalizeByGreedy(Request $request){
+    /**
+     * Optimális tantervtervet generál a mohó (Greedy) algoritmus segítségével.
+     * Figyelembe veszi a tantervet, kreditlimitet, választott specializációkat,
+     * ajánlásokat, teljesített tárgyakat (ha a felhasználó diák),
+     * és a felhasználó által megadott preferenciákat (pozitív/negatív kurzusok).
+     *
+     * @param Request $request A HTTP kérés, amely tartalmazza a szükséges paramétereket
+     *                         ('curriculum_id', 'creditLimit', 'selectedSpecializationIds', stb.).
+     * @return array Tartalmazza az optimalizált tantervtervet ('optimizedPlan')
+     *               és a kreditek félévenkénti bontását ('creditsBreakdown').
+     * @throws ValidationException Ha a bemeneti adatok validálása sikertelen.
+     */
+    public function optimalizeByGreedy(Request $request): array
+    {
         $startWith = now()->month >= 9 ? true : false;
         $pozitivCoursesData = [];
         $history = [];
@@ -98,13 +133,13 @@ class CalculusController extends Controller
         ]);
         $nagativ = $values['negativIds'];
         $pozitiv = $values['pozitivIds'];
-        
+
         foreach ($pozitiv as $pId) {
             $course = Course::find($pId);
-            if ($course) { 
+            if ($course) {
                 $courseCategories = $course->categories()->pluck('category_id')->toArray();
                 $allCoursePreRequisites = $course->prerequisites()->pluck('prerequisite_course_id')->toArray();
-                $pozitivCoursesData[$pId] = [ 
+                $pozitivCoursesData[$pId] = [
                     'id' => $course->id,
                     'name' => $course->name,
                     'kredit' => $course->kredit,
@@ -117,11 +152,11 @@ class CalculusController extends Controller
             }
         }
 
-        $curriculum = Curriculum::find($values['curriculum_id']); 
+        $curriculum = Curriculum::find($values['curriculum_id']);
         $curriculum->load('specializations.categories.courses');
-        
+
         $optimizer = new CourseOptimizationService($curriculum, $values['creditLimit']);
-        
+
         if(Auth::check() && Auth::user()->role == 'student'){
             /** @var User $student */
             $student = Auth::user();
@@ -139,28 +174,39 @@ class CalculusController extends Controller
             $studyPlan = $optimizer->generateOptimalPlan(
                 $values['selectedSpecializationIds'],
                 $startWith,
-                $values['considerRecommendations'], 
+                $values['considerRecommendations'],
                 [],
                 $nagativ,
                 $pozitivCoursesData,
             );
         }
-   
+
         $creditsBreakdown = $optimizer->getCreditsBreakdown($studyPlan);
         return [
             "optimizedPlan" => $studyPlan,
             "creditsBreakdown" => $creditsBreakdown,
-            ]; 
+            ];
     }
 
-    private function makeHistory($allgrade): array{
+    /**
+     * @private
+     * Létrehoz egy "history" tömböt a hallgató korábbi jegyei alapján,
+     * amely tartalmazza a teljesített kurzusokat félévenkénti bontásban,
+     * beleértve az üres féléveket is a jelenlegi félévig.
+     *
+     * @param \Illuminate\Database\Eloquent\Collection $allgrade A hallgató jegyeinek gyűjteménye.
+     * @return array A félévenkénti előzményeket tartalmazó tömb.
+     *               Formátum: `[semester_index => ['is_fall' => bool, 'year' => int, 'courses' => int[]]]`
+     */
+    private function makeHistory($allgrade): array
+    {
         $history = [];
         if (empty($allgrade)) {
             return $history;
         }
         $currentYear = now()->year;
-        $currentSemester = now()->month >= 9 ? true : false; 
-        $lastSemester = (object) ["s" => -1, "y" => -1, "f" => 1]; 
+        $currentSemester = now()->month >= 9 ? true : false;
+        $lastSemester = (object) ["s" => -1, "y" => -1, "f" => 1];
         $hasCurrentSemesterGrades = false;
         foreach ($allgrade as $grade) {
             if ($grade->year > $lastSemester->y) {
@@ -202,7 +248,16 @@ class CalculusController extends Controller
         return $history;
     }
 
-    public function courseBoxplot(int $course_id){
+    /**
+     * Lekérdezi egy adott kurzus jegyeit félévenkénti bontásban boxplot diagramhoz.
+     * Csak a nem null jegyeket veszi figyelembe.
+     *
+     * @param int $course_id A kurzus azonosítója.
+     * @return JsonResponse A félévenként csoportosított jegyeket tartalmazó JSON válasz.
+     *                    Formátum: `{"semesters": {"ÉÉÉÉ S": [jegy1, jegy2, ...]}}`
+     */
+    public function courseBoxplot(int $course_id): JsonResponse
+    {
         $grades = Grade::whereHas('course', function ($query) use ($course_id) {
             $query->where('id', $course_id);
         })
@@ -213,7 +268,7 @@ class CalculusController extends Controller
         ->get();
         $semesters = [];
         foreach($grades as $grade){
-            $key = $grade['year'].' '.($grade['sezon'] ? true:false);
+            $key = $grade['year'].' '.($grade['sezon'] ? 1:0); 
             $semesters[$key][] = $grade['grade'];
         }
 
@@ -225,11 +280,18 @@ class CalculusController extends Controller
          );
     }
 
-    public function coursecompletionRate(int $course_id){
+    /**
+     * Kiszámítja egy adott kurzus teljesítési arányait (teljesített, bukott, nem jelent meg).
+     *
+     * @param int $course_id A kurzus azonosítója.
+     * @return array Az arányokat tartalmazó tömb ('completed', 'failed', 'absent').
+     */
+    public function coursecompletionRate(int $course_id): array
+    {
         $grades = Grade::whereHas('course', function ($query) use ($course_id) {
             $query->where('id', $course_id);
         })->get();
-      
+
         $result = [
             "completed" => 0,
             "failed" =>0,
@@ -254,12 +316,21 @@ class CalculusController extends Controller
         return $result;
     }
 
-    public function courseDistribution(int $course_id){
+    /**
+     * Kiszámítja egy adott kurzus jegyeinek eloszlását és alapvető statisztikáit.
+     * Csak a nem null jegyeket veszi figyelembe.
+     *
+     * @param int $course_id A kurzus azonosítója.
+     * @return JsonResponse A statisztikákat tartalmazó JSON válasz
+     *                    ('frequency', 'mean', 'std', 'totalCount').
+     */
+    public function courseDistribution(int $course_id): JsonResponse
+    {
         $grades = Grade::whereHas('course', function ($query) use ($course_id) {
             $query->where('id', $course_id);
         })->where('grade','!=', null)->pluck('grade')->toArray();
 
-    
+
         $result = [
             "frequency" => Distribution::frequency($grades),
             "mean" => Average::mean($grades),
@@ -272,7 +343,15 @@ class CalculusController extends Controller
          );
     }
 
-    public function courseGradeRate(int $course_id){
+    /**
+     * Lekérdezi egy adott kurzus jegyeinek gyakoriságát.
+     * Csak a nem null jegyeket veszi figyelembe.
+     *
+     * @param int $course_id A kurzus azonosítója.
+     * @return JsonResponse A jegyek gyakoriságát tartalmazó JSON válasz ('frequency').
+     */
+    public function courseGradeRate(int $course_id): JsonResponse
+    {
         $data = Grade::whereHas('course', function ($query) use ($course_id) {
             $query->where('id', $course_id);
         })->where('grade','!=', null)->pluck('grade')->toArray();
@@ -284,10 +363,20 @@ class CalculusController extends Controller
          );
     }
 
-    public function courseLinearRegression(int $course_id){
+    /**
+     * Kiszámítja egy adott kurzus félévenkénti átlagaira illesztett lineáris regresszió paramétereit.
+     * Csak a nem null jegyeket veszi figyelembe. Legalább 3 félévnyi adat szükséges a számításhoz.
+     *
+     * @param int $course_id A kurzus azonosítója.
+     * @return array A regressziós paramétereket ('m', 'b'), az adatpárokat ('pairs')
+     *               és a félév címkéket ('label') tartalmazó tömb.
+     *               Ha nincs elég adat, null értékeket és üres tömböket ad vissza.
+     */
+    public function courseLinearRegression(int $course_id): array
+    {
         $data = Grade::whereHas('course', function ($query) use ($course_id) {
             $query->where('id', $course_id);
-        })->where('grade','!=', 'null')->select('grade','year','sezon')->orderBy('year','asc')->orderBy('sezon','desc')->get();
+        })->where('grade','!=', null)->select('grade','year','sezon')->orderBy('year','asc')->orderBy('sezon','desc')->get();
         $semesters = [];
         $labels = [];
         foreach($data as $d){
@@ -306,7 +395,7 @@ class CalculusController extends Controller
         foreach ($semesters as $key => $grade) {
             $mean = Average::mean($semesters[$key]["grades"]);
             $semesterAverages[] = [$index, $mean];
-            $index++; 
+            $index++;
         }
 
         if(count($semesterAverages) > 2){
@@ -320,13 +409,24 @@ class CalculusController extends Controller
         return $semesterRegression;
     }
 
-    public function statisticToStudentCompletedCredits()
+    /**
+     * Lekérdezi a bejelentkezett hallgató teljesített kreditjeit specializációnként és kategóriánként.
+     * Csak a sikeresen teljesített (jegy nem 1) tárgyakat veszi figyelembe.
+     *
+     * @return JsonResponse A kreditadatokat tartalmazó JSON válasz, vagy hibaüzenet.
+     */
+    public function statisticToStudentCompletedCredits(): JsonResponse
     {
         if(Auth::check() && Auth::user()->role == 'student'){
             /** @var User $student */
             $student = Auth::user();
             $curriculumId = $student->curriculum_id;
-            $curriculum = Curriculum::with('specializations.categories.courses')->findOrFail($curriculumId);
+            $curriculum = Curriculum::with('specializations.categories.courses')->find($curriculumId);
+
+            if (!$curriculum) {
+                 return response()->json(['message' => 'A tanterv nem található.'], 404);
+            }
+
             $studentGrades = $student->grades()->where('grade','!=',1)->pluck('course_id')->all();
             $result = ["name" => $curriculum->name, "specializations" => []];
             foreach($curriculum->specializations as $specialization){
@@ -350,11 +450,20 @@ class CalculusController extends Controller
             );
         }
         return response()->json(
-            "Nem diák vagy nincs bejelentkezve!", 403
+            ["message" => "Nem diák vagy nincs bejelentkezve!"], 403
         );
     }
 
-    public function statisticAbaoutStudentLinearisRegressio(){
+    /**
+     * Kiszámítja a bejelentkezett hallgató tanulmányi átlagaira illesztett lineáris regresszió paramétereit.
+     * A KKI (kumulált kreditindex) számítást használja alapul.
+     * Legalább 3 félévnyi adat szükséges a számításhoz.
+     *
+     * @return JsonResponse A regressziós paramétereket ('m', 'b'), az adatpárokat ('pairs')
+     *                    és a félév címkéket ('label') tartalmazó JSON válasz, vagy hibaüzenet.
+     */
+    public function statisticAbaoutStudentLinearisRegressio(): JsonResponse
+    {
         if(Auth::check() && Auth::user()->role == 'student'){
             /** @var User $student */
             $student = Auth::user();
@@ -365,7 +474,7 @@ class CalculusController extends Controller
             $index = 1;
             foreach ($semesterAverages as $semester => $mean) {
                 $pairs[] = [$index, $mean];
-                $index++; 
+                $index++;
             }
             if(count($semesterAverages) > 2){
                 $regression = new Regression\Linear($pairs);
@@ -381,11 +490,17 @@ class CalculusController extends Controller
             );
         }
         return response()->json(
-            "Nem diák vagy nincs bejelentkezve!", 403
+            ["message" => "Nem diák vagy nincs bejelentkezve!"], 403
         );
     }
 
-    public function statisticAbaoutStudentTAN()
+    /**
+     * Lekérdezi a bejelentkezett hallgató tanulmányi átlagának (TAN) alakulását félévenként.
+     * A KKI (kumulált kreditindex) számítást használja alapul.
+     *
+     * @return JsonResponse A KKI adatokat ('label', 'data') tartalmazó JSON válasz, vagy hibaüzenet.
+     */
+    public function statisticAbaoutStudentTAN(): JsonResponse
     {
         if (Auth::check() && Auth::user()->role == 'student') {
             /** @var User $student */
@@ -393,106 +508,122 @@ class CalculusController extends Controller
             $code = $student->code;
             return response()->json($this->KKI($code), 200);
         }
-        return response()->json("Nem diák vagy nincs bejelentkezve!", 403);
+        return response()->json(["message" => "Nem diák vagy nincs bejelentkezve!"], 403);
     }
 
-    public function statisticAllTAN(){
+    /**
+     * Lekérdezi az összesített tanulmányi átlag (összes hallgató) alakulását félévenként.
+     * A KKI (kumulált kreditindex) számítást használja alapul (hallgatói kód nélkül).
+     * Csak bejelentkezett felhasználó érheti el.
+     *
+     * @return JsonResponse A KKI adatokat ('label', 'data') tartalmazó JSON válasz, vagy hibaüzenet.
+     */
+    public function statisticAllTAN(): JsonResponse
+    {
         if(Auth::check()){
             return response()->json($this->KKI(Null), 200);
         }
         return response()->json(
-            "Nem diák vagy nincs bejelentkezve!", 403
+            ["message" => "Nincs bejelentkezve!"], 403
         );
     }
-    public function statisticStudentProgress(){
+
+    /**
+     * Lekérdezi a bejelentkezett hallgató tanulmányi haladását specializációnként és kategóriánként.
+     * Összehasonlítja a teljesített krediteket a szükséges kreditekkel.
+     *
+     * @return JsonResponse A részletes haladási adatokat tartalmazó JSON válasz, vagy hibaüzenet.
+     * @throws Exception Ha a tanterv vagy a kapcsolatok betöltése során hiba történik.
+     */
+    public function statisticStudentProgress(): JsonResponse
+    {
         if(Auth::check() && Auth::user()->role == 'student'){
             /** @var User $student */
             $student = Auth::user();
-            $curriculumId = $student->curriculum_id; // Közvetlenül az ID lekérése
+            $curriculumId = $student->curriculum_id;
 
-            // Hibaellenőrzés: Van-e a diáknak tanterve?
             if (!$curriculumId) {
                 return response()->json(['message' => 'A diákhoz nincs tanterv rendelve.'], 404);
             }
 
-            // Tanterv betöltése a szükséges kapcsolatokkal
-            $curriculum = Curriculum::with([
-                'specializations' => function ($query) {
-                    $query->with(['categories' => function ($query) {
-                        $query->with('courses:id,kredit'); // Csak az ID-t és kreditet töltjük be a kurzusokból
-                    }]);
+            try {
+                $curriculum = Curriculum::with([
+                    'specializations' => function ($query) {
+                        $query->with(['categories' => function ($query) {
+                            $query->with('courses:id,kredit');
+                        }]);
+                    }
+                ])->find($curriculumId);
+
+                if (!$curriculum) {
+                    return response()->json(['message' => 'A tanterv nem található.'], 404);
                 }
-            ])->find($curriculumId); // findOrFail helyett find, hogy tudjunk null-t ellenőrizni
 
-            // Hibaellenőrzés: Létezik-e a tanterv?
-            if (!$curriculum) {
-                return response()->json(['message' => 'A tanterv nem található.'], 404);
-            }
+                $completedCourseIds = $student->grades()
+                                            ->whereNotNull('grade')
+                                            ->where('grade', '!=', 1)
+                                            ->pluck('course_id')
+                                            ->all();
 
-            // Teljesített kurzusok ID-jainak lekérése (jegy nem 1 és nem null)
-            $completedCourseIds = $student->grades()
-                                        ->whereNotNull('grade')
-                                        ->where('grade', '!=', 1)
-                                        ->pluck('course_id')
-                                        ->all(); // Tömbként kapjuk meg az ID-kat
+                $result = [
+                    "curriculum_name" => $curriculum->name,
+                    "specializations" => []
+                ];
 
-            // Eredmény struktúra inicializálása
-            $result = [
-                "curriculum_name" => $curriculum->name,
-                "specializations" => []
-            ];
+                foreach($curriculum->specializations as $specialization){
+                    $specializationTotalCompletedCredits = 0;
+                    $categoriesData = [];
 
-            // Végigmegyünk a tanterv specializációin
-            foreach($curriculum->specializations as $specialization){
-                $specializationTotalCompletedCredits = 0; // Számláló a specializáció teljesített kreditjeihez
-                $categoriesData = []; // Tömb a kategóriák adatainak tárolására
+                    foreach($specialization->categories as $category){
+                        $categoryCompletedCredits = 0;
 
-                // Végigmegyünk a specializáció kategóriáin
-                foreach($specialization->categories as $category){
-                    $categoryCompletedCredits = 0; // Számláló a kategória teljesített kreditjeihez
-
-                    // Végigmegyünk a kategória kurzusain
-                    foreach($category->courses as $course){
-                        // Ellenőrizzük, hogy a diák teljesítette-e ezt a kurzust
-                        if(in_array($course->id, $completedCourseIds)){
-                            $categoryCompletedCredits += $course->kredit; // Hozzáadjuk a kurzus kreditjét
+                        foreach($category->courses as $course){
+                            if(in_array($course->id, $completedCourseIds)){
+                                $categoryCompletedCredits += $course->kredit;
+                            }
                         }
+
+                        $categoriesData[] = [
+                            "category_name" => $category->name,
+                            "required_credits" => $category->min,
+                            "completed_credits" => $categoryCompletedCredits
+                        ];
+
+                        $specializationTotalCompletedCredits += $categoryCompletedCredits;
                     }
 
-                    // Hozzáadjuk a kategória adatait a tömbhöz
-                    $categoriesData[] = [
-                        "category_name" => $category->name,
-                        "required_credits" => $category->min,
-                        "completed_credits" => $categoryCompletedCredits
-                        // Opcionálisan: "max_credits" => $category->max
+                    $result["specializations"][] = [
+                        "specialization_name" => $specialization->name,
+                        "is_completed" => $specializationTotalCompletedCredits >= $specialization->min,
+                        "required_credits" => $specialization->min,
+                        "completed_credits" => $specializationTotalCompletedCredits,
+                        "categories" => $categoriesData
                     ];
-
-                    // Hozzáadjuk a kategória teljesített kreditjeit a specializáció összesítettjéhez
-                    $specializationTotalCompletedCredits += $categoryCompletedCredits;
                 }
 
-                // Hozzáadjuk a specializáció adatait a végeredményhez
-                $result["specializations"][] = [
-                    "specialization_name" => $specialization->name,
-                    "is_completed" => $specializationTotalCompletedCredits >= $specialization->min,
-                    "required_credits" => $specialization->min,
-                    "completed_credits" => $specializationTotalCompletedCredits,
-                    "categories" => $categoriesData
-                ];
-            }
+                return response()->json($result, 200);
 
-            // Visszaadjuk az eredményt JSON formátumban
-            return response()->json($result, 200);
+            } catch (Exception $e) {
+                 return response()->json(['message' => 'Hiba történt a haladási adatok lekérdezése közben.'], 500);
+            }
         }
 
-        // Ha nem diák vagy nincs bejelentkezve
         return response()->json(
             ["message" => "Nem diák vagy nincs bejelentkezve!"], 403
         );
     }
 
-    private function KKI($code){
-        $query = Grade::query(); // Kezdjük egy üres query builderrel
+    /**
+     * @private
+     * Kiszámítja a kumulált kreditindexet (KKI) félévenként egy adott hallgatóhoz,
+     * vagy az összes hallgatóhoz, ha a kód `null`.
+     *
+     * @param string|null $code A hallgató kódja, vagy `null` az összes hallgatóhoz.
+     * @return array Tartalmazza a félév címkéket ('label') és a hozzájuk tartozó KKI értékeket ('data').
+     */
+    private function KKI(?string $code): array
+    {
+        $query = Grade::query();
 
         if($code){
             $query->whereHas('user', function ($q) use ($code) {
@@ -500,62 +631,52 @@ class CalculusController extends Controller
             });
         }
 
-        // Töltsük be a 'course' kapcsolatot, de csak a kreditet kérjük le
         $grades = $query->with('course:id,kredit')
                         ->orderBy('year','asc')
                         ->orderBy('sezon','desc')
                         ->get();
 
-        // ... a többi kód változatlan ...
-
         $label = [];
         $semesterToKKI = [];
         $creditsum = [];
-        $semesterIndexMap = []; // Segédtömb a szemeszterek és indexek összerendeléséhez
+        $semesterIndexMap = [];
 
         foreach ($grades as $grade) {
-            // Ellenőrzés, hogy a kurzus betöltődött-e (lehet null, ha valamiért nincs meg)
             if (!$grade->course) {
-                continue; // Kihagyjuk ezt a jegyet, ha nincs hozzá kurzus
+                continue;
             }
 
-            $semester = $grade->year . ' ' . ($grade->sezon ? 1 : 0); // Olvashatóbb címke
+            $semester = $grade->year . ' ' . ($grade->sezon ? 1 : 0);
 
-            // Ha ez egy új szemeszter
             if (!isset($semesterIndexMap[$semester])) {
-                $label[] = $semester; // Hozzáadjuk a címkét
-                $currentSemesterIndex = count($label) -1; // Az új index
-                $semesterIndexMap[$semester] = $currentSemesterIndex; // Elmentjük az indexet
-                $semesterToKKI[$currentSemesterIndex] = []; // Inicializáljuk a jegyek tömbjét
-                $creditsum[$currentSemesterIndex] = 0; // Inicializáljuk a kreditösszeget
+                $label[] = $semester;
+                $currentSemesterIndex = count($label) -1;
+                $semesterIndexMap[$semester] = $currentSemesterIndex;
+                $semesterToKKI[$currentSemesterIndex] = [];
+                $creditsum[$currentSemesterIndex] = 0;
             } else {
-                $currentSemesterIndex = $semesterIndexMap[$semester]; // Lekérjük a meglévő indexet
+                $currentSemesterIndex = $semesterIndexMap[$semester];
             }
 
-            // Most már a $currentSemesterIndex-et használjuk mindenhol
-            $creditsum[$currentSemesterIndex] += $grade->course->kredit; // Itt már a betöltött kurzus kreditjét használjuk
+            $creditsum[$currentSemesterIndex] += $grade->course->kredit;
 
             if($grade->grade != null){
-                // Itt is a betöltött kurzus kreditjét használjuk
                 $semesterToKKI[$currentSemesterIndex][] = $grade->grade * $grade->course->kredit;
             }
         }
 
         $finalData = [];
         foreach ($semesterToKKI as $index => $weightedGrades){
-            // Ellenőrizzük, hogy a kreditösszeg nem nulla-e, mielőtt osztanánk
             if ($creditsum[$index] > 0) {
                 $finalData[$index] = array_sum($weightedGrades) / $creditsum[$index];
             } else {
-                $finalData[$index] = 0; // Vagy null, vagy valamilyen alapértelmezett érték
+                $finalData[$index] = 0;
             }
         }
 
-        // A data kulcs alatt a finalData tömböt adjuk vissza, ami már a számolt átlagokat tartalmazza
-        // és az indexelése konzisztens a label tömb indexelésével (0-tól indul)
         return [
             "label" => $label,
-            "data" => $finalData // array_values, hogy biztosan 0-tól indexelt tömb legyen
+            "data" => $finalData
         ];
     }
 

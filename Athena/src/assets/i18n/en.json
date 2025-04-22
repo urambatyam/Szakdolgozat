@@ -21,6 +21,14 @@
         "NO_PASSWORD": "Enter your password!",
         "LOGIN": "Login"
     },
+    "statistics":{
+        "PROGRESS":"Progress",
+        "TAN":"Average grade",
+        "LINEAR_REGRESSION":"Linear regression",
+        "ALL_TAN":"All students average grade",
+        "NOT_COMPLETED": "Not completed",
+        "COMPLETED": "Completed"
+    },
     "GENERAL":{
         "CLOSE": "Close"
     },

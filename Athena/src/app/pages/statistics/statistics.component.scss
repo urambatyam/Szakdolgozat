@@ -57,7 +57,7 @@
   position: relative;
   height: 24px;
   width: 100%;
-  overflow: hidden; /* Ez megakadályozza, hogy a zöld sáv kilógjon */
+  overflow: hidden; 
   border-radius: 12px;
 }
 .progress-bar-background {
@@ -116,7 +116,7 @@
 .category-progress-container {
   position: relative;
   height: 16px;
-  overflow: hidden; /* Ez megakadályozza, hogy a zöld sáv kilógjon */
+  overflow: hidden; 
   border-radius: 8px;
 }
 .cards-grid {
@@ -137,13 +137,29 @@ mat-card{
   min-width: fit-content;
   height: 80%;
   min-height: fit-content;
-  //align-items: center;
   padding: 0.5em;
 }
+mat-card-content{
+  min-height: fit-content;
+  height: 90%; 
 
-#prev{
-  align-items: start;
 }
-#next{
-  align-items: end;
+mat-card-footer {
+  border-radius: 0.5em;
+  background-color: #006a6a;
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 8px 16px; 
+  border-top: 1px solid rgba(0, 0, 0, 0.12); 
 }
+#prev mat-icon,#next mat-icon{
+  color: white;
+  font-size: 1em;
+  font-weight: bolder;
+}
+#prev:hover,#next:hover{
+  background-color: #ffffff8a;
+  border-radius: 0.5em;
+}
+

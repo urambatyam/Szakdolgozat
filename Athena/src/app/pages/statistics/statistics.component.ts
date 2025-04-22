@@ -1,138 +1,230 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, ViewChild, ElementRef, HostListener, NgZone, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { StatisticsService } from '../../services/mysql/statistics.service';
 import { createT } from './charts/tan';
-import { createLR } from '../course-forum/forum/course-statistics/charts/linearRegression';
+import { createLR } from './charts/linearRegression';
 import { CommonModule } from '@angular/common';
-import { catchError, EMPTY, firstValueFrom, from, map } from 'rxjs';
+import { firstValueFrom,Subject, Observable } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { createAT } from './charts/allTan';
 import { TranslateModule } from '@ngx-translate/core';
-// //charts/linearRegression'
+import * as Plotly from 'plotly.js-dist-min';
+import { ProgressResponse } from './charts/common';
+
+/**
+ * A statisztika típusok enumja.
+ */
+enum StatisticType {
+  Progress = 'p',
+  Tan = 't',
+  LinearRegression = 'lr',
+  AllTan = 'at'
+}
+
+/**
+ * @Component StatisticsComponent
+ * @description
+ * Megjeleníti a felhasználói statisztikákat, beleértve a haladást és különböző diagramokat.
+ * Kezeli a nézetek közötti navigációt és a diagramok átméretezését.
+ */
 @Component({
   selector: 'app-statistics',
   standalone: true,
-  imports: [TranslateModule,MatCardModule, MatIconModule, MatButtonModule, MatProgressBarModule, CommonModule],
+  imports: [TranslateModule, MatCardModule, MatIconModule, MatButtonModule, MatProgressBarModule, CommonModule],
   templateUrl: './statistics.component.html',
-  styleUrl: './statistics.component.scss'
+  styleUrl: './statistics.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StatisticsComponent implements AfterViewInit{
+export class StatisticsComponent implements AfterViewInit, OnDestroy {
 
-  private statisticsService  = inject(StatisticsService);
-  protected progressData:any = [];
-  protected title: "statistics.PROGRESS" | "statistics.TAN" | "statistics.LINEAR_REGRESSION" | "statistics.ALL_TAN" = "statistics.PROGRESS";
+  /** Referencia a Plotly diagram konténer elemre. */
+  @ViewChild('chartDiv') chartContainer!: ElementRef<HTMLDivElement>;
 
-  ngAfterViewInit(): void {
-    this.renderCurrentChart();
-  }
-  private _statistics: 'p' | 't' | 'lr' | 'at'  = 'p';
-  statisticsTypes: ('p' | 't' | 'lr' | 'at')[] = ['p' , 't' , 'lr' , 'at'];
-  statisticsLabels: {[key: string]: string} = {
-    'p': 'Előrehaladás',
-    't': 'Tanulmányi átlag',
-    'lr': 'Lineáris regresszió',
-    'at': 'Összesitet tatnulmányi átlag',
-  };
+  private statisticsService = inject(StatisticsService);
+  private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
-  get statisctics(): 'p' | 't' | 'lr' | 'at'{
+  /** @protected A felhasználó haladási adatai. */
+  protected progressData: ProgressResponse|null = null;
+
+  /** @protected Az aktuális nézet címének fordítási kulcsa. */
+  protected title: string = "statistics.PROGRESS";
+
+  private resizeSubject = new Subject<void>();
+  private destroy$ = new Subject<void>();
+
+  /** @private Az aktuálisan kiválasztott statisztika típusa. */
+  private _statistics: StatisticType = StatisticType.Progress;
+
+  /** @protected A választható statisztika típusok. */
+  protected readonly statisticsTypes: StatisticType[] = [
+    StatisticType.Progress,
+    StatisticType.Tan,
+    StatisticType.LinearRegression,
+    StatisticType.AllTan
+  ];
+
+  /** Getter az aktuális statisztika típusához. */
+  get statisctics(): StatisticType {
     return this._statistics;
   }
 
-  set statisctics(value: 'p' | 't' | 'lr' | 'at') {
-    this._statistics = value;
+  /**
+   * Setter az aktuális statisztika típusához. Változás esetén frissíti a nézetet.
+   */
+  set statisctics(value: StatisticType) {
+     if (this._statistics !== value) {
+        this._statistics = value;
+        this.renderCurrentChart();
+     }
+  }
+
+  /**
+   * @LifecycleHook ngAfterViewInit
+   * Első nézet renderelése és az átméretezés figyelő beállítása.
+   */
+  ngAfterViewInit(): void {
+    this.renderCurrentChart();
+    this.setupResizeListener();
+  }
+
+  /**
+   * @LifecycleHook ngOnDestroy
+   * Leiratkozások megszüntetése.
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  /**
+   * @method renderCurrentChart
+   * @description
+   * Az aktuális statisztika típus alapján frissíti a címet és
+   * meghívja a megfelelő adatlekérő/diagramrajzoló metódust.
+   * Késlelteti a diagram rajzolást, ha a Progress nézetből váltunk,
+   * hogy a diagram konténer létrejöhessen.
+   */
+  renderCurrentChart(): void {
+    const targetStatistic = this._statistics; 
+    if (targetStatistic !== StatisticType.Progress && this.chartContainer?.nativeElement) {
+        Plotly.purge(this.chartContainer.nativeElement);
+    }
+    if (targetStatistic === StatisticType.Progress) {
+        this.title = "statistics.PROGRESS";
+        this.fetchAndSetProgress();
+        this.cdr.markForCheck(); 
+        return; 
+    }
     setTimeout(() => {
-      this.renderCurrentChart();
+        if (this._statistics === targetStatistic && this.chartContainer?.nativeElement) {
+            console.log(`Rendering chart for ${targetStatistic} after timeout.`);
+            switch (targetStatistic) {
+                case StatisticType.Tan:
+                    this.fetchAndRenderChart(this.statisticsService.studentTAN(), createT, "statistics.TAN");
+                    break;
+                case StatisticType.LinearRegression:
+                    this.fetchAndRenderChart(this.statisticsService.studentLinearisRegression(), createLR, "statistics.LINEAR_REGRESSION");
+                    break;
+                case StatisticType.AllTan:
+                    this.fetchAndRenderChart(this.statisticsService.allTAN(), createAT, "statistics.ALL_TAN");
+                    break;
+            }
+        } else if (this._statistics === targetStatistic) {
+            console.error('Chart container STILL not found after timeout!');
+            this.title = "Hiba"; 
+            if(this.chartContainer?.nativeElement) { 
+               this.chartContainer.nativeElement.innerHTML = `<p style="text-align: center; padding: 20px;">Hiba a diagram konténer betöltésekor.</p>`;
+            }
+            this.cdr.markForCheck(); 
+        }
+    }, 0); 
+  }
+
+  /**
+   * @private
+   * @method fetchAndRenderChart
+   * @description Általános metódus diagram adatok lekérésére és kirajzolására.
+   */
+  private async fetchAndRenderChart(
+    dataObservable: Observable<any>,
+    createChartFn: (targetElement: HTMLDivElement, response: any) => void,
+    titleKey: string
+  ): Promise<void> {
+      this.title = titleKey;
+      this.cdr.markForCheck(); 
+      try {
+          if (!this.chartContainer?.nativeElement) {
+              console.error(`Chart container not found when trying to render ${titleKey}`);
+              return; 
+          }
+          const targetElement = this.chartContainer.nativeElement; 
+          const response = await firstValueFrom(dataObservable.pipe(takeUntil(this.destroy$)));
+          console.log(`${titleKey} data:`, response);
+          createChartFn(targetElement, response);
+      } catch (error) {
+          console.error(`${titleKey} Hiba: `, error);
+          if (this.chartContainer?.nativeElement) { 
+             this.chartContainer.nativeElement.innerHTML = `<p style="text-align: center; padding: 20px;">Adatlekérési hiba.</p>`;
+             this.cdr.markForCheck(); 
+          }
+      }
+  }
+
+  /**
+   * @private
+   * @method fetchAndSetProgress
+   * @description Lekérdezi és beállítja a progress adatokat.
+   */
+  private async fetchAndSetProgress(): Promise<void> {
+      try {
+          const response = await firstValueFrom(this.statisticsService.progres().pipe(takeUntil(this.destroy$)));
+          console.log('Progress data:', response);
+          this.progressData = response as ProgressResponse;
+      } catch (error) {
+          console.error('Progress Hiba: ', error);
+          this.progressData = null;
+      } finally {
+          this.cdr.markForCheck();
+      }
+  }
+
+  /**
+   * @method setupResizeListener
+   * @description Beállítja az ablak átméretezés figyelését (debounced).
+   */
+  setupResizeListener(): void {
+    this.resizeSubject.pipe(
+      debounceTime(300),
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.ngZone.run(() => {
+        if (this.chartContainer?.nativeElement && this._statistics !== StatisticType.Progress) {
+          console.log('Resizing Plotly chart...');
+          Plotly.Plots.resize(this.chartContainer.nativeElement);
+        }
+      });
     });
   }
-  renderCurrentChart() {
-    switch(this._statistics) {
-      case 'p':
-        this.progress();
-        this.title = "statistics.PROGRESS";
-        break;
-      case 't':
-        this.tan();
-        this.title = "statistics.TAN";
-        break;
-      case 'lr':
-        this.linearRegression();
-        this.title = "statistics.LINEAR_REGRESSION";
-        break;
-      case 'at':
-        this.alltan();
-        this.title = "statistics.ALL_TAN";
-        break;
-    }
-  }
-  tan(){
-    firstValueFrom(
-      from(this.statisticsService.studentTAN())
-        .pipe(
-          map(response => {
-            console.log(response);
-            createT(response);
-          }),
-          catchError(error => {
-            console.error('Hiba: ', error);
-            return EMPTY;
-          }))
-    );
-  }
-  linearRegression(){
-    firstValueFrom(
-      from(this.statisticsService.studentLinearisRegression())
-        .pipe(
-          map(response => {
-            console.log(response);
-            createLR(response);
-          }),
-          catchError(error => {
-            console.error('Hiba: ', error);
-            return EMPTY;
-          }))
-    );
-  }
-  alltan(){
-    firstValueFrom(
-      from(this.statisticsService.allTAN())
-        .pipe(
-          map(response => {
-            console.log(response);
-            createAT(response);
-          }),
-          catchError(error => {
-            console.error('Hiba: ', error);
-            return EMPTY;
-          }))
-    );
-  }
-  progress(){
-    firstValueFrom(
-      from(this.statisticsService.progres())
-        .pipe(
-          map(response => {
-            console.log(response);
-            this.progressData = response;
-          }),
-          catchError(error => {
-            console.error('Hiba: ', error);
-            return EMPTY;
-          }))
-    );
+
+  /** @HostListener Figyeli az ablak átméretezését. */
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.resizeSubject.next();
   }
 
-
-
-  // Nyilakkal navigáció
-  navigatePrevious() {
+  /** @method Navigál az előző statisztikai nézetre. */
+  navigatePrevious(): void {
     const currentIndex = this.statisticsTypes.indexOf(this._statistics);
     const previousIndex = (currentIndex - 1 + this.statisticsTypes.length) % this.statisticsTypes.length;
     this.statisctics = this.statisticsTypes[previousIndex];
   }
 
-  navigateNext() {
+  /** @method Navigál a következő statisztikai nézetre. */
+  navigateNext(): void {
     const currentIndex = this.statisticsTypes.indexOf(this._statistics);
     const nextIndex = (currentIndex + 1) % this.statisticsTypes.length;
     this.statisctics = this.statisticsTypes[nextIndex];

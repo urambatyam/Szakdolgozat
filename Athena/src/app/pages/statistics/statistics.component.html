@@ -1,83 +1,73 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>{{title | translate }}</mat-card-title>
+    <mat-card-title>{{ title | translate }}</mat-card-title>
   </mat-card-header>
-    <mat-card-content>
-        @switch (statisctics) {
-            @case ('p'){
-                <div class="cards-grid">
-                    @for(spec of progressData.specializations; track $index){
-                        <mat-card class="spec-card">
-                            <mat-card-header>
-                              <div class="header-content">
-                                <mat-card-title>{{spec.specialization_name}}</mat-card-title>
-                                <div class="spec-stats">
-                                  <div class="credits-display">
-                                    <span class="earned">{{spec.completed_credits}}</span>
-                                    <span class="separator">/</span>
-                                    <span class="required">{{spec.required_credits}}</span>
-                                  </div>
-                                  <div class="completion-badge" [class.completed]="spec.is_completed" [class.incomplete]="!spec.is_completed">
-                                    {{spec.is_completed ? 'Teljesítve' : 'Nem teljesítve'}}
-                                  </div>
-                                </div>
-                              </div>
-                            </mat-card-header>
-                    
-                            <mat-card-content>
-                              <div class="spec-progress-container">
-                                <div class="progress-bar-container">
-                                  <div class="progress-bar-background"></div>
-                                  <div class="progress-bar-fill" 
-                                       [style.width.%]="(spec.completed_credits / spec.required_credits) * 100 > 100 ? 100 : (spec.completed_credits / spec.required_credits) * 100">
-                                  </div>
-                                </div>
-                              </div>
-                    
-                              <div class="categories-container">
-                                @for(cat of spec.categories; track $index){
-                                  <div class="category-item">
-                                    <div class="category-header">
-                                      <span class="category-name">{{cat.category_name}}</span>
-                                      <div class="category-stats">
-                                        <span class="earned">{{cat.completed_credits}}</span>
-                                        <span class="separator">/</span>
-                                        <span class="required">{{cat.required_credits}}</span>
-                                      </div>
-                                    </div>
-                                    
-                                    <div class="category-progress-container">
-                                      <div class="progress-bar-background"></div>
-                                      <div class="progress-bar-fill" 
-                                           [style.width.%]="(cat.completed_credits / cat.required_credits) * 100 > 100 ? 100 : (cat.completed_credits / cat.required_credits) * 100">
-                                      </div>
-                      
-                                    </div>
-                                  </div>
-                                }
-                              </div>
-                            </mat-card-content>
-                        </mat-card>
-                    }
+  <mat-card-content>
+     @if(statisctics == 'p'){
+      <div class="cards-grid">
+        @for(spec of progressData?.specializations; track $index){
+          <mat-card class="spec-card">
+            <mat-card-header>
+              <div class="header-content">
+                <mat-card-title>{{spec.specialization_name}}</mat-card-title>
+                <div class="spec-stats">
+                  <div class="credits-display">
+                    <span class="earned">{{spec.completed_credits}}</span>
+                    <span class="separator">/</span>
+                    <span class="required">{{spec.required_credits}}</span>
+                  </div>
+                  <div class="completion-badge" [class.completed]="spec.is_completed" [class.incomplete]="!spec.is_completed">
+                    {{(spec.is_completed ? 'statistics.COMPLETED' : 'statistics.NOT_COMPLETED') | translate}}
+                  </div>
                 </div>
-            }
-            @case ('t'){
-                <div id="tan" ></div>
-            }
-            @case ('lr'){
-                <div id="linearRegression" ></div>
-            }
-            @case ('at'){
-                <div id='allTan'></div>
-            }
+              </div>
+            </mat-card-header>
+    
+            <mat-card-content>
+              <div class="spec-progress-container">
+                <div class="progress-bar-container">
+                  <div class="progress-bar-background"></div>
+                  <div class="progress-bar-fill" 
+                       [style.width.%]="(spec.completed_credits / spec.required_credits) * 100 > 100 ? 100 : (spec.completed_credits / spec.required_credits) * 100">
+                  </div>
+                </div>
+              </div>
+    
+              <div class="categories-container">
+                @for(cat of spec.categories; track $index){
+                  <div class="category-item">
+                    <div class="category-header">
+                      <span class="category-name">{{cat.category_name}}</span>
+                      <div class="category-stats">
+                        <span class="earned">{{cat.completed_credits}}</span>
+                        <span class="separator">/</span>
+                        <span class="required">{{cat.required_credits}}</span>
+                      </div>
+                    </div>
+                    <div class="category-progress-container">
+                      <div class="progress-bar-background"></div>
+                      <div class="progress-bar-fill" 
+                           [style.width.%]="(cat.completed_credits / cat.required_credits) * 100 > 100 ? 100 : (cat.completed_credits / cat.required_credits) * 100">
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
         }
-    </mat-card-content>
-    <mat-card-footer>
-        <button mat-icon-button id="prev" (click)="navigatePrevious()">
-            <mat-icon>arrow_back_ios</mat-icon>
-          </button>
-          <button mat-icon-button id="next" (click)="navigateNext()">
-            <mat-icon>arrow_forward_ios</mat-icon>
-          </button>
-    </mat-card-footer>
+      </div>
+     }@else {
+      <div #chartDiv id="chartDiv" ></div>
+     }
+  </mat-card-content>
+
+  <mat-card-footer>
+     <button mat-icon-button id="prev" (click)="navigatePrevious()">
+       <mat-icon>arrow_back_ios</mat-icon>
+     </button>
+     <button mat-icon-button id="next" (click)="navigateNext()">
+       <mat-icon>arrow_forward_ios</mat-icon>
+     </button>
+  </mat-card-footer>
 </mat-card>

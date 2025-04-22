@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { BehaviorSubject, catchError, EMPTY, finalize, firstValueFrom, from, map, Observable, startWith, Subject, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, finalize, firstValueFrom, from, map, Observable, of, startWith, Subject, takeUntil, tap } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AsyncPipe } from '@angular/common'; 
@@ -133,22 +133,25 @@ protected onSubmit(): void {
  * A felhasználó regisztrálása.
  * @return void
  */
-protected register():void {
+protected register(): void {
   this.loadingSubject.next(true);
   const rawValues = this.registForm.getRawValue();
   firstValueFrom(
-    from(this.auth.register(rawValues)).pipe(
+    this.auth.register(rawValues).pipe( 
+      takeUntil(this.kikapcs$), 
       tap(() => {
-        this.snackBar.open('Successful registration!', 'OK', {duration: 3000});
+        this.snackBar.open('Successful registration!', 'OK', { duration: 3000 });
       }),
       catchError(error => {
         this.snackBar.open(error.error.message || 'Registration failed!', 'OK', {
           duration: 3000
         });
-        return EMPTY;
+        return of(null); 
       }),
       finalize(() => this.loadingSubject.next(false))
     )
-  );
+  ).catch(err => {
+      console.warn('firstValueFrom caught an error after catchError handled it:', err);
+  });
 }
 }

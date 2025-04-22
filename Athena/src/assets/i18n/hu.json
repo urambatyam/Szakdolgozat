@@ -21,6 +21,14 @@
         "NO_PASSWORD": "Add meg a jelszót!",
         "LOGIN": "Belépés"
     },
+    "statistics":{
+        "PROGRESS":"Előrehaladás",
+        "TAN":"Tanulmányi áltlag",
+        "LINEAR_REGRESSION":"Lineáris regreszia",
+        "ALL_TAN":"Minden diák tanulmányi átlaga",
+        "NOT_COMPLETED": "Nem teljesítve",
+        "COMPLETED": "Teljesítve"
+    },
     "GENERAL":{
         "CLOSE": "Bezárás"
     },
