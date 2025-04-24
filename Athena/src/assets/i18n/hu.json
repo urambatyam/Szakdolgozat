@@ -78,6 +78,8 @@
         "BACK": "Vissza"
     },
     "curriculum-develepor":{
+        "TITLE": "Tantervek",
+        "REQUIRED": "Kötelező",
         "NAME": "Név",
         "MODIFY": "Módosítás",
         "DELETE": "Törlés",
@@ -91,6 +93,8 @@
         "CLOSE": "Mégse"
     },
     "curriculum":{
+        "SELECT_COLUMNS": "Oszlopok",
+        "COURSE": "Kurzus",
         "MIN_KREDIT": "Teljesitendő kredit: ",
         "CAT_MIN_KREDIT": "Minmum kredit: ",
         "SUM": "Összesen: ",

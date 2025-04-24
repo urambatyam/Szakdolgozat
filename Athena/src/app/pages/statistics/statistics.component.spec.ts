@@ -35,7 +35,7 @@ const translateServiceMock = {
 
 
 
-fdescribe('StatisticsComponent', () => {
+describe('StatisticsComponent', () => {
   let component: StatisticsComponent;
   let fixture: ComponentFixture<StatisticsComponent>;
   let statisticsService: StatisticsService;

@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>{{title}}</mat-card-title>
+        <mat-card-title>{{'curriculum-develepor.TITLE' | translate }}</mat-card-title>
     </mat-card-header>
     <mat-card-content  >
       @if(!formVs){
@@ -41,7 +41,7 @@
                           <mat-label>{{'curriculum-develepor.SPECIALIZATION' | translate }}</mat-label><br>
                           <input type="text" formControlName="spName">
                           <input type="radio" [id]="spIndex" name="required" formControlName="required" [value]="spIndex">
-                          <label [for]="spIndex">Kötelező</label>
+                          <label [for]="spIndex">{{'curriculum-develepor.REQUIRED' | translate}}</label>
                           <mat-icon (click)="removeSpecialization(spIndex)">remove</mat-icon>
                           
                           <!-- Kategoriák -->
@@ -82,8 +82,8 @@
               </div>
     
               <div>
-                <button type="submit">{{'curriculum-develepor.SAVE' | translate }}</button>
-                <button type="button" (click)="close()">{{'curriculum-develepor.CLOSE' | translate }}</button>
+                <button mat-raised-button type="submit">{{'curriculum-develepor.SAVE' | translate }}</button>
+                <button mat-raised-button type="button" (click)="close()">{{'curriculum-develepor.CLOSE' | translate }}</button>
               </div>
           </form>
         }

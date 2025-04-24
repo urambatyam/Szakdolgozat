@@ -1,11 +1,225 @@
-.form-specialization{
-    margin-left: 20px;
+$primary-color: #006a6a; 
+$warn-color: #f44336;
+$border-color: #e0e0e0;
+$background-light-gray: #f9f9f9;
+$spacing-unit: 0.5em;
+$border-radius: 0.3em;
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-unit * 3; 
+
+  input[type="text"],input[type="number"],select {
+    padding: $spacing-unit $spacing-unit * 1.5;
+    border: 0.1em solid $border-color;
+    border-radius: $border-radius;
+    font-size: 1rem;
+    margin-top: $spacing-unit * 0.5;
+    width: 100%; 
+    box-sizing: border-box; 
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 0.1em rgba($primary-color, 0.2);
+    }
+  }
+
+  mat-label {
+    font-weight: 500;
+    color: $primary-color; 
+    display: block; 
+    margin-bottom: $spacing-unit * 0.5;
+  }
+
+  mat-label + input,
+  mat-label + select {
+    margin-top: $spacing-unit * 0.5;
+  }
+
+  mat-icon {
+    cursor: pointer;
+    vertical-align: middle; 
+    color: rgba(0, 0, 0, 0.54); 
+  }
+
+  > div:first-child { 
+    margin-bottom: $spacing-unit * 2; 
+  }
+
+  // Specializációk tömbje
+  div[formArrayName="specializations"] {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-unit * 3; 
+    > mat-icon { 
+      align-self: flex-start; 
+      margin-top: $spacing-unit;
+      padding: $spacing-unit;
+      background-color: rgba($primary-color, 0.1);
+      border-radius: 50%;
+      color: $primary-color;
+      &:hover {
+        background-color: rgba($primary-color, 0.2);
+      }
+    }
+  }
+
+  .form-specialization {
+    border: 0.1em solid $border-color;
+    padding: $spacing-unit * 2;
+    border-radius: $border-radius;
+    background-color: #fff; 
+    position: relative; 
+    > mat-label {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: $spacing-unit * 1.5;
+    }
+
+    > input[type="text"] {
+      margin-bottom: $spacing-unit * 1.5;
+    }
+
+    > input[type="radio"] {
+      margin-right: $spacing-unit * 0.5;
+      vertical-align: middle;
+    }
+    > label[for] {
+      margin-right: $spacing-unit * 2;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+
+    > mat-icon:first-of-type { 
+      position: absolute;
+      top: $spacing-unit;
+      right: $spacing-unit;
+      color: $warn-color;
+      &:hover {
+        color: darken($warn-color, 10%);
+      }
+    }
+  }
+
+  div[formArrayName="categories"] {
+    margin-top: $spacing-unit * 2;
+    padding-left: $spacing-unit * 2; 
+    border-left: 2px solid $primary-color; 
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-unit * 2; 
+
+    > mat-icon { 
+      align-self: flex-start;
+      margin-top: $spacing-unit;
+      padding: $spacing-unit * 0.8;
+      background-color: rgba($primary-color, 0.1);
+      border-radius: 50%;
+      color: $primary-color;
+       &:hover {
+        background-color: rgba($primary-color, 0.2);
+      }
+    }
+  }
+
+  .form-category {
+    border: 0.1em solid lighten($border-color, 5%);
+    padding: $spacing-unit * 2;
+    border-radius: $border-radius;
+    background-color: $background-light-gray; 
+    position: relative;
+
+    > mat-label { 
+        font-weight: bold;
+    }
+
+    input[formControlName="catName"] {
+        margin-bottom: $spacing-unit;
+    }
+    input[formControlName="min"] {
+        width: 80px; 
+        margin-left: $spacing-unit;
+    }
+
+    > mat-icon:first-of-type { 
+      position: absolute;
+      top: $spacing-unit;
+      right: $spacing-unit;
+      color: $warn-color;
+       &:hover {
+        color: darken($warn-color, 10%);
+      }
+    }
+  }
+
+  div[formArrayName="courses"] {
+    margin-top: $spacing-unit * 1.5;
+    padding-left: $spacing-unit * 2; 
+    border-left: 2px solid $primary-color; 
+
+    > mat-label { 
+        margin-bottom: $spacing-unit;
+        display: block;
+    }
+
+    .form-courses {
+      display: flex;
+      align-items: center;
+      margin-bottom: $spacing-unit;
+      gap: $spacing-unit;
+
+      input[readonly] {
+        flex-grow: 1; 
+        background-color: #eee; 
+        cursor: default;
+      }
+
+      mat-icon { 
+        color: $warn-color;
+        margin-left: 0; 
+         &:hover {
+            color: darken($warn-color, 10%);
+         }
+      }
+    }
+
+    select {
+      margin-top: $spacing-unit;
+      max-width: 400px; 
+    }
+  }
+
+  > div:last-child { 
+    margin-top: $spacing-unit * 3;
+    display: flex;
+    gap: $spacing-unit * 2; 
+    justify-content: flex-end; 
+  }
 }
 
-.form-category{
-    margin-left: 40px;
+.mat-icon { 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.form-courses{
-    margin-left: 60px;
+label[for] {
+    cursor: pointer;
+}
+
+mat-card{
+    height: 80%;
+  }
+
+mat-card-content{
+    overflow-y: auto;
+  }
+  
+  mat-card-title{
+    padding: 0.5em;
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 2em;
 }

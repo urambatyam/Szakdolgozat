@@ -8,6 +8,7 @@ export interface Course {
     subjectMatter:string|null,
     sezon:boolean|null,
     completed?:boolean,
+    applied?:boolean,
     subjectMatterId?:number|null,
     prerequisites?:number[]|null,
 }

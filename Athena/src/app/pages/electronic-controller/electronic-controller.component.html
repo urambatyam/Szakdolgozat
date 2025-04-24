@@ -109,9 +109,11 @@
                 aria-label="Oldal választása">
             </mat-paginator>
         </div>
-        
-        <button mat-raised-button (click)="back()" class="back-button">
+        @if('course' == viewMode){
+          <button mat-raised-button (click)="back()" class="back-button">
             {{'electronic-controller.BACK' | translate }}
         </button>
+        }
+ 
     </mat-card-content>
 </mat-card>

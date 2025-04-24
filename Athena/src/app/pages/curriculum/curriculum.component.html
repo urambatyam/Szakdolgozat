@@ -5,6 +5,61 @@
     
     <mat-card-content id="matcard">
     <div class="content-container">
+
+            <div id="filter">
+              @if(this.viewMode === 'other'){
+                <mat-form-field class="select-field">
+                  <mat-label>{{'curriculum.CURRICULUMS' | translate }}</mat-label>
+                  <mat-select (selectionChange)="CuronSelectionChange($event)" >
+                    @for (cur of curs; track cur.id) {
+                      <mat-option [value]="cur.id">{{cur.name}}</mat-option>
+                    }
+                  </mat-select>
+              </mat-form-field>
+              }
+       
+     
+                <mat-form-field class="select-field">
+                    <mat-label>{{'curriculum.SPECIALIZATION' | translate }}</mat-label>
+                    <mat-select (selectionChange)="SpeconSelectionChange($event)" >
+                      @for (special of specialsVis.keys(); track special) {
+                        <mat-option [value]="special">{{special}}</mat-option>
+                      }
+                    </mat-select>
+                </mat-form-field> 
+                @if(visKat){
+                  <mat-form-field >
+                    <mat-label  >{{'curriculum.CATEGORY' | translate }}</mat-label>
+                    <mat-select  (selectionChange)="KatonSelectionChange($event)">
+                      @for (kat of katsVis.keys(); track kat) {
+                        <mat-option [value]="kat">{{kat}}</mat-option>
+                      }
+                    </mat-select>
+                </mat-form-field>
+
+                }                   
+                <mat-form-field class="select-field" >
+                  <mat-label  >{{'curriculum.COURSE' | translate }}</mat-label>
+                  <mat-select  (selectionChange)="CouronSelectionChange($event)">
+                    @for (kat of coursesVis.keys(); track kat) {
+                      <mat-option [value]="coursesVis.get(kat)">{{kat}}</mat-option>
+                    }
+                  </mat-select>
+
+              </mat-form-field>
+              @if(!this.isNarrowScreen()){
+                <mat-form-field appearance="fill" class="select-field"> 
+                  <mat-label>{{ 'curriculum.SELECT_COLUMNS' | translate }}</mat-label> 
+                  <mat-select multiple [value]="selectedColumnNames" (selectionChange)="onColumnSelectionChange($event)">
+                    @for (option of availableColumnOptions(); track option.name) {
+                      <mat-option [value]="option.name">{{ option.name }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              }
+     
+            </div>
+
       <div id="curriculumContiner">
       @for(special of tanterv?.specializations; track special.id){
         <mat-card  [style.display]=" specialsVis.get(special.name) ? 'block' : 'none'" class="card-spec">
@@ -25,7 +80,7 @@
                 </mat-card-title-group>
             </mat-card-header>
             <mat-card-content>
-                <table id="{{special.name}}_{{kat.name}}" #sort="matSort" mat-table  [dataSource]="kat.courses" matSort  class="mat-elevation-z8">
+                <table id="{{special.name}}_{{kat.name}}"  mat-table  [dataSource]="kat.courses" matSort  class="mat-elevation-z8">
                     
                     <ng-container matColumnDef="name" >
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> {{'curriculum.NAME' | translate }} </th>
@@ -71,7 +126,12 @@
                   
                     <ng-container matColumnDef="apply">
                       <th mat-header-cell *matHeaderCellDef > {{'curriculum.APPLY' | translate }} </th>
-                      <td mat-cell *matCellDef="let element" > <button mat-fab (click)="apply(element)" ><mat-icon>upgrade</mat-icon></button> </td>
+                      <td mat-cell *matCellDef="let element" >
+                        @if(element.can && this.viewMode !== 'other'){
+                          <button mat-fab (click)="apply(element)" ><mat-icon>upgrade</mat-icon></button>
+
+                        }
+                         </td>
                     </ng-container> 
                     
                     <ng-container matColumnDef="course">
@@ -80,7 +140,7 @@
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns "></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns ;" [class.completed]="row.completed"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns ;" [class.completed]="row.completed" [class.applied]="row.applied"></tr>
                 </table>
             </mat-card-content>
         </mat-card>
@@ -90,79 +150,7 @@
         <br>
       }
     </div>
-      
-
-        <mat-card class="filter-card">
-            <mat-card-title>{{'curriculum.FILLTER' | translate }}</mat-card-title>
-            <mat-card-content>
-                <form>
-                  @if(this.viewMode === 'other'){
-                    <mat-form-field>
-                      <mat-label>{{'curriculum.CURRICULUMS' | translate }}</mat-label>
-                      <mat-select (selectionChange)="CuronSelectionChange($event)" >
-                        @for (cur of curs; track cur.id) {
-                          <mat-option [value]="cur.id">{{cur.name}}</mat-option>
-                        }
-                      </mat-select>
-                  </mat-form-field><br>
-                  }
-                    <span>
-                      <mat-checkbox
-                        [checked]="task().completed"
-                        [indeterminate]="partiallyComplete()"
-                        (change)="update($event.checked)"
-                      >
-                        {{task().name}}
-                      </mat-checkbox>
-                    </span>
-                    <span>
-                      <ul>
-                        @for (subtask of task().subtasks; track subtask; let i = $index) {
-                          <li>
-                            <mat-checkbox [checked]="subtask.completed" (change)="update($event.checked, i)">
-                              {{subtask.name}}
-                            </mat-checkbox>
-                          </li>
-                        }
-                      </ul>
-                    </span>
-                    <mat-form-field>
-                        <mat-label>{{'curriculum.SPECIALIZATION' | translate }}</mat-label>
-                        <mat-select (selectionChange)="SpeconSelectionChange($event)" >
-                          @for (special of specialsVis.keys(); track special) {
-                            <mat-option [value]="special">{{special}}</mat-option>
-                          }
-                        </mat-select>
-                    </mat-form-field> 
-                    @if(visKat){
-                      <mat-form-field >
-                        <mat-label  >{{'curriculum.CATEGORY' | translate }}</mat-label>
-                        <mat-select  (selectionChange)="KatonSelectionChange($event)">
-                          @for (kat of katsVis.keys(); track kat) {
-                            <mat-option [value]="kat">{{kat}}</mat-option>
-                          }
-                        </mat-select>
-                    </mat-form-field>
-
-                    }                   
-
-                    <br>
-                    <mat-form-field>
-                        <mat-label>{{'curriculum.GOAL' | translate }}</mat-label>
-                        <mat-select (selectionChange)="GoalonSelectionChange($event)" >
-                          @for (special of specialsVis.keys(); track special) {
-                            <mat-option [value]="special">{{special}}</mat-option>
-                          }
-                        </mat-select>
-                    </mat-form-field><br>
-                    <mat-form-field>
-                        <mat-label>{{'curriculum.CONDITIONS' | translate }}</mat-label>
-                        <input matInput  type="text" placeholder="{{'curriculum.CONDITIONS_PLASEHOLDER' | translate }}">
-                    </mat-form-field><br>
-                    <button mat-button >{{'curriculum.OPTIMALIZATION' | translate }}</button>
-                  </form>
-            </mat-card-content>
-        </mat-card>
+ 
     </div>
     </mat-card-content>
 </mat-card>

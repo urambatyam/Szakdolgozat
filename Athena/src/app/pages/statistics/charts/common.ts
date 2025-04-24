@@ -1,5 +1,5 @@
 /**
- * Formáz egy félév azonosító stringet (pl. "2023 1") emberileg olvasható formátumra (pl. "2023/2024 Ősz").
+ * Formáz egy félév azonosító stringet emberileg olvasható formátumra.
  * A 0 kód a tavaszi, az 1 kód az őszi félévet jelöli.
  *
  * @param key - A formázandó félév azonosító string.

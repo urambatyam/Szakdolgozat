@@ -1,11 +1,7 @@
-import { MatTableDataSource } from "@angular/material/table";
 import { Course } from "./course";
-
-export interface Kategoria {
-    courseIds:MatTableDataSource<Course>,
-    name:string,
-}
-
+/**
+ * A kategoriához tartozó model
+ */
 export interface Category {
     id: number | null,
     courses: Course[],
@@ -13,8 +9,3 @@ export interface Category {
     min:number,
     max?:number,
 }
-
-export interface CategoryTable  extends Category {
-    courseMatdata:MatTableDataSource<Course>
-}
-

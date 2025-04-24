@@ -1,3 +1,6 @@
+/**
+ * A kurzus forumhoz üzeneteihez tartozó model
+ */
 export interface CourseForum {
     id?:string,
     user_code?:string,
@@ -5,5 +8,3 @@ export interface CourseForum {
     message:string,
     created_at?:string
 }
-
-

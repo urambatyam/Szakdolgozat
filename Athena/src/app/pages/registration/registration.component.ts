@@ -1,12 +1,12 @@
 import { Component, inject, ChangeDetectionStrategy, OnDestroy, OnInit} from '@angular/core';
 import { AuthService } from '../../services/mysql/auth.service';
-import { FormBuilder, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { BehaviorSubject, catchError, EMPTY, finalize, firstValueFrom, from, map, Observable, of, startWith, Subject, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, firstValueFrom, of, startWith, Subject, takeUntil, tap } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { AsyncPipe } from '@angular/common'; 

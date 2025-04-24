@@ -1,3 +1,6 @@
+/**
+ * A kurzus forúm üzenetihez tartozó model
+ */
 export interface Forum {
     id:string,
     userId:string,

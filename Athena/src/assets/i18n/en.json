@@ -78,6 +78,8 @@
         "BACK": "back"
     },
     "curriculum-develepor":{
+        "TITLE": "Curriculums",
+        "REQUIRED": "Required",
         "NAME": "Name",
         "MODIFY": "Modify",
         "DELETE": "Delete",
@@ -91,6 +93,8 @@
         "CLOSE": "Close"
     },
     "curriculum":{
+        "SELECT_COLUMNS": "Select columns",
+        "COURSE": "Course",
         "MIN_KREDIT": "Credits to be completed: ",
         "CAT_MIN_KREDIT": "Minimum credit: ",
         "SUM": "Sum: ",

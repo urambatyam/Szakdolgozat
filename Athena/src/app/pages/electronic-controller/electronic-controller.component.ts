@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,84 +9,59 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { Location } from '@angular/common';
-import { Grade } from '../../models/grade';
+import { Grade, GradeApiResponse } from '../../models/grade';
 import { Semester } from '../../models/semester';
-import { catchError, EMPTY, firstValueFrom, from, map, tap } from 'rxjs';
+import { Subject, takeUntil, catchError, EMPTY, firstValueFrom,  Observable, tap } from 'rxjs';
 import { GradeService } from '../../services/mysql/grade.service';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuthService } from '../../services/mysql/auth.service';
 import { TranslateModule } from '@ngx-translate/core';
 
-
+/**
+ * Komponens a jegyek megjelenítésére és kezelésére.
+ * Megjeleníti a jegyeket
+ * Két nézetmódot támogat: 'student' (hallgatói nézet) és 'course' (kurzus nézet, tanároknak).
+ * A 'course' nézetben a tanárok módosíthatják a jegyeket.
+ * A 'student' nézetben a hallgatók láthatják a jegyeiket és eltávolíthatják a kurzusfelvételeket.
+ */
 @Component({
   selector: 'app-electronic-controller',
   standalone: true,
   imports: [
-        MatCardModule,
-        MatTableModule,
-        MatIconModule,
-        FormsModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatInputModule,
-        MatSelectModule,
-        TranslateModule
+    MatCardModule,
+    MatTableModule,
+    MatIconModule,
+    FormsModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatInputModule,
+    MatSelectModule,
+    TranslateModule
   ],
   animations: [
     trigger('detailExpand', [
-      state('collapsed,void', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed,void', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
   templateUrl: './electronic-controller.component.html',
   styleUrl: './electronic-controller.component.scss'
 })
-export class ElectronicControllerComponent implements OnInit {
-  async ngOnInit(){
-    await firstValueFrom(
-      from(this.authService.user$)
-      .pipe(
-        map(user =>{
-          if(user){
-            this.viewMode = user?.role === "student" ? 'student':'course';
-          }
-        })
-      )
-    );
-    if(this.viewMode === 'course'){
-      const state = history.state;
-      this.title = state.courseName;
-      this.courseId = state.courseId;
-      this.displayedColumns = ['user_code', 'grade'];
-      this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
-      this.sortField = 'user_code';
-    }else if(this.viewMode === 'student'){
-      this.title = 'Ellenőrző';
-      this.displayedColumns = ['course_name', 'grade'];
-      this.columnsToDisplayWithExpand = [...this.displayedColumns, 'remove'];
-      this.sortField = 'course_name';
-      this.studentCode = await firstValueFrom(from(this.authService.user$).pipe(map(user =>{return user?.code})));
-    }
-    console.log(this.viewMode);
-    this.getGrades();
-  }
-  
+export class ElectronicControllerComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   protected title: string = '';
   private location = inject(Location);
   private gradeService = inject(GradeService);
   private authService = inject(AuthService);
-  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  //@ViewChild('gradeInput') gradeInput!: ElementRef<HTMLInputElement>;
-  
   protected totalItems = 0;
   protected pageSize = 10;
   protected currentPage = 0;
@@ -99,66 +74,174 @@ export class ElectronicControllerComponent implements OnInit {
   protected expandedElement: Grade | null = null;
   private courseId?: number;
   private studentCode?: string;
-  protected semesters: Semester[] =[];
+  protected semesters: Semester[] = [];
   protected viewMode: 'course' | 'student' = 'student';
   protected ALL_SEMESTERS = { id: 'all', label: 'Összes szemeszter' };
   protected selectedSemesterOption: any = this.ALL_SEMESTERS;
   protected selectedSemester: Semester | null = null;
   protected currentSemester: Semester | null = null;
-  protected upgrades = ['ø',1,2,3,4,5];
+  protected upgrades = ['ø', 1, 2, 3, 4, 5];
 
-  protected async remove(element: Grade){
-    if(element.id){
-      await firstValueFrom(
-        from(this.gradeService.deleteGrade(element.id))
-        .pipe(
-          tap(
-            response => {
-              console.log('sikeresen töröltem a tárgy felvételt ')
-              console.log(response)
-            }
-          )
+  /**
+   * Inicializálja a komponenst.
+   * Lekérdezi a felhasználói adatokat, beállítja a nézetmódot és a szükséges azonosítókat.
+   * Meghatározza a megjelenítendő oszlopokat a nézetmód alapján.
+   * Betölti a kezdeti jegyadatokat.
+   * Kezeli a hiányzó navigációs adatokat 'course' módban.
+   * @async
+   */
+  async ngOnInit() {
+    try {
+      const user = await firstValueFrom(
+        this.authService.user$.pipe(
+          takeUntil(this.destroy$),
+          catchError(err => {
+            console.error("Hiba a felhasználói adatok lekérésekor:", err);
+            this.viewMode = 'student';
+            return EMPTY;
+          })
         )
-      )
+      );
+      if (!user) {
+        console.warn("Nem sikerült betölteni a felhasználói adatokat.");
+        return;
+      } else {
+        this.viewMode = user.role === "student" ? 'student' : 'course';
+        this.studentCode = user.code;
+      }
+      if (this.viewMode === 'course') {
+        const state = history.state;
+        if (state && state.courseId && state.courseName) {
+          this.title = state.courseName;
+          this.courseId = state.courseId;
+          this.displayedColumns = ['user_code', 'grade'];
+          this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
+          this.sortField = 'user_code';
+        } else {
+          console.error("Hiányzó kurzus adatok a 'course' nézethez. Navigációs state:", state);
+          this.title = 'Hiba - Kurzus nem található';
+          this.location.back();
+          return;
+        }
+      } else {
+        this.title = 'Ellenőrző';
+        this.displayedColumns = ['course_name', 'grade'];
+        this.columnsToDisplayWithExpand = [...this.displayedColumns, 'remove'];
+        this.sortField = 'course_name';
+        if (!this.studentCode) {
+          console.error("Hallgatói kód hiányzik 'student' módban.");
+          return;
+        }
+      }
+      await this.getGrades();
+    } catch (error) {
+      this.location.back();
+      console.error("Hiba a komponens inicializálása során:", error);
+    }
+  }
+
+  /**
+   * A komponens megsemmisülésekor lefutó metódus.
+   * Lezárja a `destroy$` Subject-et, hogy a folyamatban lévő Observable feliratkozások megszűnjenek.
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  /**
+   * Eltávolít egy kurzusfelvételt
+   * Csak 'course' nézetmódban működik
+   * Meghívja a GradeService deleteGrade metódusát.
+   * Sikeres törlés után újratölti a jegyeket.
+   * @async
+   * @param element A törlendő jegy.
+   */
+  protected async remove(element: Grade) {
+    if (element.id && this.viewMode === 'course') {
+      await firstValueFrom(
+        this.gradeService.deleteGrade(element.id)
+          .pipe(
+            catchError(error => {
+              console.error('Hiba a tárgyfelvétel törlésekor:', error);
+              return EMPTY;
+            }),
+            takeUntil(this.destroy$)
+          )
+      );
       this.getGrades();
     }
   }
 
-  protected GradeSelectionChange(event: MatSelectChange,element:Grade){
-    console.log("kiválasztot ", event.value, ' jegy ',element);
+  /**
+   * Eseménykezelő a jegy kiválasztásának megváltozásakor.
+   * Meghívja az `update` metódust a kiválasztott értékkel.
+   * @param event A MatSelectChange esemény objektuma.
+   * @param element A módosítandó jegy.
+   */
+  protected GradeSelectionChange(event: MatSelectChange, element: Grade) {
+    console.log("kiválasztot ", event.value, ' jegy ', element);
     this.update(event.value, element);
   }
-  
-  protected async update(slected:string|number, element: Grade) {
+
+  /**
+   * Frissíti egy hallgató jegyét egy adott kurzusból.
+   * Csak 'course' nézetmódban és létező kurzus ID esetén működik.
+   * Meghívja a GradeService updateGrade metódusát.
+   * Sikeres frissítés után bezárja a kinyitott sort és frissíti a jegyet a helyi objektumban.
+   * Hiba esetén logolja a hibát.
+   * @async
+   * @param selected A kiválasztott új jegy ('ø' vagy szám).
+   * @param element A módosítandó jegy.
+   */
+  protected async update(selected: string | number, element: Grade) {
     const updatedGrade: Grade = {
       ...element,
-      grade: typeof(slected) == 'number' ? slected:null
-    }
-    if (this.courseId) {
+      grade: typeof (selected) == 'number' ? selected : null
+    };
+    if (this.courseId && this.viewMode === 'course') {
       try {
         await firstValueFrom(
-          from(this.gradeService.updateGrade(updatedGrade)).pipe(
-            tap(response => {
-              console.log("Sikeresen módosítottam az osztályzatot");
-              console.log(response);
+          this.gradeService.updateGrade(updatedGrade).pipe(
+            tap(() => {
               element.grade = updatedGrade.grade;
               this.expandedElement = null;
-              })
-            )
-          );
-        } catch (error) {
-          console.error('Hiba a jegy frissítésekor:', error);
-        }
+            }),
+            catchError(error => {
+              console.error('Hiba a jegy frissítésekor (API):', error);
+              return EMPTY;
+            }),
+            takeUntil(this.destroy$)
+          ),
+
+        );
+      } catch (error) {
+        console.error('Hiba a jegy frissítésekor:', error);
       }
+    }
   }
 
-  back() {
+  /**
+   * Visszanavigál az előző oldalra a böngésző előzményeiben.
+   */
+  protected back() {
     this.location.back();
   }
-  
-  async getGrades() {
-    console.log('getgrades ',this.viewMode,' id ',this.courseId)
-    try{
+
+  /**
+   * Lekérdezi a jegyeket a szerverről az aktuális lapozási, rendezési és szűrési beállítások alapján.
+   * A nézetmódtól függően a megfelelő GradeService metódust hívja.
+   * Frissíti a `grades`, `semesters`, `totalItems` és `currentSemester` property-ket.
+   * @async
+   * @private
+   */
+  private async getGrades() {
+    console.log('getgrades ', this.viewMode, ' id ', this.courseId);
+    this.grades = [];
+    this.semesters = [];
+    this.totalItems = 0;
+    this.currentSemester = null;
+    try {
       const params: any = {
         page: this.currentPage + 1,
         per_page: this.pageSize,
@@ -172,51 +255,70 @@ export class ElectronicControllerComponent implements OnInit {
         params.year = this.selectedSemester.year;
         params.sezon = this.selectedSemester.sezon;
       }
-      let response;
-      if (this.viewMode === 'course' && this.courseId){
-        response = await firstValueFrom(
-          from(this.gradeService.getAllGradesInCourse(this.courseId, params)).pipe(
-            catchError(error => {
-              console.error('Hiba: ', error);
-              return EMPTY;
-            })
-          )
-        );
-      }else if (this.viewMode === 'student' && this.studentCode){
-        response = await firstValueFrom(
-          from(this.gradeService.getAllGradesOFStudent(this.studentCode, params)).pipe(
-            catchError(error => {
-              console.error('Hiba: ', error);
-              return EMPTY;
-            })
-          )
-        );
+
+      let gradeObservable: Observable<GradeApiResponse>;
+      if (this.viewMode === 'course' && this.courseId) {
+        gradeObservable = this.gradeService.getAllGradesInCourse(this.courseId, params);
+      } else if (this.viewMode === 'student' && this.studentCode) {
+        gradeObservable = this.gradeService.getAllGradesOFStudent(this.studentCode, params);
+      } else {
+        console.error("Érvénytelen állapot a getGrades hívásához: hiányzó viewMode vagy ID.");
+        return;
       }
-      if(response){
+
+      const response = await firstValueFrom(
+        gradeObservable.pipe(
+          catchError(error => {
+            console.error('Hiba a jegyek lekérésekor (API hívás):', error);
+            return EMPTY;
+          })
+        )
+      );
+
+      if (response) {
         this.grades = response.grades.data;
         this.semesters = response.semesters;
         this.totalItems = response.grades.total;
-        this.currentSemester = this.semesters.find((s) => s.current == true) ?? null;  
+        this.currentSemester = this.semesters.find((s) => s.current == true) ?? null;
       }
-    }catch (error) {
+    } catch (error) {
       console.error('Hiba a jegyek lekérésekor:', error);
     }
-    console.log("currwent ",this.currentSemester)
+    console.log("currwent ", this.currentSemester);
   }
-  
-  handlePageEvent(e: PageEvent) {
+
+  /**
+   * Eseménykezelő a lapozó (paginator) eseményeire.
+   * Frissíti az aktuális oldal indexét és az oldalméretet.
+   * Újratölti a jegyeket az új lapozási beállításokkal.
+   * @param e A PageEvent esemény objektuma.
+   */
+  protected handlePageEvent(e: PageEvent) {
     this.currentPage = e.pageIndex;
     this.pageSize = e.pageSize;
     this.getGrades();
   }
-  
-  handleSort(e: Sort) {
+
+  /**
+   * Eseménykezelő a táblázat rendezési eseményeire.
+   * Frissíti a rendezési irányt és a rendezési mezőt.
+   * Újratölti a jegyeket az új rendezési beállításokkal.
+   * @param e A Sort esemény objektuma.
+   */
+  protected handleSort(e: Sort) {
     this.sortDirection = e.direction as 'asc' | 'desc';
     this.sortField = e.active;
     this.getGrades();
   }
-  
-  applyFilterUserCode(e: KeyboardEvent) {
+
+  /**
+   * Eseménykezelő a szűrő mezőben történő gépelésre.
+   * Frissíti a szűrési értéket.
+   * Visszaállítja az aktuális oldalt az elsőre.
+   * Újratölti a jegyeket az új szűrési feltétellel.
+   * @param e A KeyboardEvent esemény objektuma.
+   */
+  protected applyFilterUserCode(e: KeyboardEvent) {
     this.filterValue = (e.target as HTMLInputElement).value;
     this.currentPage = 0;
     if (this.paginator) {
@@ -225,6 +327,13 @@ export class ElectronicControllerComponent implements OnInit {
     this.getGrades();
   }
 
+  /**
+   * Eseménykezelő a szemeszterválasztó select értékének megváltozásakor.
+   * Beállítja a kiválasztott szemesztert a szűréshez (null, ha "Összes").
+   * Visszaállítja az aktuális oldalt az elsőre.
+   * Újratölti a jegyeket az új szemeszter szűréssel.
+   * @param option A kiválasztott opció (Semester objektum vagy az ALL_SEMESTERS konstans).
+   */
   protected filterBySemester(option: any) {
     if (option === this.ALL_SEMESTERS) {
       this.selectedSemester = null;
@@ -240,6 +349,11 @@ export class ElectronicControllerComponent implements OnInit {
     this.getGrades();
   }
 
+  /**
+   * Formáz egy Semester objektumot olvasható stringgé a select opciókhoz.
+   * @param semester A formázandó Semester objektum.
+   * @returns A formázott string vagy "Összes szemeszter", ha a bemenet null/undefined.
+   */
   protected formatSemester(semester: Semester): string {
     if (!semester) return 'Összes szemeszter';
     const season = semester.sezon ? "Ősz" : "Tavasz";

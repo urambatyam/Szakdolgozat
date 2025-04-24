@@ -1,3 +1,6 @@
+/**
+ * A felhasználó adatai
+ */
 export interface User{
     code?:string;
     name:string;

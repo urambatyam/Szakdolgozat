@@ -1,13 +1,8 @@
-/*export interface Curriculum {
-    courseId:string,
-    name:string,
-    major:string,
-    category:string,
-    specialization:string
-}*/
 
 import { Specialization } from "./special";
-
+/**
+ * A tantervhez tartozó model
+ */
 export interface Curriculum {
     id:number|null,
     name:string,

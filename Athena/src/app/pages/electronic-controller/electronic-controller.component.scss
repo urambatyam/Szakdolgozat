@@ -1,4 +1,3 @@
-/* Konténer a táblázatnak és a paginatornak */
 .table-container {
     border-radius: 4px;
     overflow: hidden;
@@ -7,45 +6,37 @@
   
   table {
     width: 100%;
-    /* A táblázatnak ne legyen saját árnyéka */
     box-shadow: none !important;
   }
   
-  /* Eltávolítjuk a paginator felső határát, hogy folytonosnak tűnjön a táblázattal */
   .mat-mdc-paginator {
     border-top: none;
     background-color: white;
   }
   
-  /* Fő sor stílusai */
   .example-element-row td {
     border-bottom-width: 0;
   }
   
-  /* Kibontható részlet stílusai */
   .example-element-detail {
     overflow: hidden;
     padding: 16px;
   }
   
-  /* A detail row teljes elrejtéséhez */
   .example-detail-row {
     height: 0;
     overflow: hidden;
     
-    /* Teljesen elrejti a tartalmat zárt állapotban */
     &:not(.example-expanded-row) {
       visibility: hidden;
       display: none;
     }
   }
   
-  /* Animációhoz szükséges */
   tr.example-detail-row {
     height: 0;
   }
   
-  /* Hover hatás a sorokra */
   tr.example-element-row:not(.example-expanded-row):hover {
     background: whitesmoke;
     cursor: pointer;
@@ -55,7 +46,6 @@
     background: #efefef;
   }
   
-  /* Jegy szerkesztő stílusok */
   .grade-editor {
     display: flex;
     flex-direction: column;
@@ -72,30 +62,25 @@
     gap: 8px;
   }
   
-  /* Javított függőleges igazítás */
   .grade-form {
     display: flex;
-    align-items: center; /* Függőleges középre igazítás */
+    align-items: center; 
     gap: 16px;
   }
   
-  /* Form mező javítások */
   .grade-form mat-form-field {
-    margin-bottom: 0; /* Eltávolítjuk az alapértelmezett margót */
+    margin-bottom: 0; 
   }
   
-  /* Javítás a gomb és input függőleges igazításához */
   .grade-form button {
-    margin-top: 0; /* Biztosítjuk, hogy a gombnak nincs extra margója */
-    height: 36px; /* Rögzített magasság a gombnak */
+    margin-top: 0; 
+    height: 36px; 
   }
   
-  /* Alapértelmezett Material design input magasság korrekciója */
   ::ng-deep .grade-form .mat-mdc-form-field-flex {
     align-items: center;
   }
   
-  /* Biztosítsuk hogy a form mezőnek nincs extra padding ami eltolná */
   ::ng-deep .grade-form .mat-mdc-form-field-infix {
     padding-top: 8px;
     padding-bottom: 8px;
@@ -109,3 +94,15 @@
     margin-right: 16px;
     margin-bottom: 16px;
   }
+  mat-card{
+    height: 80%;
+  }
+  mat-card-content{
+    overflow-y: auto;
+  }
+  mat-card-title{
+    padding: 0.5em;
+    color: #006a6a;
+    font-weight: bold;
+    font-size: 2em;
+}

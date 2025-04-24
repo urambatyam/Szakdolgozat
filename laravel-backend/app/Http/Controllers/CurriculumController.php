@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Curriculum;
 use App\Models\Course;
 use App\Models\User;
-use App\Models\Grade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
+/**
+ * A tanterveket kezelő kontroller.
+ */
 class CurriculumController extends Controller
 {
+    /**
+     * Lekéri az összes tantervet. vagy ha diák akkor csak a hozzá tartozót.
+     */
     public function index(){
         if(Auth::check() && Auth::user()->role === 'student'){
             /** @var User $student */
@@ -23,7 +27,7 @@ class CurriculumController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Létrehoz egy új tantervet a hozzá tartozó specializációkkal, kategoriákkal, és kategoria-kurzus kapcsolatokkal.
      */
     public function store(Request $request)
     {
@@ -78,34 +82,49 @@ class CurriculumController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Lekér egy tantervet a hozzá kapcsolodó specializációk, kategoriák és kurzusokkal együtt.
      */
-    public function show(Curriculum $curriculum)
+    public function show(Request $request, Curriculum $curriculum)
     {
+        $courseIdFilter = $request->query('course_id_filter') ? (int)$request->query('course_id_filter') : null;
+
+        $curriculum->load(['specializations.categories.courses' => function ($query) use ($courseIdFilter) {
+            if ($courseIdFilter !== null) {
+                $query->where('courses.id', $courseIdFilter);
+
+            }
+        }]);
         if(Auth::check() && Auth::user()->role === 'student'){
             /** @var User $student */
             $student = Auth::user();
-            $curriculum->load('specializations.categories.courses');
-            $studentGrades = $student->grades()->where('grade','!=',1)->pluck('course_id')->all();
+
+            $studentGrades = $student->grades()
+                                    ->whereNotNull('grade')
+                                    ->where('grade', '!=', 1)
+                                    ->pluck('course_id')
+                                    ->all();
+            $studentApplied = $student->grades()
+                                     ->whereNull('grade')
+                                     ->pluck('course_id')
+                                     ->all();
+
+            $isAutumnSemester = (int)date("n") >= 9;
             foreach($curriculum->specializations as $specialization){
                 foreach($specialization->categories as $category){
                     foreach($category->courses as $course){
                         $course->completed = in_array($course->id, $studentGrades);
+                        $course->applied = in_array($course->id, $studentApplied);
+                        $course->can = $course->sezon == null || $course->sezon == $isAutumnSemester;
+                       
                     }
                 }
             }
-            return response()->json($curriculum);
-        }else{
-            return response()->json(
-                $curriculum->load('specializations.categories.courses')
-            );
         }
-        
- 
+        return response()->json($curriculum);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Firiisti a tantervet. (A komplesz kapcsolatok, miatt ez azt jeleniti hogy törli a tantervet és létrehoz egy újat)
      */
     public function update(Request $request, Curriculum $curriculum)
     {
@@ -164,7 +183,7 @@ class CurriculumController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Törli a tantervet.
      */
     public function destroy(Curriculum $curriculum)
     {
