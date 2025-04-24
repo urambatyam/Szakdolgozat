@@ -1,25 +1,24 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>{{"Optimalizáció" | translate}}</mat-card-title>
+    <mat-card-title>{{"optimalization.TITLE" | translate}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <section>
       <form [formGroup]="optimizationForm" (ngSubmit)="onSubmit()">
         <mat-form-field>
-          <mat-label>{{"tanterv" | translate}}</mat-label>
+          <mat-label>{{"optimalization.CURRICULUM" | translate}}</mat-label>
           <mat-select formControlName="curriculum_id" (selectionChange)="selectedCurriculumChange($event)">
-            <mat-option>{{"Nincs kiválasztott" | translate}}</mat-option>
+            <mat-option>{{"optimalization.NOT_CHOOSEN" | translate}}</mat-option>
             @for(curriculum of curriculumNames; track curriculum.id){
               <mat-option [value]="curriculum.id">{{ curriculum.name }}</mat-option>
             }
           </mat-select>
           @if(optimizationForm.get('curriculum_id')?.touched && optimizationForm.get('curriculum_id')?.invalid){
-            <mat-error>{{"Tanterv kiválasztása kötelező" | translate}}</mat-error>
+            <mat-error>{{"optimalization.ERROR1" | translate}}</mat-error>
           }
         </mat-form-field>
-        <!--Specializációk-->
         <mat-form-field >
-          <mat-label>{{"Specializációk" | translate}}</mat-label>
+          <mat-label>{{"optimalization.SPECIALIZATION" | translate}}</mat-label>
           <mat-chip-grid #chipGrid aria-label="Fruit selection">
             @for (spec of selectedSpecializations(); track $index) {
               <mat-chip-row (removed)="removeSpecialization(spec)">
@@ -32,7 +31,7 @@
           </mat-chip-grid>
           <input
             name="currentFruit"
-            placeholder="New Fruit..."
+            placeholder="{{'optimalization.PLACEHOLDER_SPECIALIZATION' | translate}}"
             #fruitInput
             [disabled]="selectedCurriculum == null"
             [(ngModel)]="currentSpecInput " [ngModelOptions]="{standalone: true}"
@@ -48,11 +47,8 @@
           </mat-autocomplete>
         </mat-form-field>
 
-
-
-        <!--Negativ-->
         <mat-form-field >
-          <mat-label>{{"Negativ" | translate}}</mat-label>
+          <mat-label>{{"optimalization.NEGATIV" | translate}}</mat-label>
           <mat-chip-grid #negChipGrid aria-label="Negative selection">
             @for (neg of selectedNegativs(); track $index) {
               <mat-chip-row (removed)="removeNegativ(neg)">
@@ -64,7 +60,7 @@
             }
           </mat-chip-grid>
           <input
-            placeholder="New negative..."
+            placeholder="{{ 'optimalization.PLACEHOLDER_NEGATIV' | translate }}"
             #negInput
             [disabled]="selectedCurriculum == null"
             [(ngModel)]="currentNegInput" [ngModelOptions]="{standalone: true}"
@@ -81,9 +77,8 @@
         </mat-form-field>
  
 
-        <!--Pozitiv-->
         <mat-form-field >
-          <mat-label>{{"Pozitiv" | translate}}</mat-label>
+          <mat-label>{{"optimalization.POZITIV" | translate}}</mat-label>
           <mat-chip-grid #pozChipGrid aria-label="Pozitiv selection">
             @for (po of selectedPozs(); track $index) {
               <mat-chip-row (removed)="removePozitiv(po)">
@@ -95,7 +90,7 @@
             }
           </mat-chip-grid>
           <input
-            placeholder="New Pozitiv..."
+            placeholder="{{ 'optimalization.PLACEHOLDER_POZITIV' | translate }}"
             #pozInput
             [disabled]="selectedCurriculum == null"
             [(ngModel)]="currentPozInput" [ngModelOptions]="{standalone: true}"
@@ -110,41 +105,39 @@
             }
           </mat-autocomplete>
         </mat-form-field>
-      
-
-
 
         <mat-form-field appearance="fill" class="form-field">
-          <mat-label>{{ 'kurzus limit' | translate }}</mat-label>
+          <mat-label>{{ 'optimalization.COURSE_LIMIT' | translate }}</mat-label>
           <input matInput type="number" formControlName="creditLimit">
-          <mat-error *ngIf="creditLimitControl?.hasError('required')">
-            {{ 'VALIDATION.REQUIRED' | translate }}
-          </mat-error>
-          <mat-error *ngIf="creditLimitControl?.hasError('min')">
-            {{ 'VALIDATION.MIN_VALUE' | translate: {min: 1} }}
-          </mat-error>
+          @if(creditLimitControl?.hasError('required')){
+            <mat-error>
+              {{ 'optimalization.COURSE_LIMIT_REQUIRED' | translate }}
+            </mat-error>
+          }
+          @if(creditLimitControl?.hasError('min')){
+            <mat-error>
+              {{ 'optimalization.COURSE_LIMIT_MIN_VALUE' | translate }}
+            </mat-error> 
+          }
         </mat-form-field>
 
         <div>
-          <label>{{"Algoritmus" | translate}}</label><br>
+          <label>{{"optimalization.ALGORISM" | translate}}</label><br>
           <mat-radio-group formControlName="algorithm">
-            <mat-radio-button value="bnb" checked="true" color="primary">{{"Branch and Bound" | translate}}</mat-radio-button>
-            <mat-radio-button value="greedy" color="primary">{{"Mohó" | translate}}</mat-radio-button>
+            <mat-radio-button value="bnb" checked="true" color="primary">{{"optimalization.BNB" | translate}}</mat-radio-button>
+            <mat-radio-button value="greedy" color="primary">{{"optimalization.GREEDY" | translate}}</mat-radio-button>
           </mat-radio-group>
         </div>
-  
-
-        
-        
-        <mat-checkbox formControlName="considerRecommendations" color="primary">{{"Ajánlott félév szerint" | translate}}</mat-checkbox>
+       
+        <mat-checkbox formControlName="considerRecommendations" color="primary">{{"optimalization.RECOMMENDED" | translate}}</mat-checkbox>
         
         <button mat-raised-button color="primary" type="submit" [disabled]="formInvalid || isLoading" class="submit-button">
-          <span>{{ isLoading ? ('Optimalizálás folyamatban...' | translate) : ('Tanterv optimalizálása' | translate) }}</span>
+          <span>{{ isLoading ? ('optimalization.LOADING' | translate) : ('optimalization.CURRICULUM_OPTIMALIZATION' | translate) }}</span>
         </button>
       </form>
     </section><br>
     
-    @if(allreqmet){
+    @if(optimizationResult &&allreqmet){
       <section>
         <app-curriculum-visualization [optimizedPlan]="optimizationResult.optimizedPlan"></app-curriculum-visualization>
         <br>
@@ -162,7 +155,7 @@
                         <span class="required">{{spec.min}}</span>
                       </div>
                       <div class="completion-badge" [class.completed]="spec.is_completed" [class.incomplete]="!spec.is_completed">
-                        {{spec.is_completed ? 'Teljesítve' : 'Nem teljesítve'}}
+                        {{(spec.is_completed ? 'optimalization.COMPLETED' : 'optimalization.NOT_COMPLETED') | translate}}
                       </div>
                     </div>
                   </div>

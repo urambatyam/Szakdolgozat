@@ -135,6 +135,37 @@
         "BACK": "Vissza",
         "SEND": "Küldés"
     },
+    "optimalization":{
+        "TITLE": "Optimalizáció",
+        "CURRICULUM":"Tanterv",
+        "NOT_CHOOSEN": "Nincs kiválasztva",
+        "ERROR1": "Tanterv kiválasztása kötelező",
+        "SPECIALIZATION":"Speacializáció",
+        "CATEGORY":"Kategoria",
+        "COURSE_LIMIT":"Kredit limit",
+        "NEGATIV": "Negatív",
+        "POZITIV": "Pozitív",
+        "ALGORISM":"Algoritmus",
+        "RECOMMENDED": "Ajánlott félév",
+        "GREEDY":"Mohó",
+
+        "COURSE_LIMIT_REQUIRED": "Kredit limit kötelező",
+        "COURSE_LIMIT_MIN_VALUE": "Kredit limit legalább 1",
+        "PLACEHOLDER_POZITIV": "Új Pozitív...",
+        "PLACEHOLDER_NEGATIV": "Új Negatív...",
+        "PLACEHOLDER_SPECIALIZATION": "Speacializáció...",
+        "BNB": "Elágazás és korlátozás",
+        "EMPTY": "Üres",
+        "SEMESTER":"Félév",
+        "LOADING": "Optimalizálás folyamatban...",
+        "CURRICULUM_OPTIMALIZATION": "Tanterv optimalizálása",
+        "COURSE":"Kurzus",
+        "CREDIT":"Kredit",
+        "DOWNLOAD":"Letöltés",
+        "DOWNLOAD_ALT":"Letöltés PNG-ként",
+        "COMPLETED":"Teljesítve",
+        "NOT_COMPLETED":"Nem teljesítve"
+    },
     
         "chart": {
           "title": "Kurzus jegyeinek alakulása félévenként",

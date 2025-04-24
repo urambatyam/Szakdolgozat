@@ -1,9 +1,8 @@
 <div class="curriculum-plan-container">
   <div #svgContainer>
   <svg [attr.viewBox]="getViewBox()" xmlns="http://www.w3.org/2000/svg">
-    <!-- Félév címkék és kurzusok -->
     <g class="semester-labels">
-      @for (semesterData of optimizedPlan.semesters; track $index) {
+      @for (semesterData of optimizedPlan?.semesters; track $index) {
         @if (semesterData) {
           <g [attr.transform]="'translate(' + getSemesterXPosition($index+1) + ', 0)'">
             <!-- Félév vonal -->
@@ -19,7 +18,7 @@
               font-family="Helvetica" 
               font-size="16" 
               fill="currentColor">
-              {{$index+1}}. félév
+              {{$index+1}}. {{"optimalization.SEMESTER" | translate }}
             </text>
             
             <!-- Kredit összeg -->
@@ -30,7 +29,7 @@
               font-family="Helvetica" 
               font-size="14" 
               fill="currentColor">
-              {{semesterData.total_credits}} kredit
+              {{semesterData.total_credits}} {{"optimalization.CREDIT" | translate }}
             </text>
             <!-- Üres félév jelzése -->
             @if (semesterData.courses.length === 0) {
@@ -41,26 +40,26 @@
                 font-family="Helvetica" 
                 font-size="14" 
                 fill="#888888">
-                Nincs kurzus
+                {{"optimalization.EMPTY" | translate }}
               </text>
             }
 
             <!-- Kurzusok -->
             @for (course of semesterData.courses; track course.id; let i = $index) {
-              <g [attr.transform]="getCourseTransform(i, semesterData.courses.length)">
+              <g [attr.transform]="getCourseTransform(i)">
                 <ellipse 
                   cx="0" 
                   cy="0" 
-                  rx="60" 
+                  rx="80" 
                   ry="40" 
                   fill="#f3fff9" 
                   stroke="#006a6a"/>
                 <text 
                   x="0" 
-                  y="-10" 
+                  y="0" 
                   text-anchor="middle" 
                   font-family="Helvetica" 
-                  font-size="15" 
+                  font-size=12 
                   font-weight="bold">
                   {{course.name}}
                 </text>
@@ -69,8 +68,8 @@
                   y="15" 
                   text-anchor="middle" 
                   font-family="Helvetica" 
-                  font-size="12">
-                  {{course.kredit}} kredit
+                  font-size=10 >
+                  {{course.kredit}} {{"optimalization.CREDIT" | translate }}
                 </text>
               </g>
             }
@@ -101,7 +100,7 @@
         text-anchor="middle" 
         font-family="Helvetica" 
         font-size="14">
-        {{optimizedPlan.total_semesters}} félév
+        {{optimizedPlan?.total_semesters}} {{"optimalization.SEMESTER" | translate }}
       </text>
       <text 
         x="70" 
@@ -109,7 +108,7 @@
         text-anchor="middle" 
         font-family="Helvetica" 
         font-size="14">
-        {{optimizedPlan.total_credits}} kredit
+        {{optimizedPlan?.total_credits}} {{"optimalization.CREDIT" | translate }}
       </text>
       <text 
         x="70" 
@@ -117,12 +116,32 @@
         text-anchor="middle" 
         font-family="Helvetica" 
         font-size="14">
-        {{optimizedPlan.total_courses}} kurzus
+        {{optimizedPlan?.total_courses}} {{"optimalization.COURSE" | translate }}
       </text>
     </g>
+<g 
+(click)="downloadSvgAsPng()" 
+style="cursor: pointer;" 
+[attr.transform]="'translate(' + (getTotalSemestersWidth() + 30) + ', ' + (76 + 90 + 20) + ')'"> 
+<rect 
+  width="140" 
+  height="40" 
+  rx="8"  
+  ry="8" 
+  fill="#3f51b5" 
+  stroke="#303f9f" 
+  stroke-width="1"/> 
+<text 
+  x="70" 
+  y="25" 
+  text-anchor="middle" 
+  font-family="Helvetica, Arial, sans-serif" 
+  font-size="14" 
+  fill="white">
+  {{"optimalization.DOWNLOAD" | translate }}
+</text>
+<title>{{"optimalization.DOWNLOAD_ALT" | translate }}</title> <!-- Tooltip -->
+</g>
   </svg>
-</div>
-<div class="controls">
-  <button style="position: relative; left: 94%;" mat-flat-button color="primary" (click)="downloadSvgAsPng()">Letöltés</button>
 </div>
 </div>

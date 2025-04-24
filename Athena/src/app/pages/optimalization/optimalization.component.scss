@@ -142,15 +142,30 @@ app-curriculum-visualization {
   border: solid, 0.5em, #006a6a;
   border-radius: 0.5em;
   position: relative;
-  left: 10%;
-  width: 80%;
+  left: 2.5%;
+  width: 95%;
   display: block;
+  overflow-y: auto;
 }
 
 form{
   display: flex;
   flex-direction: row;
-  column-gap: 2em;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  justify-content: center;
   padding: 0.5em;
-  align-items: center;
+}
+
+mat-card-content{
+  overflow-y: auto;
+}
+mat-card-title{
+  padding: 0.5em;
+  color: #006a6a;
+  font-weight: bold;
+  font-size: 2em;
+}
+mat-card{
+  height: 80%;
 }

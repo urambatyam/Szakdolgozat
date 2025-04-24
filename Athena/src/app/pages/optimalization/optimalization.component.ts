@@ -1,11 +1,10 @@
-// curriculum-optimization.component.ts
-import { Component, OnInit, computed, inject, model, signal ,ElementRef, ViewChild} from '@angular/core';
-import { ReactiveFormsModule, NonNullableFormBuilder, FormsModule, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, computed, inject, model, signal, WritableSignal } from '@angular/core';
+import { ReactiveFormsModule, NonNullableFormBuilder, FormsModule, FormGroup, Validators } from '@angular/forms';
 import { CurriculumService } from '../../services/mysql/curriculum.service';
 import { OptimalizationService } from '../../services/mysql/optimalization.service';
 import { Name } from '../../models/curriculumNames';
 import { Curriculum } from '../../models/curriculum';
-import { Optimalization } from '../../models/optimalization';
+import { Optimalization, OptimizedPlanResponse,  } from '../../models/optimalization'; 
 import { catchError, EMPTY, firstValueFrom, from, map } from 'rxjs';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,15 +14,20 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatRadioModule} from '@angular/material/radio';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatAutocompleteModule, MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { MatIconModule } from '@angular/material/icon';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { CurriculumVisualizationComponent } from './curriculum-visualization/curriculum-visualization.component';
-import { Observable, startWith } from 'rxjs';
 
+/**
+ * @description
+ * Komponens a tanterv optimalizálására.
+ * Lehetővé teszi a felhasználó számára, hogy kiválasszon egy tantervet, megadjon különböző
+ * optimalizálási paramétereket (algoritmus, kredithatár, specializációk, preferenciák),
+ * és elindítsa az optimalizálást. Az eredményt vizuálisan is megjeleníti.
+ */
 @Component({
   selector: 'app-optimalization',
   standalone: true,
@@ -39,345 +43,394 @@ import { Observable, startWith } from 'rxjs';
     TranslateModule,
     MatRadioModule,
     MatCheckboxModule,
-    MatChipsModule, 
-    MatIconModule, 
+    MatChipsModule,
+    MatIconModule,
     MatAutocompleteModule,
-    CommonModule, 
+    CommonModule,
   ],
   templateUrl: './optimalization.component.html',
   styleUrl: './optimalization.component.scss'
 })
 export class OptimalizationComponent implements OnInit {
+  protected curriculumNames: Name[] = [];
+  private specializationNames: Name[] = [];
+  protected selectedCurriculum: Curriculum | null = null;
+  protected optimizationResult: OptimizedPlanResponse | null = null; 
+  private allCourses: Name[] = [];
+  protected isLoading = false;
+  protected allreqmet: boolean | null = null;
+  private fb = inject(NonNullableFormBuilder);
+  private curriculumService = inject(CurriculumService);
+  private optimalizationService = inject(OptimalizationService);
+  protected noOptimum: string[] | null = null; 
+  protected optimizationForm: FormGroup = this.fb.group({
+    curriculum_id: [null as number | null, Validators.required], 
+    algorithm: ['greedy', Validators.required],
+    creditLimit: [30, [Validators.required, Validators.min(1)]],
+    selectedSpecializationIds: [[] as number[]], 
+    startWithFall: [true],
+    considerRecommendations: [false],
+    negativIds: [[] as number[]], 
+    pozitivIds: [[] as number[]] 
+  });
+  readonly currentPozInput = model('');
+  readonly selectedPozs = signal<Name[]>([]);
+  readonly filteredPozs = computed(() => {
+    const searchText = this.currentPozInput().toLowerCase();
+    const selected = this.selectedPozs();
+    const courses = this.allCourse() ?? [];
+    return courses.filter(po =>
+      !selected.some(s => s.id === po.id) &&
+      po.name.toLowerCase().includes(searchText)
+    );
+  });
+  readonly currentNegInput = model('');
+  readonly allCourse = signal<Name[]>([]);
+  readonly selectedNegativs = signal<Name[]>([]);
+  readonly filteredNegativs = computed(() => {
+    const searchText = this.currentNegInput().toLowerCase();
+    const selected = this.selectedNegativs();
+    const courses = this.allCourse() ?? [];
+    return courses.filter(neg =>
+      !selected.some(s => s.id === neg.id) &&
+      neg.name.toLowerCase().includes(searchText)
+    );
+  });
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  readonly currentSpecInput = model('');
+  readonly allSpecializations = signal<Name[]>([]);
+  readonly selectedSpecializations = signal<Name[]>([]);
+  readonly filteredSpecializations = computed(() => {
+    const searchText = this.currentSpecInput().toLowerCase();
+    const selected = this.selectedSpecializations();
+    const specializations = this.allSpecializations() ?? [];
+    return specializations.filter(spec =>
+      !selected.some(s => s.id === spec.id) &&
+      spec.name.toLowerCase().includes(searchText)
+    );
+  });
 
-
-
-
-
-
-
-
-
-
-curriculumNames: Name[] = [];
-specializationNames: Name[] = [];
-selectedCurriculum: Curriculum | null = null;
-optimizationResult: any = null;
-specializations: string[] = []; // Ez a specializációkhoz kell
-allCourses: Name[] = []; // Összes elérhető kurzus (ID és név)
-isLoading = false;
-creditsBreakdown: any[] = []; // Ez valószínűleg a vizualizációhoz kell, marad
-protected allreqmet: boolean | null = null;
-private fb = inject(NonNullableFormBuilder);
-private curriculumService = inject(CurriculumService);
-private optimalizationService = inject(OptimalizationService);
-protected noOptimum = null
-protected optimizationForm: FormGroup = this.fb.group({
-  curriculum_id: [null, Validators.required],
-  algorithm: ['greedy', Validators.required], // Alapértelmezett lehet 'greedy' vagy 'bnb'
-  creditLimit: [30, [Validators.required, Validators.min(1)]],
-  selectedSpecializationIds: [[] as number[]], // Típus megadása
-  startWithFall: [true],
-  considerRecommendations: [false],
-  // --- ÚJ: Form vezérlők a kurzus ID-khoz ---
-  negativIds: [[] as number[]],
-  pozitivIds: [[] as number[]]
-});
-
-
-ngOnInit(): void {
-  this.loadCurriculaNames();
-}
-
-selectedCurriculumChange(event: MatSelectChange): void {
-  if (event.value) {
-    this.optimizationForm.patchValue({ curriculum_id: event.value });
-    this.allCourse.set([]);
-    this.selectedNegativs.set([]);
-    this.specializationNames = [];
-    this.selectedSpecializations.set([]);
-    this.allSpecializations.set([]);
-    this.selectedCurriculum = null;
-    this.loadCurriculumDetails(event.value);
-    // Reset specializations and courses when curriculum changes
-    this.optimizationForm.patchValue({ selectedSpecializationIds: [] });
-    
-  }else{
-    this.selectedNegativs.set([]);
-    this.allCourse.set([]);
-    this.specializationNames = [];
-    this.selectedSpecializations.set([]);
-    this.allSpecializations.set([]);
-    this.selectedCurriculum = null;
+  /**
+   * @description
+   * Inicializálja a komponenst a tanterv nevek betöltésével.
+   * @override
+   */
+  ngOnInit(): void {
+    this.loadCurriculaNames();
   }
-  
-}
 
+  /**
+   * @description
+   * Eseménykezelő a tanterv kiválasztó  értékének változására.
+   * Betölti a kiválasztott tanterv részleteit és alaphelyzetbe állítja a kapcsolódó űrlapmezőket és signal-okat.
+   * @param MatSelectChange event A kiválasztási esemény objektuma.
+   */
+  protected selectedCurriculumChange(event: MatSelectChange): void {
+    const curriculumId = event.value as number | null;
+    if (curriculumId) {
+      this.optimizationForm.patchValue({ curriculum_id: curriculumId });
+      this.resetCurriculumDependentState(); 
+      this.loadCurriculumDetails(curriculumId);
+    } else {
+      this.resetCurriculumDependentState();
+      this.selectedCurriculum = null; 
+    }
+  }
 
+  /**
+   * @description
+   * Alaphelyzetbe állítja a tantervtől függő állapotokat (kurzusok, specializációk, kiválasztások).
+   * @private
+   */
+  private resetCurriculumDependentState(): void {
+    this.allCourse.set([]);
+    this.selectedNegativs.set([]);
+    this.selectedPozs.set([]); 
+    this.specializationNames = [];
+    this.selectedSpecializations.set([]);
+    this.allSpecializations.set([]);
+  }
 
+  /**
+   * @description
+   * Betölti az összes elérhető tanterv nevét a szolgáltatáson keresztül.
+   * @private
+   */
+  private loadCurriculaNames(): void {
+    firstValueFrom(
+      from(this.curriculumService.getAllCurriculumNames()).pipe(
+        map(curricula => {
+          this.curriculumNames = Array.isArray(curricula) ? curricula : (curricula ? [curricula] : []);
+        }),
+        catchError(error => {
+          console.error('Hiba a tanterv nevek betöltésekor:', error);
+          return EMPTY;
+        })
+      )
+    );
+  }
 
-
-loadCurriculaNames(): void {
-  firstValueFrom(
-    from(this.curriculumService.getAllCurriculumNames()).pipe(
-      map(curricula => {
-        this.curriculumNames = Array.isArray(curricula) ? curricula : [curricula];
-      }),
-      catchError(error => {
-        console.error('Hiba a tanterv nevek betöltésekor:', error);
-        return EMPTY;
-      })
-    )
-  );
-}
-
-loadCurriculumDetails(id: number): void {
-  firstValueFrom(
-    from(this.curriculumService.getCurriculum(id)).pipe(
-      map(curriculum => {
-        this.selectedCurriculum = curriculum;
-        // Specializációk kinyerése (marad)
-        this.specializationNames = curriculum.specializations.map(spec => ({
-          id: spec.id || 0,
-          name: spec.name,
-        })) || [];
-        this.specializations = this.specializationNames.map(spec => spec.name);
-        this.allSpecializations.set(this.specializationNames);
-
-        // --- ÚJ: Kurzusok kinyerése ---
-        const coursesMap = new Map<number, string>(); // Map a duplikátumok szűrésére ID alapján
-        curriculum.specializations.forEach(spec => {
-          spec.categories.forEach(cat => {
-            cat.courses.forEach(course => {
-              if (course.id && course.name && !coursesMap.has(course.id)) {
-                coursesMap.set(course.id, course.name);
-              }
+  /**
+   * @description
+   * Betölti egy adott tanterv részletes adatait ID alapján.
+   * Frissíti a releváns signal-okat az autocomplete mezőkhöz.
+   * @param number id A betöltendő tanterv azonosítója.
+   * @private
+   */
+  private loadCurriculumDetails(id: number): void {
+    firstValueFrom(
+      from(this.curriculumService.getCurriculum(id)).pipe(
+        map(curriculum => {
+          this.selectedCurriculum = curriculum;
+          this.specializationNames = curriculum.specializations?.map(spec => ({
+            id: spec.id ?? 0, 
+            name: spec.name ?? 'N/A', 
+          })) ?? [];
+          this.allSpecializations.set(this.specializationNames);
+          const coursesMap = new Map<number, string>();
+          curriculum.specializations?.forEach(spec => {
+            spec.categories?.forEach(cat => {
+              cat.courses?.forEach(course => {
+                if (course.id && course.name && !coursesMap.has(course.id)) {
+                  coursesMap.set(course.id, course.name);
+                }
+              });
             });
           });
-        });
-        this.allCourses = Array.from(coursesMap, ([id, name]) => ({ id, name }));
-        // Kurzusnevek rendezése ABC sorrendbe az autocomplete-hez
-        this.allCourses.sort((a, b) => a.name.localeCompare(b.name));
-        this.allCourse.set(this.allCourses);
-
-      }),
-      catchError(error => {
-        console.error('Hiba a tanterv részleteinek betöltésekor:', error);
-        return EMPTY;
-      })
-    )
-  );
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-async onSubmit(): Promise<void> {
-  this.allreqmet = null;
-  if (this.optimizationForm.invalid) {
-    // Mark all fields as touched to show errors
-    Object.values(this.optimizationForm.controls).forEach(control => {
-      control.markAsTouched();
-    });
-    console.error('Form is invalid:', this.optimizationForm.errors);
-    return;
-  }
-
-  this.isLoading = true;
-  this.optimizationResult = null; // Reset previous result
-
-
-
-  // Típusosan hozzuk létre az adatobjektumot
-  const optimizationData: Optimalization = {
-    curriculum_id: this.optimizationForm.get('curriculum_id')?.value ?? 0, 
-    algorithm: this.optimizationForm.get('algorithm')?.value ?? 'greedy',
-    creditLimit: this.optimizationForm.get('creditLimit')?.value ?? 30,
-    selectedSpecializationIds: this.selectedSpecializations().map(spec => spec.id) ?? [],
-    considerRecommendations: this.optimizationForm.get('considerRecommendations')?.value ?? false,
-    negativIds: this.selectedNegativs().map(neg => neg.id) ?? [],
-    pozitivIds: this.selectedPozs().map(po => po.id) ?? []
-  };
-
-  console.log('Optimalizálási adatok küldése:', optimizationData);
-
-  try {
-    const result = await firstValueFrom(
-      this.optimalizationService.optimizeCurriculum(optimizationData)
+          this.allCourses = Array.from(coursesMap, ([id, name]) => ({ id, name }))
+                                .sort((a, b) => a.name.localeCompare(b.name));
+          this.allCourse.set(this.allCourses);
+        }),
+        catchError(error => {
+          console.error('Hiba a tanterv részleteinek betöltésekor:', error);
+          this.selectedCurriculum = null; 
+          this.resetCurriculumDependentState(); 
+          return EMPTY;
+        })
+      )
     );
-    console.log('all_requirements_met:', result.optimizedPlan.all_requirements_met);
-    console.log('warnings:', result.optimizedPlan.warnings);
-    this.allreqmet = result.optimizedPlan.all_requirements_met
-    if(this.allreqmet){
-      this.optimizationResult = result;
-    }else{
-      this.noOptimum = result.optimizedPlan.warnings;
+  }
+
+  /**
+   * @description
+   * Elküldi az optimalizálási kérést a szolgáltatásnak a formban megadott adatok alapján.
+   * Kezeli a betöltési állapotot és feldolgozza a kapott eredményt vagy hibát.
+   * @returns Promise<void> Promise, ami akkor oldódik fel, ha a kérés befejeződött.
+   */
+  async onSubmit(): Promise<void> {
+    this.allreqmet = null; 
+    this.optimizationResult = null;
+    this.noOptimum = null;
+    if (this.optimizationForm.invalid) {
+      Object.values(this.optimizationForm.controls).forEach(control => {
+        control.markAsTouched();
+      });
+      console.error('Form is invalid:', this.optimizationForm.errors);
+      return; 
     }
-    console.log('Optimalizáció:', this.noOptimum, " ", this.optimizationResult);
-    
-  } catch (error) {
-    console.error('Optimalizálási hiba:', error);
-    // Itt lehetne felhasználóbarát hibaüzenetet megjeleníteni
-  } finally {
-    this.isLoading = false;
+    this.isLoading = true; 
+    const optimizationData: Optimalization = {
+      curriculum_id: this.optimizationForm.get('curriculum_id')?.value ?? 0, 
+      algorithm: this.optimizationForm.get('algorithm')?.value ?? 'greedy',
+      creditLimit: this.optimizationForm.get('creditLimit')?.value ?? 30,
+      selectedSpecializationIds: this.selectedSpecializations().map(spec => spec.id), 
+      considerRecommendations: this.optimizationForm.get('considerRecommendations')?.value ?? false,
+      negativIds: this.selectedNegativs().map(neg => neg.id), 
+      pozitivIds: this.selectedPozs().map(po => po.id) 
+    };
+
+    try {
+      const result = await firstValueFrom(
+        this.optimalizationService.optimizeCurriculum(optimizationData)
+      );
+      this.allreqmet = result.optimizedPlan?.all_requirements_met ?? false; 
+      if (this.allreqmet) {
+        this.optimizationResult = result;
+      } else {
+        this.noOptimum = result.optimizedPlan?.warnings ?? ['Ismeretlen hiba: Nem minden követelmény teljesült.'];
+        this.optimizationResult = result; 
+      }
+    } catch (error) {
+      console.error('Optimalizálási hiba:', error);
+      this.noOptimum = ['Hiba történt az optimalizálás során. Próbálja újra később.']; 
+    } finally {
+      this.isLoading = false; 
+    }
   }
-}
 
-get creditLimitControl() {
-  return this.optimizationForm.get('creditLimit');
-}
-
-// Egyszerűsített invalid check
-get formInvalid() {
-  return this.optimizationForm.invalid;
-}
-
-//Specializációk
-readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-readonly currentSpecInput = model('');
-readonly allSpecializations = signal<Name[]>([]);
-readonly selectedSpecializations = signal<Name[]>([]);
-readonly filteredSpecializations  = computed(() => {
-  const searchText = this.currentSpecInput().toLowerCase();
-  const selected = this.selectedSpecializations();
-  return this.allSpecializations().filter(spec => 
-    !selected.some(s => s.id === spec.id) && // Kiszűrjük a már kiválasztottakat
-    spec.name.toLowerCase().includes(searchText)
-  );
-});
-addSpecialization(event: MatChipInputEvent): void {
-  const value = (event.value || '').trim();
-  const spec = this.allSpecializations().find(
-    s => s.name.toLowerCase() === value.toLowerCase()
-  );
-  // Add our fruit
-  if (spec && !this.selectedSpecializations().some(s => s.id === spec.id)) {
-    this.selectedSpecializations.update(specs => [...specs, spec]);
+  /**
+   * @description
+   * Getter a kredithatár form control eléréséhez.
+   * @returns AbstractControl | null A kredithatár form control.
+   */
+  get creditLimitControl() {
+    return this.optimizationForm.get('creditLimit');
   }
-  // Clear the input value
-  event.chipInput!.clear();
-  this.currentSpecInput.set('');
-}
 
-removeSpecialization(spec: Name): void {
-  this.selectedSpecializations.update(specs => {
-    const filtered = specs.filter(s => s.id !== spec.id);
-    return filtered;
-  });
-}
-
-selectedSpecialization(event: MatAutocompleteSelectedEvent): void {
-  const selectedValue = event.option.value as Name;
-    
-  if (!this.selectedSpecializations().some(s => s.id === selectedValue.id)) {
-    this.selectedSpecializations.update(specs => [...specs, selectedValue]);
+  /**
+   * @description
+   * Getter, ami jelzi, hogy az űrlap érvénytelen-e.
+   * @returns boolean Igaz, ha az űrlap érvénytelen.
+   */
+  get formInvalid() {
+    return this.optimizationForm.invalid;
   }
-  
-  this.currentSpecInput.set('');
-  event.option.deselect();
-}
 
-//Negativ
-readonly currentNegInput = model('');
-readonly allCourse = signal<Name[]>([]);
-readonly selectedNegativs = signal<Name[]>([]);
-readonly filteredNegativs  = computed(() => {
-  const searchText = this.currentNegInput().toLowerCase();
-  const selected = this.selectedNegativs();
-  return this.allCourse().filter(neg => 
-    !selected.some(s => s.id === neg.id) && // Kiszűrjük a már kiválasztottakat
-    neg.name.toLowerCase().includes(searchText)
-  );
-});
-
-addNegativ(event: MatChipInputEvent): void {
-  const value = (event.value || '').trim();
-  const neg = this.allCourse().find(
-    s => s.name.toLowerCase() === value.toLowerCase()
-  );
-  if (neg && !this.selectedNegativs().some(s => s.id === neg.id)) {
-    this.selectedNegativs.update(negs => [...negs, neg]);
+  /**
+   * @description
+   * Hozzáad egy specializációt a kiválasztottakhoz a chip input esemény alapján.
+   * Csak akkor adja hozzá, ha a beírt érték létezik és még nincs kiválasztva.
+   * @param MatChipInputEvent event A chip input esemény.
+   * @protected
+   */
+  protected addSpecialization(event: MatChipInputEvent): void {
+    this.addChipItem(event, this.allSpecializations, this.selectedSpecializations, this.currentSpecInput);
   }
-  // Clear the input value
-  event.chipInput!.clear();
-  this.currentNegInput.set('');
-}
 
-removeNegativ(neg: Name): void {
-  this.selectedNegativs.update(negs => {
-    const filtered = negs.filter(s => s.id !== neg.id);
-    return filtered;
-  });
-}
-
-selectedNegativ(event: MatAutocompleteSelectedEvent): void {
-  const selectedValue = event.option.value as Name;
-    
-  if (!this.selectedNegativs().some(s => s.id === selectedValue.id)) {
-    this.selectedNegativs.update(negs => [...negs, selectedValue]); 
+  /**
+   * @description
+   * Eltávolít egy specializációt a kiválasztottak listájából.
+   * @param Name spec Az eltávolítandó specializáció.
+   * @protected
+   */
+  protected removeSpecialization(spec: Name): void {
+    this.removeChipItem(spec, this.selectedSpecializations);
   }
-  
-  this.currentNegInput.set('');
-  event.option.deselect();
-}
-//pozitiv
-readonly currentPozInput = model('');
-//readonly allCourse = signal<Name[]>([]);
-readonly selectedPozs = signal<Name[]>([]);
-readonly filteredPozs  = computed(() => {
-  const searchText = this.currentPozInput().toLowerCase();
-  const selected = this.selectedPozs();
-  return this.allCourse().filter(po => 
-    !selected.some(s => s.id === po.id) && // Kiszűrjük a már kiválasztottakat
-    po.name.toLowerCase().includes(searchText)
-  );
-});
 
-addPozitiv(event: MatChipInputEvent): void {
-  const value = (event.value || '').trim();
-  const po = this.allCourse().find(
-    s => s.name.toLowerCase() === value.toLowerCase()
-  );
-  if (po && !this.selectedPozs().some(s => s.id === po.id)) {
-    this.selectedNegativs.update(pos => [...pos, po]);
+  /**
+   * @description
+   * Hozzáad egy specializációt a kiválasztottakhoz az autocomplete kiválasztási eseménye alapján.
+   * @param MatAutocompleteSelectedEvent event Az autocomplete kiválasztási esemény.
+   * @protected
+   */
+  protected selectedSpecialization(event: MatAutocompleteSelectedEvent): void {
+    this.selectAutocompleteItem(event, this.selectedSpecializations, this.currentSpecInput);
   }
-  // Clear the input value
-  event.chipInput!.clear();
-  this.currentPozInput.set('');
-}
 
-removePozitiv(po: Name): void {
-  this.selectedPozs.update(pos => {
-    const filtered = pos.filter(s => s.id !== po.id);
-    return filtered;
-  });
-}
-
-selectedPozitiv(event: MatAutocompleteSelectedEvent): void {
-  const selectedValue = event.option.value as Name;
-    
-  if (!this.selectedPozs().some(s => s.id === selectedValue.id)) {
-    this.selectedPozs.update(pos => [...pos, selectedValue]); 
+  /**
+   * @description
+   * Hozzáad egy negatív kurzust a kiválasztottakhoz a chip input esemény alapján.
+   * @param MatChipInputEvent event A chip input esemény.
+   * @protected
+   */
+  protected addNegativ(event: MatChipInputEvent): void {
+    this.addChipItem(event, this.allCourse, this.selectedNegativs, this.currentNegInput);
   }
-  
-  this.currentPozInput.set('');
-  event.option.deselect();
-}
+
+  /**
+   * @description
+   * Eltávolít egy negatív kurzust a kiválasztottak listájából.
+   * @param Name neg Az eltávolítandó negatív kurzus.
+   * @protected
+   */
+  protected removeNegativ(neg: Name): void {
+    this.removeChipItem(neg, this.selectedNegativs);
+  }
+
+  /**
+   * @description
+   * Hozzáad egy negatív kurzust a kiválasztottakhoz az autocomplete kiválasztási eseménye alapján.
+   * @param MatAutocompleteSelectedEvent event Az autocomplete kiválasztási esemény.
+   * @protected
+   */
+  protected selectedNegativ(event: MatAutocompleteSelectedEvent): void {
+    this.selectAutocompleteItem(event, this.selectedNegativs, this.currentNegInput);
+  }
+
+  /**
+   * @description
+   * Hozzáad egy pozitív kurzust a kiválasztottakhoz a chip input esemény alapján.
+   * @param MatChipInputEvent event A chip input esemény.
+   * @protected
+   */
+  protected addPozitiv(event: MatChipInputEvent): void {
+    this.addChipItem(event, this.allCourse, this.selectedPozs, this.currentPozInput);
+  }
+
+  /**
+   * @description
+   * Eltávolít egy pozitív kurzust a kiválasztottak listájából.
+   * @param Name po Az eltávolítandó pozitív kurzus.
+   * @protected
+   */
+  protected removePozitiv(po: Name): void {
+    this.removeChipItem(po, this.selectedPozs);
+  }
+
+  /**
+   * @description
+   * Hozzáad egy pozitív kurzust a kiválasztottakhoz az autocomplete kiválasztási eseménye alapján.
+   * @param MatAutocompleteSelectedEvent event Az autocomplete kiválasztási esemény.
+   * @protected
+   */
+  protected selectedPozitiv(event: MatAutocompleteSelectedEvent): void {
+    this.selectAutocompleteItem(event, this.selectedPozs, this.currentPozInput);
+  }
+
+  /**
+   * @description
+   * Általános segédmetódus elem hozzáadásához chip input esemény alapján.
+   * Megkeresi az elemet a teljes listában a beírt érték alapján, és ha létezik és még nincs kiválasztva,
+   * hozzáadja a cél signalhoz. Üríti az input mezőt.
+   * @param MatChipInputEvent event A chip input esemény.
+   * @param () => Name[] allItemsSource Függvény, ami visszaadja az összes választható elemet.
+   * @param WritableSignal<Name[]> targetSignal A signal, amihez hozzáadjuk az elemet.
+   * @param WritableSignal<string> inputModelSignal Az input mezőhöz kötött model signal.
+   * @private
+   */
+  private addChipItem(
+    event: MatChipInputEvent,
+    allItemsSource: () => Name[],
+    targetSignal: WritableSignal<Name[]>,
+    inputModelSignal: WritableSignal<string>
+  ): void {
+    const value = (event.value || '').trim().toLowerCase();
+    if (value) {
+      const allItems = allItemsSource() ?? [];
+      const itemToAdd = allItems.find(
+        item => item.name.toLowerCase() === value
+      );
+
+      if (itemToAdd && !targetSignal().some(selected => selected.id === itemToAdd.id)) {
+        targetSignal.update(currentItems => [...currentItems, itemToAdd]);
+      }
+    }
+    event.chipInput!.clear();
+    inputModelSignal.set('');
+  }
+
+  /**
+   * @description
+   * Általános segédmetódus elem eltávolításához a kiválasztott elemeket tartalmazó signalból.
+   * @param Name itemToRemove Az eltávolítandó elem.
+   * @param WritableSignal<Name[]> targetSignal A signal, amiből eltávolítjuk az elemet.
+   * @private
+   */
+  private removeChipItem(itemToRemove: Name, targetSignal: WritableSignal<Name[]>): void {
+    targetSignal.update(currentItems =>
+      currentItems.filter(item => item.id !== itemToRemove.id)
+    );
+  }
+
+  /**
+   * @description
+   * Általános segédmetódus elem hozzáadásához autocomplete kiválasztási esemény alapján.
+   * Ha az elem még nincs kiválasztva, hozzáadja a cél signalhoz. Üríti az input mezőt.
+   * @param MatAutocompleteSelectedEvent event Az autocomplete kiválasztási esemény.
+   * @param WritableSignal<Name[]> targetSignal A signal, amihez hozzáadjuk az elemet.
+   * @param WritableSignal<string> inputModelSignal Az input mezőhöz kötött model signal.
+   * @private
+   */
+  private selectAutocompleteItem(
+    event: MatAutocompleteSelectedEvent,
+    targetSignal: WritableSignal<Name[]>,
+    inputModelSignal: WritableSignal<string>
+  ): void {
+    const selectedValue = event.option.value as Name;
+    if (selectedValue && !targetSignal().some(selected => selected.id === selectedValue.id)) {
+      targetSignal.update(currentItems => [...currentItems, selectedValue]);
+    }
+    inputModelSignal.set('');
+    event.option.deselect(); 
+  }
 }
