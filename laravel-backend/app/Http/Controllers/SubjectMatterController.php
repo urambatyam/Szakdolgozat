@@ -16,20 +16,22 @@ class SubjectMatterController extends Controller
     {
         return SubjectMatter::whereHas('course', function ($query) use ($courseId) {
             $query->where('id', $courseId);
-        })->get();
+        })->firstOrFail();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SubjectMatter $subjectMatter)
+    public function update(Request $request)
     {
         $values = $request->validate([
-            'topic' => 'nullable|text',
-            'goal' => 'nullable|text',
-            'requirements' => 'nullable|text',
+            'id' => 'required|exists:subject_matters,id|integer',
+            'course_id' => 'required|exists:courses,id|integer',
+            'topic' => 'nullable|string|max:255',
+            'goal' => 'nullable|string|max:255',
+            'requirements' => 'nullable|string|max:255',
         ]);
-
+        $subjectMatter = SubjectMatter::find($values['id']);
         $subjectMatter->update($values);
 
         return $subjectMatter;

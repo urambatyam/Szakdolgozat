@@ -7,25 +7,14 @@
   <mat-card-content class="full-height">
     <div id="container">
       <div class="course-details">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>
-              {{'forum.DATAILS' | translate }}
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <mat-list color="primary">
-              <mat-list-item>{{'curriculum.NAME' | translate }}: {{course?.name}}</mat-list-item>
-              <mat-list-item>{{'curriculum.KREDIT' | translate }} {{course?.kredit}}</mat-list-item>
-              <mat-list-item>{{'curriculum.RS' | translate }}: {{course?.recommendedSemester}}</mat-list-item>
-              <mat-list-item>{{'curriculum.SUBJECT_RESPONSIBLE' | translate }}: {{course?.user_code}}</mat-list-item>
-              <mat-list-item >Median: ?</mat-list-item>
-              <mat-list-item  class="selecteAble"  (click)="changeOption('topic')" [class.selectedOption]="option === 'topic'">Tárgytematika</mat-list-item>
-              <mat-list-item class="selecteAble" (click)="changeOption('massages')" [class.selectedOption]="option === 'massages'">Forum</mat-list-item>
-              <mat-list-item class="selecteAble" (click)="changeOption('statistics')" [class.selectedOption]="option === 'statistics'">Statisztikák</mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
+            <h2>{{'forum.DATAILS' | translate }}</h2><br>
+            <p>{{'curriculum.NAME' | translate }}: {{course?.name}}</p>
+            <p>{{'curriculum.KREDIT' | translate }} {{course?.kredit}}</p>
+            <p>{{'curriculum.RS' | translate }}: {{course?.recommendedSemester}}</p>
+            <p>{{'curriculum.SUBJECT_RESPONSIBLE' | translate }}: {{course?.user_code}}</p>
+            <p  class="selecteAble"  (click)="changeOption('topic')" [class.selectedOption]="option === 'topic'">Tárgytematika</p>
+            <p class="selecteAble" (click)="changeOption('massages')" [class.selectedOption]="option === 'massages'">Forum</p>
+            <p class="selecteAble" (click)="changeOption('statistics')" [class.selectedOption]="option === 'statistics'">Statisztikák</p>
       </div>
       <div class="forum-container">
         @switch (option) {
@@ -33,12 +22,12 @@
             <app-messages [courseId]="course?.id ?? null"></app-messages>
           }
           @case ("topic") {
-            <app-subject-topic></app-subject-topic>
+            <app-subject-topic [courseId]="course?.id ?? null"></app-subject-topic>
           }          
           @case ("statistics") {
             <app-course-statistics [courseId]="course?.id ?? 0" ></app-course-statistics>
           }
-          @default {<app-messages></app-messages>}
+          @default {<app-messages [courseId]="course?.id ?? null" ></app-messages>}
         }
       </div>
     </div>

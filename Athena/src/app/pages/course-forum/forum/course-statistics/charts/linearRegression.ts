@@ -1,38 +1,17 @@
 import Plotly, { Data, Layout } from 'plotly.js-dist-min';
+import { formatSemesterAxisLabel, LinearRegressionResponse, NOdatalayout } from './common';
 
-// Interfész a válasz típusának definiálásához (ajánlott)
-interface LinearRegressionResponse {
-  m: number; // Meredekség (slope)
-  b: number; // Tengelymetszet (intercept)
-  pairs: [number, number][]; // Adatpárok [x, y] formátumban
-  label: string[]; // Címkék az x tengelyhez
-}
-
-// Segédfüggvény a félév nevének formázásához (opcionális, ha a backend label nem elég szép)
-// Ha a backend által küldött "label" tömb már a kívánt formátumú ("2023/2024 Ősz"),
-// akkor erre a függvényre nincs is szükség itt.
-function formatSemesterAxisLabel(key: string): string {
-  const parts = key.split('-'); // Feltételezzük, hogy a backend "YYYY-S" formátumot küld
-  if (parts.length !== 2) return key;
-
-  const year = parseInt(parts[0], 10);
-  const seasonCode = parseInt(parts[1], 10); // 1 = Ősz, 0 = Tavasz
-
-  if (isNaN(year) || isNaN(seasonCode)) return key;
-
-  if (seasonCode === 1) {
-    return `${year}/${year + 1} Ősz`;
-  } else if (seasonCode === 0) {
-    return `${year - 1}/${year} Tavasz`;
-  } else {
-    return key;
-  }
-}
-
-
-export function createLR(response?: LinearRegressionResponse) {
-    // Ellenőrizzük, hogy van-e válasz és elegendő adatpont a regresszióhoz
-    // (Legalább 2 pont kell egy egyeneshez)
+/**
+ * Létrehoz és megjelenít egy Plotly scatter diagramot, amely a kurzus jegyinek félévenkét vett átlagának
+ * lineáris regresszióját mutatja. Tartalmazza az eredeti átlagpontokat
+ * és a számított regressziós egyenest.
+ * Ha nincs elegendő adat a regresszióhoz (kevesebb mint 2 adatpár),
+ * egy "Nincs elég adat" üzenetet jelenít meg a diagram helyett az `NOdatalayout` alapján.
+ *
+ * @param targetElement - A HTMLDivElement, amelybe a diagramot rajzolni kell.
+ * @param response - A `LinearRegressionResponse` objektum, amely tartalmazza a regresszióhoz
+ */
+export function createLR(targetElement: HTMLDivElement, response?: LinearRegressionResponse) {
     if (!response || !response.pairs || response.pairs.length < 2) {
       const data: Data[] = [
         {
@@ -42,49 +21,36 @@ export function createLR(response?: LinearRegressionResponse) {
           type: 'scatter'
         }
       ];
-      const layout: Partial<Layout> = { // Partial<Layout> használata
-        title: { text: 'Nincs elég adat a regressziós egyeneshez' },
-        xaxis: { title: 'Félév' },
-        yaxis: { title: 'Átlag' }
-      };
-      // Használd a megfelelő ID-t a HTML-ből
-      const plotElement = document.getElementById('linearRegression');
-      if (plotElement) {
-        Plotly.newPlot(plotElement, data, layout);
-      } else {
-        console.error("A 'linearRegression' ID-val rendelkező elem nem található.");
-      }
-      return; // Kilépünk a függvényből, ha nincs elég adat
+      const layout: Partial<Layout> = NOdatalayout as Partial<Layout>;
+      const config = { responsive: true };
+      Plotly.newPlot(targetElement, data, layout, config);
+      return;
     }
 
-    // Adatok kinyerése a válaszból
-    const x = response.pairs.map((pair: [number, number]) => pair[0]); // Félév sorszámok (pl. 1, 2, 3...)
-    const y = response.pairs.map((pair: [number, number]) => pair[1]); // Átlagok
-    const semesterLabels = response.label.map(formatSemesterAxisLabel); // Formázott címkék az X tengelyhez
-    const slope = response.m; // Meredekség a backendről
-    const intercept = response.b; // Tengelymetszet a backendről
+    const x = response.pairs.map((pair: [number, number]) => pair[0]);
+    const y = response.pairs.map((pair: [number, number]) => pair[1]);
+    const semesterLabels = response.label.map(formatSemesterAxisLabel);
+    const slope = response.m;
+    const intercept = response.b;
 
-    // Regressziós egyenes y értékeinek számítása a backend által adott m és b alapján
-    // Az egyenes kirajzolásához elég a kezdő és végpont x értékét használni
     const xMin = Math.min(...x);
     const xMax = Math.max(...x);
-    const regressionLineX = [xMin, xMax]; // Csak a kezdő és végpont kell az egyeneshez
+    const regressionLineX = [xMin, xMax];
     const regressionLineY = regressionLineX.map(xVal => slope * xVal + intercept);
 
-    // Plotly diagram összeállítása
-    const layout: Partial<Layout> = { // Partial<Layout> használata
-      title: { text: 'Lineáris regresszió' },
+    const layout: Partial<Layout> = {
+      autosize: true,
+      margin: { l: 50, r: 100, b: 100, t: 50 },
       xaxis: {
-        title: 'Félév',
-        tickmode: 'array', // Megadjuk a pontos helyeket és címkéket
-        tickvals: x,       // Hol legyenek a tickek (az eredeti x értékeknél)
-        ticktext: semesterLabels // Milyen szöveg jelenjen meg ott (a formázott félévnevek)
+        tickmode: 'array',
+        tickvals: x,
+        ticktext: semesterLabels,
+        tickangle: 45
       },
       yaxis: {
-        title: 'Átlag',
-        rangemode: 'tozero' // Y tengely kezdődjön nullánál (vagy 'normal' ha nem kell)
+        rangemode: 'tozero'
       },
-      legend: { // Jelmagyarázat beállításai (opcionális)
+      legend: {
         orientation: 'h',
         yanchor: 'bottom',
         y: 1.02,
@@ -95,30 +61,24 @@ export function createLR(response?: LinearRegressionResponse) {
 
     const data: Data[] = [
       {
-        x: x, // Eredeti x értékek (félév sorszámok)
-        y: y, // Eredeti y értékek (átlagok)
-        mode: 'markers', // Pontokként jelenjenek meg
+        x: x,
+        y: y,
+        mode: 'markers',
         type: 'scatter',
-        name: 'Átlagok',
-        hovertemplate: 'Félév: %{x}<br>Átlag: %{y}', // Jelmagyarázat szövege
-        marker: { size: 8 } // Pontok mérete (opcionális)
+        name: 'Átlagok', 
+        hovertemplate: 'Félév: %{x}<br>Átlag: %{y}', 
+        marker: { size: 8 }
       },
       {
-        x: regressionLineX, // Az egyenes x koordinátái (elég a kezdő és végpont)
-        y: regressionLineY, // Az egyenes y koordinátái (kiszámolva m és b alapján)
-        mode: 'lines', // Vonalként jelenjen meg
+        x: regressionLineX,
+        y: regressionLineY,
+        mode: 'lines',
         type: 'scatter',
-        name: 'Regressziós egyenes', // Jelmagyarázat szövege
+        name: 'Regressziós egyenes', 
         hoverinfo: 'none',
-        line: { color: 'red' } // Vonal színe (opcionális)
+        line: { color: 'red' }
       }
     ];
-
-    // Diagram kirajzolása
-    const plotElement = document.getElementById('linearRegression');
-    if (plotElement) {
-      Plotly.newPlot(plotElement, data, layout);
-    } else {
-      console.error("A 'linearRegression' ID-val rendelkező elem nem található.");
-    }
+    const config = { responsive: true };
+    Plotly.newPlot(targetElement, data, layout, config);
   }

@@ -69,6 +69,8 @@
         "REGIST": "Registration"
     },
 "electronic-controller":{
+        "TITLE": "Electronic controller",
+        "ALL_SEMESTERS": "All semesters",
         "SEARCH": "Search",
         "SEMESTER": "Semester",
         "COURSE_NAME": "Course name",
@@ -103,6 +105,7 @@
         "KREDIT": "Credit",
         "RS": "Recommended semester",
         "SUBJECT_RESPONSIBLE": "Subject responsible",
+        "PREREQUISITES": "Prerequisites",
         "SEZON": "Sezon",
         "FALL": "Autumn",
         "SPRING": "Spring",

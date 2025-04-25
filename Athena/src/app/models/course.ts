@@ -10,7 +10,8 @@ export interface Course {
     completed?:boolean,
     applied?:boolean,
     subjectMatterId?:number|null,
-    prerequisites?:number[]|null,
+    prerequisites?:any,
+    pre?:any,
 }
 
 

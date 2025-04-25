@@ -2,16 +2,16 @@
     <form [formGroup]="subjectMatterForm" (ngSubmit)="onSubmit()">
         <mat-label>Tárgytematika</mat-label><br>
         <mat-form-field>
-            <mat-label>Miről szól a kurzus?</mat-label>
-            <textarea matInput formControlName="topic" ></textarea>
+            <mat-label class="labels">Miről szól a kurzus?</mat-label>
+            <textarea class="textarea" matInput formControlName="topic" ></textarea>
         </mat-form-field><br>
         <mat-form-field>
-            <mat-label>Milyen képeségeket fogsz elsajátitani?</mat-label>
-            <textarea  matInput formControlName="goal"></textarea>
+            <mat-label class="labels" >Milyen képeségeket fogsz elsajátitani?</mat-label>
+            <textarea  class="textarea" matInput formControlName="goal"></textarea>
         </mat-form-field><br>
         <mat-form-field>
-            <mat-label>Követelmények</mat-label>
-            <textarea matInput formControlName="requirements"></textarea>
+            <mat-label class="labels" >Követelmények</mat-label>
+            <textarea class="textarea" matInput formControlName="requirements"></textarea>
         </mat-form-field><br>
         <button type="submit" color="primary" mat-raised-button>Mentés</button>
     </form>

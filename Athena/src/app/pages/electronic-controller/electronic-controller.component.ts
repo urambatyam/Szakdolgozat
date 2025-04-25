@@ -109,13 +109,17 @@ export class ElectronicControllerComponent implements OnInit, OnDestroy {
         this.viewMode = user.role === "student" ? 'student' : 'course';
         this.studentCode = user.code;
       }
+      this.columnsToDisplayWithExpand = this.viewMode === 'student' 
+      ? ['course_name', 'grade', 'remove'] 
+      : ['user_code', 'grade', 'expand'];
       if (this.viewMode === 'course') {
         const state = history.state;
         if (state && state.courseId && state.courseName) {
           this.title = state.courseName;
           this.courseId = state.courseId;
           this.displayedColumns = ['user_code', 'grade'];
-          this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
+          //this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
+          //console.log("fejlec", this.columnsToDisplayWithExpand);
           this.sortField = 'user_code';
         } else {
           console.error("Hiányzó kurzus adatok a 'course' nézethez. Navigációs state:", state);
@@ -124,9 +128,9 @@ export class ElectronicControllerComponent implements OnInit, OnDestroy {
           return;
         }
       } else {
-        this.title = 'Ellenőrző';
+        this.title = 'electronic-controller.TITLE';
         this.displayedColumns = ['course_name', 'grade'];
-        this.columnsToDisplayWithExpand = [...this.displayedColumns, 'remove'];
+        //this.columnsToDisplayWithExpand = [...this.displayedColumns, 'remove'];
         this.sortField = 'course_name';
         if (!this.studentCode) {
           console.error("Hallgatói kód hiányzik 'student' módban.");

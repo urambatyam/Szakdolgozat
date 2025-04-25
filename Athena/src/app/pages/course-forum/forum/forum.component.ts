@@ -32,30 +32,16 @@ import { map } from 'rxjs';
 })
 export class ForumComponent implements OnInit {
   private location = inject(Location);
-  private auth = inject(AuthService);
   protected course: Course | null = null;
   protected option:'massages'|'topic'|'statistics' = 'massages'
 //a
-  async ngOnInit(): Promise<void> {
-    let u1:any
-    await this.auth.user$.pipe(
-      map(u => {
-        u1 = u;
-      })
-    )
-    console.log('u1')
-    console.log(u1)
-    
+  ngOnInit(): void {
     const state = history.state;
     this.course = state.course;
   }
-
   protected changeOption(option: 'massages'|'topic'|'statistics'): void {
     this.option = option;
   }
-
-
-
   protected back() {
     this.location.back();
   }

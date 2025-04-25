@@ -1,32 +1,33 @@
-import Plotly, { Data } from 'plotly.js-dist-min';
-export function creatCR(response?: any) {
+import Plotly, { Layout,PlotData } from 'plotly.js-dist-min';
+import { NOdatalayout } from './common';
+/**
+ * A kurzus adati alapján létrehoz egy kördiagramot, ami a tejesités megoszlását mutja.
+ * 
+ * @param targetElement A div HTML refenciája, amibe belerajtolja a diagramot
+ * @param response any A szervertől kapot válasz.
+ * @returns void
+ */
+export function creatCR(targetElement: HTMLDivElement, response?: any) {
+  let layout: Partial<Layout>;
+  let data: Partial<PlotData>[] = [];
   if(!response){
-    const data: Data[] = [{
+    data = [{
       values: [],
       labels: [],
       type: 'pie'
     }];
-    const layout = {
-      title: {
-        text: "Nincsenek teljesítési adatok"
-      },
-      height: 400,
-      width: 500
-    };
-    Plotly.newPlot('completionRate', data, layout);
+    layout = NOdatalayout as Partial<Layout>; 
   }else{
-    const data: Data[] = [{
+    data = [{
       values: [response.failed,response.completed,response.absent],
       labels: ['Bukott','Teljesített','Nem teljesített'],
       type: 'pie'
     }];
-    const layout = {
-      title: {
-        text: "Teljesítési arány"
-      },
-      height: 400,
-      width: 500
+    layout = {
+      autosize: true,
+      margin: { l: 50, r: 100, b: 100, t: 50 },
     };
-    Plotly.newPlot('completionRate', data, layout);
   }
+  const config = { responsive: true };
+  Plotly.newPlot(targetElement, data, layout, config);
 }

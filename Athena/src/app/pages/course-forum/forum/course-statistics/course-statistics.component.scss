@@ -1,0 +1,38 @@
+mat-card{
+    position: relative;
+    display: flex;
+    min-width: fit-content;
+    height: 100%;
+    min-height: fit-content;
+    padding: 0.5em;
+    border-radius: 0;
+  }
+  mat-card-content{
+    min-height: fit-content;
+    height: 90%;
+  }
+  mat-card-footer {
+    border-radius: 0.5em;
+    background-color: #006a6a;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0.2em 0.5em; 
+    border-top: 0.1em solid rgba(0, 0, 0, 0.12); 
+  }
+  #prev mat-icon,#next mat-icon{
+    color: white;
+    font-size: 1em;
+    font-weight: bolder;
+  }
+  #prev:hover,#next:hover{
+    background-color: #ffffff8a;
+    border-radius: 0.5em;
+  }
+
+
+
+
+  
+
+  

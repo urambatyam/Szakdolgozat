@@ -12,7 +12,7 @@ use App\Models\CoursePrerequisite;
 use App\Models\SubjectMatter;
 use Illuminate\Support\Facades\DB;
 use Exception;
-
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CourseController extends Controller
 {
@@ -40,7 +40,7 @@ class CourseController extends Controller
     {
         Gate::authorize('create',Course::class);
         $values = $request->validate([
-            'name' => 'required|max:25|string',
+            'name' => 'required|max:20|string',
             'kredit' => 'required|integer|min:0',
             'recommendedSemester' => 'required|integer|min:0',
             'user_code' => 'nullable|exists:users,code',  
@@ -99,41 +99,52 @@ class CourseController extends Controller
     public function getAllCoursesOFUser(Request $request, String $user_code)
     {
         Gate::authorize('getAllCoursesOFUser', Course::class);
-        
-        $query = Course::query();
-        
-        // Filtering
-        if ($request->has('filter')) {
-            $query->where('name', 'like', '%' . $request->filter . '%');
-        }
-        
-        // Sorting
+        $user = User::where('code', $user_code)->firstOrFail();
+        $filter = $request->input('filter');
         $sortField = $request->input('sort_field', 'name');
         $sortDirection = $request->input('sort_direction', 'asc');
-        $query->orderBy($sortField, $sortDirection);
-        
         $perPage = $request->input('per_page', 10);
-        
-        $user = User::where('code', $user_code)->first();
-        
-        if ($user->role === 'admin') {
-            $result =  Course::orderBy($sortField, $sortDirection)
-                ->when($request->has('filter'), function($q) use ($request) {
-                    return $q->where('name', 'like', '%' . $request->filter . '%');
-                })
-                ->paginate($perPage);
-        } else {
-            $result =  Course::whereHas('user', function ($query) use ($user_code) {
-                $query->where('code', $user_code);
-            })
-            ->when($request->has('filter'), function($q) use ($request) {
-                return $q->where('name', 'like', '%' . $request->filter . '%');
-            })
-            ->orderBy($sortField, $sortDirection)
-            ->paginate($perPage);
+    
+        $query = Course::with(['prerequisites.prerequisite:id,name']);
+        if ($filter) {
+            $query->where('name', 'like', '%' . $filter . '%');
         }
-        return CourseResource::collection($result);
+        $query->orderBy($sortField, $sortDirection);
+    
+        if ($user->role !== 'admin') {
+            $query->whereHas('user', function ($q) use ($user_code) {
+                $q->where('code', $user_code);
+            });
+        }
+    
+        $paginatedResult = $query->paginate($perPage);
+    
+        $items = collect($paginatedResult->items())->map(function ($course) {
+            
+            $prerequisites = $course->prerequisites
+                ->filter(fn($prerequisiteRelation) => $prerequisiteRelation->prerequisite !== null)
+                ->map(fn($prerequisiteRelation) => [
+                    'id' => $prerequisiteRelation->prerequisite->id,
+                    'name' => $prerequisiteRelation->prerequisite->name,
+                ])
+                ->values();
+            
+            $course->pre = $prerequisites->isEmpty() ? [] : $prerequisites;
+            $course->makeHidden('prerequisites');
+            return $course;
+        })->toArray();
+        
+        $newPaginator = new LengthAwarePaginator(
+            $items,
+            $paginatedResult->total(),
+            $paginatedResult->perPage(),
+            $paginatedResult->currentPage(),
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+    
+        return $newPaginator;
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -142,7 +153,7 @@ class CourseController extends Controller
     {
         Gate::authorize('update',Course::class);
         $values = $request->validate([
-            'name' => 'required|max:25|string',
+            'name' => 'required|max:20|string',
             'kredit' => 'required|integer|min:0',
             'recommendedSemester' => 'required|integer|min:0',
             'user_code' => 'nullable|exists:users,code',  

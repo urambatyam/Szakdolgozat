@@ -13,15 +13,14 @@
           {{message.message}}
         </mat-card-content>
       </mat-card>
-    }
-    @empty {
+    }@empty {
       <div class="no-messages">Nincsenek üzenetek</div>
     }
   </div>
   <form [formGroup]="forumForm" (ngSubmit)="onSubmit()" class="message-form">
     <mat-form-field>
-      <mat-label>{{'forum.Massage_SEND' | translate }}</mat-label>
-      <textarea matInput formControlName="text"></textarea>
+      <mat-label class="labels">{{'forum.Massage_SEND' | translate }}</mat-label>
+      <textarea class="textarea" matInput formControlName="text"></textarea>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit">{{'forum.SEND' | translate }}</button>
   </form>

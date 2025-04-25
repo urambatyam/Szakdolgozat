@@ -1,0 +1,14 @@
+mat-card{
+    height: 80%;
+  }
+  mat-card-content{
+    padding: 0 0.5em;
+    overflow-y: auto;
+  }
+form{
+    padding: 0 2em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+}

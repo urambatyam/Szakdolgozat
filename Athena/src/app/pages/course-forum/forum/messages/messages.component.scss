@@ -1,3 +1,41 @@
+$primary-color: #006a6a;
+$secondery-color: #fff;
 .message{
     margin-bottom: 1em;
+    color: $primary-color;
+    background-color: $secondery-color;
+}
+mat-form-field{
+    border-radius: 0.5em;
+    width: 100%;
+    background-color: $primary-color;
+}
+.textarea{
+    background-color: $secondery-color;
+    padding: 0.5em;
+    width: 100%;
+    border-radius: 0.5em;
+    height: 10em !important;
+}
+.labels{
+    color: $primary-color;
+    font-size: 1em;
+}
+form{
+    height: 30%;
+}
+#forum{
+    height: 70%;
+    overflow-y: auto;
+}
+.no-messages{
+    font-weight: bolder;
+    font-size: 2em;
+    color: $primary-color;
+    background-color: $secondery-color;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

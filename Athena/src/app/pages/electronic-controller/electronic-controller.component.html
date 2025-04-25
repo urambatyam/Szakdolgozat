@@ -1,6 +1,12 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>{{title}}</mat-card-title>
+        <mat-card-title>
+          @if(viewMode === 'student'){
+            {{title | translate}}
+          }@else {
+            {{title}}
+          }
+          </mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <mat-form-field>
@@ -10,7 +16,7 @@
         <mat-form-field>
           <mat-label>{{'electronic-controller.SEMESTER' | translate }}</mat-label>
           <mat-select [value]="selectedSemesterOption" (selectionChange)="filterBySemester($event.value)">
-            <mat-option [value]="ALL_SEMESTERS">{{ALL_SEMESTERS.label}}</mat-option>
+            <mat-option [value]="ALL_SEMESTERS">{{"electronic-controller.ALL_SEMESTERS" | translate }}</mat-option>
             @for(semester of semesters; track $index){
               <mat-option [value]="semester">
                 {{ formatSemester(semester) }}
@@ -59,7 +65,11 @@
                 <ng-container matColumnDef="expand">
                   <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
                   <td mat-cell *matCellDef="let element">
-                    <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+                    <button 
+                      mat-icon-button
+                      aria-label="expand row"
+                      (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()"
+                      >
                       @if (expandedElement === element) {
                         <mat-icon>keyboard_arrow_up</mat-icon>
                       } @else {

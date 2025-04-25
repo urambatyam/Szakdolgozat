@@ -69,6 +69,8 @@
         "REGIST": "Regisztráció"
     },
     "electronic-controller":{
+        "TITLE": "Ellenörző",
+        "ALL_SEMESTERS": "Minden félév",
         "SEARCH": "Keresés",
         "SEMESTER": "Félév",
         "COURSE_NAME": "Kurzus neve",
@@ -103,6 +105,7 @@
         "KREDIT": "Kredit",
         "RS": "Ajánlott félév",
         "SUBJECT_RESPONSIBLE": "Tárgyfelelős",
+        "PREREQUISITES": "Előkövetelmények",
         "SEZON": "Szezon",
         "FALL": "Őssz",
         "SPRING": "Tavasz",
@@ -148,7 +151,6 @@
         "ALGORISM":"Algoritmus",
         "RECOMMENDED": "Ajánlott félév",
         "GREEDY":"Mohó",
-
         "COURSE_LIMIT_REQUIRED": "Kredit limit kötelező",
         "COURSE_LIMIT_MIN_VALUE": "Kredit limit legalább 1",
         "PLACEHOLDER_POZITIV": "Új Pozitív...",
