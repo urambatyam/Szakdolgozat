@@ -1,63 +1,59 @@
-// --- Változók (opcionális, de ajánlott) ---
-$primary-color: #006a6a; // Vagy a Material téma primary színe
-$accent-color: #ff4081;  // Vagy a Material téma accent színe
+$primary-color: #006a6a; 
 $border-color: #e0e0e0;
 $background-light: #f9f9f9;
 $text-color: #333;
-$breakpoint-medium: 768px; // Töréspont a mobil és nagyobb nézetek között
+$breakpoint-medium: 768px; 
 
-// --- Alap stílusok ---
 :host {
   display: block;
-  height: 100%; // Biztosítja, hogy a komponens kitöltse a szülőt
+  height: 100%; 
 }
 
 mat-card.full-height {
   display: flex;
   flex-direction: column;
   height: 80%;
-  box-sizing: border-box; // Tartalmazza a paddingot és bordert a magasságban
+  box-sizing: border-box; 
 }
 
 mat-card-header {
-  flex-shrink: 0; // Ne zsugorodjon a fejléc
+  flex-shrink: 0; 
 }
 
 mat-card-content.full-height {
-  flex-grow: 1; // A tartalom töltse ki a maradék helyet
+  flex-grow: 1; 
   display: flex;
   flex-direction: column;
-  overflow: hidden; // Megakadályozza a dupla görgetősávot a card-contenten
-  padding: 1rem; // Alapértelmezett padding
+  overflow: hidden; 
+  padding: 1rem; 
 }
 
 #container {
-  flex-grow: 1; // A container töltse ki a card-content-en belüli helyet
+  flex-grow: 1; 
   display: flex;
-  flex-direction: column; // Alapértelmezett (mobil) elrendezés: egymás alatt
-  overflow-y: auto; // Csak függőleges görgetés, ha szükséges
-  gap: 1.5rem; // Térköz a 'details' és 'forum' között
+  flex-direction: column; 
+  overflow-y: auto; 
+  gap: 1.5rem; 
 
-  // Stílusok nagyobb képernyőkre (a töréspont felett)
   @media (min-width: $breakpoint-medium) {
-    flex-direction: row; // Elrendezés: egymás mellett
-    gap: 2rem; // Nagyobb térköz nagyobb képernyőn
+    flex-direction: row; 
+    gap: 2rem; 
   }
 }
 
 .course-details {
   padding: 1rem;
-  border: 1px solid $border-color;
-  border-radius: 4px;
+  border: 0.2em solid $border-color;
+  border-radius: 0.4em;
   background-color: $background-light;
-  flex-shrink: 0; // Ne zsugorodjon kisebbre a tartalmánál
+  flex-shrink: 0; 
 
   h2 {
     margin-top: 0;
     margin-bottom: 1rem;
     color: $primary-color;
     font-size: 1.2rem;
-    border-bottom: 1px solid $border-color;
+    border-bottom: 0.2em solid $border-color;
     padding-bottom: 0.5rem;
   }
 
@@ -71,11 +67,11 @@ mat-card-content.full-height {
     }
   }
 
-  .selecteAble { // Figyelj az elírásra: 'selecteAble' -> 'selectable' lenne helyesebb
+  .selecteAble { 
     cursor: pointer;
     padding: 0.5rem 0.8rem;
     margin: 0.3rem 0;
-    border-radius: 4px;
+    border-radius: 0.4em;
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
     font-weight: 500;
 
@@ -95,36 +91,32 @@ mat-card-content.full-height {
     }
   }
 
-  // Stílusok nagyobb képernyőkre
   @media (min-width: $breakpoint-medium) {
-    flex-basis: 300px; // Fix szélesség nagyobb képernyőn
-    // Vagy használhatsz flex-grow: 1; flex-basis: 0; ha azt szeretnéd, hogy osztozzanak a helyen
+    flex-basis: 300px; 
   }
 }
 
 .forum-container {
-  flex-grow: 1; // Töltse ki a maradék helyet
-  min-width: 0; // Fontos flexbox-ban, hogy a tartalom ne nyomja szét a containert
-
-  // Stílusok nagyobb képernyőkre
-  @media (min-width: $breakpoint-medium) {
-     // Itt adhatsz hozzá specifikus stílusokat, ha szükséges
-     // pl. border-left: 1px solid $border-color; padding-left: 2rem;
-  }
-
-  // Stílusok a beágyazott komponenseknek (opcionális)
+  flex-grow: 1;
+  min-width: 0; 
   > app-messages,
   > app-subject-topic,
   > app-course-statistics {
-    display: block; // Biztosítja a megfelelő megjelenést
-    height: 100%; // Ha a belső komponensnek is ki kell töltenie a helyet
+    display: block; 
+    height: 100%; 
   }
 }
 
 .back-button {
-  margin-top: 1rem; // Térköz a container és a gomb között
-  flex-shrink: 0; // Ne zsugorodjon a gomb
-  align-self: flex-start; // Balra igazítás (vagy center, flex-end)
+  margin-top: 1rem; 
+  flex-shrink: 0; 
+  align-self: flex-start; 
 }
 
+mat-card-title{
+  padding: 0.5em;
+  color: $primary-color;
+  font-weight: bold;
+  font-size: 2em;
+}
   

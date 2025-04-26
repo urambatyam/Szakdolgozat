@@ -2,15 +2,20 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { SubjectMatter } from '../../../../models/subjectMatter';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { catchError, EMPTY, firstValueFrom, from, map, of, tap } from 'rxjs';
+import { catchError, EMPTY, firstValueFrom, from, of, tap } from 'rxjs';
 import { SubjectMatterService } from '../../../../services/mysql/subject-matter.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-
+import { TranslateModule } from '@ngx-translate/core';
+/**
+ * Ez a komponens felelős egy adott kurzus tárgytematikájának
+ * megjelenítéséért és szerkesztéséért/mentéséért.
+ */
 @Component({
   selector: 'app-subject-topic',
   standalone: true,
   imports: [
+    TranslateModule,
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
@@ -21,7 +26,6 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class SubjectTopicComponent implements OnInit {
   @Input() courseId: number|null = null;
-  //protected subjectMatter: SubjectMatter|null = null;
   private fb = inject(NonNullableFormBuilder);
   private subjectMatterData = inject(SubjectMatterService);
   protected subjectMatterForm = this.fb.group({
@@ -30,72 +34,81 @@ export class SubjectTopicComponent implements OnInit {
     goal: this.fb.control<string|null>(null),
     requirements: this.fb.control<string|null>(null)
   });
+  /**
+   * Az Angular életciklus metódusa, amely a komponens inicializálásakor fut le.
+   * Elindítja a tárgytematika adatainak lekérését.
+   */
   ngOnInit(): void {
     this.getSubjectMatter(this.courseId)
   }
-
+  /**
+   * @description
+   * Lekéri a tárgytematika adatait a megadott kurzus azonosító alapján a szolgáltatástól.
+   * Frissíti a `subjectMatterForm` űrlapot a kapott adatokkal.
+   * Kezeli a betöltési állapotot és a hibákat.
+   * @param courseId A kurzus azonosítója, amelyhez az adatokat le kell kérni.
+   * @private
+   */
   private async getSubjectMatter(courseId: number | null): Promise<void> {
-    if (!courseId) { // Egyszerűbb ellenőrzés
+    if (!courseId) { 
       console.log("Nem kaptam meg a kurzus ID-t:", courseId);
-      return; // Kilépés, ha nincs ID
+      return; 
     }
-
     try {
-      // A 'from()' operátor eltávolítva
       const subjectMatter = await firstValueFrom(
-        this.subjectMatterData.getSebjectMatter(courseId).pipe( // Figyelj a typo-ra: getSebjectMatter
+        this.subjectMatterData.getSebjectMatter(courseId).pipe( 
           catchError(error => {
             console.error('Hiba a tárgytematika lekérésekor:', error);
-            // Adj vissza egy null Observable-t, hogy a firstValueFrom null-t kapjon
             return of(null);
           })
         )
       );
-
-      // Ellenőrizzük, hogy sikeres volt-e a lekérdezés
       if (subjectMatter) {
-        console.log('Kapott SubjectMatter:', subjectMatter);
-        console.log('Form állapota patch előtt:', subjectMatter.id);
-
         this.subjectMatterForm.patchValue({
-          id: subjectMatter.id,             // Érték: 28
-          topic: subjectMatter.topic,         // Érték: null
-          goal: subjectMatter.goal,           // Érték: null
-          requirements: subjectMatter.requirements // Érték: null
+          id: subjectMatter.id,          
+          topic: subjectMatter.topic,      
+          goal: subjectMatter.goal,          
+          requirements: subjectMatter.requirements 
         });
-    
-        // Most logold ki újra az értékeket
-        console.log('Form értéke patch után:', this.subjectMatterForm.value,' ',subjectMatter.id);
-        console.log('ID control:', this.subjectMatterForm.get('id')?.value);
-        console.log('Topic control:', this.subjectMatterForm.get('topic')?.value);
       } else {
-        console.log('Nem sikerült adatot lekérni, vagy hiba történt.');
-        // Opcionálisan resetelheted a formot, vagy hibaüzenetet jeleníthetsz meg
-        // this.subjectMatterForm.reset();
+        console.warn('Nem sikerült adatot lekérni, vagy hiba történt.');
       }
-
     } catch (error) {
-      // Ez a catch blokk elkaphatja a firstValueFrom hibáit is
       console.error('Hiba a getSubjectMatter feldolgozása során:', error);
     }
   }
-  async onSubmit(): Promise<void> {
-    if(this.courseId){
-      const newSubjectMatter: SubjectMatter = {
-        id: this.subjectMatterForm.value.id ?? null,
-        course_id: this.courseId,
-        topic: this.subjectMatterForm.value.topic ?? null,
-        goal: this.subjectMatterForm.value.goal ?? null,
-        requirements: this.subjectMatterForm.value.requirements ?? null,
-      };
-      await firstValueFrom(
-        from(this.subjectMatterData.updateSebjectMatter(newSubjectMatter)).pipe(
-          tap(() => {this.subjectMatterForm.reset();this.getSubjectMatter(this.courseId);}),
-          catchError(error => {console.error('Hiba:', error);return EMPTY;})
-        )
-      )      
-      }else{
-         console.log("nem kaptam meg a kurzus id-t",this.courseId);
-      }
+  /**
+   * Az űrlap elküldésekor hívódik meg.
+   * Ellenőrzi az űrlap érvényességét és a `courseId` meglétét.
+   * Létrehoz egy `SubjectMatter` objektumot az űrlap adataiból.
+   * Elküldi az adatokat frissítésre.
+   * Sikeres mentés után újra lekéri az adatokat.
+   */
+  protected async onSubmit(): Promise<void> {
+    if (!this.subjectMatterForm.valid) {
+      console.warn("Az űrlap érvénytelen, mentés megszakítva.");
+      return;
+   }
+   if (!this.courseId) {
+    console.error("Hiba: Hiányzó kurzus ID a tematika mentésekor.");
+    return;
+  }
+  const newSubjectMatter: SubjectMatter = {
+    id: this.subjectMatterForm.value.id ?? null,
+    course_id: this.courseId,
+    topic: this.subjectMatterForm.value.topic ?? null,
+    goal: this.subjectMatterForm.value.goal ?? null,
+    requirements: this.subjectMatterForm.value.requirements ?? null,
+  };
+  try{
+    await firstValueFrom(
+      from(this.subjectMatterData.updateSebjectMatter(newSubjectMatter)).pipe(
+        tap(() => {this.subjectMatterForm.reset();this.getSubjectMatter(this.courseId);}),
+        catchError(error => {console.error('Hiba:', error);return EMPTY;})
+      )
+    ) 
+  } catch (error) {
+    console.error("Váratlan hiba az onSubmit során:", error);
+  }
   }
 }

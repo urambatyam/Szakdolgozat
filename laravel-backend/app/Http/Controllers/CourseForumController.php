@@ -5,27 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\CourseForum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-
+/**
+ * Kezeli a kurzus forum bejgyzések lekrédeséit és műveleteit: létrehozás, lekérdezés, törlés.
+ */
 class CourseForumController extends Controller
 {
 
     /**
-     * Store a newly created resource in storage.
+     * Új fórumbejegyzést hoz létre a megadott kurzushoz.
+     * A bejegyzést a jelenleg bejelentkezett felhasználóhoz rendeli.
+     *
+     * @param Request $request A bejövő HTTP kérés.
+     * @return JsonResponse A létrehozott CourseForum modell példány, vagy hiba esetén JSON válasz.
+     * @throws ValidationException Ha a validálás sikertelen.
      */
+
     public function store(Request $request)
     {
         $values = $request->validate([
             'course_id' => 'required|exists:courses,id|integer',
             'message' => 'required|max:255'
         ]);
-
         $forum = $request->user()->forums()->create($values);
-        
-        return $forum;
+        return response()->json($forum, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Visszaadja az összes fórumbejegyzést egy adott kurzushoz.
+     *
+     * @param int $course_id Annak a kurzusnak az azonosítója, amelynek a bejegyzéseit le szeretnénk kérni.
+     * @return JsonResponse A megadott kurzushoz tartozó fórumbejegyzések kollekciója,
+     * vagy üres kollekció, ha nincs találat. Hiba esetén JSON válasz.
      */
     public function show(int $course_id)
     {
@@ -36,7 +46,13 @@ class CourseForumController extends Controller
 
 
     /**
-     * Remove the specified resource from storage.
+     * Töröl egy adott fórumbejegyzést az azonosítója alapján.
+     * Ellenőrzi, hogy a felhasználónak van-e jogosultsága törölni a bejegyzést.
+     *
+     * @param CourseForum $courseForum Az eltávolítandó CourseForum modell példány.
+     * @return JsonResponse Sikeres törlés esetén egy üzenetet tartalmazó JSON válasz.
+     * Jogosultsági hiba esetén 403 Forbidden választ ad (a Gate::authorize kezeli).
+     * Ha a modell nem található , 404 Not Found választ ad.
      */
     public function destroy(CourseForum $courseForum)
     {
@@ -45,6 +61,6 @@ class CourseForumController extends Controller
 
         $courseForum->delete();
 
-        return ['message' => 'A/Az '.$id.' kurzus bejegyzés törölve lett!'];
+        return response()->json(['message' => 'A/Az '.$id.' kurzus bejegyzés törölve lett!']);
     }
 }

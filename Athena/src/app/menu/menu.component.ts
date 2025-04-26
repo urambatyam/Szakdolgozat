@@ -12,6 +12,9 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+/**
+ * Ez a menü itt lehet navigálni és nyelvet állitani
+ */
 @Component({
   selector: 'app-menu',
   standalone: true,
@@ -32,9 +35,6 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
-/**
- * Ez a menü itt lehet navigálni és nyelvet állitani
- */
 export class MenuComponent implements OnInit, OnDestroy {
   
   private breakpointObserver = inject(BreakpointObserver);

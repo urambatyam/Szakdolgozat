@@ -7,26 +7,32 @@ use App\Models\User;
 //use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use App\Http\Resources\CourseResource;
 use App\Models\CoursePrerequisite;
 use App\Models\SubjectMatter;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+/**
+ * Kezeli a kurzus lekrédeséket és műveleteket: létrehozás,lekérdezés, szerkesztés, törlés.
+ */
 class CourseController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
+     * Viszadja az összes kurzust.
+     * @return JsonResponse A létrehozott kurzust és üzenetet tartalmazó JSON válasz.
+     * @throws ValidationException Ha a validálás sikertelen.
      */
     public function index()
     {
         return Course::all();
     }
 
-        /**
-     * Display a listing of the resource.
+    /**
+     * Viszadja az összes kurzus nevét és az azonosítóját.
+     * @return JsonResponse A kurzusok név-id párosai és üzenetet tartalmazó JSON válasz.
+     * @throws ValidationException Ha a validálás sikertelen.
      */
     public function getAllCoursesNames()
     {
@@ -34,7 +40,11 @@ class CourseController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Létrehoz egy új kurzust a megadott validált adatokkal, ha megfelő jogosultságal
+     * rendelkezik a felhasználó.
+     * @param Request $request A bejövő HTTP kérés.
+     * @return JsonResponse A létrehozott kurzust és üzenetet tartalmazó JSON válasz.
+     * @throws ValidationException Ha a validálás sikertelen.
      */
     public function store(Request $request)
     {
@@ -89,13 +99,28 @@ class CourseController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Vissza add egy kurzust az azonosító alapján.
+     * @param Course $course A lekérdezett kurzus.
+     *
+     * @return JsonResponse A létrehozott kurzust és üzenetet tartalmazó JSON válasz.
+     * @throws ValidationException Ha a validálás sikertelen.
      */
     public function show(Course $course)
     {
         return $course;
     }
-
+    /**
+     * Vissza addja az összes kurzust a felhasználó jogusultsága alpján.
+     * admin - minden kurzus
+     * student - semmi
+     * teacher - minden kurzus aminek ő a tárgyfelelőse
+     * és elátja a rendezési lapozási és szürési tulajdoonságakat.
+     *
+     * @param String $user_code A felhasználó azonósitója.
+     * @param Request $request A bejövő HTTP kérés.
+     * @return JsonResponse A kurzusokat és üzenetet tartalmazó JSON válasz.
+     * @throws ValidationException Ha a validálás sikertelen.
+     */
     public function getAllCoursesOFUser(Request $request, String $user_code)
     {
         Gate::authorize('getAllCoursesOFUser', Course::class);
@@ -141,13 +166,17 @@ class CourseController extends Controller
             $paginatedResult->currentPage(),
             ['path' => request()->url(), 'query' => request()->query()]
         );
-    
         return $newPaginator;
     }
     
 
     /**
-     * Update the specified resource in storage.
+     * szerkeszt egy kurzust a bejővő adatok alapján.
+     *
+     * @param Course $course A kurzus azonósitója.
+     * @param Request $request A bejövő HTTP kérés.
+     * @return JsonResponse A módositott kurzus és üzenetet tartalmazó JSON válasz.
+     * @throws ValidationException Ha a validálás sikertelen.
      */
     public function update(Request $request, Course $course)
     {
@@ -179,14 +208,16 @@ class CourseController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * türül egy kurzust a bejővő adatok alapján.
+     *
+     * @param Course $course A kurzus azonósitója.
+     * @return JsonResponse A JSON válasz.
      */
     public function destroy(Course $course)
     {
         $name = $course->name;
         Gate::authorize('delete',Course::class);
         $course->delete();
-
         return ['message' => 'A/Az '.$name.' kurzus törölve lett!'];
     }
 }

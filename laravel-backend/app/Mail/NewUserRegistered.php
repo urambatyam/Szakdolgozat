@@ -3,13 +3,14 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
-
+/**
+ * A felhasználó regisztrálásakor küldöt email
+ */
 class NewUserRegistered extends Mailable
 {
     use Queueable, SerializesModels;
@@ -37,17 +38,17 @@ class NewUserRegistered extends Mailable
     }
 
     /**
-     * Get the message content definition.
+     * At email tartalma.
      */
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.new_user_registered', // A Blade nézet neve
+            markdown: 'emails.new_user_registered', 
             with: [
                 'userName' => $this->user->name,
                 'userCode' => $this->user->code,
                 'userPassword' => $this->plainPassword,
-                'loginUrl' => url('/login'), // Opcionális: Link a bejelentkezési oldalra
+                'loginUrl' => url('/login'),
             ],
         );
     }

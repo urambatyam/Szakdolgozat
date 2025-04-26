@@ -1,7 +1,12 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { isPlatformBrowser } from '@angular/common';
-
+/**
+ * @Injectable TranslationService
+ * @description
+ * Szolgáltatás a kurzusokkal foditási műveletek kezelésére.
+ * Lehetővé teszi a komponensek forditását.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +26,7 @@ export class TranslationService  {
       this.translateService.use(this.defaultLang);
     }
   }
-
+  
   changeLang(lang: string) {
     this.translateService.use(lang);
     if (isPlatformBrowser(this.platformId)) {

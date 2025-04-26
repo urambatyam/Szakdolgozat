@@ -15,6 +15,7 @@ class CurriculumController extends Controller
 {
     /**
      * Lekéri az összes tantervet. vagy ha diák akkor csak a hozzá tartozót.
+     * @return JsonResponse A lekérdezett tanterveket tartalmazó JSON válasz.
      */
     public function index(){
         if(Auth::check() && Auth::user()->role === 'student'){
@@ -28,6 +29,9 @@ class CurriculumController extends Controller
 
     /**
      * Létrehoz egy új tantervet a hozzá tartozó specializációkkal, kategoriákkal, és kategoria-kurzus kapcsolatokkal.
+     * @param Request $request A bejövő HTTP kérés.
+     * @return JsonResponse A létrehozott tantervet tartalmazó JSON válasz.
+     * @throws ValidationException Ha a validálás sikertelen.
      */
     public function store(Request $request)
     {
@@ -83,6 +87,9 @@ class CurriculumController extends Controller
 
     /**
      * Lekér egy tantervet a hozzá kapcsolodó specializációk, kategoriák és kurzusokkal együtt.
+     * @param Curriculum $curriculum A lekérdezett tanterv.
+     * @param Request $request A bejövő HTTP kérés.
+     * @return JsonResponse A lekérdezett tantervet tartalmazó JSON válasz.
      */
     public function show(Request $request, Curriculum $curriculum)
     {
@@ -125,6 +132,9 @@ class CurriculumController extends Controller
 
     /**
      * Firiisti a tantervet. (A komplesz kapcsolatok, miatt ez azt jeleniti hogy törli a tantervet és létrehoz egy újat)
+     * @param Curriculum $curriculum A tanterv.
+     * @param Request $request A bejövő HTTP kérés.
+     * @return JsonResponse A JSON válasz.
      */
     public function update(Request $request, Curriculum $curriculum)
     {
@@ -184,13 +194,13 @@ class CurriculumController extends Controller
 
     /**
      * Törli a tantervet.
+     * @param Curriculum $curriculum A tanterv.
+     * @return JsonResponse A JSON válasz.
      */
     public function destroy(Curriculum $curriculum)
     {
         $id = $curriculum->id;
-
         $curriculum->delete();
-
         return ['message' => 'A/Az '.$id.' tanterv törölve lett!'];
     }
 }

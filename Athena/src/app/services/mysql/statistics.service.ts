@@ -15,11 +15,8 @@ import { ProgressResponse, LinearRegressionResponse, TANResponse } from '../../p
   providedIn: 'root'
 })
 export class StatisticsService {
-  /** @private HttpClient a HTTP kérések végrehajtásához. */
   private http = inject(HttpClient);
-  /** @private AuthService az autentikációs header-ök lekérdezéséhez. */
   private auth = inject(AuthService);
-
   /**
    * Lekérdezi egy adott kurzushoz tartozó boxplot diagram adatait.
    * @param courseId - A kurzus azonosítója.

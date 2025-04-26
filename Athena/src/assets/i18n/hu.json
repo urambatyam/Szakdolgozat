@@ -29,7 +29,13 @@
         "NOT_COMPLETED": "Nem teljesítve",
         "COMPLETED": "Teljesítve"
     },
+    "subject-topic":{
+        "REQUIRED":"Követelmények",
+        "WITCA":"Miről szól a kurzus?",
+        "WSWYA" :"Milyen képeségeket fogsz elsajátitani?"
+    },
     "GENERAL":{
+        "SAVE":"Mentés",
         "CLOSE": "Bezárás"
     },
     "profile":{
@@ -130,7 +136,17 @@
         "GRADES": "Ellenörző",
         "FORUM": "Forum"
     },
+    "courseStatistics":{
+        "DISTRIBUTION_TITLE":"Normál elsozlás",
+        "GRADE_RATE_TITLE":"Jegyek megoszlása",
+        "COMPLETION_RATE_TITLE":"Bukási ráta",
+        "LINEAR_REGRESSION_TITLE":"Lineáris regresszió",
+        "BOXPLOT_TITLE":"Boxplot"
+    },
     "forum":{
+        "NO_Massage": "Nincsenek üzenetek",
+        "SUBJECTMATER": "Tárgytematika",
+        "STATISTICS": "Statisztikák",
         "FORUM": "Forum",
         "DATAILS": "Kurzus adatai:",
         "Massage": "Üzenetek",

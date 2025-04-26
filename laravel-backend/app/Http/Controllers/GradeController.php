@@ -8,7 +8,9 @@ use App\Models\Course;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 /**
- * A jegyek lekérdezésit kezelő kontroller.
+ * A jegyekkel és kurzusfelvételekkel kapcsolatos műveleteket kezelő kontroller.
+ * Felelős a jegyek listázásáért, új kurzusfelvétel (jegy létrehozása null értékkel) validálásáért és rögzítéséért,
+ * jegyek frissítéséért és törléséért.
  */
 class GradeController extends Controller
 {

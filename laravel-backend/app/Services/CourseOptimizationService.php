@@ -6,10 +6,20 @@ use App\Models\Curriculum;
 use Illuminate\Support\Collection;
 
 /**
- * Kurzusok optimalizálása mohó algoritmus alapján.
+ * Kurzusok optimalizálása mohó (Greedy) algoritmus alapján.
  *
- * @property int $timeLimit idő limit másdopercben
- * @property float $startTime kezdés ideje
+ * Ez a szolgáltatás egy mohó stratégiát alkalmazva próbál optimális tantervet generálni
+ * a megadott tanterv, kreditlimit, specializációk, preferenciák és előzmények alapján.
+ * Félévről félévre haladva a leghatékonyabbnak ítélt, felvehető kurzusokat választja ki.
+ *
+ * @property Curriculum $curriculum A feldolgozandó tanterv modell.
+ * @property array $allCourses A tantervhez tartozó összes kurzus adatai.
+ * @property array $courseCategories Kurzusok és kategóriáik kapcsolata.
+ * @property int $maxCreditsPerSemester Félévenként felvehető maximális kreditszám.
+ * @property array $allCoursePreRequisites Kurzusok előfeltételeinek listája.
+ * @property ?Collection $relevantCategories A kiválasztott specializációkhoz tartozó releváns kategóriák kollekciója.
+ * @property int $timeLimit Az algoritmus futási időkorlátja másodpercben.
+ * @property float $startTime Az algoritmus futásának kezdési időpontja.
  */
 class CourseOptimizationService
 {
@@ -21,7 +31,13 @@ class CourseOptimizationService
     private ?Collection $relevantCategories = null;
     private int $timeLimit = 59;
     private float $startTime;
-
+    /**
+     * Konstruktor: Inicializálja a szolgáltatást a tantervvel és a kreditlimittel.
+     * Betölti és feldolgozza a tanterv kurzusait, kategóriáit és előfeltételeit.
+     *
+     * @param Curriculum $curriculum A feldolgozandó tanterv modell, betöltött relációkkal.
+     * @param int $maxCreditsPerSemester Félévenként felvehető maximális kreditszám.
+     */
     public function __construct(Curriculum $curriculum, int $maxCreditsPerSemester = 30)
     {
         $this->curriculum = $curriculum;
@@ -46,15 +62,17 @@ class CourseOptimizationService
         }
     }
     /**
-     * Ellenőrzi, hogy a tanterv optimalizációs probléma megoldható-e.
+     * Ellenőrzi, hogy a tanterv optimalizációs probléma megoldható-e a megadott feltételekkel.
+     * Vizsgálja a kötelező és tiltott kurzusok közötti konfliktusokat,
+     * valamint azt, hogy egy kötelező kurzus előfeltétele nem tiltott-e.
      *
-     * @param array $positiveCoursesToTake A kötelezően felveendő kurzusok
-     * @param array $negativeIds A tiltott kurzusok azonosítói
-     * @return array [bool $solvable, string $errorMessage]
+     * @param array $positiveCoursesToTake A kötelezően felveendő kurzusok adatai.
+     * @param array<int> $negativeIds A tiltott kurzusok azonosítóinak tömbje.
+     * @return array Egy tömb, amelynek első eleme egy logikai érték,
+     * a második pedig egy hibaüzenet string.
      */
     private function isProblemSolvable(array $positiveCoursesToTake, array $negativeIds): array
     {
-        // 1. Ellenőrizzük, hogy van-e átfedés a pozitív és negatív kurzusok között
         $conflictingCourses = array_intersect(array_keys($positiveCoursesToTake), $negativeIds);
         if (!empty($conflictingCourses)) {
             $conflictNames = [];
@@ -68,11 +86,8 @@ class CourseOptimizationService
             ];
         }
 
-        // 2. Ellenőrizzük a pozitív kurzusok előfeltételeit
         foreach ($positiveCoursesToTake as $courseId => $courseData) {
             $prerequisites = $this->allCoursePreRequisites[$courseId] ?? [];
-            
-            // Kizárt előfeltételek keresése
             $blockedPrereqs = array_intersect($prerequisites, $negativeIds);
             if (!empty($blockedPrereqs)) {
                 $courseName = $courseData['name'] ?? ($this->allCourses[$courseId]->name ?? "ID: {$courseId}");
@@ -93,9 +108,19 @@ class CourseOptimizationService
 
     /**
      * Generálja az optimális tantervet a mohó algoritmus alapján.
-     * 
-     * 
+     * Félévről félévre haladva kiválasztja a legmagasabb "hatékonyságú" (kredit * releváns kategóriák száma),
+     * felvehető kurzusokat a kreditlimitig, figyelembe véve az előfeltételeket, szezonalitást,
+     * kötelező és tiltott kurzusokat, valamint az ajánlott félévet.
+     *
+     * @param array<int> $selectedSpecializationIds A kiválasztott specializációk azonosítóinak tömbje.
+     * @param bool $startWithFall Kezdő félév (true: ősz, false: tavasz).
+     * @param bool $considerRecommendedSemester Figyelembe vegye-e az ajánlott félévet a kurzusválasztásnál.
+     * @param array $history Előzőleg teljesített kurzusok listája.
+     * @param array<int> $nagativIds A kihagyandó (tiltott) kurzusok azonosítóinak tömbje.
+     * @param array<int, array> $pozitivCoursesData A kötelezően felveendő kurzusok adatai.
+     * @return array Az optimalizált tantervtervet tartalmazó tömb.
      */
+
     public function generateOptimalPlan(
         array $selectedSpecializationIds,
         bool $startWithFall = true,
@@ -165,7 +190,6 @@ class CourseOptimizationService
         $availableCourses = $relevantCourses;
         $positiveCoursesTaken = [];
         $emptySemesterCount = 0;
-        $timeLimitReached = false;
 
         if (!empty($history)) {
             $lastHistorySemesterIndex = -1;
@@ -198,47 +222,33 @@ class CourseOptimizationService
 
         while (true) {
             if (microtime(true) - $this->startTime > $this->timeLimit) {
-                $timeLimitReached = true;
                 $studyPlan['warnings'][] = "Az algoritmus elérte az időkorlátot ({$this->timeLimit}s) a tervezés közben.";
                 break; 
             }
-
             if ($emptySemesterCount >= 2) {
                 $studyPlan['warnings'][] = "Az algoritmus megállt, mert 2 egymást követő félévben nem sikerült kurzust felvenni.\n";
                 break;
             }
-
             $allCategoriesDone = !in_array(false, $categoriesCompleted, true);
             $remainingPositiveIds = array_diff(array_keys($positiveCoursesToTake), $positiveCoursesTaken);
             $allPositiveDone = empty($remainingPositiveIds);
-  
+
             if ($allCategoriesDone && $allPositiveDone) {
                 break; 
             }
-
             $currentSemesterPlan = ['is_fall' => $isFallSemester, 'courses' => [], 'total_credits' => 0];
             $creditsThisSemester = 0;
             $coursesAddedThisSemesterIds = [];
             $courseAdded = false;
             $seasonFilter = $isFallSemester ? 1 : 0;
-
-            // 1. Pozitív kurzusok ellenőrzése és felvétele ha lehet
             foreach ($positiveCoursesToTake as $courseId => $course) {
                 if (in_array($courseId, $positiveCoursesTaken) || in_array($courseId, $coursesAddedThisSemesterIds)) {
                     continue;
                 }
-
-                // Ellenőrzöm:
-                // A pozitiv kurzus előfeltétele teljesült
                 $prereqsOK = $this->checkPrerequisites($courseId, $completedCourses);
-                // A pozitiv kurzus jó sezonban van
                 $seasonOk = ($course['sezon'] === null || $course['sezon'] === $seasonFilter);
-                // ha felveszem a kurzust limiten belül vagyunk
                 $creditLimitOk = ($creditsThisSemester + $course['kredit'] <= $this->maxCreditsPerSemester);
-                // Ajánlott félév feltétel
                 $recommendedOk = !$considerRecommendedSemester || $currentSemester >= $course['recommendedSemester'];
-
-                // Ha jó felvesszük
                 if ($prereqsOK && $seasonOk && $creditLimitOk && $recommendedOk) {
                     $currentSemesterPlan['courses'][] = ['id' => $courseId, 'name' => $course['name'], 'kredit' => $course['kredit']];
                     $creditsThisSemester += $course['kredit'];
@@ -250,16 +260,12 @@ class CourseOptimizationService
                     unset($availableCourses[$courseId]);
                 }
             }
-
-
-            // Mohó algoritmus
             $semesterAvailableCourses = [];
             foreach ($availableCourses as $courseId => $course) {
                 if (!in_array($courseId, $coursesAddedThisSemesterIds) && ($course['sezon'] === null || $course['sezon'] === $seasonFilter)) {
                     $semesterAvailableCourses[$courseId] = $course;
                 }
             }
-            //rendzem heuresztika szerint
             uasort($semesterAvailableCourses, function($a, $b) {
                 return ($b['efficiency'] ?? 0) <=> ($a['efficiency'] ?? 0);
             });
@@ -268,11 +274,8 @@ class CourseOptimizationService
                 if ($creditsThisSemester >= $this->maxCreditsPerSemester) {
                     break; 
                 }
-                //előfeltétel teljesül
                 $prereqsOK = $this->checkPrerequisites($courseId, $completedCourses);
-                // a félévenkénti minimum kredit
                 $creditLimitOk = ($creditsThisSemester + $course['kredit'] <= $this->maxCreditsPerSemester);
-                // Ajánlott félév feltétel
                 $recommendedOk = !$considerRecommendedSemester || $currentSemester >= $course['recommendedSemester'];
 
                 if ($prereqsOK && $creditLimitOk && $recommendedOk) {
@@ -298,7 +301,6 @@ class CourseOptimizationService
             }
             $currentSemesterPlan['total_credits'] = $creditsThisSemester;
             $studyPlan['semesters'][] = $currentSemesterPlan;
-            // Üres félév számláló frissítése
             if ($courseAdded) {
                 $emptySemesterCount = 0;
             } else {
@@ -329,8 +331,6 @@ class CourseOptimizationService
                     $emptySemesterCount++;
                 }
             }
-
-            // Következő félévre lépés (akkor is, ha nem vettünk fel semmit)
             $currentSemester++;
             $isFallSemester = !$isFallSemester;
 
@@ -363,8 +363,6 @@ class CourseOptimizationService
                 $studyPlan['warnings'][] = $text;
              }
         }
-
-        // Ellenőrzés, hogy minden pozitív kurzust sikerült-e felvenni
         if (!empty($finalRemainingPositiveIds)) {
             
             $missedPositiveCourses = [];
@@ -379,8 +377,6 @@ class CourseOptimizationService
             $text = $text.")\n";
             $studyPlan['warnings'][] = $text;
         }
-
-        // Összesítések 
         $totalCredits = 0;
         $totalCourses = 0;
         foreach ($studyPlan['semesters'] as $semester) {
@@ -392,13 +388,17 @@ class CourseOptimizationService
         $studyPlan['total_credits'] = $totalCredits;
         $studyPlan['total_courses'] = $totalCourses;
         $studyPlan['total_semesters'] = count($studyPlan['semesters']);
-        $studyPlan['all_requirements_met'] = $allCategoriesCompleted && empty($finalRemainingPositiveIds); 
-        
+        $studyPlan['all_requirements_met'] = $allCategoriesCompleted && empty($finalRemainingPositiveIds);  
         if (empty($studyPlan['warnings'])) { unset($studyPlan['warnings']); }
-
         return $studyPlan;
     }
-
+    /**
+     * Ellenőrzi, hogy egy adott kurzus összes előfeltétele teljesült-e.
+     *
+     * @param int $courseId A vizsgált kurzus azonosítója.
+     * @param array<int> $completedCourses A már teljesített kurzusok azonosítóinak tömbje.
+     * @return bool Igaz, ha minden előfeltétel teljesült, hamis egyébként.
+     */
     private function checkPrerequisites(int $courseId, array $completedCourses): bool
     {
         if (!isset($this->allCoursePreRequisites[$courseId]) || empty($this->allCoursePreRequisites[$courseId])) {
@@ -411,7 +411,16 @@ class CourseOptimizationService
         }
         return true;
     }
-
+    /**
+     * Frissíti a kategóriánként összegyűjtött krediteket és a kategória teljesítettségi állapotát
+     * egy kurzus felvétele után.
+     *
+     * @param array $course A felvett kurzus adatai.
+     * @param array &$categoryCredits Referencia a kategóriánkénti krediteket tároló tömbre.
+     * @param array &$categoriesCompleted Referencia a kategóriák teljesítettségét jelző tömbre.
+     * @param Collection $relevantCategories A releváns kategóriák kollekciója.
+     * @return void
+     */
     private function updateCategoryCredits(array $course, array &$categoryCredits, array &$categoriesCompleted, Collection $relevantCategories): void
     {
         if (!isset($course['categories']) || !is_array($course['categories'])) {
@@ -429,24 +438,26 @@ class CourseOptimizationService
             }
         }
     }
-
+    /**
+     * Kiszámítja és visszaadja a specializációnkénti és kategóriánkénti kreditbontást
+     * egy elkészült tanterv alapján. Összehasonlítja a megszerzett krediteket a minimum követelményekkel.
+     *
+     * @param array $studyPlan Az elkészült tanterv tömb (`generateOptimalPlan` visszatérési értéke).
+     * @return array A kreditbontást tartalmazó tömb, specializációkra és kategóriákra bontva.
+     *               Üres tömböt ad vissza, ha a bemenet érvénytelen.
+     */
     public function getCreditsBreakdown(array $studyPlan): array
     {
-        // A felhasználó által preferált verzió (feltételezve, hogy visszaállította)
         $categoryCredits = [];
         $courses = [];
-
-        // Ellenőrizzük, hogy a studyPlan tartalmazza-e a 'semesters' kulcsot és az tömb-e
         if (!isset($studyPlan['semesters']) || !is_array($studyPlan['semesters'])) {
-            // Kezeljük le az esetet, pl. üres tömb visszaadása vagy hiba jelzése
-             return []; // Vagy egy specifikusabb hiba struktúra
+             return []; 
         }
 
 
         foreach ($studyPlan['semesters'] as $semester) {
             if (is_array($semester) && isset($semester['courses'])) {
                 foreach ($semester['courses'] as $course) {
-                    // Biztonsági ellenőrzés, hogy a $course tömb és tartalmazza a szükséges kulcsokat
                     if(is_array($course) && isset($course['id']) && isset($course['kredit'])){
                         $courses[] = $course;
                     }
@@ -456,31 +467,25 @@ class CourseOptimizationService
 
         foreach ($courses as $course) {
             $courseId = $course['id'];
-
-            // Ellenőrizzük, hogy létezik-e a kurzushoz kategória információ
             if (!isset($this->courseCategories[$courseId])) {
-                continue; // Ha nincs, kihagyjuk
+                continue; 
             }
 
             foreach ($this->courseCategories[$courseId] as $categoryId) {
                 if (!isset($categoryCredits[$categoryId])) {
                     $categoryCredits[$categoryId] = 0;
                 }
-                // Biztonsági ellenőrzés, hogy a kredit numerikus érték
                 if(is_numeric($course['kredit'])){
                     $categoryCredits[$categoryId] += $course['kredit'];
                 }
             }
         }
-
         $result = [];
-        // Ellenőrizzük, hogy a $this->curriculum->specializations létezik és iterálható-e
         if(!isset($this->curriculum->specializations) || !is_iterable($this->curriculum->specializations)){
-            return []; // Vagy hiba jelzése
+            return []; 
         }
 
         foreach ($this->curriculum->specializations as $index => $specialization) {
-            // Biztonsági ellenőrzés, hogy $specialization objektum és vannak tulajdonságai
             if(!is_object($specialization) || !isset($specialization->name) || !isset($specialization->min)){
                  continue;
             }
@@ -490,18 +495,16 @@ class CourseOptimizationService
                 'categories' => [],
                 'is_completed' => true,
                 'credits_earned' => 0,
-                'max' => 0, // Ezt a mezőt lehet, hogy a Controller tölti fel, itt inicializáljuk
+                'max' => 0, 
                 'min' => $specialization->min
             ];
 
-            // Ellenőrizzük, hogy a $specialization->categories létezik és iterálható-e
             if(!isset($specialization->categories) || !is_iterable($specialization->categories)){
-                 continue; // Kihagyjuk ezt a specializációt, ha nincsenek kategóriái
+                 continue; 
             }
 
 
             foreach ($specialization->categories as $category) {
-                 // Biztonsági ellenőrzés, hogy $category objektum és vannak tulajdonságai
                  if(!is_object($category) || !isset($category->id) || !isset($category->name) || !isset($category->min)){
                      continue;
                  }
@@ -511,12 +514,11 @@ class CourseOptimizationService
                 $result[$index]['categories'][] = [
                     'category_name' => $category->name,
                     'min' => $category->min,
-                    'max' => $category->max ?? 0, // Használjunk null coalescing operátort, ha a max nem mindig létezik
+                    'max' => $category->max ?? 0, 
                     'credits_earned' => $creditsEarned,
                     'is_completed' => $creditsEarned >= $category->min,
                 ];
 
-                // Biztonsági ellenőrzés a max értékre
                 $result[$index]['max'] += $category->max ?? 0;
                 $result[$index]['credits_earned'] += $creditsEarned;
 

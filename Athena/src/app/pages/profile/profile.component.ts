@@ -12,7 +12,9 @@ import { DialogComponent } from './dialog/dialog.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core'; 
 import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; 
-
+/**
+ * A felhasználó adatainak megjelenítése, jelszó, email változtatás.
+ */
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -30,9 +32,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
-/**
- * A felhasználó adatainak megjelenítése, jelszó, email változtatás.
- */
 export class ProfileComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private dialog = inject(MatDialog);

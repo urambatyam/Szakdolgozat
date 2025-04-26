@@ -1,6 +1,4 @@
 <?php
-//https://mailtrap.io/blog/send-email-in-laravel/
-//https://dev.to/yasserelgammal/generate-random-password-in-laravel-4003
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -10,8 +8,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse; 
 use Illuminate\Validation\ValidationException; 
-use Illuminate\Support\Facades\Mail; // <-- Hozzáadva
-use App\Mail\NewUserRegistered;      // <-- Hozzáadva
+use Illuminate\Support\Facades\Mail; 
+use App\Mail\NewUserRegistered;      
 use Illuminate\Support\Facades\Log; 
 
 /**
@@ -22,7 +20,7 @@ class AuthController extends Controller
     /**
      * Új felhasználó regisztrálása a rendszerbe.
      *
-     * Generál egy egyedi felhasználói kódot (`code`), generál egy jelszót,
+     * Generál egy egyedi felhasználói kódot, generál egy jelszót,
      * létrehozza a felhasználót (a jelszó hashelése a User modellen keresztül történik),
      * majd emailt küld a felhasználónak és az adminnak a belépési adatokkal.
      *
@@ -51,32 +49,22 @@ class AuthController extends Controller
             }
             $code = implode('', $codeChars);
             $exists = User::where('code', $code)->exists();
-
         } while ($exists);
-
         $values['code'] = $code;
         $values['password'] = Str::password(12,true, true, true, false); 
         $user = User::create($values);
         $adminEmail = "salt90502@gmail.com";
         try {
-            // Küldés az új felhasználónak
             Mail::to($user->email)->send(new NewUserRegistered($user, $values['password']));
-
-            // Másolat küldése az adminnak (ugyanazzal a sablonnal)
-            if ($adminEmail) { // Csak akkor küldjön, ha be van állítva
+            if ($adminEmail) {
                  Mail::to($adminEmail)->send(new NewUserRegistered($user, $values['password']));
             }
-
         } catch (\Exception $e) {
-            // Hiba logolása, ha az email küldés sikertelen
             Log::error('Regisztrációs email küldése sikertelen: ' . $user->email . ' Hiba: ' . $e->getMessage());
-            // Fontos: Döntsd el, mi történjen ilyenkor. Lehet, hogy a felhasználót létrehoztad,
-            // de az email nem ment ki. Visszaadhatsz egy figyelmeztetést.
              return response()->json([
                  'message' => 'Felhasználó létrehozva, de az értesítő email küldése sikertelen!',
-                 // Csak a biztonságos adatokat adjuk vissza
                  'user' => $user
-             ], 201); // Létrehozva, de figyelmeztetéssel
+             ], 201); 
         }
         return response()->json([
             'message' => 'Felhasználó sikeresen regisztrálva. Az adatok emailben elküldve.',
@@ -85,8 +73,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Felhasználó bejelentkeztetése a felhasználói kód (`code`) és jelszó alapján.
-     *
+     * Felhasználó bejelentkeztetése a felhasználói Athena kód és jelszó alapján.
      * Ellenőrzi a megadott adatokat, és ha érvényesek, generál egy új Sanctum API tokent.
      *
      * @param Request $request A bejövő HTTP kérés.
@@ -99,17 +86,13 @@ class AuthController extends Controller
             'code' => 'required|string|exists:users,code',
             'password' => 'required|string' 
         ]);
-
         $user = User::find($values['code']);
-
         if (!$user || !Hash::check($values['password'], $user->password)) {
             return response()->json([
                 'message' => 'Hibás felhasználói kód vagy jelszó.' 
             ], 401); 
         }
-
         $token = $user->createToken('titok'); 
-
         return response()->json([
             'user' => $user,
             'token' => $token->plainTextToken,
@@ -119,16 +102,14 @@ class AuthController extends Controller
 
     /**
      * Kijelentkezteti a jelenleg hitelesített felhasználót.
-     *
      * Törli a felhasználóhoz tartozó összes Sanctum API tokent.
      *
-     * @param Request $request A bejövő HTTP kérés (a hitelesített felhasználó eléréséhez).
+     * @param Request $request A bejövő HTTP kérés.
      * @return JsonResponse Sikeres kijelentkezést jelző üzenetet tartalmazó JSON válasz.
      */
     public function logout(Request $request): JsonResponse
     {
         $request->user()->tokens()->delete();
-
         return response()->json([
             'message' => 'Sikeres kijelentkezés.'
         ]); 
@@ -136,7 +117,6 @@ class AuthController extends Controller
 
     /**
      * Visszaadja a jelenleg hitelesített felhasználó adatait.
-     *
      * Ellenőrzi, hogy van-e bejelentkezett felhasználó.
      *
      * @return User|JsonResponse A bejelentkezett felhasználó User objektuma, vagy 401-es hiba JSON válasz.
@@ -146,7 +126,6 @@ class AuthController extends Controller
         if (Auth::check()) {
             return Auth::user();
         }
-
         return response()->json([
             'message' => 'Hitelesítés szükséges.' 
         ], 401); 

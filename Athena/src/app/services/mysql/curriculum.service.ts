@@ -16,10 +16,7 @@ import { Name } from '../../models/curriculumNames';
   providedIn: 'root'
 })
 export class CurriculumService {
-
-  /** @private HttpClient a HTTP kérések végrehajtásához. */
   private http = inject(HttpClient);
-  /** @private AuthService az autentikációs header-ök lekérdezéséhez. */
   private auth = inject(AuthService);
 
         /**
@@ -37,7 +34,7 @@ export class CurriculumService {
 
         /**
          * Lekérdezi az összes elérhető tanterv nevét és azonosítóját.
-         * @returns Observable, amely egy Name objektumokból álló tömböt tartalmaz (általában id és name property-kkel).
+         * @returns Observable, amely egy Name objektumokból álló tömböt tartalmaz.
          */
         getAllCurriculumNames(): Observable<Name[]>{
           return this.http.get<Name[]>(
@@ -66,7 +63,7 @@ export class CurriculumService {
 
         /**
          * Frissít egy meglévő tantervet a backend rendszerben.
-         * @param curriculum - A frissítendő tanterv adatai, beleértve az azonosítóját (id).
+         * @param curriculum - A frissítendő tanterv adatai, beleértve az azonosítóját.
          * @returns Observable, amely a frissített tanterv adatait tartalmazza a backend válasza alapján.
          */
         updateCurriculum(curriculum: Curriculum): Observable<Curriculum>{
@@ -80,7 +77,7 @@ export class CurriculumService {
         /**
          * Töröl egy tantervet az azonosítója alapján a backend rendszerből.
          * @param curriculumId - A törlendő tanterv egyedi azonosítója.
-         * @returns Observable, amely a törlési művelet eredményét tartalmazza (a backend válaszától függően lehet Curriculum, {success: boolean} vagy üres).
+         * @returns Observable, amely a törlési művelet eredményét tartalmazza.
          */
         deleteCurriculum(curriculumId:number): Observable<Curriculum>{ 
           return this.http.delete<Curriculum>(

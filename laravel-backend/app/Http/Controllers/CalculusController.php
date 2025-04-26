@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Course;
@@ -19,11 +18,9 @@ use Illuminate\Validation\ValidationException;
 use Exception; 
 
 /**
- * @Controller CalculusController
- * @description
  * Ez a kontroller felelős a kurzusoptimalizálási algoritmusok futtatásáért
  * (Branch and Bound, Greedy) és különböző statisztikai számítások elvégzéséért
- * kurzusokhoz és hallgatókhoz kapcsolódóan (pl. boxplot, teljesítési arány, KKI).
+ * kurzusokhoz és hallgatókhoz kapcsolódóan.
  */
 class CalculusController extends Controller
 {
@@ -34,15 +31,12 @@ class CalculusController extends Controller
      * és a felhasználó által megadott preferenciákat (pozitív/negatív kurzusok).
      *
      * @param Request $request A HTTP kérés, amely tartalmazza a szükséges paramétereket
-     *                         ('curriculum_id', 'creditLimit', 'selectedSpecializationIds', stb.).
-     * @return array Tartalmazza az optimalizált tantervtervet ('optimizedPlan')
-     *               és a kreditek félévenkénti bontását ('creditsBreakdown').
+     * @return array Tartalmazza az optimalizált tantervtervet, és a kreditek félévenkénti bontását.
      * @throws ValidationException Ha a bemeneti adatok validálása sikertelen.
      */
     public function optimalizeByBnB(Request $request): array
     {
         $history = [];
-
         $values = $request->validate([
             'curriculum_id' => 'required|exists:curricula,id',
             'creditLimit' => 'required|integer|min:1',
@@ -70,7 +64,6 @@ class CalculusController extends Controller
                 ];
             }
         }
-
         $curriculum = Curriculum::find($values['curriculum_id']);
         $curriculum->load('specializations.categories.courses');
         $optimizer = new CourseOptimizationBnBService($curriculum, $values['creditLimit']);
@@ -87,7 +80,6 @@ class CalculusController extends Controller
                 $values['negativIds'],
                 $pozitivCoursesData,
             );
-
         }else{
             $optimizedPlan = $optimizer->generateOptimalPlan(
                 $values['selectedSpecializationIds'],
@@ -102,7 +94,6 @@ class CalculusController extends Controller
         return [
             "optimizedPlan" => $optimizedPlan,
             "creditsBreakdown" => $creditsBreakdown,
-
             ];
     }
 
@@ -113,9 +104,7 @@ class CalculusController extends Controller
      * és a felhasználó által megadott preferenciákat (pozitív/negatív kurzusok).
      *
      * @param Request $request A HTTP kérés, amely tartalmazza a szükséges paramétereket
-     *                         ('curriculum_id', 'creditLimit', 'selectedSpecializationIds', stb.).
-     * @return array Tartalmazza az optimalizált tantervtervet ('optimizedPlan')
-     *               és a kreditek félévenkénti bontását ('creditsBreakdown').
+     * @return array Tartalmazza az optimalizált tantervtervet,és a kreditek félévenkénti bontását.
      * @throws ValidationException Ha a bemeneti adatok validálása sikertelen.
      */
     public function optimalizeByGreedy(Request $request): array
@@ -133,7 +122,6 @@ class CalculusController extends Controller
         ]);
         $nagativ = $values['negativIds'];
         $pozitiv = $values['pozitivIds'];
-
         foreach ($pozitiv as $pId) {
             $course = Course::find($pId);
             if ($course) {
@@ -151,12 +139,9 @@ class CalculusController extends Controller
                 ];
             }
         }
-
         $curriculum = Curriculum::find($values['curriculum_id']);
         $curriculum->load('specializations.categories.courses');
-
         $optimizer = new CourseOptimizationService($curriculum, $values['creditLimit']);
-
         if(Auth::check() && Auth::user()->role == 'student'){
             /** @var User $student */
             $student = Auth::user();
@@ -180,7 +165,6 @@ class CalculusController extends Controller
                 $pozitivCoursesData,
             );
         }
-
         $creditsBreakdown = $optimizer->getCreditsBreakdown($studyPlan);
         return [
             "optimizedPlan" => $studyPlan,
@@ -196,7 +180,6 @@ class CalculusController extends Controller
      *
      * @param \Illuminate\Database\Eloquent\Collection $allgrade A hallgató jegyeinek gyűjteménye.
      * @return array A félévenkénti előzményeket tartalmazó tömb.
-     *               Formátum: `[semester_index => ['is_fall' => bool, 'year' => int, 'courses' => int[]]]`
      */
     private function makeHistory($allgrade): array
     {
@@ -254,7 +237,6 @@ class CalculusController extends Controller
      *
      * @param int $course_id A kurzus azonosítója.
      * @return JsonResponse A félévenként csoportosított jegyeket tartalmazó JSON válasz.
-     *                    Formátum: `{"semesters": {"ÉÉÉÉ S": [jegy1, jegy2, ...]}}`
      */
     public function courseBoxplot(int $course_id): JsonResponse
     {
@@ -321,23 +303,19 @@ class CalculusController extends Controller
      * Csak a nem null jegyeket veszi figyelembe.
      *
      * @param int $course_id A kurzus azonosítója.
-     * @return JsonResponse A statisztikákat tartalmazó JSON válasz
-     *                    ('frequency', 'mean', 'std', 'totalCount').
+     * @return JsonResponse A statisztikákat tartalmazó JSON válasz ('frequency', 'mean', 'std', 'totalCount').
      */
     public function courseDistribution(int $course_id): JsonResponse
     {
         $grades = Grade::whereHas('course', function ($query) use ($course_id) {
             $query->where('id', $course_id);
         })->where('grade','!=', null)->pluck('grade')->toArray();
-
-
         $result = [
             "frequency" => Distribution::frequency($grades),
             "mean" => Average::mean($grades),
             "std" => Descriptive::standardDeviation($grades, false),
             "totalCount" => count($grades),
         ];
-
         return response()->json(
             $result,200
          );
@@ -422,11 +400,9 @@ class CalculusController extends Controller
             $student = Auth::user();
             $curriculumId = $student->curriculum_id;
             $curriculum = Curriculum::with('specializations.categories.courses')->find($curriculumId);
-
             if (!$curriculum) {
                  return response()->json(['message' => 'A tanterv nem található.'], 404);
             }
-
             $studentGrades = $student->grades()->where('grade','!=',1)->pluck('course_id')->all();
             $result = ["name" => $curriculum->name, "specializations" => []];
             foreach($curriculum->specializations as $specialization){
@@ -541,11 +517,9 @@ class CalculusController extends Controller
             /** @var User $student */
             $student = Auth::user();
             $curriculumId = $student->curriculum_id;
-
             if (!$curriculumId) {
                 return response()->json(['message' => 'A diákhoz nincs tanterv rendelve.'], 404);
             }
-
             try {
                 $curriculum = Curriculum::with([
                     'specializations' => function ($query) {
@@ -558,7 +532,6 @@ class CalculusController extends Controller
                 if (!$curriculum) {
                     return response()->json(['message' => 'A tanterv nem található.'], 404);
                 }
-
                 $completedCourseIds = $student->grades()
                                             ->whereNotNull('grade')
                                             ->where('grade', '!=', 1)
@@ -582,7 +555,6 @@ class CalculusController extends Controller
                                 $categoryCompletedCredits += $course->kredit;
                             }
                         }
-
                         $categoriesData[] = [
                             "category_name" => $category->name,
                             "required_credits" => $category->min,
@@ -591,7 +563,6 @@ class CalculusController extends Controller
 
                         $specializationTotalCompletedCredits += $categoryCompletedCredits;
                     }
-
                     $result["specializations"][] = [
                         "specialization_name" => $specialization->name,
                         "is_completed" => $specializationTotalCompletedCredits >= $specialization->min,
@@ -600,14 +571,11 @@ class CalculusController extends Controller
                         "categories" => $categoriesData
                     ];
                 }
-
                 return response()->json($result, 200);
-
             } catch (Exception $e) {
                  return response()->json(['message' => 'Hiba történt a haladási adatok lekérdezése közben.'], 500);
             }
         }
-
         return response()->json(
             ["message" => "Nem diák vagy nincs bejelentkezve!"], 403
         );
@@ -624,13 +592,11 @@ class CalculusController extends Controller
     private function KKI(?string $code): array
     {
         $query = Grade::query();
-
         if($code){
             $query->whereHas('user', function ($q) use ($code) {
                 $q->where('code', $code);
             });
         }
-
         $grades = $query->with('course:id,kredit')
                         ->orderBy('year','asc')
                         ->orderBy('sezon','desc')
@@ -673,7 +639,6 @@ class CalculusController extends Controller
                 $finalData[$index] = 0;
             }
         }
-
         return [
             "label" => $label,
             "data" => $finalData

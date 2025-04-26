@@ -14,7 +14,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { Name } from '../../models/curriculumNames';
 import { CurriculumService } from '../../services/mysql/curriculum.service';
 import { TranslateModule } from '@ngx-translate/core';
-
+/**
+ * A felhasználó regisztrációját kezelő komponens
+ */
 @Component({
   selector: 'app-registration',
   standalone: true,
@@ -35,9 +37,6 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'
 })
-/**
- * A felhasználó regisztrációját kezelő komponens
- */
 export class RegistrationComponent implements OnDestroy, OnInit {
   
   /**

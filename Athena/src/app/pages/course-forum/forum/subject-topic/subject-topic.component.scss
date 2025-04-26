@@ -1,4 +1,6 @@
 $primary-color: #006a6a;
+$form-field-border-radius: 0.5em; 
+
 mat-form-field{
     width: 100%;
     height: 16.5em;
@@ -20,19 +22,13 @@ form > mat-label{
     font-size: 2em;
     font-weight: bold;
 }
-$form-field-border-radius: 0.5em; // Tetszőleges érték, pl. 8px
-
-// Első mat-form-field kiválasztása a formon belül
 mat-form-field:first-of-type {
- 
     border-top-left-radius: $form-field-border-radius;
     border-top-right-radius: $form-field-border-radius;
 
 }
 
-// Utolsó mat-form-field kiválasztása a formon belül
 mat-form-field:last-of-type {
-  
     border-bottom-left-radius: $form-field-border-radius;
     border-bottom-right-radius: $form-field-border-radius;
  

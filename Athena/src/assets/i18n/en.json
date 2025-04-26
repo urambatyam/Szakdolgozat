@@ -29,7 +29,13 @@
         "NOT_COMPLETED": "Not completed",
         "COMPLETED": "Completed"
     },
+    "subject-topic":{
+        "REQUIRED":"Requirements",
+        "WITCA":"What is the course about?",
+        "WSWYA" :"What skills will you acquire?"
+    },
     "GENERAL":{
+        "SAVE":"Save",
         "CLOSE": "Close"
     },
     "profile":{
@@ -130,7 +136,17 @@
         "GRADES": "Controller",
         "FORUM": "Forum"
     },
+    "courseStatistics":{
+        "DISTRIBUTION_TITLE":"Normal distribution",
+        "GRADE_RATE_TITLE":"Grade distribution",
+        "COMPLETION_RATE_TITLE":"Failure rate",
+        "LINEAR_REGRESSION_TITLE":"Linear regression",
+        "BOXPLOT_TITLE":"Boxplot"
+    },
     "forum":{
+        "NO_Massage": "There are no messages",
+        "SUBJECTMATER": "Subject matter",
+        "STATISTICS": "Statistics",
         "FORUM": "Forum",
         "DATAILS": "Course details:",
         "Massage": "Messages",

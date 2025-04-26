@@ -10,7 +10,10 @@ import { Router } from '@angular/router';
 import { catchError, firstValueFrom, tap, throwError } from 'rxjs'; 
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpErrorResponse } from '@angular/common/http'; 
-
+/**
+ * A bejelentkezési folyamatot kezelő komponens.
+ * Lehetővé teszi a felhasználók számára, hogy a kódjukkal és jelszavukkal hitelesítsenek.
+ */
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -26,10 +29,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-/**
- * A bejelentkezési folyamatot kezelő komponens.
- * Lehetővé teszi a felhasználók számára, hogy a kódjukkal és jelszavukkal hitelesítsenek.
- */
 export class LoginComponent {
   private auth = inject(AuthService);
   private fb = inject(FormBuilder);
