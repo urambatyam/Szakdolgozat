@@ -91,7 +91,7 @@ export class CourseService {
       * @param course_id number - A törlendő kurzus egyedi azonosítója.
       * @returns Observable, amely a törlési művelet eredményét tartalmazza.
       */
-      deleteCourse(course_id:number): Observable<Course>{
+      deleteCourse(course_id:number): Observable<{message:string}>{
         return this.http.delete<any>(
           environment.baseUrl+'/courses/'+course_id,
           {headers: this.auth.getHeaders()});

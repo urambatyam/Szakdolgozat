@@ -63,7 +63,6 @@ export class CourseForumComponent implements OnInit, OnDestroy{
   protected sortField = 'name';
   protected filterValue = '';
   private router = inject(Router)
-  private getAllCourses$ = new Subject<void>();
   private courseData = inject(CourseService)
   private auth = inject(AuthService)
   protected VisForm: boolean = false;
