@@ -1,0 +1,2689 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>athena documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">athena documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ElectronicControllerComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/electronic-controller/electronic-controller.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Komponens a jegyek megjelenítésére és kezelésére.
+Megjeleníti a jegyeket
+Két nézetmódot támogat: &#39;student&#39; (hallgatói nézet) és &#39;course&#39; (kurzus nézet, tanároknak).
+A &#39;course&#39; nézetben a tanárok módosíthatják a jegyeket.
+A &#39;student&#39; nézetben a hallgatók láthatják a jegyeiket és eltávolíthatják a kurzusfelvételeket.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-electronic-controller</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>MatCardModule</code>
+                            <code>MatTableModule</code>
+                            <code>MatIconModule</code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >FormsModule</a></code>
+                            <code>MatIconModule</code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >MatFormFieldModule</a></code>
+                            <code>MatInputModule</code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >ReactiveFormsModule</a></code>
+                            <code>MatButtonModule</code>
+                            <code>MatPaginatorModule</code>
+                            <code>MatSortModule</code>
+                            <code>MatInputModule</code>
+                            <code>MatSelectModule</code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./electronic-controller.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./electronic-controller.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#ALL_SEMESTERS" >ALL_SEMESTERS</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#columnsToDisplayWithExpand" >columnsToDisplayWithExpand</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#courseId" >courseId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#currentPage" >currentPage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#currentSemester" >currentSemester</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#destroy$" >destroy$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#displayedColumns" >displayedColumns</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#expandedElement" >expandedElement</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#filterValue" >filterValue</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#grades" >grades</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#gradeService" >gradeService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#location" >location</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#pageSize" >pageSize</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#paginator" >paginator</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#selectedSemester" >selectedSemester</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#selectedSemesterOption" >selectedSemesterOption</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#semesters" >semesters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#sort" >sort</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#sortDirection" >sortDirection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#sortField" >sortField</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#studentCode" >studentCode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#title" >title</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#totalItems" >totalItems</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#upgrades" >upgrades</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#viewMode" >viewMode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#applyFilterUserCode" >applyFilterUserCode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#back" >back</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#filterBySemester" >filterBySemester</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#formatSemester" >formatSemester</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getGrades" >getGrades</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#GradeSelectionChange" >GradeSelectionChange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#handlePageEvent" >handlePageEvent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#handleSort" >handleSort</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#remove" >remove</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#update" >update</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyFilterUserCode"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>applyFilterUserCode</b></span>
+                        <a href="#applyFilterUserCode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyFilterUserCode(e: KeyboardEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="325"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:325</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eseménykezelő a szűrő mezőben történő gépelésre.
+Frissíti a szűrési értéket.
+Visszaállítja az aktuális oldalt az elsőre.
+Újratölti a jegyeket az új szűrési feltétellel.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>e</td>
+                                            <td>
+                                                        <code>KeyboardEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A KeyboardEvent esemény objektuma.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="back"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>back</b></span>
+                        <a href="#back"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>back()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="231"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:231</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Visszanavigál az előző oldalra a böngésző előzményeiben.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterBySemester"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>filterBySemester</b></span>
+                        <a href="#filterBySemester"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>filterBySemester(option: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="341"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:341</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eseménykezelő a szemeszterválasztó select értékének megváltozásakor.
+Beállítja a kiválasztott szemesztert a szűréshez (null, ha &quot;Összes&quot;).
+Visszaállítja az aktuális oldalt az elsőre.
+Újratölti a jegyeket az új szemeszter szűréssel.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>option</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A kiválasztott opció (Semester objektum vagy az ALL_SEMESTERS konstans).</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatSemester"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>formatSemester</b></span>
+                        <a href="#formatSemester"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>formatSemester(semester: <a href="../interfaces/Semester.html" target="_self">Semester</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="361"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:361</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Formáz egy Semester objektumot olvasható stringgé a select opciókhoz.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>semester</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Semester.html" target="_self" >Semester</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A formázandó Semester objektum.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A formázott string vagy &quot;Összes szemeszter&quot;, ha a bemenet null/undefined.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getGrades"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getGrades</b></span>
+                        <a href="#getGrades"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getGrades()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="242"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:242</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Lekérdezi a jegyeket a szerverről az aktuális lapozási, rendezési és szűrési beállítások alapján.
+A nézetmódtól függően a megfelelő GradeService metódust hívja.
+Frissíti a <code>grades</code>, <code>semesters</code>, <code>totalItems</code> és <code>currentSemester</code> property-ket.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GradeSelectionChange"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>GradeSelectionChange</b></span>
+                        <a href="#GradeSelectionChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>GradeSelectionChange(event: MatSelectChange, element: <a href="../interfaces/Grade.html" target="_self">Grade</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:186</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eseménykezelő a jegy kiválasztásának megváltozásakor.
+Meghívja az <code>update</code> metódust a kiválasztott értékkel.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatSelectChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A MatSelectChange esemény objektuma.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>element</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Grade.html" target="_self" >Grade</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A módosítandó jegy.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handlePageEvent"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>handlePageEvent</b></span>
+                        <a href="#handlePageEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handlePageEvent(e: PageEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="300"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:300</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eseménykezelő a lapozó (paginator) eseményeire.
+Frissíti az aktuális oldal indexét és az oldalméretet.
+Újratölti a jegyeket az új lapozási beállításokkal.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>e</td>
+                                            <td>
+                                                        <code>PageEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A PageEvent esemény objektuma.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleSort"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>handleSort</b></span>
+                        <a href="#handleSort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleSort(e: Sort)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="312"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:312</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eseménykezelő a táblázat rendezési eseményeire.
+Frissíti a rendezési irányt és a rendezési mezőt.
+Újratölti a jegyeket az új rendezési beállításokkal.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>e</td>
+                                            <td>
+                                                        <code>Sort</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A Sort esemény objektuma.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="151"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:151</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>A komponens megsemmisülésekor lefutó metódus.
+Lezárja a <code>destroy$</code> Subject-et, hogy a folyamatban lévő Observable feliratkozások megszűnjenek.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="93"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:93</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicializálja a komponenst.
+Lekérdezi a felhasználói adatokat, beállítja a nézetmódot és a szükséges azonosítókat.
+Meghatározza a megjelenítendő oszlopokat a nézetmód alapján.
+Betölti a kezdeti jegyadatokat.
+Kezeli a hiányzó navigációs adatokat &#39;course&#39; módban.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="remove"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>remove</b></span>
+                        <a href="#remove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>remove(element: <a href="../interfaces/Grade.html" target="_self">Grade</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:164</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eltávolít egy kurzusfelvételt
+Csak &#39;course&#39; nézetmódban működik
+Meghívja a GradeService deleteGrade metódusát.
+Sikeres törlés után újratölti a jegyeket.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>element</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Grade.html" target="_self" >Grade</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A törlendő jegy.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="update"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>update</b></span>
+                        <a href="#update"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>update(selected: string | number, element: <a href="../interfaces/Grade.html" target="_self">Grade</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="201"
+                                    class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:201</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Frissíti egy hallgató jegyét egy adott kurzusból.
+Csak &#39;course&#39; nézetmódban és létező kurzus ID esetén működik.
+Meghívja a GradeService updateGrade metódusát.
+Sikeres frissítés után bezárja a kinyitott sort és frissíti a jegyet a helyi objektumban.
+Hiba esetén logolja a hibát.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>selected</td>
+                                            <td>
+                                                        <code>string | number</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A kiválasztott új jegy (&#39;ø&#39; vagy szám).</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>element</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Grade.html" target="_self" >Grade</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A módosítandó jegy.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ALL_SEMESTERS"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>ALL_SEMESTERS</b></span>
+                        <a href="#ALL_SEMESTERS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{ id: &#x27;all&#x27;, label: &#x27;Összes szemeszter&#x27; }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="columnsToDisplayWithExpand"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>columnsToDisplayWithExpand</b></span>
+                        <a href="#columnsToDisplayWithExpand"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="courseId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>courseId</b></span>
+                        <a href="#courseId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentPage"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>currentPage</b></span>
+                        <a href="#currentPage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentSemester"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>currentSemester</b></span>
+                        <a href="#currentSemester"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Semester | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>destroy$</b></span>
+                        <a href="#destroy$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayedColumns"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>displayedColumns</b></span>
+                        <a href="#displayedColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="expandedElement"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>expandedElement</b></span>
+                        <a href="#expandedElement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Grade.html" target="_self" >Grade | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filterValue"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>filterValue</b></span>
+                        <a href="#filterValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="grades"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>grades</b></span>
+                        <a href="#grades"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Grade.html" target="_self" >Grade[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gradeService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>gradeService</b></span>
+                        <a href="#gradeService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(GradeService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="location"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>location</b></span>
+                        <a href="#location"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Location)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pageSize"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>pageSize</b></span>
+                        <a href="#pageSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>10</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="paginator"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>paginator</b></span>
+                        <a href="#paginator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatPaginator</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(MatPaginator)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedSemester"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>selectedSemester</b></span>
+                        <a href="#selectedSemester"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Semester | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedSemesterOption"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>selectedSemesterOption</b></span>
+                        <a href="#selectedSemesterOption"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.ALL_SEMESTERS</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="semesters"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>semesters</b></span>
+                        <a href="#semesters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Semester[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sort"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>sort</b></span>
+                        <a href="#sort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatSort</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(MatSort)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sortDirection"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>sortDirection</b></span>
+                        <a href="#sortDirection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;asc&quot; | &quot;desc&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;asc&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sortField"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>sortField</b></span>
+                        <a href="#sortField"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;user_code&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="studentCode"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>studentCode</b></span>
+                        <a href="#studentCode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="title"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>title</b></span>
+                        <a href="#title"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalItems"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>totalItems</b></span>
+                        <a href="#totalItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="upgrades"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>upgrades</b></span>
+                        <a href="#upgrades"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&#x27;ø&#x27;, 1, 2, 3, 4, 5]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="viewMode"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>viewMode</b></span>
+                        <a href="#viewMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;course&quot; | &quot;student&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;student&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/pages/electronic-controller/electronic-controller.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, OnDestroy, OnInit, ViewChild } from &#x27;@angular/core&#x27;;
+import { FormsModule, ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
+import { MatButtonModule } from &#x27;@angular/material/button&#x27;;
+import { MatCardModule } from &#x27;@angular/material/card&#x27;;
+import { MatFormFieldModule } from &#x27;@angular/material/form-field&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { MatInputModule } from &#x27;@angular/material/input&#x27;;
+import { MatPaginator, MatPaginatorModule, PageEvent } from &#x27;@angular/material/paginator&#x27;;
+import { MatSort, MatSortModule, Sort } from &#x27;@angular/material/sort&#x27;;
+import { MatTableModule } from &#x27;@angular/material/table&#x27;;
+import { Location } from &#x27;@angular/common&#x27;;
+import { Grade, GradeApiResponse } from &#x27;../../models/grade&#x27;;
+import { Semester } from &#x27;../../models/semester&#x27;;
+import { Subject, takeUntil, catchError, EMPTY, firstValueFrom,  Observable, tap } from &#x27;rxjs&#x27;;
+import { GradeService } from &#x27;../../services/mysql/grade.service&#x27;;
+import { MatSelectChange, MatSelectModule } from &#x27;@angular/material/select&#x27;;
+import { animate, state, style, transition, trigger } from &#x27;@angular/animations&#x27;;
+import { AuthService } from &#x27;../../services/mysql/auth.service&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+
+/**
+ * Komponens a jegyek megjelenítésére és kezelésére.
+ * Megjeleníti a jegyeket
+ * Két nézetmódot támogat: &#x27;student&#x27; (hallgatói nézet) és &#x27;course&#x27; (kurzus nézet, tanároknak).
+ * A &#x27;course&#x27; nézetben a tanárok módosíthatják a jegyeket.
+ * A &#x27;student&#x27; nézetben a hallgatók láthatják a jegyeiket és eltávolíthatják a kurzusfelvételeket.
+ */
+@Component({
+  selector: &#x27;app-electronic-controller&#x27;,
+  standalone: true,
+  imports: [
+    MatCardModule,
+    MatTableModule,
+    MatIconModule,
+    FormsModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatInputModule,
+    MatSelectModule,
+    TranslateModule
+  ],
+  animations: [
+    trigger(&#x27;detailExpand&#x27;, [
+      state(&#x27;collapsed,void&#x27;, style({ height: &#x27;0px&#x27;, minHeight: &#x27;0&#x27; })),
+      state(&#x27;expanded&#x27;, style({ height: &#x27;*&#x27; })),
+      transition(&#x27;expanded &lt;&#x3D;&gt; collapsed&#x27;, animate(&#x27;225ms cubic-bezier(0.4, 0.0, 0.2, 1)&#x27;)),
+    ]),
+  ],
+  templateUrl: &#x27;./electronic-controller.component.html&#x27;,
+  styleUrl: &#x27;./electronic-controller.component.scss&#x27;
+})
+export class ElectronicControllerComponent implements OnInit, OnDestroy {
+  private destroy$ &#x3D; new Subject&lt;void&gt;();
+  protected title: string &#x3D; &#x27;&#x27;;
+  private location &#x3D; inject(Location);
+  private gradeService &#x3D; inject(GradeService);
+  private authService &#x3D; inject(AuthService);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  protected totalItems &#x3D; 0;
+  protected pageSize &#x3D; 10;
+  protected currentPage &#x3D; 0;
+  protected sortDirection: &#x27;asc&#x27; | &#x27;desc&#x27; &#x3D; &#x27;asc&#x27;;
+  protected sortField &#x3D; &#x27;user_code&#x27;;
+  protected filterValue &#x3D; &#x27;&#x27;;
+  protected grades: Grade[] &#x3D; [];
+  protected displayedColumns: string[] &#x3D; [];
+  protected columnsToDisplayWithExpand: string[] &#x3D; [];
+  protected expandedElement: Grade | null &#x3D; null;
+  private courseId?: number;
+  private studentCode?: string;
+  protected semesters: Semester[] &#x3D; [];
+  protected viewMode: &#x27;course&#x27; | &#x27;student&#x27; &#x3D; &#x27;student&#x27;;
+  protected ALL_SEMESTERS &#x3D; { id: &#x27;all&#x27;, label: &#x27;Összes szemeszter&#x27; };
+  protected selectedSemesterOption: any &#x3D; this.ALL_SEMESTERS;
+  protected selectedSemester: Semester | null &#x3D; null;
+  protected currentSemester: Semester | null &#x3D; null;
+  protected upgrades &#x3D; [&#x27;ø&#x27;, 1, 2, 3, 4, 5];
+
+  /**
+   * Inicializálja a komponenst.
+   * Lekérdezi a felhasználói adatokat, beállítja a nézetmódot és a szükséges azonosítókat.
+   * Meghatározza a megjelenítendő oszlopokat a nézetmód alapján.
+   * Betölti a kezdeti jegyadatokat.
+   * Kezeli a hiányzó navigációs adatokat &#x27;course&#x27; módban.
+   * @async
+   */
+  async ngOnInit() {
+    try {
+      const user &#x3D; await firstValueFrom(
+        this.authService.user$.pipe(
+          takeUntil(this.destroy$),
+          catchError(err &#x3D;&gt; {
+            console.error(&quot;Hiba a felhasználói adatok lekérésekor:&quot;, err);
+            this.viewMode &#x3D; &#x27;student&#x27;;
+            return EMPTY;
+          })
+        )
+      );
+      if (!user) {
+        console.warn(&quot;Nem sikerült betölteni a felhasználói adatokat.&quot;);
+        return;
+      } else {
+        this.viewMode &#x3D; user.role &#x3D;&#x3D;&#x3D; &quot;student&quot; ? &#x27;student&#x27; : &#x27;course&#x27;;
+        this.studentCode &#x3D; user.code;
+      }
+      this.columnsToDisplayWithExpand &#x3D; this.viewMode &#x3D;&#x3D;&#x3D; &#x27;student&#x27; 
+      ? [&#x27;course_name&#x27;, &#x27;grade&#x27;, &#x27;remove&#x27;] 
+      : [&#x27;user_code&#x27;, &#x27;grade&#x27;, &#x27;expand&#x27;];
+      if (this.viewMode &#x3D;&#x3D;&#x3D; &#x27;course&#x27;) {
+        const state &#x3D; history.state;
+        if (state &amp;&amp; state.courseId &amp;&amp; state.courseName) {
+          this.title &#x3D; state.courseName;
+          this.courseId &#x3D; state.courseId;
+          this.displayedColumns &#x3D; [&#x27;user_code&#x27;, &#x27;grade&#x27;];
+          //this.columnsToDisplayWithExpand &#x3D; [...this.displayedColumns, &#x27;expand&#x27;];
+          //console.log(&quot;fejlec&quot;, this.columnsToDisplayWithExpand);
+          this.sortField &#x3D; &#x27;user_code&#x27;;
+        } else {
+          console.error(&quot;Hiányzó kurzus adatok a &#x27;course&#x27; nézethez. Navigációs state:&quot;, state);
+          this.title &#x3D; &#x27;Hiba - Kurzus nem található&#x27;;
+          this.location.back();
+          return;
+        }
+      } else {
+        this.title &#x3D; &#x27;electronic-controller.TITLE&#x27;;
+        this.displayedColumns &#x3D; [&#x27;course_name&#x27;, &#x27;grade&#x27;];
+        //this.columnsToDisplayWithExpand &#x3D; [...this.displayedColumns, &#x27;remove&#x27;];
+        this.sortField &#x3D; &#x27;course_name&#x27;;
+        if (!this.studentCode) {
+          console.error(&quot;Hallgatói kód hiányzik &#x27;student&#x27; módban.&quot;);
+          return;
+        }
+      }
+      await this.getGrades();
+    } catch (error) {
+      this.location.back();
+      console.error(&quot;Hiba a komponens inicializálása során:&quot;, error);
+    }
+  }
+
+  /**
+   * A komponens megsemmisülésekor lefutó metódus.
+   * Lezárja a &#x60;destroy$&#x60; Subject-et, hogy a folyamatban lévő Observable feliratkozások megszűnjenek.
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  /**
+   * Eltávolít egy kurzusfelvételt
+   * Csak &#x27;course&#x27; nézetmódban működik
+   * Meghívja a GradeService deleteGrade metódusát.
+   * Sikeres törlés után újratölti a jegyeket.
+   * @async
+   * @param element A törlendő jegy.
+   */
+  protected async remove(element: Grade) {
+    if (element.id &amp;&amp; this.viewMode &#x3D;&#x3D;&#x3D; &#x27;course&#x27;) {
+      await firstValueFrom(
+        this.gradeService.deleteGrade(element.id)
+          .pipe(
+            catchError(error &#x3D;&gt; {
+              console.error(&#x27;Hiba a tárgyfelvétel törlésekor:&#x27;, error);
+              return EMPTY;
+            }),
+            takeUntil(this.destroy$)
+          )
+      );
+      this.getGrades();
+    }
+  }
+
+  /**
+   * Eseménykezelő a jegy kiválasztásának megváltozásakor.
+   * Meghívja az &#x60;update&#x60; metódust a kiválasztott értékkel.
+   * @param event A MatSelectChange esemény objektuma.
+   * @param element A módosítandó jegy.
+   */
+  protected GradeSelectionChange(event: MatSelectChange, element: Grade) {
+    console.log(&quot;kiválasztot &quot;, event.value, &#x27; jegy &#x27;, element);
+    this.update(event.value, element);
+  }
+
+  /**
+   * Frissíti egy hallgató jegyét egy adott kurzusból.
+   * Csak &#x27;course&#x27; nézetmódban és létező kurzus ID esetén működik.
+   * Meghívja a GradeService updateGrade metódusát.
+   * Sikeres frissítés után bezárja a kinyitott sort és frissíti a jegyet a helyi objektumban.
+   * Hiba esetén logolja a hibát.
+   * @async
+   * @param selected A kiválasztott új jegy (&#x27;ø&#x27; vagy szám).
+   * @param element A módosítandó jegy.
+   */
+  protected async update(selected: string | number, element: Grade) {
+    const updatedGrade: Grade &#x3D; {
+      ...element,
+      grade: typeof (selected) &#x3D;&#x3D; &#x27;number&#x27; ? selected : null
+    };
+    if (this.courseId &amp;&amp; this.viewMode &#x3D;&#x3D;&#x3D; &#x27;course&#x27;) {
+      try {
+        await firstValueFrom(
+          this.gradeService.updateGrade(updatedGrade).pipe(
+            tap(() &#x3D;&gt; {
+              element.grade &#x3D; updatedGrade.grade;
+              this.expandedElement &#x3D; null;
+            }),
+            catchError(error &#x3D;&gt; {
+              console.error(&#x27;Hiba a jegy frissítésekor (API):&#x27;, error);
+              return EMPTY;
+            }),
+            takeUntil(this.destroy$)
+          ),
+
+        );
+      } catch (error) {
+        console.error(&#x27;Hiba a jegy frissítésekor:&#x27;, error);
+      }
+    }
+  }
+
+  /**
+   * Visszanavigál az előző oldalra a böngésző előzményeiben.
+   */
+  protected back() {
+    this.location.back();
+  }
+
+  /**
+   * Lekérdezi a jegyeket a szerverről az aktuális lapozási, rendezési és szűrési beállítások alapján.
+   * A nézetmódtól függően a megfelelő GradeService metódust hívja.
+   * Frissíti a &#x60;grades&#x60;, &#x60;semesters&#x60;, &#x60;totalItems&#x60; és &#x60;currentSemester&#x60; property-ket.
+   * @async
+   * @private
+   */
+  private async getGrades() {
+    console.log(&#x27;getgrades &#x27;, this.viewMode, &#x27; id &#x27;, this.courseId);
+    this.grades &#x3D; [];
+    this.semesters &#x3D; [];
+    this.totalItems &#x3D; 0;
+    this.currentSemester &#x3D; null;
+    try {
+      const params: any &#x3D; {
+        page: this.currentPage + 1,
+        per_page: this.pageSize,
+        sort_field: this.sortField,
+        sort_direction: this.sortDirection
+      };
+      if (this.filterValue) {
+        params.filter &#x3D; this.filterValue;
+      }
+      if (this.selectedSemester) {
+        params.year &#x3D; this.selectedSemester.year;
+        params.sezon &#x3D; this.selectedSemester.sezon;
+      }
+
+      let gradeObservable: Observable&lt;GradeApiResponse&gt;;
+      if (this.viewMode &#x3D;&#x3D;&#x3D; &#x27;course&#x27; &amp;&amp; this.courseId) {
+        gradeObservable &#x3D; this.gradeService.getAllGradesInCourse(this.courseId, params);
+      } else if (this.viewMode &#x3D;&#x3D;&#x3D; &#x27;student&#x27; &amp;&amp; this.studentCode) {
+        gradeObservable &#x3D; this.gradeService.getAllGradesOFStudent(this.studentCode, params);
+      } else {
+        console.error(&quot;Érvénytelen állapot a getGrades hívásához: hiányzó viewMode vagy ID.&quot;);
+        return;
+      }
+
+      const response &#x3D; await firstValueFrom(
+        gradeObservable.pipe(
+          catchError(error &#x3D;&gt; {
+            console.error(&#x27;Hiba a jegyek lekérésekor (API hívás):&#x27;, error);
+            return EMPTY;
+          })
+        )
+      );
+
+      if (response) {
+        this.grades &#x3D; response.grades.data;
+        this.semesters &#x3D; response.semesters;
+        this.totalItems &#x3D; response.grades.total;
+        this.currentSemester &#x3D; this.semesters.find((s) &#x3D;&gt; s.current &#x3D;&#x3D; true) ?? null;
+      }
+    } catch (error) {
+      console.error(&#x27;Hiba a jegyek lekérésekor:&#x27;, error);
+    }
+    console.log(&quot;currwent &quot;, this.currentSemester);
+  }
+
+  /**
+   * Eseménykezelő a lapozó (paginator) eseményeire.
+   * Frissíti az aktuális oldal indexét és az oldalméretet.
+   * Újratölti a jegyeket az új lapozási beállításokkal.
+   * @param e A PageEvent esemény objektuma.
+   */
+  protected handlePageEvent(e: PageEvent) {
+    this.currentPage &#x3D; e.pageIndex;
+    this.pageSize &#x3D; e.pageSize;
+    this.getGrades();
+  }
+
+  /**
+   * Eseménykezelő a táblázat rendezési eseményeire.
+   * Frissíti a rendezési irányt és a rendezési mezőt.
+   * Újratölti a jegyeket az új rendezési beállításokkal.
+   * @param e A Sort esemény objektuma.
+   */
+  protected handleSort(e: Sort) {
+    this.sortDirection &#x3D; e.direction as &#x27;asc&#x27; | &#x27;desc&#x27;;
+    this.sortField &#x3D; e.active;
+    this.getGrades();
+  }
+
+  /**
+   * Eseménykezelő a szűrő mezőben történő gépelésre.
+   * Frissíti a szűrési értéket.
+   * Visszaállítja az aktuális oldalt az elsőre.
+   * Újratölti a jegyeket az új szűrési feltétellel.
+   * @param e A KeyboardEvent esemény objektuma.
+   */
+  protected applyFilterUserCode(e: KeyboardEvent) {
+    this.filterValue &#x3D; (e.target as HTMLInputElement).value;
+    this.currentPage &#x3D; 0;
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+    this.getGrades();
+  }
+
+  /**
+   * Eseménykezelő a szemeszterválasztó select értékének megváltozásakor.
+   * Beállítja a kiválasztott szemesztert a szűréshez (null, ha &quot;Összes&quot;).
+   * Visszaállítja az aktuális oldalt az elsőre.
+   * Újratölti a jegyeket az új szemeszter szűréssel.
+   * @param option A kiválasztott opció (Semester objektum vagy az ALL_SEMESTERS konstans).
+   */
+  protected filterBySemester(option: any) {
+    if (option &#x3D;&#x3D;&#x3D; this.ALL_SEMESTERS) {
+      this.selectedSemester &#x3D; null;
+      this.selectedSemesterOption &#x3D; this.ALL_SEMESTERS;
+    } else {
+      this.selectedSemester &#x3D; option;
+      this.selectedSemesterOption &#x3D; option;
+    }
+    this.currentPage &#x3D; 0;
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+    this.getGrades();
+  }
+
+  /**
+   * Formáz egy Semester objektumot olvasható stringgé a select opciókhoz.
+   * @param semester A formázandó Semester objektum.
+   * @returns A formázott string vagy &quot;Összes szemeszter&quot;, ha a bemenet null/undefined.
+   */
+  protected formatSemester(semester: Semester): string {
+    if (!semester) return &#x27;Összes szemeszter&#x27;;
+    const season &#x3D; semester.sezon ? &quot;Ősz&quot; : &quot;Tavasz&quot;;
+    return &#x60;${semester.year} ${season}&#x60;;
+  }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-card&gt;
+    &lt;mat-card-header&gt;
+        &lt;mat-card-title&gt;
+          @if(viewMode &#x3D;&#x3D;&#x3D; &#x27;student&#x27;){
+            {{title | translate}}
+          }@else {
+            {{title}}
+          }
+          &lt;/mat-card-title&gt;
+    &lt;/mat-card-header&gt;
+    &lt;mat-card-content&gt;
+        &lt;mat-form-field&gt;
+            &lt;mat-label&gt;{{&#x27;electronic-controller.SEARCH&#x27; | translate }}&lt;/mat-label&gt;
+            &lt;input matInput (keyup)&#x3D;&quot;applyFilterUserCode($event)&quot; placeholder&#x3D;&quot;Diák azonosítója...&quot;&gt;
+        &lt;/mat-form-field&gt;
+        &lt;mat-form-field&gt;
+          &lt;mat-label&gt;{{&#x27;electronic-controller.SEMESTER&#x27; | translate }}&lt;/mat-label&gt;
+          &lt;mat-select [value]&#x3D;&quot;selectedSemesterOption&quot; (selectionChange)&#x3D;&quot;filterBySemester($event.value)&quot;&gt;
+            &lt;mat-option [value]&#x3D;&quot;ALL_SEMESTERS&quot;&gt;{{&quot;electronic-controller.ALL_SEMESTERS&quot; | translate }}&lt;/mat-option&gt;
+            @for(semester of semesters; track $index){
+              &lt;mat-option [value]&#x3D;&quot;semester&quot;&gt;
+                {{ formatSemester(semester) }}
+              &lt;/mat-option&gt;
+            }
+          &lt;/mat-select&gt;
+      &lt;/mat-form-field&gt;
+        &lt;div class&#x3D;&quot;table-container mat-elevation-z8&quot;&gt;
+            &lt;table [dataSource]&#x3D;&quot;grades&quot; multiTemplateDataRows matSort (matSortChange)&#x3D;&quot;handleSort($event)&quot; mat-table&gt;
+              @if(viewMode &#x3D;&#x3D;&#x3D; &#x27;student&#x27;) {
+                &lt;ng-container matColumnDef&#x3D;&quot;course_name&quot;&gt;
+                  &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;{{&#x27;electronic-controller.COURSE_NAME&#x27; | translate }}&lt;/th&gt;
+                  &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt;{{ element.course_name }}&lt;/td&gt;
+                &lt;/ng-container&gt;
+
+                &lt;ng-container matColumnDef&#x3D;&quot;grade&quot;&gt;
+                  &lt;th mat-header-cell *matHeaderCellDef&gt;  {{&#x27;electronic-controller.GRADE&#x27; | translate }}&lt;/th&gt;
+                  &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt;
+                    {{ element.grade !&#x3D;&#x3D; null ? element.grade : &#x27;ø&#x27; }}
+                  &lt;/td&gt;
+                &lt;/ng-container&gt;
+                &lt;ng-container matColumnDef&#x3D;&quot;remove&quot;&gt;
+                    &lt;th mat-header-cell *matHeaderCellDef&gt;{{&#x27;electronic-controller.Subject_Submission&#x27; | translate }}&lt;/th&gt;
+                    &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt; 
+                        @if(this.currentSemester !&#x3D;&#x3D; null &amp;&amp; this.currentSemester.year &#x3D;&#x3D;&#x3D; element.year &amp;&amp; this.currentSemester.sezon &#x3D;&#x3D;&#x3D; element.sezon){
+                          &lt;button mat-fab (click)&#x3D;&quot;remove(element)&quot; &gt;&lt;mat-icon&gt;delete&lt;/mat-icon&gt;&lt;/button&gt;
+                        }
+                    &lt;/td&gt;
+                &lt;/ng-container&gt;
+                
+                &lt;tr mat-header-row *matHeaderRowDef&#x3D;&quot;columnsToDisplayWithExpand &quot;&gt;&lt;/tr&gt;
+                &lt;tr mat-row *matRowDef&#x3D;&quot;let row; columns: columnsToDisplayWithExpand ;&quot;&gt;&lt;/tr&gt;
+              }
+      
+              @if(viewMode &#x3D;&#x3D;&#x3D; &#x27;course&#x27;) {
+                &lt;ng-container matColumnDef&#x3D;&quot;user_code&quot;&gt;
+                  &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;{{&#x27;electronic-controller.CODE&#x27; | translate }}&lt;/th&gt;
+                  &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt;{{ element.user_code }}&lt;/td&gt;
+                &lt;/ng-container&gt;
+
+                &lt;ng-container matColumnDef&#x3D;&quot;grade&quot;&gt;
+                  &lt;th mat-header-cell *matHeaderCellDef&gt; {{&#x27;electronic-controller.GRADE&#x27; | translate }} &lt;/th&gt;
+                  &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt;{{ element.grade !&#x3D;&#x3D; null ? element.grade : &#x27;ø&#x27; }}&lt;/td&gt;
+                &lt;/ng-container&gt;
+
+                &lt;ng-container matColumnDef&#x3D;&quot;expand&quot;&gt;
+                  &lt;th mat-header-cell *matHeaderCellDef aria-label&#x3D;&quot;row actions&quot;&gt;&amp;nbsp;&lt;/th&gt;
+                  &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt;
+                    &lt;button 
+                      mat-icon-button
+                      aria-label&#x3D;&quot;expand row&quot;
+                      (click)&#x3D;&quot;(expandedElement &#x3D; expandedElement &#x3D;&#x3D;&#x3D; element ? null : element); $event.stopPropagation()&quot;
+                      &gt;
+                      @if (expandedElement &#x3D;&#x3D;&#x3D; element) {
+                        &lt;mat-icon&gt;keyboard_arrow_up&lt;/mat-icon&gt;
+                      } @else {
+                        &lt;mat-icon&gt;keyboard_arrow_down&lt;/mat-icon&gt;
+                      }
+                    &lt;/button&gt;
+                  &lt;/td&gt;
+              &lt;/ng-container&gt;
+
+              &lt;ng-container matColumnDef&#x3D;&quot;expandedDetail&quot;&gt;
+                  &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot; [attr.colspan]&#x3D;&quot;columnsToDisplayWithExpand.length&quot;&gt;
+                    &lt;div class&#x3D;&quot;example-element-detail&quot;
+                         [@detailExpand]&#x3D;&quot;element &#x3D;&#x3D; expandedElement ? &#x27;expanded&#x27; : &#x27;collapsed&#x27;&quot;&gt;
+                      &lt;div class&#x3D;&quot;grade-editor&quot;&gt;
+                        &lt;div class&#x3D;&quot;grade-form&quot;&gt;
+                          &lt;mat-form-field appearance&#x3D;&quot;outline&quot; class&#x3D;&quot;grade-input-field&quot;&gt;
+                            &lt;mat-label&gt;{{&#x27;electronic-controller.GRADE&#x27; | translate }}&lt;/mat-label&gt;
+                            &lt;mat-select (selectionChange)&#x3D;&quot;GradeSelectionChange($event, element)&quot;&gt;
+                              @for (upgrade of upgrades; track $index) {
+                                &lt;mat-option [value]&#x3D;&quot;upgrade&quot;&gt;{{upgrade}}&lt;/mat-option&gt;
+                              }
+                            &lt;/mat-select&gt;
+                          &lt;/mat-form-field&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/td&gt;
+              &lt;/ng-container&gt;
+
+              &lt;tr mat-header-row *matHeaderRowDef&#x3D;&quot;columnsToDisplayWithExpand&quot;&gt;&lt;/tr&gt;
+              &lt;tr mat-row *matRowDef&#x3D;&quot;let element; columns: columnsToDisplayWithExpand;&quot;
+                  class&#x3D;&quot;example-element-row&quot;
+                  [class.example-expanded-row]&#x3D;&quot;expandedElement &#x3D;&#x3D;&#x3D; element&quot;&gt;
+              &lt;/tr&gt;
+              &lt;tr mat-row *matRowDef&#x3D;&quot;let element; columns: [&#x27;expandedDetail&#x27;];&quot;
+                  class&#x3D;&quot;example-detail-row&quot;
+                  [class.example-expanded-row]&#x3D;&quot;expandedElement &#x3D;&#x3D;&#x3D; element&quot;&gt;
+              &lt;/tr&gt;
+            }
+            &lt;/table&gt;
+            
+            &lt;mat-paginator 
+                [length]&#x3D;&quot;totalItems&quot;
+                [pageSize]&#x3D;&quot;pageSize&quot;
+                [pageSizeOptions]&#x3D;&quot;[5, 10, 25, 100]&quot;
+                (page)&#x3D;&quot;handlePageEvent($event)&quot;
+                aria-label&#x3D;&quot;Oldal választása&quot;&gt;
+            &lt;/mat-paginator&gt;
+        &lt;/div&gt;
+        @if(&#x27;course&#x27; &#x3D;&#x3D; viewMode){
+          &lt;button mat-raised-button (click)&#x3D;&quot;back()&quot; class&#x3D;&quot;back-button&quot;&gt;
+            {{&#x27;electronic-controller.BACK&#x27; | translate }}
+        &lt;/button&gt;
+        }
+ 
+    &lt;/mat-card-content&gt;
+&lt;/mat-card&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-card>    <mat-card-header>        <mat-card-title>          @if(viewMode === \'student\'){            {{title | translate}}          }@else {            {{title}}          }          </mat-card-title>    </mat-card-header>    <mat-card-content>        <mat-form-field>            <mat-label>{{\'electronic-controller.SEARCH\' | translate }}</mat-label>            <input matInput (keyup)="applyFilterUserCode($event)" placeholder="Diák azonosítója...">        </mat-form-field>        <mat-form-field>          <mat-label>{{\'electronic-controller.SEMESTER\' | translate }}</mat-label>          <mat-select [value]="selectedSemesterOption" (selectionChange)="filterBySemester($event.value)">            <mat-option [value]="ALL_SEMESTERS">{{"electronic-controller.ALL_SEMESTERS" | translate }}</mat-option>            @for(semester of semesters; track $index){              <mat-option [value]="semester">                {{ formatSemester(semester) }}              </mat-option>            }          </mat-select>      </mat-form-field>        <div class="table-container mat-elevation-z8">            <table [dataSource]="grades" multiTemplateDataRows matSort (matSortChange)="handleSort($event)" mat-table>              @if(viewMode === \'student\') {                <ng-container matColumnDef="course_name">                  <th mat-header-cell *matHeaderCellDef mat-sort-header>{{\'electronic-controller.COURSE_NAME\' | translate }}</th>                  <td mat-cell *matCellDef="let element">{{ element.course_name }}</td>                </ng-container>                <ng-container matColumnDef="grade">                  <th mat-header-cell *matHeaderCellDef>  {{\'electronic-controller.GRADE\' | translate }}</th>                  <td mat-cell *matCellDef="let element">                    {{ element.grade !== null ? element.grade : \'ø\' }}                  </td>                </ng-container>                <ng-container matColumnDef="remove">                    <th mat-header-cell *matHeaderCellDef>{{\'electronic-controller.Subject_Submission\' | translate }}</th>                    <td mat-cell *matCellDef="let element">                         @if(this.currentSemester !== null && this.currentSemester.year === element.year && this.currentSemester.sezon === element.sezon){                          <button mat-fab (click)="remove(element)" ><mat-icon>delete</mat-icon></button>                        }                    </td>                </ng-container>                                <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand "></tr>                <tr mat-row *matRowDef="let row; columns: columnsToDisplayWithExpand ;"></tr>              }                    @if(viewMode === \'course\') {                <ng-container matColumnDef="user_code">                  <th mat-header-cell *matHeaderCellDef mat-sort-header>{{\'electronic-controller.CODE\' | translate }}</th>                  <td mat-cell *matCellDef="let element">{{ element.user_code }}</td>                </ng-container>                <ng-container matColumnDef="grade">                  <th mat-header-cell *matHeaderCellDef> {{\'electronic-controller.GRADE\' | translate }} </th>                  <td mat-cell *matCellDef="let element">{{ element.grade !== null ? element.grade : \'ø\' }}</td>                </ng-container>                <ng-container matColumnDef="expand">                  <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>                  <td mat-cell *matCellDef="let element">                    <button                       mat-icon-button                      aria-label="expand row"                      (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()"                      >                      @if (expandedElement === element) {                        <mat-icon>keyboard_arrow_up</mat-icon>                      } @else {                        <mat-icon>keyboard_arrow_down</mat-icon>                      }                    </button>                  </td>              </ng-container>              <ng-container matColumnDef="expandedDetail">                  <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">                    <div class="example-element-detail"                         [@detailExpand]="element == expandedElement ? \'expanded\' : \'collapsed\'">                      <div class="grade-editor">                        <div class="grade-form">                          <mat-form-field appearance="outline" class="grade-input-field">                            <mat-label>{{\'electronic-controller.GRADE\' | translate }}</mat-label>                            <mat-select (selectionChange)="GradeSelectionChange($event, element)">                              @for (upgrade of upgrades; track $index) {                                <mat-option [value]="upgrade">{{upgrade}}</mat-option>                              }                            </mat-select>                          </mat-form-field>                        </div>                      </div>                    </div>                  </td>              </ng-container>              <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>              <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"                  class="example-element-row"                  [class.example-expanded-row]="expandedElement === element">              </tr>              <tr mat-row *matRowDef="let element; columns: [\'expandedDetail\'];"                  class="example-detail-row"                  [class.example-expanded-row]="expandedElement === element">              </tr>            }            </table>                        <mat-paginator                 [length]="totalItems"                [pageSize]="pageSize"                [pageSizeOptions]="[5, 10, 25, 100]"                (page)="handlePageEvent($event)"                aria-label="Oldal választása">            </mat-paginator>        </div>        @if(\'course\' == viewMode){          <button mat-raised-button (click)="back()" class="back-button">            {{\'electronic-controller.BACK\' | translate }}        </button>        }     </mat-card-content></mat-card></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CourseForumComponent', 'selector': 'app-course-forum'},{'name': 'CourseStatisticsComponent', 'selector': 'app-course-statistics'},{'name': 'CurriculumComponent', 'selector': 'app-curriculum'},{'name': 'CurriculumDeveloperComponent', 'selector': 'app-curriculum-developer'},{'name': 'CurriculumVisualizationComponent', 'selector': 'app-curriculum-visualization'},{'name': 'DialogComponent', 'selector': 'app-password-dialog'},{'name': 'ElectronicControllerComponent', 'selector': 'app-electronic-controller'},{'name': 'ForumComponent', 'selector': 'app-forum'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MessagesComponent', 'selector': 'app-messages'},{'name': 'OptimalizationComponent', 'selector': 'app-optimalization'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'StatisticsComponent', 'selector': 'app-statistics'},{'name': 'SubjectTopicComponent', 'selector': 'app-subject-topic'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'ElectronicControllerComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ElectronicControllerComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

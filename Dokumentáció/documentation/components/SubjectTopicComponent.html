@@ -1,0 +1,832 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>athena documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">athena documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  SubjectTopicComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/course-forum/forum/subject-topic/subject-topic.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Ez a komponens felelős egy adott kurzus tárgytematikájának
+megjelenítéséért és szerkesztéséért/mentéséért.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-subject-topic</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>TranslateModule</code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >MatFormFieldModule</a></code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >ReactiveFormsModule</a></code>
+                            <code>MatInputModule</code>
+                            <code>MatButtonModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./subject-topic.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./subject-topic.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fb" >fb</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#subjectMatterData" >subjectMatterData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#subjectMatterForm" >subjectMatterForm</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getSubjectMatter" >getSubjectMatter</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#onSubmit" >onSubmit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#courseId" >courseId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="courseId"></a>
+                        <b>courseId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/pages/course-forum/forum/subject-topic/subject-topic.component.ts:28</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSubjectMatter"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getSubjectMatter</b></span>
+                        <a href="#getSubjectMatter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSubjectMatter(courseId: number | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="52"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/subject-topic/subject-topic.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Lekéri a tárgytematika adatait a megadott kurzus azonosító alapján a szolgáltatástól.
+Frissíti a <code>subjectMatterForm</code> űrlapot a kapott adatokkal.
+Kezeli a betöltési állapotot és a hibákat.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>courseId</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A kurzus azonosítója, amelyhez az adatokat le kell kérni.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="41"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/subject-topic/subject-topic.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Az Angular életciklus metódusa, amely a komponens inicializálásakor fut le.
+Elindítja a tárgytematika adatainak lekérését.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmit"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>onSubmit</b></span>
+                        <a href="#onSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onSubmit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="87"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/subject-topic/subject-topic.component.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Az űrlap elküldésekor hívódik meg.
+Ellenőrzi az űrlap érvényességét és a <code>courseId</code> meglétét.
+Létrehoz egy <code>SubjectMatter</code> objektumot az űrlap adataiból.
+Elküldi az adatokat frissítésre.
+Sikeres mentés után újra lekéri az adatokat.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fb"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fb</b></span>
+                        <a href="#fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NonNullableFormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/pages/course-forum/forum/subject-topic/subject-topic.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subjectMatterData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>subjectMatterData</b></span>
+                        <a href="#subjectMatterData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(SubjectMatterService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/pages/course-forum/forum/subject-topic/subject-topic.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subjectMatterForm"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>subjectMatterForm</b></span>
+                        <a href="#subjectMatterForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.fb.group({
+    id: this.fb.control&lt;number|null&gt;(null),
+    topic: this.fb.control&lt;string|null&gt;(null),
+    goal: this.fb.control&lt;string|null&gt;(null),
+    requirements: this.fb.control&lt;string|null&gt;(null)
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/pages/course-forum/forum/subject-topic/subject-topic.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, Input, OnInit } from &#x27;@angular/core&#x27;;
+import { SubjectMatter } from &#x27;../../../../models/subjectMatter&#x27;;
+import { MatFormFieldModule } from &#x27;@angular/material/form-field&#x27;;
+import { NonNullableFormBuilder, ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
+import { catchError, EMPTY, firstValueFrom, from, of, tap } from &#x27;rxjs&#x27;;
+import { SubjectMatterService } from &#x27;../../../../services/mysql/subject-matter.service&#x27;;
+import { MatInputModule } from &#x27;@angular/material/input&#x27;;
+import { MatButtonModule } from &#x27;@angular/material/button&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+/**
+ * Ez a komponens felelős egy adott kurzus tárgytematikájának
+ * megjelenítéséért és szerkesztéséért/mentéséért.
+ */
+@Component({
+  selector: &#x27;app-subject-topic&#x27;,
+  standalone: true,
+  imports: [
+    TranslateModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule
+  ],
+  templateUrl: &#x27;./subject-topic.component.html&#x27;,
+  styleUrl: &#x27;./subject-topic.component.scss&#x27;
+})
+export class SubjectTopicComponent implements OnInit {
+  @Input() courseId: number|null &#x3D; null;
+  private fb &#x3D; inject(NonNullableFormBuilder);
+  private subjectMatterData &#x3D; inject(SubjectMatterService);
+  protected subjectMatterForm &#x3D; this.fb.group({
+    id: this.fb.control&lt;number|null&gt;(null),
+    topic: this.fb.control&lt;string|null&gt;(null),
+    goal: this.fb.control&lt;string|null&gt;(null),
+    requirements: this.fb.control&lt;string|null&gt;(null)
+  });
+  /**
+   * Az Angular életciklus metódusa, amely a komponens inicializálásakor fut le.
+   * Elindítja a tárgytematika adatainak lekérését.
+   */
+  ngOnInit(): void {
+    this.getSubjectMatter(this.courseId)
+  }
+  /**
+   * @description
+   * Lekéri a tárgytematika adatait a megadott kurzus azonosító alapján a szolgáltatástól.
+   * Frissíti a &#x60;subjectMatterForm&#x60; űrlapot a kapott adatokkal.
+   * Kezeli a betöltési állapotot és a hibákat.
+   * @param courseId A kurzus azonosítója, amelyhez az adatokat le kell kérni.
+   * @private
+   */
+  private async getSubjectMatter(courseId: number | null): Promise&lt;void&gt; {
+    if (!courseId) { 
+      console.log(&quot;Nem kaptam meg a kurzus ID-t:&quot;, courseId);
+      return; 
+    }
+    try {
+      const subjectMatter &#x3D; await firstValueFrom(
+        this.subjectMatterData.getSebjectMatter(courseId).pipe( 
+          catchError(error &#x3D;&gt; {
+            console.error(&#x27;Hiba a tárgytematika lekérésekor:&#x27;, error);
+            return of(null);
+          })
+        )
+      );
+      if (subjectMatter) {
+        this.subjectMatterForm.patchValue({
+          id: subjectMatter.id,          
+          topic: subjectMatter.topic,      
+          goal: subjectMatter.goal,          
+          requirements: subjectMatter.requirements 
+        });
+      } else {
+        console.warn(&#x27;Nem sikerült adatot lekérni, vagy hiba történt.&#x27;);
+      }
+    } catch (error) {
+      console.error(&#x27;Hiba a getSubjectMatter feldolgozása során:&#x27;, error);
+    }
+  }
+  /**
+   * Az űrlap elküldésekor hívódik meg.
+   * Ellenőrzi az űrlap érvényességét és a &#x60;courseId&#x60; meglétét.
+   * Létrehoz egy &#x60;SubjectMatter&#x60; objektumot az űrlap adataiból.
+   * Elküldi az adatokat frissítésre.
+   * Sikeres mentés után újra lekéri az adatokat.
+   */
+  protected async onSubmit(): Promise&lt;void&gt; {
+    if (!this.subjectMatterForm.valid) {
+      console.warn(&quot;Az űrlap érvénytelen, mentés megszakítva.&quot;);
+      return;
+   }
+   if (!this.courseId) {
+    console.error(&quot;Hiba: Hiányzó kurzus ID a tematika mentésekor.&quot;);
+    return;
+  }
+  const newSubjectMatter: SubjectMatter &#x3D; {
+    id: this.subjectMatterForm.value.id ?? null,
+    course_id: this.courseId,
+    topic: this.subjectMatterForm.value.topic ?? null,
+    goal: this.subjectMatterForm.value.goal ?? null,
+    requirements: this.subjectMatterForm.value.requirements ?? null,
+  };
+  try{
+    await firstValueFrom(
+      from(this.subjectMatterData.updateSebjectMatter(newSubjectMatter)).pipe(
+        tap(() &#x3D;&gt; {this.subjectMatterForm.reset();this.getSubjectMatter(this.courseId);}),
+        catchError(error &#x3D;&gt; {console.error(&#x27;Hiba:&#x27;, error);return EMPTY;})
+      )
+    ) 
+  } catch (error) {
+    console.error(&quot;Váratlan hiba az onSubmit során:&quot;, error);
+  }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div id&#x3D;&quot;topic&quot;&gt;
+    &lt;form [formGroup]&#x3D;&quot;subjectMatterForm&quot; (ngSubmit)&#x3D;&quot;onSubmit()&quot;&gt;
+        &lt;mat-label&gt;{{&#x27;forum.SUBJECTMATER&#x27; | translate }}&lt;/mat-label&gt;&lt;br&gt;
+        &lt;mat-form-field&gt;
+            &lt;mat-label class&#x3D;&quot;labels&quot;&gt;{{&#x27;subject-topic.WITCA&#x27; | translate }}&lt;/mat-label&gt;
+            &lt;textarea class&#x3D;&quot;textarea&quot; matInput formControlName&#x3D;&quot;topic&quot; &gt;&lt;/textarea&gt;
+        &lt;/mat-form-field&gt;&lt;br&gt;
+        &lt;mat-form-field&gt;
+            &lt;mat-label class&#x3D;&quot;labels&quot; &gt;{{&#x27;subject-topic.WSWYA&#x27; | translate }}&lt;/mat-label&gt;
+            &lt;textarea  class&#x3D;&quot;textarea&quot; matInput formControlName&#x3D;&quot;goal&quot;&gt;&lt;/textarea&gt;
+        &lt;/mat-form-field&gt;&lt;br&gt;
+        &lt;mat-form-field&gt;
+            &lt;mat-label class&#x3D;&quot;labels&quot; &gt;{{&#x27;subject-topic.REQUIRED&#x27; | translate }}&lt;/mat-label&gt;
+            &lt;textarea class&#x3D;&quot;textarea&quot; matInput formControlName&#x3D;&quot;requirements&quot;&gt;&lt;/textarea&gt;
+        &lt;/mat-form-field&gt;&lt;br&gt;
+        &lt;button type&#x3D;&quot;submit&quot; color&#x3D;&quot;primary&quot; mat-raised-button&gt;{{&#x27;GENERAL.SAVE&#x27; | translate }}&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div id="topic">    <form [formGroup]="subjectMatterForm" (ngSubmit)="onSubmit()">        <mat-label>{{\'forum.SUBJECTMATER\' | translate }}</mat-label><br>        <mat-form-field>            <mat-label class="labels">{{\'subject-topic.WITCA\' | translate }}</mat-label>            <textarea class="textarea" matInput formControlName="topic" ></textarea>        </mat-form-field><br>        <mat-form-field>            <mat-label class="labels" >{{\'subject-topic.WSWYA\' | translate }}</mat-label>            <textarea  class="textarea" matInput formControlName="goal"></textarea>        </mat-form-field><br>        <mat-form-field>            <mat-label class="labels" >{{\'subject-topic.REQUIRED\' | translate }}</mat-label>            <textarea class="textarea" matInput formControlName="requirements"></textarea>        </mat-form-field><br>        <button type="submit" color="primary" mat-raised-button>{{\'GENERAL.SAVE\' | translate }}</button>    </form></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CourseForumComponent', 'selector': 'app-course-forum'},{'name': 'CourseStatisticsComponent', 'selector': 'app-course-statistics'},{'name': 'CurriculumComponent', 'selector': 'app-curriculum'},{'name': 'CurriculumDeveloperComponent', 'selector': 'app-curriculum-developer'},{'name': 'CurriculumVisualizationComponent', 'selector': 'app-curriculum-visualization'},{'name': 'DialogComponent', 'selector': 'app-password-dialog'},{'name': 'ElectronicControllerComponent', 'selector': 'app-electronic-controller'},{'name': 'ForumComponent', 'selector': 'app-forum'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MessagesComponent', 'selector': 'app-messages'},{'name': 'OptimalizationComponent', 'selector': 'app-optimalization'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'StatisticsComponent', 'selector': 'app-statistics'},{'name': 'SubjectTopicComponent', 'selector': 'app-subject-topic'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'SubjectTopicComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SubjectTopicComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

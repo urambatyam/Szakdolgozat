@@ -1,0 +1,1739 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>athena documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">athena documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  CourseStatisticsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Komponens a kurzusokhoz tartozó statisztikai diagramok megjelenítésére és kezelésére.
+Lehetővé teszi a felhasználó számára, hogy különböző típusú diagramok között váltson
+(normál eloszlás, boxplot, lineáris regresszió, jegy megoszlás, teljesítés megoszlás).
+Automatikusan lekéri a szükséges adatokat a <code>StatisticsService</code>-en keresztül,
+és a Plotly.js segítségével rendereli a diagramokat. Kezeli az ablak átméretezését
+a diagramok reszponzív megjelenítéséhez.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>AfterViewInit</code>
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-course-statistics</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>MatCardModule</code>
+                            <code>MatIconModule</code>
+                            <code>MatButtonModule</code>
+                            <code>CommonModule</code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./course-statistics.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./course-statistics.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_statistics" >_statistics</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#cdr" >cdr</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#chartContainer" >chartContainer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#destroy$" >destroy$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#ngZone" >ngZone</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#resizeSubject" >resizeSubject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#statisticsLabels" >statisticsLabels</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#statisticsService" >statisticsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#statisticsTypes" >statisticsTypes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#title" >title</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#fetchAndRenderChart" >fetchAndRenderChart</a>
+                            </li>
+                            <li>
+                                <a href="#navigateNext" >navigateNext</a>
+                            </li>
+                            <li>
+                                <a href="#navigatePrevious" >navigatePrevious</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#onResize" >onResize</a>
+                            </li>
+                            <li>
+                                <a href="#renderCurrentChart" >renderCurrentChart</a>
+                            </li>
+                            <li>
+                                <a href="#setupResizeListener" >setupResizeListener</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#courseId" >courseId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#window:resize" >window:resize</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#statisctics" >statisctics</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="courseId"></a>
+                        <b>courseId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:39</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="window:resize"></a>
+                    <span class="name">
+                        <span ><b>window:resize</b></span>
+                        <a href="#window:resize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>window:resize(event: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="121"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:121</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Az ablak átméretezési eseményét kezeli.
+Értesíti a <code>resizeSubject</code>-et, hogy átméretezés történt.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Az átméretezési esemény objektum (nem használt).</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fetchAndRenderChart"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>fetchAndRenderChart</b></span>
+                        <a href="#fetchAndRenderChart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>fetchAndRenderChart(dataObservable: Observable<any>, createChartFn: (targetElement: HTMLDivElement,response: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void, titleKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, statisticType: <a href="../undefineds/CourseStatisticType.html" target="_self">CourseStatisticType</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="206"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:206</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Általános metódus a diagram adatok aszinkron lekérésére és a diagram kirajzolására.
+Beállítja a diagram címét, ellenőrzi a konténer elemet.
+Meghívja a kapott <code>dataObservable</code>-t az adatok lekéréséhez.
+Mielőtt a diagramot kirajzolná a <code>createChartFn</code> segítségével, ellenőrzi,
+hogy a felhasználó időközben nem váltott-e másik statisztika típusra.
+Biztosítja a változásdetektálás futtatását.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>dataObservable</td>
+                                            <td>
+                                                        <code>Observable&lt;any&gt;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Az Observable, amely a diagramhoz szükséges adatokat szolgáltatja.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>createChartFn</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A függvény, amely a kapott adatok alapján létrehozza a Plotly diagramot a cél elemben.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>titleKey</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A diagram címének fordítási kulcsa.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>statisticType</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/enumerations.html#CourseStatisticType" target="_self" >CourseStatisticType</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Az a <code>CourseStatisticType</code>, amelyhez az adatokat lekérjük és a diagramot rajzoljuk.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise<void> Aszinkron művelet, amely a renderelés befejeződésekor oldódik fel.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigateNext"></a>
+                    <span class="name">
+                        <span ><b>navigateNext</b></span>
+                        <a href="#navigateNext"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>navigateNext()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="256"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:256</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>A következő statisztikai diagramra navigál a <code>statisticsTypes</code> listában.
+Ciklikusan működik, azaz az utolsó elem után az elsőre ugrik.
+Beállítja a <code>statisctics</code> property értékét, ami kiváltja a diagram újrarajzolását.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigatePrevious"></a>
+                    <span class="name">
+                        <span ><b>navigatePrevious</b></span>
+                        <a href="#navigatePrevious"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>navigatePrevious()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="245"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:245</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Az előző statisztikai diagramra navigál a <code>statisticsTypes</code> listában.
+Ciklikusan működik, azaz az első elem után az utolsóra ugrik.
+Beállítja a <code>statisctics</code> property értékét, ami kiváltja a diagram újrarajzolását.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="90"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Angular életciklus metódus, amely a nézet inicializálása után fut le.
+Ellenőrzi a <code>courseId</code> érvényességét, elindítja az első diagram renderelését,
+és beállítja az ablak átméretezését figyelő eseménykezelőt.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="106"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:106</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Angular életciklus metódus, amely a komponens megsemmisülése előtt fut le.
+Leállítja az összes aktív feliratkozást, és eltávolítja
+a Plotly diagramot a DOM-ból, hogy megelőzze a memóriaszivárgást.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onResize"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>onResize</b></span>
+                        <a href="#onResize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onResize(event: Event)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;window:resize&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="121"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:121</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Az ablak átméretezési eseményét kezeli.
+Értesíti a <code>resizeSubject</code>-et, hogy átméretezés történt.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Az átméretezési esemény objektum (nem használt).</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="renderCurrentChart"></a>
+                    <span class="name">
+                        <span ><b>renderCurrentChart</b></span>
+                        <a href="#renderCurrentChart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>renderCurrentChart()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="153"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:153</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Rendereli az aktuálisan kiválasztott statisztikai diagramot.
+Először ellenőrzi a diagram konténer létezését, majd eltávolítja
+az esetlegesen korábban renderelt diagramot.
+Kiválasztja a megfelelő adatlekérő Observable-t és a diagramkészítő függvényt
+az aktuális <code>_statistics</code> érték alapján. Végül meghívja a
+<code>fetchAndRenderChart</code> metódust a kiválasztott paraméterekkel.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setupResizeListener"></a>
+                    <span class="name">
+                        <span ><b>setupResizeListener</b></span>
+                        <a href="#setupResizeListener"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setupResizeListener()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="131"
+                                    class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:131</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Beállítja az ablak átméretezését figyelő logikát.
+A <code>resizeSubject</code> eseményeit figyeli, <code>debounceTime</code>-mal késlelteti a feldolgozást,
+hogy ne fusson le túl gyakran. Átméretezéskor meghívja a
+<code>Plotly.Plots.resize</code>-t az Angular zónán belül.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_statistics"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_statistics</b></span>
+                        <a href="#_statistics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#CourseStatisticType" target="_self" >CourseStatisticType</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>CourseStatisticType.Distribution</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cdr"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>cdr</b></span>
+                        <a href="#cdr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ChangeDetectorRef)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chartContainer"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>chartContainer</b></span>
+                        <a href="#chartContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;chartDiv&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>destroy$</b></span>
+                        <a href="#destroy$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngZone"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>ngZone</b></span>
+                        <a href="#ngZone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NgZone)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resizeSubject"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>resizeSubject</b></span>
+                        <a href="#resizeSubject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="statisticsLabels"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>statisticsLabels</b></span>
+                        <a href="#statisticsLabels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    [CourseStatisticType.Distribution]: &#x27;courseStatistics.DISTRIBUTION_TITLE&#x27;,
+    [CourseStatisticType.GradeRate]: &#x27;courseStatistics.GRADE_RATE_TITLE&#x27;,
+    [CourseStatisticType.CompletionRate]: &#x27;courseStatistics.COMPLETION_RATE_TITLE&#x27;,
+    [CourseStatisticType.LinearRegression]: &#x27;courseStatistics.LINEAR_REGRESSION_TITLE&#x27;,
+    [CourseStatisticType.BoxPlot]: &#x27;courseStatistics.BOXPLOT_TITLE&#x27;
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="statisticsService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>statisticsService</b></span>
+                        <a href="#statisticsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(StatisticsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="statisticsTypes"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>statisticsTypes</b></span>
+                        <a href="#statisticsTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>CourseStatisticType[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    CourseStatisticType.Distribution,
+    CourseStatisticType.GradeRate,
+    CourseStatisticType.CompletionRate,
+    CourseStatisticType.LinearRegression,
+    CourseStatisticType.BoxPlot
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="title"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>title</b></span>
+                        <a href="#title"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.statisticsLabels[this._statistics]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="statisctics"></a>
+                        <span class="name"><b>statisctics</b><a href="#statisctics"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>statisctics()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:67</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Getter az aktuális statisztika típusához.</p>
+</div>
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#CourseStatisticType" target="_self" >CourseStatisticType</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>statisctics(value: <a href="../undefineds/CourseStatisticType.html" target="_self">CourseStatisticType</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/course-forum/forum/course-statistics/course-statistics.component.ts:77</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Setter az aktuális statisztika típusának beállításához.
+Ha az új érték különbözik a régitől, frissíti a címet és
+újrarajzolja a diagramot az új típusnak megfelelően.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                        <td>Description</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>value</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="../miscellaneous/enumerations.html#CourseStatisticType" target="_self" >CourseStatisticType</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                            <td>
+                                                                    <p>Az új <code>CourseStatisticType</code> érték.</p>
+
+                                                            </td>
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, AfterViewInit, inject, Input, ElementRef, ViewChild, ChangeDetectorRef, OnDestroy, HostListener, NgZone } from &#x27;@angular/core&#x27;;
+import { MatButtonModule } from &#x27;@angular/material/button&#x27;;
+import { MatCardModule } from &#x27;@angular/material/card&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { StatisticsService } from &#x27;../../../../services/mysql/statistics.service&#x27;;
+import { TranslateModule} from &#x27;@ngx-translate/core&#x27;;
+import { debounceTime, firstValueFrom, Observable, Subject, takeUntil } from &#x27;rxjs&#x27;;
+import * as Plotly from &#x27;plotly.js-dist-min&#x27;;
+import { createGR } from &#x27;./charts/gradesRate&#x27;;
+import { creatD } from &#x27;./charts/distrubution&#x27;;
+import { createLR } from &#x27;./charts/linearRegression&#x27;;
+import { creatCR } from &#x27;./charts/completionRate&#x27;;
+import { creatBP } from &#x27;./charts/boxplot&#x27;;
+import { CourseStatisticType} from &#x27;./charts/common&#x27;; // Importáljuk a szükséges típusokat
+
+/**
+ * Komponens a kurzusokhoz tartozó statisztikai diagramok megjelenítésére és kezelésére.
+ * Lehetővé teszi a felhasználó számára, hogy különböző típusú diagramok között váltson
+ * (normál eloszlás, boxplot, lineáris regresszió, jegy megoszlás, teljesítés megoszlás).
+ * Automatikusan lekéri a szükséges adatokat a &#x60;StatisticsService&#x60;-en keresztül,
+ * és a Plotly.js segítségével rendereli a diagramokat. Kezeli az ablak átméretezését
+ * a diagramok reszponzív megjelenítéséhez.
+ */
+@Component({
+  selector: &#x27;app-course-statistics&#x27;,
+  standalone: true,
+  imports: [
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+    CommonModule,
+    TranslateModule
+  ],
+  templateUrl: &#x27;./course-statistics.component.html&#x27;,
+  styleUrl: &#x27;./course-statistics.component.scss&#x27;
+})
+export class CourseStatisticsComponent implements  AfterViewInit, OnDestroy {
+  @Input() courseId:number &#x3D; 0;
+  @ViewChild(&#x27;chartDiv&#x27;) chartContainer!: ElementRef&lt;HTMLDivElement&gt;;
+  private cdr &#x3D; inject(ChangeDetectorRef);
+  private destroy$ &#x3D; new Subject&lt;void&gt;();
+  private resizeSubject &#x3D; new Subject&lt;void&gt;();
+  private ngZone &#x3D; inject(NgZone);
+  private statisticsService  &#x3D; inject(StatisticsService);
+  private _statistics: CourseStatisticType &#x3D; CourseStatisticType.Distribution;
+  protected readonly statisticsTypes: CourseStatisticType[] &#x3D; [
+    CourseStatisticType.Distribution,
+    CourseStatisticType.GradeRate,
+    CourseStatisticType.CompletionRate,
+    CourseStatisticType.LinearRegression,
+    CourseStatisticType.BoxPlot
+  ];
+  protected statisticsLabels: { [key in CourseStatisticType]: string } &#x3D; {
+    [CourseStatisticType.Distribution]: &#x27;courseStatistics.DISTRIBUTION_TITLE&#x27;,
+    [CourseStatisticType.GradeRate]: &#x27;courseStatistics.GRADE_RATE_TITLE&#x27;,
+    [CourseStatisticType.CompletionRate]: &#x27;courseStatistics.COMPLETION_RATE_TITLE&#x27;,
+    [CourseStatisticType.LinearRegression]: &#x27;courseStatistics.LINEAR_REGRESSION_TITLE&#x27;,
+    [CourseStatisticType.BoxPlot]: &#x27;courseStatistics.BOXPLOT_TITLE&#x27;
+  };
+  protected title: string &#x3D; this.statisticsLabels[this._statistics];
+
+  /**
+   * Getter az aktuális statisztika típusához.
+   * @returns Az aktuális &#x60;CourseStatisticType&#x60;.
+   */
+  get statisctics(): CourseStatisticType {
+    return this._statistics;
+  }
+
+  /**
+   * Setter az aktuális statisztika típusának beállításához.
+   * Ha az új érték különbözik a régitől, frissíti a címet és
+   * újrarajzolja a diagramot az új típusnak megfelelően.
+   * @param value Az új &#x60;CourseStatisticType&#x60; érték.
+   */
+  set statisctics(value: CourseStatisticType) {
+    if (this._statistics !&#x3D;&#x3D; value) {
+      this._statistics &#x3D; value;
+      this.title &#x3D; this.statisticsLabels[value];
+      this.renderCurrentChart();
+    }
+  }
+
+  /**
+   * Angular életciklus metódus, amely a nézet inicializálása után fut le.
+   * Ellenőrzi a &#x60;courseId&#x60; érvényességét, elindítja az első diagram renderelését,
+   * és beállítja az ablak átméretezését figyelő eseménykezelőt.
+   */
+  ngAfterViewInit(): void {
+    if (this.courseId &lt;&#x3D; 0) {
+        console.error(&quot;Course ID is not set or invalid.&quot;);
+        this.title &#x3D; &quot;courseStatistics.INVALID_COURSE_ID&quot;; 
+        this.cdr.markForCheck();
+        return;
+    }
+    this.renderCurrentChart();
+    this.setupResizeListener();
+  }
+
+  /**
+   * Angular életciklus metódus, amely a komponens megsemmisülése előtt fut le.
+   * Leállítja az összes aktív feliratkozást, és eltávolítja
+   * a Plotly diagramot a DOM-ból, hogy megelőzze a memóriaszivárgást.
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    if (this.chartContainer?.nativeElement) {
+        Plotly.purge(this.chartContainer.nativeElement);
+    }
+  }
+
+  /**
+   * Az ablak átméretezési eseményét kezeli.
+   * Értesíti a &#x60;resizeSubject&#x60;-et, hogy átméretezés történt.
+   * @param event Az átméretezési esemény objektum (nem használt).
+   * @HostListener Figyeli a &#x27;window:resize&#x27; eseményt.
+   */
+  @HostListener(&#x27;window:resize&#x27;, [&#x27;$event&#x27;])
+  onResize(event: Event): void {
+    this.resizeSubject.next();
+  }
+
+  /**
+   * Beállítja az ablak átméretezését figyelő logikát.
+   * A &#x60;resizeSubject&#x60; eseményeit figyeli, &#x60;debounceTime&#x60;-mal késlelteti a feldolgozást,
+   * hogy ne fusson le túl gyakran. Átméretezéskor meghívja a
+   * &#x60;Plotly.Plots.resize&#x60;-t az Angular zónán belül.
+   */
+  setupResizeListener(): void {
+    this.resizeSubject.pipe(
+      debounceTime(300), 
+      takeUntil(this.destroy$) 
+    ).subscribe(() &#x3D;&gt; {
+      this.ngZone.run(() &#x3D;&gt; { 
+        if (this.chartContainer?.nativeElement) {
+          console.log(&#x27;Resizing Plotly chart...&#x27;);
+          Plotly.Plots.resize(this.chartContainer.nativeElement);
+        }
+      });
+    });
+  }
+
+  /**
+   * Rendereli az aktuálisan kiválasztott statisztikai diagramot.
+   * Először ellenőrzi a diagram konténer létezését, majd eltávolítja
+   * az esetlegesen korábban renderelt diagramot.
+   * Kiválasztja a megfelelő adatlekérő Observable-t és a diagramkészítő függvényt
+   * az aktuális &#x60;_statistics&#x60; érték alapján. Végül meghívja a
+   * &#x60;fetchAndRenderChart&#x60; metódust a kiválasztott paraméterekkel.
+   */
+  renderCurrentChart(): void {
+    if (!this.chartContainer?.nativeElement) {
+        console.warn(&#x27;Chart container not available yet for rendering.&#x27;);
+        setTimeout(() &#x3D;&gt; this.renderCurrentChart(), 50);
+        return;
+    }
+    Plotly.purge(this.chartContainer.nativeElement);
+    let dataObservable: Observable&lt;any&gt;; 
+    let createChartFn: (targetElement: HTMLDivElement, response: any) &#x3D;&gt; void; 
+    const currentStatistic &#x3D; this._statistics; 
+    switch (currentStatistic) {
+      case CourseStatisticType.Distribution:
+        dataObservable &#x3D; this.statisticsService.courseDistribution(this.courseId);
+        createChartFn &#x3D; creatD;
+        break;
+      case CourseStatisticType.GradeRate:
+        dataObservable &#x3D; this.statisticsService.courseGradeRate(this.courseId);
+        createChartFn &#x3D; createGR;
+        break;
+      case CourseStatisticType.CompletionRate:
+        dataObservable &#x3D; this.statisticsService.courseCompletionRate(this.courseId);
+        createChartFn &#x3D; creatCR;
+        break;
+      case CourseStatisticType.LinearRegression:
+        dataObservable &#x3D; this.statisticsService.courseLinearRegression(this.courseId);
+        createChartFn &#x3D; createLR;
+        break;
+      case CourseStatisticType.BoxPlot:
+        dataObservable &#x3D; this.statisticsService.courseBoxplot(this.courseId);
+        createChartFn &#x3D; creatBP;
+        break;
+      default:
+        console.error(&#x27;Unknown statistic type:&#x27;, currentStatistic);
+        return;
+    }
+    this.fetchAndRenderChart(dataObservable, createChartFn, this.statisticsLabels[currentStatistic], currentStatistic);
+  }
+
+ /**
+   * Általános metódus a diagram adatok aszinkron lekérésére és a diagram kirajzolására.
+   * Beállítja a diagram címét, ellenőrzi a konténer elemet.
+   * Meghívja a kapott &#x60;dataObservable&#x60;-t az adatok lekéréséhez.
+   * Mielőtt a diagramot kirajzolná a &#x60;createChartFn&#x60; segítségével, ellenőrzi,
+   * hogy a felhasználó időközben nem váltott-e másik statisztika típusra.
+   * Biztosítja a változásdetektálás futtatását.
+   *
+   * @private
+   * @param dataObservable Az Observable, amely a diagramhoz szükséges adatokat szolgáltatja.
+   * @param createChartFn A függvény, amely a kapott adatok alapján létrehozza a Plotly diagramot a cél elemben.
+   * @param titleKey A diagram címének fordítási kulcsa.
+   * @param statisticType Az a &#x60;CourseStatisticType&#x60;, amelyhez az adatokat lekérjük és a diagramot rajzoljuk.
+   * @returns Promise&lt;void&gt; Aszinkron művelet, amely a renderelés befejeződésekor oldódik fel.
+   */
+ private async fetchAndRenderChart(
+  dataObservable: Observable&lt;any&gt;,
+  createChartFn: (targetElement: HTMLDivElement, response: any) &#x3D;&gt; void, 
+  titleKey: string,
+  statisticType: CourseStatisticType
+): Promise&lt;void&gt; {
+  this.title &#x3D; titleKey;
+  this.cdr.markForCheck(); 
+   if (!this.chartContainer?.nativeElement) {
+      console.error(&#x60;Chart container not found when trying to render ${titleKey}&#x60;);
+      return;
+  }
+  const targetElement &#x3D; this.chartContainer.nativeElement;
+  try {
+    const response &#x3D; await firstValueFrom(dataObservable.pipe(takeUntil(this.destroy$)));
+    if (this._statistics !&#x3D;&#x3D; statisticType) {
+        return; 
+    }
+    if (this.chartContainer?.nativeElement) {
+        createChartFn(targetElement, response);
+    } else {
+        console.warn(&#x60;Chart container disappeared before rendering ${titleKey}&#x60;);
+    }
+  } catch (error) {
+    console.error(&#x60;${titleKey} data fetch error: &#x60;, error);
+    if (this._statistics &#x3D;&#x3D;&#x3D; statisticType &amp;&amp; this.chartContainer?.nativeElement) {
+       targetElement.innerHTML &#x3D; &#x60;&lt;p style&#x3D;&quot;text-align: center; padding: 20px;&quot;&gt;Hiba történt az adatok lekérése közben.&lt;/p&gt;&#x60;;
+    }
+  } finally {
+      this.cdr.markForCheck();
+  }
+}
+
+
+/**
+ * Az előző statisztikai diagramra navigál a &#x60;statisticsTypes&#x60; listában.
+ * Ciklikusan működik, azaz az első elem után az utolsóra ugrik.
+ * Beállítja a &#x60;statisctics&#x60; property értékét, ami kiváltja a diagram újrarajzolását.
+ */
+navigatePrevious(): void {
+  const currentIndex &#x3D; this.statisticsTypes.indexOf(this._statistics);
+  const previousIndex &#x3D; (currentIndex - 1 + this.statisticsTypes.length) % this.statisticsTypes.length;
+  this.statisctics &#x3D; this.statisticsTypes[previousIndex]; 
+}
+
+/**
+ * A következő statisztikai diagramra navigál a &#x60;statisticsTypes&#x60; listában.
+ * Ciklikusan működik, azaz az utolsó elem után az elsőre ugrik.
+ * Beállítja a &#x60;statisctics&#x60; property értékét, ami kiváltja a diagram újrarajzolását.
+ */
+navigateNext(): void {
+  const currentIndex &#x3D; this.statisticsTypes.indexOf(this._statistics);
+  const nextIndex &#x3D; (currentIndex + 1) % this.statisticsTypes.length;
+  this.statisctics &#x3D; this.statisticsTypes[nextIndex]; 
+}
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-card&gt;
+    &lt;mat-card-header&gt;
+        &lt;mat-card-title&gt;
+          {{title | translate}}
+        &lt;/mat-card-title&gt;
+    &lt;/mat-card-header&gt;
+    &lt;mat-card-content&gt;
+        &lt;div #chartDiv&gt;&lt;/div&gt;
+    &lt;/mat-card-content&gt;
+    &lt;mat-card-footer&gt;
+        &lt;button id&#x3D;&#x27;prev&#x27; mat-icon-button (click)&#x3D;&quot;navigatePrevious()&quot;&gt;
+            &lt;mat-icon&gt;arrow_back_ios&lt;/mat-icon&gt;
+          &lt;/button&gt;
+          &lt;button id&#x3D;&#x27;next&#x27; mat-icon-button (click)&#x3D;&quot;navigateNext()&quot;&gt;
+            &lt;mat-icon&gt;arrow_forward_ios&lt;/mat-icon&gt;
+          &lt;/button&gt;
+    &lt;/mat-card-footer&gt;
+&lt;/mat-card&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-card>    <mat-card-header>        <mat-card-title>          {{title | translate}}        </mat-card-title>    </mat-card-header>    <mat-card-content>        <div #chartDiv></div>    </mat-card-content>    <mat-card-footer>        <button id=\'prev\' mat-icon-button (click)="navigatePrevious()">            <mat-icon>arrow_back_ios</mat-icon>          </button>          <button id=\'next\' mat-icon-button (click)="navigateNext()">            <mat-icon>arrow_forward_ios</mat-icon>          </button>    </mat-card-footer></mat-card></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CourseForumComponent', 'selector': 'app-course-forum'},{'name': 'CourseStatisticsComponent', 'selector': 'app-course-statistics'},{'name': 'CurriculumComponent', 'selector': 'app-curriculum'},{'name': 'CurriculumDeveloperComponent', 'selector': 'app-curriculum-developer'},{'name': 'CurriculumVisualizationComponent', 'selector': 'app-curriculum-visualization'},{'name': 'DialogComponent', 'selector': 'app-password-dialog'},{'name': 'ElectronicControllerComponent', 'selector': 'app-electronic-controller'},{'name': 'ForumComponent', 'selector': 'app-forum'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MessagesComponent', 'selector': 'app-messages'},{'name': 'OptimalizationComponent', 'selector': 'app-optimalization'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'StatisticsComponent', 'selector': 'app-statistics'},{'name': 'SubjectTopicComponent', 'selector': 'app-subject-topic'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'CourseStatisticsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CourseStatisticsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

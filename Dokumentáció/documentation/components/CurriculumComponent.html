@@ -1,0 +1,2942 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>athena documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">athena documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  CurriculumComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/curriculum/curriculum.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>A CurriculumComponent felelős a tantervek megjelenítéséért, szűréséért és a kurzusokra való jelentkezés kezeléséért.
+Lehetővé teszi a felhasználók számára a tantervek böngészését,
+az oszlopok láthatóságának testreszabását, valamint a specializációk, kategóriák és kurzusok szerinti szűrést.
+A diákok ezen a felületen keresztül jelentkezhetnek kurzusokra.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-curriculum</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>MatCardModule</code>
+                            <code>MatTableModule</code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >MatFormFieldModule</a></code>
+                            <code>MatSelectModule</code>
+                            <code>MatInputModule</code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >FormsModule</a></code>
+                            <code>MatButtonModule</code>
+                            <code>MatIconModule</code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./curriculum.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./curriculum.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#auth" >auth</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#availableColumnOptions" >availableColumnOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#breakpointObserver" >breakpointObserver</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#coursesVis" >coursesVis</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#curriculumData" >curriculumData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#curriculumName" >curriculumName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#curs" >curs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#destroy$" >destroy$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#displayedColumns" >displayedColumns</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#gradeData" >gradeData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#isNarrowScreen" >isNarrowScreen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#katsVis" >katsVis</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#katsVisalfa" >katsVisalfa</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#mycurriculum" >mycurriculum</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#selectedColumnNames" >selectedColumnNames</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#snackBar" >snackBar</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#specialsVis" >specialsVis</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#tanterv" >tanterv</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#task" >task</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#translate" >translate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#viewMode" >viewMode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#visKat" >visKat</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#apply" >apply</a>
+                            </li>
+                            <li>
+                                <a href="#CouronSelectionChange" >CouronSelectionChange</a>
+                            </li>
+                            <li>
+                                <a href="#CuronSelectionChange" >CuronSelectionChange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#initializeUserData" >initializeUserData</a>
+                            </li>
+                            <li>
+                                <a href="#KatonSelectionChange" >KatonSelectionChange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#loadAvailableCurriculums" >loadAvailableCurriculums</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#LoadCurriculum" >LoadCurriculum</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#observeScreenSize" >observeScreenSize</a>
+                            </li>
+                            <li>
+                                <a href="#onColumnSelectionChange" >onColumnSelectionChange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setupTranslations" >setupTranslations</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#showSnackbar" >showSnackbar</a>
+                            </li>
+                            <li>
+                                <a href="#SpeconSelectionChange" >SpeconSelectionChange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#toCourseForm" >toCourseForm</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateAvailableColumnOptions" >updateAvailableColumnOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateDisplayedColumns" >updateDisplayedColumns</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateSelectedColumnNamesFromTask" >updateSelectedColumnNamesFromTask</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="apply"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>apply</b></span>
+                        <a href="#apply"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>apply(course: <a href="../interfaces/Course.html" target="_self">Course</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="259"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:259</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Kezeli a kurzusra való jelentkezést.
+Ellenőrzi, hogy a kurzus ID létezik-e, és hogy a jelentkezés a megfelelő szemeszterben történik-e (őszi/tavaszi).
+Meghívja a <code>gradeData.createGrade</code> metódust a jelentkezés rögzítéséhez.
+Visszajelzést ad a felhasználónak a művelet sikerességéről vagy sikertelenségéről.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>course</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Course.html" target="_self" >Course</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A kurzus objektum, amelyre a felhasználó jelentkezni próbál.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CouronSelectionChange"></a>
+                    <span class="name">
+                        <span ><b>CouronSelectionChange</b></span>
+                        <a href="#CouronSelectionChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>CouronSelectionChange(event: MatSelectChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="433"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:433</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Kezeli a kurzus szűrő legördülő menüjének változását.
+Újratölti a tantervet a <code>LoadCurriculum</code> metódussal, átadva a kiválasztott kurzus ID-ját szűrőként.
+Ha nincs betöltve tanterv, figyelmeztetést jelenít meg.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatSelectChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A MatSelectChange esemény objektum.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CuronSelectionChange"></a>
+                    <span class="name">
+                        <span ><b>CuronSelectionChange</b></span>
+                        <a href="#CuronSelectionChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>CuronSelectionChange(event: MatSelectChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="422"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:422</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Kezeli a tanterv választó legördülő menüjének változását.
+Újratölti a komponenst a kiválasztott tanterv ID-jával a <code>LoadCurriculum</code> metódus meghívásával.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatSelectChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A MatSelectChange esemény objektum.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initializeUserData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>initializeUserData</b></span>
+                        <a href="#initializeUserData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initializeUserData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:129</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Lekéri a bejelentkezett felhasználó adatait az AuthService segítségével.
+Beállítja a <code>viewMode</code> és <code>mycurriculum</code> property-ket.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="KatonSelectionChange"></a>
+                    <span class="name">
+                        <span ><b>KatonSelectionChange</b></span>
+                        <a href="#KatonSelectionChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>KatonSelectionChange(event: MatSelectChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="385"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:385</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Kezeli a kategória szűrő legördülő menüjének változását.
+Frissíti a <code>katsVis</code> Map-et a kiválasztott kategória alapján.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatSelectChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A MatSelectChange esemény objektum.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadAvailableCurriculums"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>loadAvailableCurriculums</b></span>
+                        <a href="#loadAvailableCurriculums"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadAvailableCurriculums()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="145"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:145</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Betölti az összes elérhető tanterv nevét és ID-ját, ha a felhasználó nem diák (&#39;other&#39; viewMode).
+Az első elérhető tantervet automatikusan betölti.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="LoadCurriculum"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>LoadCurriculum</b></span>
+                        <a href="#LoadCurriculum"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>LoadCurriculum(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, courseIdFilter?: number | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="201"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:201</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Betölti a megadott ID alapján a tanterv részletes adatait.
+Opcionálisan szűrhet egy adott kurzus ID-ra.
+Frissíti a <code>tanterv</code>, <code>curriculumName</code> és a szűrőkhöz tartozó <code>Map</code>-eket (<code>specialsVis</code>, <code>katsVis</code>, <code>coursesVis</code>).
+Hiba esetén értesítést jelenít meg és visszaállítja az állapotot.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A betöltendő tanterv ID-ja.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>courseIdFilter</td>
+                                            <td>
+                                                        <code>number | null</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Opcionális kurzus ID, amire szűrni kell a tantervet.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="99"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Leiratkozik az Observable-ökről a komponens megsemmisülésekor.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="82"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicializálja a komponenst: beállítja a képernyőméret figyelését,
+a fordításokat, lekéri a felhasználói adatokat, és betölti a megfelelő tantervet.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="observeScreenSize"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>observeScreenSize</b></span>
+                        <a href="#observeScreenSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>observeScreenSize()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="108"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:108</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Figyeli a képernyőméret változásait és frissíti az <code>isNarrowScreen</code> signalt.
+Keskeny képernyőre váltáskor frissíti az elérhető és megjelenített oszlopokat.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onColumnSelectionChange"></a>
+                    <span class="name">
+                        <span ><b>onColumnSelectionChange</b></span>
+                        <a href="#onColumnSelectionChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onColumnSelectionChange(event: MatSelectChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="342"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:342</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Kezeli az oszlopválasztó legördülő menü értékének változását.
+Frissíti a <code>task</code> signal <code>subtasks</code> tömbjének <code>completed</code> állapotát a kiválasztás alapján.
+Frissíti a <code>selectedColumnNames</code> tömböt és a <code>displayedColumns</code> tömböt.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatSelectChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A MatSelectChange esemény objektum.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setupTranslations"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setupTranslations</b></span>
+                        <a href="#setupTranslations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setupTranslations()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="163"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:163</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Beállítja a fordításokat és az oszlopdefiníciókat tartalmazó <code>task</code> signalt.
+Figyeli a nyelvváltásokat, és frissíti a fordításokat és az oszlopokat.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showSnackbar"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>showSnackbar</b></span>
+                        <a href="#showSnackbar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>showSnackbar(message: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, action: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="450"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:450</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Megjelenít egy snackbar értesítést a megadott üzenettel.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    <p>A megjelenítendő üzenet.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>action</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;OK&#x27;</code>
+                                            </td>
+
+                                            <td>
+                                                    <p>A snackbar-on megjelenő akciógomb szövege.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>duration</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>5000</code>
+                                            </td>
+
+                                            <td>
+                                                    <p>Az értesítés megjelenítésének időtartama milliszekundumban.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SpeconSelectionChange"></a>
+                    <span class="name">
+                        <span ><b>SpeconSelectionChange</b></span>
+                        <a href="#SpeconSelectionChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>SpeconSelectionChange(event: MatSelectChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="398"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:398</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Kezeli a specializáció szűrő legördülő menüjének változását.
+Frissíti a <code>specialsVis</code> Map-et és a <code>katsVis</code> Map-et (az elérhető kategóriákat) a kiválasztott specializáció alapján.
+Beállítja a <code>visKat</code> (kategória szűrő láthatósága) értékét.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatSelectChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A MatSelectChange esemény objektum.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toCourseForm"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>toCourseForm</b></span>
+                        <a href="#toCourseForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>toCourseForm(course: <a href="../interfaces/Course.html" target="_self">Course</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="245"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:245</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Navigál a fórum oldalra az adott kurzus adataival.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>course</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Course.html" target="_self" >Course</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A kurzus objektum, amelynek a fórumára navigálunk.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateAvailableColumnOptions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateAvailableColumnOptions</b></span>
+                        <a href="#updateAvailableColumnOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateAvailableColumnOptions()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="311"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:311</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Frissíti az <code>availableColumnOptions</code> signalt a <code>task</code> signal és a képernyőméret alapján.
+Keskeny képernyőn csak a definiált alap oszlopok érhetők el.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateDisplayedColumns"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateDisplayedColumns</b></span>
+                        <a href="#updateDisplayedColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateDisplayedColumns()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="362"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:362</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Frissíti a <code>displayedColumns</code> tömböt, amely meghatározza a táblázatban ténylegesen megjelenő oszlopokat.
+Keskeny képernyőn fix oszlopokat használ, széles képernyőn a <code>task</code> signal <code>completed</code> subtaskjai alapján határozza meg az oszlopokat.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateSelectedColumnNamesFromTask"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateSelectedColumnNamesFromTask</b></span>
+                        <a href="#updateSelectedColumnNamesFromTask"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateSelectedColumnNamesFromTask()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="330"
+                                    class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:330</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Frissíti a <code>selectedColumnNames</code> tömböt az <code>availableColumnOptions</code> alapján,
+kiválasztva azokat az oszlopneveket, amelyek <code>completed</code> állapota <code>true</code>.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="auth"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>auth</b></span>
+                        <a href="#auth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="availableColumnOptions"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>availableColumnOptions</b></span>
+                        <a href="#availableColumnOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;ColumnOption[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="breakpointObserver"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>breakpointObserver</b></span>
+                        <a href="#breakpointObserver"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(BreakpointObserver)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="coursesVis"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>coursesVis</b></span>
+                        <a href="#coursesVis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;string, number&gt;([[&#x27;összes&#x27;, -1]])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="curriculumData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>curriculumData</b></span>
+                        <a href="#curriculumData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(CurriculumService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="curriculumName"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>curriculumName</b></span>
+                        <a href="#curriculumName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;&quot;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="curs"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>curs</b></span>
+                        <a href="#curs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Name.html" target="_self" >Name[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>destroy$</b></span>
+                        <a href="#destroy$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayedColumns"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>displayedColumns</b></span>
+                        <a href="#displayedColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gradeData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>gradeData</b></span>
+                        <a href="#gradeData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(GradeService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isNarrowScreen"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>isNarrowScreen</b></span>
+                        <a href="#isNarrowScreen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="katsVis"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>katsVis</b></span>
+                        <a href="#katsVis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;string, boolean&gt;([[&#x27;összes&#x27;, true]])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="katsVisalfa"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>katsVisalfa</b></span>
+                        <a href="#katsVisalfa"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;string, boolean&gt;([[&#x27;összes&#x27;, true]])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mycurriculum"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>mycurriculum</b></span>
+                        <a href="#mycurriculum"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedColumnNames"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>selectedColumnNames</b></span>
+                        <a href="#selectedColumnNames"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="snackBar"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>snackBar</b></span>
+                        <a href="#snackBar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MatSnackBar)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="specialsVis"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>specialsVis</b></span>
+                        <a href="#specialsVis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;string, boolean&gt;([[&#x27;összes&#x27;, true]])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tanterv"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>tanterv</b></span>
+                        <a href="#tanterv"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Curriculum.html" target="_self" >Curriculum | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="task"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>task</b></span>
+                        <a href="#task"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Task&gt;({
+    name: &#x27;&#x27;,
+    completed: false,
+    subtasks: []
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="translate"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>translate</b></span>
+                        <a href="#translate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(TranslateService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="viewMode"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>viewMode</b></span>
+                        <a href="#viewMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;student&quot; | &quot;other&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;other&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="visKat"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>visKat</b></span>
+                        <a href="#visKat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/pages/curriculum/curriculum.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, OnInit, signal, OnDestroy } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { BreakpointObserver, Breakpoints } from &#x27;@angular/cdk/layout&#x27;;
+import { Router } from &#x27;@angular/router&#x27;;
+import { HttpErrorResponse } from &#x27;@angular/common/http&#x27;;
+import { MatCardModule } from &#x27;@angular/material/card&#x27;;
+import { MatTableModule } from &#x27;@angular/material/table&#x27;;
+import { MatFormFieldModule } from &#x27;@angular/material/form-field&#x27;;
+import { MatSelectChange, MatSelectModule } from &#x27;@angular/material/select&#x27;;
+import { MatInputModule } from &#x27;@angular/material/input&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { MatButtonModule } from &#x27;@angular/material/button&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { MatSnackBar } from &#x27;@angular/material/snack-bar&#x27;;
+import { TranslateModule, TranslateService } from &#x27;@ngx-translate/core&#x27;;
+import { Subject, firstValueFrom,  of,  startWith, switchMap, takeUntil } from &#x27;rxjs&#x27;;
+import { CurriculumService } from &#x27;../../services/mysql/curriculum.service&#x27;;
+import { GradeService } from &#x27;../../services/mysql/grade.service&#x27;;
+import { AuthService } from &#x27;../../services/mysql/auth.service&#x27;;
+import { Course } from &#x27;../../models/course&#x27;;
+import { Task,Subtask,ColumnOption } from &#x27;../../models/tasks&#x27;;
+import { Name } from &#x27;../../models/curriculumNames&#x27;;
+import { Curriculum } from &#x27;../../models/curriculum&#x27;;
+
+/**
+ * A CurriculumComponent felelős a tantervek megjelenítéséért, szűréséért és a kurzusokra való jelentkezés kezeléséért.
+ * Lehetővé teszi a felhasználók számára a tantervek böngészését,
+ * az oszlopok láthatóságának testreszabását, valamint a specializációk, kategóriák és kurzusok szerinti szűrést.
+ * A diákok ezen a felületen keresztül jelentkezhetnek kurzusokra.
+ */
+@Component({
+  selector: &#x27;app-curriculum&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    TranslateModule
+  ],
+  templateUrl: &#x27;./curriculum.component.html&#x27;,
+  styleUrl: &#x27;./curriculum.component.scss&#x27;
+})
+export class CurriculumComponent implements OnInit, OnDestroy {
+  private breakpointObserver &#x3D; inject(BreakpointObserver);
+  private router &#x3D; inject(Router);
+  private snackBar &#x3D; inject(MatSnackBar);
+  private translate &#x3D; inject(TranslateService);
+  private gradeData &#x3D; inject(GradeService);
+  private curriculumData &#x3D; inject(CurriculumService);
+  private auth &#x3D; inject(AuthService);
+  private destroy$ &#x3D; new Subject&lt;void&gt;();
+  protected isNarrowScreen &#x3D; signal(false);
+  protected availableColumnOptions &#x3D; signal&lt;ColumnOption[]&gt;([]);
+  private task &#x3D; signal&lt;Task&gt;({
+    name: &#x27;&#x27;,
+    completed: false,
+    subtasks: []
+  });
+  protected viewMode: &#x27;student&#x27; | &#x27;other&#x27; &#x3D; &#x27;other&#x27;;
+  protected visKat: boolean &#x3D; true;
+  protected tanterv: Curriculum | null &#x3D; null;
+  protected specialsVis &#x3D; new Map&lt;string, boolean&gt;([[&#x27;összes&#x27;, true]]);
+  protected coursesVis &#x3D; new Map&lt;string, number&gt;([[&#x27;összes&#x27;, -1]]);
+  protected katsVis &#x3D; new Map&lt;string, boolean&gt;([[&#x27;összes&#x27;, true]]);
+  protected katsVisalfa &#x3D; new Map&lt;string, boolean&gt;([[&#x27;összes&#x27;, true]]);
+  protected curs: Name[] &#x3D; [];
+  protected curriculumName: string &#x3D; &quot;&quot;;
+  protected displayedColumns: string[] &#x3D; [];
+  protected selectedColumnNames: string[] &#x3D; [];
+  private mycurriculum: number | null &#x3D; null;
+
+  /**
+   * Inicializálja a komponenst: beállítja a képernyőméret figyelését,
+   * a fordításokat, lekéri a felhasználói adatokat, és betölti a megfelelő tantervet.
+   */
+  async ngOnInit() {
+    this.observeScreenSize();
+    this.setupTranslations();
+    await this.initializeUserData();
+    if (this.viewMode &#x3D;&#x3D;&#x3D; &#x27;other&#x27;) {
+      await this.loadAvailableCurriculums();
+    } else if (this.mycurriculum) {
+      await this.LoadCurriculum(this.mycurriculum);
+    }
+    this.updateAvailableColumnOptions();
+    this.updateSelectedColumnNamesFromTask();
+    this.updateDisplayedColumns();
+  }
+
+  /**
+   * Leiratkozik az Observable-ökről a komponens megsemmisülésekor.
+   */
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  /**
+   * Figyeli a képernyőméret változásait és frissíti az &#x60;isNarrowScreen&#x60; signalt.
+   * Keskeny képernyőre váltáskor frissíti az elérhető és megjelenített oszlopokat.
+   */
+  private observeScreenSize(): void {
+    this.breakpointObserver.observe([
+      Breakpoints.XSmall,
+      Breakpoints.Small
+    ]).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(result &#x3D;&gt; {
+      const wasNarrow &#x3D; this.isNarrowScreen();
+      this.isNarrowScreen.set(result.matches);
+      if (wasNarrow !&#x3D;&#x3D; result.matches) {
+        this.updateAvailableColumnOptions();
+        this.updateSelectedColumnNamesFromTask();
+        this.updateDisplayedColumns();
+      }
+    });
+  }
+
+  /**
+   * Lekéri a bejelentkezett felhasználó adatait az AuthService segítségével.
+   * Beállítja a &#x60;viewMode&#x60; és &#x60;mycurriculum&#x60; property-ket.
+   */
+  private async initializeUserData(): Promise&lt;void&gt; {
+    try {
+      const user &#x3D; await firstValueFrom(this.auth.user$);
+      this.viewMode &#x3D; user?.role &#x3D;&#x3D;&#x3D; &#x27;student&#x27; ? &#x27;student&#x27; : &#x27;other&#x27;;
+      this.mycurriculum &#x3D; user?.curriculum_id ?? null;
+    } catch (error) {
+      console.error(&#x27;Hiba a felhasználói adatok lekérésekor: &#x27;, error);
+      const message &#x3D; (error as Error).message ?? &#x27;Ismeretlen hiba&#x27;;
+      this.showSnackbar(message);
+    }
+  }
+
+  /**
+   * Betölti az összes elérhető tanterv nevét és ID-ját, ha a felhasználó nem diák (&#x27;other&#x27; viewMode).
+   * Az első elérhető tantervet automatikusan betölti.
+   */
+  private async loadAvailableCurriculums(): Promise&lt;void&gt; {
+    try {
+      const names &#x3D; await firstValueFrom(this.curriculumData.getAllCurriculumNames());
+      this.curs &#x3D; names;
+      if (names.length &gt; 0 &amp;&amp; names[0].id) {
+        await this.LoadCurriculum(names[0].id);
+      }
+    } catch (error) {
+      console.error(&#x27;Hiba a tantervek nevének lekérésekor: &#x27;, error);
+      const message &#x3D; (error as Error).message ?? &#x27;Ismeretlen hiba&#x27;;
+      this.showSnackbar(message);
+    }
+  }
+
+  /**
+   * Beállítja a fordításokat és az oszlopdefiníciókat tartalmazó &#x60;task&#x60; signalt.
+   * Figyeli a nyelvváltásokat, és frissíti a fordításokat és az oszlopokat.
+   */
+  private setupTranslations() {
+    this.translate.onLangChange
+      .pipe(
+        startWith(null),
+        switchMap(() &#x3D;&gt; {
+          const subtasks: Subtask[] &#x3D; [
+            { key: &#x27;name&#x27;, name: this.translate.instant(&#x27;curriculum.NAME&#x27;), completed: true },
+            { key: &#x27;id&#x27;, name: &#x27;ID&#x27;, completed: !this.isNarrowScreen() },
+            { key: &#x27;kredit&#x27;, name: this.translate.instant(&#x27;curriculum.KREDIT&#x27;), completed: !this.isNarrowScreen() },
+            { key: &#x27;recommendedSemester&#x27;, name: this.translate.instant(&#x27;curriculum.RS&#x27;), completed: !this.isNarrowScreen() },
+            { key: &#x27;subjectResponsible&#x27;, name: this.translate.instant(&#x27;curriculum.SUBJECT_RESPONSIBLE&#x27;), completed: !this.isNarrowScreen() },
+            { key: &#x27;sezon&#x27;, name: this.translate.instant(&#x27;curriculum.SEZON&#x27;), completed: !this.isNarrowScreen() },
+            { key: &#x27;apply&#x27;, name: this.translate.instant(&#x27;curriculum.APPLY&#x27;), completed: true },
+            { key: &#x27;course&#x27;, name: this.translate.instant(&#x27;curriculum.COURSE_FORUM&#x27;), completed: true },
+          ];
+          return of({ subtasks });
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(({ subtasks }) &#x3D;&gt; {
+        this.task.update(value &#x3D;&gt; ({
+          ...value,
+          subtasks: subtasks
+        }));
+        this.updateAvailableColumnOptions();
+        this.updateSelectedColumnNamesFromTask();
+        this.updateDisplayedColumns();
+      });
+  }
+
+  /**
+   * Betölti a megadott ID alapján a tanterv részletes adatait.
+   * Opcionálisan szűrhet egy adott kurzus ID-ra.
+   * Frissíti a &#x60;tanterv&#x60;, &#x60;curriculumName&#x60; és a szűrőkhöz tartozó &#x60;Map&#x60;-eket (&#x60;specialsVis&#x60;, &#x60;katsVis&#x60;, &#x60;coursesVis&#x60;).
+   * Hiba esetén értesítést jelenít meg és visszaállítja az állapotot.
+   * @param id A betöltendő tanterv ID-ja.
+   * @param courseIdFilter Opcionális kurzus ID, amire szűrni kell a tantervet.
+   */
+  protected async LoadCurriculum(id: number, courseIdFilter?: number | null): Promise&lt;void&gt; {
+    this.visKat &#x3D; false;
+    this.tanterv &#x3D; null;
+    this.specialsVis &#x3D; new Map&lt;string, boolean&gt;([[&#x27;összes&#x27;, true]]);
+    this.katsVis &#x3D; new Map&lt;string, boolean&gt;([[&#x27;összes&#x27;, true]]);
+    this.coursesVis &#x3D; new Map&lt;string, number&gt;([[&#x27;összes&#x27;, -1]]);
+    try {
+      const curriculum &#x3D; await firstValueFrom(this.curriculumData.getCurriculum(id, courseIdFilter));
+      this.curriculumName &#x3D; curriculum.name;
+      this.tanterv &#x3D; curriculum;
+      this.tanterv.specializations.forEach(sp &#x3D;&gt; {
+        this.specialsVis.set(sp.name, true);
+        sp.categories.forEach(cat &#x3D;&gt; {
+          this.katsVis.set(cat.name, true);
+          cat.courses.forEach(course &#x3D;&gt; {
+            if (course.name !&#x3D; null &amp;&amp; course.id !&#x3D; null) {
+              if (!this.coursesVis.has(course.name)) {
+                 this.coursesVis.set(course.name, course.id);
+              }
+            }
+          });
+        });
+      });
+      this.katsVisalfa &#x3D; new Map(this.katsVis);
+
+    } catch (error) {
+      console.error(&#x60;Hiba a(z) ${id} ID-jű tanterv betöltésekor: &#x60;, error);
+      const message &#x3D; (error as HttpErrorResponse)?.error?.reason || (error as Error).message || &#x27;Ismeretlen hiba a tanterv betöltésekor.&#x27;;
+      this.showSnackbar(message);
+      this.tanterv &#x3D; null;
+      this.curriculumName &#x3D; &quot;&quot;;
+      this.specialsVis.clear();
+      this.katsVis.clear();
+      this.coursesVis.clear();
+      this.specialsVis.set(&#x27;összes&#x27;, true);
+      this.katsVis.set(&#x27;összes&#x27;, true);
+      this.coursesVis.set(&#x27;összes&#x27;, -1);
+    }
+  }
+
+  /**
+   * Navigál a fórum oldalra az adott kurzus adataival.
+   * @param course A kurzus objektum, amelynek a fórumára navigálunk.
+   */
+  protected toCourseForm(course: Course): void {
+    this.router.navigate(
+      [&#x27;/forum&#x27;],
+      { state: { course: course } }
+    );
+  }
+
+  /**
+   * Kezeli a kurzusra való jelentkezést.
+   * Ellenőrzi, hogy a kurzus ID létezik-e, és hogy a jelentkezés a megfelelő szemeszterben történik-e (őszi/tavaszi).
+   * Meghívja a &#x60;gradeData.createGrade&#x60; metódust a jelentkezés rögzítéséhez.
+   * Visszajelzést ad a felhasználónak a művelet sikerességéről vagy sikertelenségéről.
+   * @param course A kurzus objektum, amelyre a felhasználó jelentkezni próbál.
+   */
+  protected async apply(course: Course): Promise&lt;void&gt; {
+    if (!course.id) {
+      console.warn(&quot;Cannot apply for course: Course ID is missing.&quot;);
+      this.showSnackbar(&#x27;A kurzus azonosítója hiányzik a jelentkezéshez.&#x27;);
+      return;
+    }
+
+    const currentMonth &#x3D; new Date().getMonth();
+    const isAutumnSemester &#x3D; currentMonth &gt;&#x3D; 8 || currentMonth &lt;&#x3D; 0;
+    let canApply &#x3D; false;
+
+    if (course.sezon &#x3D;&#x3D;&#x3D; null) {
+      canApply &#x3D; true;
+    } else {
+      const isCourseAutumn &#x3D; Boolean(course.sezon);
+      if (isCourseAutumn &amp;&amp; isAutumnSemester) {
+        canApply &#x3D; true;
+      } else if (!isCourseAutumn &amp;&amp; !isAutumnSemester) {
+        canApply &#x3D; true;
+      }
+    }
+
+    if (canApply) {
+      try {
+        const response &#x3D; await firstValueFrom(this.gradeData.createGrade(course.id));
+        if (response.success) {
+          course.applied &#x3D; true;
+          course.completed &#x3D; false;
+          const mes &#x3D; this.translate.instant(&#x27;curriculum.APPLY_SUCCESS&#x27;, { courseName: course.name });
+          this.showSnackbar(mes);
+        } else {
+          course.applied &#x3D; false;
+          const mes &#x3D; response.reason || this.translate.instant(&#x27;curriculum.APPLY_FAILED_UNKNOWN&#x27;, { courseName: course.name });
+          this.showSnackbar(mes);
+        }
+      } catch (error) {
+        course.applied &#x3D; false;
+        console.error(&#x60;Hiba a(z) ${course.name} kurzusra való jelentkezéskor:&#x60;, error);
+        const mes &#x3D; (error as HttpErrorResponse)?.error?.reason || this.translate.instant(&#x27;curriculum.APPLY_FAILED_SERVER&#x27;, { courseName: course.name });
+        this.showSnackbar(mes);
+      }
+    } else {
+      const requiredSemester &#x3D; Boolean(course.sezon) ? this.translate.instant(&#x27;curriculum.AUTUMN&#x27;) : this.translate.instant(&#x27;curriculum.SPRING&#x27;);
+      const mes &#x3D; this.translate.instant(&#x27;curriculum.APPLY_WRONG_SEMESTER&#x27;, { courseName: course.name, requiredSemester: requiredSemester });
+      this.showSnackbar(mes);
+    }
+  }
+
+  /**
+   * Frissíti az &#x60;availableColumnOptions&#x60; signalt a &#x60;task&#x60; signal és a képernyőméret alapján.
+   * Keskeny képernyőn csak a definiált alap oszlopok érhetők el.
+   */
+  private updateAvailableColumnOptions(): void {
+    const allSubtasks &#x3D; this.task().subtasks ?? [];
+    let options: ColumnOption[] &#x3D; [];
+
+    if (this.isNarrowScreen()) {
+      const narrowScreenKeys &#x3D; [&#x27;name&#x27;, &#x27;apply&#x27;, &#x27;course&#x27;];
+      options &#x3D; allSubtasks
+        .filter(st &#x3D;&gt; narrowScreenKeys.includes(st.key))
+        .map(st &#x3D;&gt; ({ name: st.name, completed: st.completed, key: st.key }));
+    } else {
+      options &#x3D; allSubtasks.map(st &#x3D;&gt; ({ name: st.name, completed: st.completed, key: st.key }));
+    }
+    this.availableColumnOptions.set(options);
+  }
+
+  /**
+   * Frissíti a &#x60;selectedColumnNames&#x60; tömböt az &#x60;availableColumnOptions&#x60; alapján,
+   * kiválasztva azokat az oszlopneveket, amelyek &#x60;completed&#x60; állapota &#x60;true&#x60;.
+   */
+  private updateSelectedColumnNamesFromTask(): void {
+    this.selectedColumnNames &#x3D; this.availableColumnOptions()
+      .filter(opt &#x3D;&gt; opt.completed)
+      .map(opt &#x3D;&gt; opt.name);
+  }
+
+  /**
+   * Kezeli az oszlopválasztó legördülő menü értékének változását.
+   * Frissíti a &#x60;task&#x60; signal &#x60;subtasks&#x60; tömbjének &#x60;completed&#x60; állapotát a kiválasztás alapján.
+   * Frissíti a &#x60;selectedColumnNames&#x60; tömböt és a &#x60;displayedColumns&#x60; tömböt.
+   * @param event A MatSelectChange esemény objektum.
+   */
+  onColumnSelectionChange(event: MatSelectChange): void {
+    const selectedNames &#x3D; event.value as string[];
+
+    this.task.update(task &#x3D;&gt; {
+      const newTask &#x3D; { ...task, subtasks: [...(task.subtasks ?? [])] };
+      newTask.subtasks &#x3D; newTask.subtasks.map(subtask &#x3D;&gt; ({
+        ...subtask,
+        completed: selectedNames.includes(subtask.name)
+      }));
+      return newTask;
+    });
+
+    this.selectedColumnNames &#x3D; selectedNames;
+    this.updateDisplayedColumns();
+  }
+
+  /**
+   * Frissíti a &#x60;displayedColumns&#x60; tömböt, amely meghatározza a táblázatban ténylegesen megjelenő oszlopokat.
+   * Keskeny képernyőn fix oszlopokat használ, széles képernyőn a &#x60;task&#x60; signal &#x60;completed&#x60; subtaskjai alapján határozza meg az oszlopokat.
+   */
+  private updateDisplayedColumns() {
+    if (this.isNarrowScreen()) {
+      this.displayedColumns &#x3D; [&#x27;name&#x27;, &#x27;apply&#x27;, &#x27;course&#x27;];
+      return;
+    }
+
+    const subtasks &#x3D; this.task().subtasks;
+    if (!subtasks) {
+      console.warn(&quot;Subtasks not initialized for column update.&quot;);
+      this.displayedColumns &#x3D; [];
+      return;
+    }
+
+    this.displayedColumns &#x3D; subtasks
+      .filter(subtask &#x3D;&gt; subtask.completed &amp;&amp; subtask.key)
+      .map(subtask &#x3D;&gt; subtask.key);
+  }
+
+  /**
+   * Kezeli a kategória szűrő legördülő menüjének változását.
+   * Frissíti a &#x60;katsVis&#x60; Map-et a kiválasztott kategória alapján.
+   * @param event A MatSelectChange esemény objektum.
+   */
+  KatonSelectionChange(event: MatSelectChange) {
+    const selectedCategory &#x3D; event.value as string;
+    this.katsVis.forEach((_, key) &#x3D;&gt; {
+        this.katsVis.set(key, selectedCategory &#x3D;&#x3D;&#x3D; &#x27;összes&#x27; || key &#x3D;&#x3D;&#x3D; selectedCategory || key &#x3D;&#x3D;&#x3D; &#x27;összes&#x27;);
+    });
+  }
+
+  /**
+   * Kezeli a specializáció szűrő legördülő menüjének változását.
+   * Frissíti a &#x60;specialsVis&#x60; Map-et és a &#x60;katsVis&#x60; Map-et (az elérhető kategóriákat) a kiválasztott specializáció alapján.
+   * Beállítja a &#x60;visKat&#x60; (kategória szűrő láthatósága) értékét.
+   * @param event A MatSelectChange esemény objektum.
+   */
+  SpeconSelectionChange(event: MatSelectChange) {
+    const selectedSpecialization &#x3D; event.value as string;
+
+    this.specialsVis.forEach((_, key) &#x3D;&gt; {
+        this.specialsVis.set(key, selectedSpecialization &#x3D;&#x3D;&#x3D; &#x27;összes&#x27; || key &#x3D;&#x3D;&#x3D; selectedSpecialization || key &#x3D;&#x3D;&#x3D; &#x27;összes&#x27;);
+    });
+
+    if (selectedSpecialization &#x3D;&#x3D;&#x3D; &#x27;összes&#x27;) {
+        this.katsVis &#x3D; new Map(this.katsVisalfa);
+        this.visKat &#x3D; false;
+    } else {
+        this.katsVis &#x3D; new Map&lt;string, boolean&gt;([[&#x27;összes&#x27;, true]]);
+        this.tanterv?.specializations
+            .find(s &#x3D;&gt; s.name &#x3D;&#x3D;&#x3D; selectedSpecialization)?.categories
+            .forEach(k &#x3D;&gt; { this.katsVis.set(k.name, true); });
+        this.visKat &#x3D; true;
+    }
+  }
+
+  /**
+   * Kezeli a tanterv választó legördülő menüjének változását.
+   * Újratölti a komponenst a kiválasztott tanterv ID-jával a &#x60;LoadCurriculum&#x60; metódus meghívásával.
+   * @param event A MatSelectChange esemény objektum.
+   */
+  CuronSelectionChange(event: MatSelectChange) {
+    const selectedCurriculumId &#x3D; event.value as number;
+    this.LoadCurriculum(selectedCurriculumId);
+  }
+
+  /**
+   * Kezeli a kurzus szűrő legördülő menüjének változását.
+   * Újratölti a tantervet a &#x60;LoadCurriculum&#x60; metódussal, átadva a kiválasztott kurzus ID-ját szűrőként.
+   * Ha nincs betöltve tanterv, figyelmeztetést jelenít meg.
+   * @param event A MatSelectChange esemény objektum.
+   */
+  CouronSelectionChange(event: MatSelectChange) {
+    const selectedCourseId &#x3D; event.value as number;
+    const currentCurriculumId &#x3D; this.tanterv?.id;
+    if (currentCurriculumId) {
+        this.LoadCurriculum(currentCurriculumId, selectedCourseId &#x3D;&#x3D;&#x3D; -1 ? null : selectedCourseId);
+    } else {
+        console.warn(&quot;Cannot filter courses, no curriculum loaded.&quot;);
+        this.showSnackbar(&quot;Nincs tanterv betöltve a kurzus szűréséhez.&quot;);
+    }
+  }
+
+  /**
+   * Megjelenít egy snackbar értesítést a megadott üzenettel.
+   * @param message A megjelenítendő üzenet.
+   * @param action A snackbar-on megjelenő akciógomb szövege.
+   * @param duration Az értesítés megjelenítésének időtartama milliszekundumban.
+   */
+  private showSnackbar(message: string, action: string &#x3D; &#x27;OK&#x27;, duration: number &#x3D; 5000): void {
+    this.snackBar.open(message, action, {
+      duration: duration,
+      horizontalPosition: &#x27;center&#x27;,
+      verticalPosition: &#x27;top&#x27;,
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-card id&#x3D;&quot;cardtan&quot;&gt;
+    &lt;mat-card-header&gt;
+      &lt;mat-card-title&gt;{{curriculumName}}&lt;/mat-card-title&gt;
+    &lt;/mat-card-header&gt;
+    
+    &lt;mat-card-content id&#x3D;&quot;matcard&quot;&gt;
+    &lt;div class&#x3D;&quot;content-container&quot;&gt;
+
+            &lt;div id&#x3D;&quot;filter&quot;&gt;
+              @if(this.viewMode &#x3D;&#x3D;&#x3D; &#x27;other&#x27;){
+                &lt;mat-form-field class&#x3D;&quot;select-field&quot;&gt;
+                  &lt;mat-label&gt;{{&#x27;curriculum.CURRICULUMS&#x27; | translate }}&lt;/mat-label&gt;
+                  &lt;mat-select (selectionChange)&#x3D;&quot;CuronSelectionChange($event)&quot; &gt;
+                    @for (cur of curs; track cur.id) {
+                      &lt;mat-option [value]&#x3D;&quot;cur.id&quot;&gt;{{cur.name}}&lt;/mat-option&gt;
+                    }
+                  &lt;/mat-select&gt;
+              &lt;/mat-form-field&gt;
+              }
+       
+     
+                &lt;mat-form-field class&#x3D;&quot;select-field&quot;&gt;
+                    &lt;mat-label&gt;{{&#x27;curriculum.SPECIALIZATION&#x27; | translate }}&lt;/mat-label&gt;
+                    &lt;mat-select (selectionChange)&#x3D;&quot;SpeconSelectionChange($event)&quot; &gt;
+                      @for (special of specialsVis.keys(); track special) {
+                        &lt;mat-option [value]&#x3D;&quot;special&quot;&gt;{{special}}&lt;/mat-option&gt;
+                      }
+                    &lt;/mat-select&gt;
+                &lt;/mat-form-field&gt; 
+                @if(visKat){
+                  &lt;mat-form-field &gt;
+                    &lt;mat-label  &gt;{{&#x27;curriculum.CATEGORY&#x27; | translate }}&lt;/mat-label&gt;
+                    &lt;mat-select  (selectionChange)&#x3D;&quot;KatonSelectionChange($event)&quot;&gt;
+                      @for (kat of katsVis.keys(); track kat) {
+                        &lt;mat-option [value]&#x3D;&quot;kat&quot;&gt;{{kat}}&lt;/mat-option&gt;
+                      }
+                    &lt;/mat-select&gt;
+                &lt;/mat-form-field&gt;
+
+                }                   
+                &lt;mat-form-field class&#x3D;&quot;select-field&quot; &gt;
+                  &lt;mat-label  &gt;{{&#x27;curriculum.COURSE&#x27; | translate }}&lt;/mat-label&gt;
+                  &lt;mat-select  (selectionChange)&#x3D;&quot;CouronSelectionChange($event)&quot;&gt;
+                    @for (kat of coursesVis.keys(); track kat) {
+                      &lt;mat-option [value]&#x3D;&quot;coursesVis.get(kat)&quot;&gt;{{kat}}&lt;/mat-option&gt;
+                    }
+                  &lt;/mat-select&gt;
+
+              &lt;/mat-form-field&gt;
+              @if(!this.isNarrowScreen()){
+                &lt;mat-form-field appearance&#x3D;&quot;fill&quot; class&#x3D;&quot;select-field&quot;&gt; 
+                  &lt;mat-label&gt;{{ &#x27;curriculum.SELECT_COLUMNS&#x27; | translate }}&lt;/mat-label&gt; 
+                  &lt;mat-select multiple [value]&#x3D;&quot;selectedColumnNames&quot; (selectionChange)&#x3D;&quot;onColumnSelectionChange($event)&quot;&gt;
+                    @for (option of availableColumnOptions(); track option.name) {
+                      &lt;mat-option [value]&#x3D;&quot;option.name&quot;&gt;{{ option.name }}&lt;/mat-option&gt;
+                    }
+                  &lt;/mat-select&gt;
+                &lt;/mat-form-field&gt;
+              }
+     
+            &lt;/div&gt;
+
+      &lt;div id&#x3D;&quot;curriculumContiner&quot;&gt;
+      @for(special of tanterv?.specializations; track special.id){
+        &lt;mat-card  [style.display]&#x3D;&quot; specialsVis.get(special.name) ? &#x27;block&#x27; : &#x27;none&#x27;&quot; class&#x3D;&quot;card-spec&quot;&gt;
+          &lt;mat-card-header&gt;
+              &lt;mat-card-title-group&gt;
+                &lt;mat-card-title&gt;{{special.name}}&lt;/mat-card-title&gt;
+                &lt;mat-card-subtitle&gt;{{&#x27;curriculum.MIN_KREDIT&#x27; | translate }} {{special.min}}&lt;/mat-card-subtitle&gt;
+              &lt;/mat-card-title-group&gt;
+          &lt;/mat-card-header&gt;
+          &lt;mat-card-content&gt;
+            
+        @for (kat of special.categories; track kat.id) {
+          &lt;mat-card class&#x3D;&quot;card-kat&quot; [style.display]&#x3D;&quot; katsVis.get(kat.name) ? &#x27;block&#x27; : &#x27;none&#x27;&quot;&gt;
+            &lt;mat-card-header &gt;
+                &lt;mat-card-title-group&gt;
+                  &lt;mat-card-title&gt;{{kat.name}}&lt;/mat-card-title&gt;
+                  &lt;mat-card-subtitle&gt;{{&#x27;curriculum.CAT_MIN_KREDIT&#x27; | translate }} {{kat.min}} {{&#x27;curriculum.SUM&#x27; | translate }} {{kat.max}}&lt;/mat-card-subtitle&gt;
+                &lt;/mat-card-title-group&gt;
+            &lt;/mat-card-header&gt;
+            &lt;mat-card-content&gt;
+                &lt;table id&#x3D;&quot;{{special.name}}_{{kat.name}}&quot;  mat-table  [dataSource]&#x3D;&quot;kat.courses&quot; matSort  class&#x3D;&quot;mat-elevation-z8&quot;&gt;
+                    
+                    &lt;ng-container matColumnDef&#x3D;&quot;name&quot; &gt;
+                        &lt;th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription&#x3D;&quot;Sort by name&quot;&gt; {{&#x27;curriculum.NAME&#x27; | translate }} &lt;/th&gt;
+                        &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt; {{element.name}} &lt;/td&gt;
+                    &lt;/ng-container&gt;
+                    
+                    &lt;ng-container matColumnDef&#x3D;&quot;id&quot;&gt;
+                        &lt;th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription&#x3D;&quot;Sort by id&quot;&gt; ID &lt;/th&gt;
+                        &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt; {{element.id}} &lt;/td&gt;
+                    &lt;/ng-container&gt;
+                    
+                    &lt;ng-container matColumnDef&#x3D;&quot;kredit&quot;&gt;
+                        &lt;th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription&#x3D;&quot;Sort by kredit&quot;&gt; {{&#x27;curriculum.KREDIT&#x27; | translate }} &lt;/th&gt;
+                        &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt; {{element.kredit}} &lt;/td&gt;
+                    &lt;/ng-container&gt;
+                    
+                    &lt;ng-container matColumnDef&#x3D;&quot;recommendedSemester&quot;&gt;
+                        &lt;th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription&#x3D;&quot;Sort by recommendedSemester&quot;&gt; {{&#x27;curriculum.RS&#x27; | translate }} &lt;/th&gt;
+                        &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt; {{element.recommendedSemester}} &lt;/td&gt;
+                    &lt;/ng-container&gt;
+                    
+                    &lt;ng-container matColumnDef&#x3D;&quot;subjectResponsible&quot;&gt;
+                        &lt;th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription&#x3D;&quot;Sort by subjectResponsible&quot;&gt; {{&#x27;curriculum.SUBJECT_RESPONSIBLE&#x27; | translate }} &lt;/th&gt;
+                        &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt; {{element.user_code}} &lt;/td&gt;
+                    &lt;/ng-container&gt;
+                    
+                    &lt;ng-container matColumnDef&#x3D;&quot;sezon&quot;&gt;
+                      &lt;th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription&#x3D;&quot;Sort by sezon&quot;&gt; {{&#x27;curriculum.SEZON&#x27; | translate }} &lt;/th&gt;
+                      &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt; 
+                        @switch (element.sezon) {
+                          @case (1) {
+                            {{&#x27;curriculum.FALL&#x27; | translate }}
+                          }
+                          @case(0){
+                            {{&#x27;curriculum.SPRING&#x27; | translate }}
+                          }
+                          @default {
+                            {{&#x27;curriculum.FALL_SPRING&#x27; | translate }}
+                          }
+                        } 
+                      &lt;/td&gt;
+                    &lt;/ng-container&gt;  
+                  
+                    &lt;ng-container matColumnDef&#x3D;&quot;apply&quot;&gt;
+                      &lt;th mat-header-cell *matHeaderCellDef &gt; {{&#x27;curriculum.APPLY&#x27; | translate }} &lt;/th&gt;
+                      &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot; &gt;
+                        @if(element.can &amp;&amp; this.viewMode !&#x3D;&#x3D; &#x27;other&#x27;){
+                          &lt;button mat-fab (click)&#x3D;&quot;apply(element)&quot; &gt;&lt;mat-icon&gt;upgrade&lt;/mat-icon&gt;&lt;/button&gt;
+
+                        }
+                         &lt;/td&gt;
+                    &lt;/ng-container&gt; 
+                    
+                    &lt;ng-container matColumnDef&#x3D;&quot;course&quot;&gt;
+                      &lt;th mat-header-cell *matHeaderCellDef &gt; {{&#x27;curriculum.COURSE_FORUM&#x27; | translate }} &lt;/th&gt;
+                      &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot; &gt; &lt;button mat-fab (click)&#x3D;&quot;toCourseForm(element)&quot; &gt;&lt;mat-icon&gt;forum&lt;/mat-icon&gt;&lt;/button&gt;  &lt;/td&gt;
+                    &lt;/ng-container&gt;
+
+                    &lt;tr mat-header-row *matHeaderRowDef&#x3D;&quot;displayedColumns &quot;&gt;&lt;/tr&gt;
+                    &lt;tr mat-row *matRowDef&#x3D;&quot;let row; columns: displayedColumns ;&quot; [class.completed]&#x3D;&quot;row.completed&quot; [class.applied]&#x3D;&quot;row.applied&quot;&gt;&lt;/tr&gt;
+                &lt;/table&gt;
+            &lt;/mat-card-content&gt;
+        &lt;/mat-card&gt;
+        }
+        &lt;/mat-card-content&gt;
+        &lt;/mat-card&gt;
+        &lt;br&gt;
+      }
+    &lt;/div&gt;
+ 
+    &lt;/div&gt;
+    &lt;/mat-card-content&gt;
+&lt;/mat-card&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-card id="cardtan">    <mat-card-header>      <mat-card-title>{{curriculumName}}</mat-card-title>    </mat-card-header>        <mat-card-content id="matcard">    <div class="content-container">            <div id="filter">              @if(this.viewMode === \'other\'){                <mat-form-field class="select-field">                  <mat-label>{{\'curriculum.CURRICULUMS\' | translate }}</mat-label>                  <mat-select (selectionChange)="CuronSelectionChange($event)" >                    @for (cur of curs; track cur.id) {                      <mat-option [value]="cur.id">{{cur.name}}</mat-option>                    }                  </mat-select>              </mat-form-field>              }                            <mat-form-field class="select-field">                    <mat-label>{{\'curriculum.SPECIALIZATION\' | translate }}</mat-label>                    <mat-select (selectionChange)="SpeconSelectionChange($event)" >                      @for (special of specialsVis.keys(); track special) {                        <mat-option [value]="special">{{special}}</mat-option>                      }                    </mat-select>                </mat-form-field>                 @if(visKat){                  <mat-form-field >                    <mat-label  >{{\'curriculum.CATEGORY\' | translate }}</mat-label>                    <mat-select  (selectionChange)="KatonSelectionChange($event)">                      @for (kat of katsVis.keys(); track kat) {                        <mat-option [value]="kat">{{kat}}</mat-option>                      }                    </mat-select>                </mat-form-field>                }                                   <mat-form-field class="select-field" >                  <mat-label  >{{\'curriculum.COURSE\' | translate }}</mat-label>                  <mat-select  (selectionChange)="CouronSelectionChange($event)">                    @for (kat of coursesVis.keys(); track kat) {                      <mat-option [value]="coursesVis.get(kat)">{{kat}}</mat-option>                    }                  </mat-select>              </mat-form-field>              @if(!this.isNarrowScreen()){                <mat-form-field appearance="fill" class="select-field">                   <mat-label>{{ \'curriculum.SELECT_COLUMNS\' | translate }}</mat-label>                   <mat-select multiple [value]="selectedColumnNames" (selectionChange)="onColumnSelectionChange($event)">                    @for (option of availableColumnOptions(); track option.name) {                      <mat-option [value]="option.name">{{ option.name }}</mat-option>                    }                  </mat-select>                </mat-form-field>              }                 </div>      <div id="curriculumContiner">      @for(special of tanterv?.specializations; track special.id){        <mat-card  [style.display]=" specialsVis.get(special.name) ? \'block\' : \'none\'" class="card-spec">          <mat-card-header>              <mat-card-title-group>                <mat-card-title>{{special.name}}</mat-card-title>                <mat-card-subtitle>{{\'curriculum.MIN_KREDIT\' | translate }} {{special.min}}</mat-card-subtitle>              </mat-card-title-group>          </mat-card-header>          <mat-card-content>                    @for (kat of special.categories; track kat.id) {          <mat-card class="card-kat" [style.display]=" katsVis.get(kat.name) ? \'block\' : \'none\'">            <mat-card-header >                <mat-card-title-group>                  <mat-card-title>{{kat.name}}</mat-card-title>                  <mat-card-subtitle>{{\'curriculum.CAT_MIN_KREDIT\' | translate }} {{kat.min}} {{\'curriculum.SUM\' | translate }} {{kat.max}}</mat-card-subtitle>                </mat-card-title-group>            </mat-card-header>            <mat-card-content>                <table id="{{special.name}}_{{kat.name}}"  mat-table  [dataSource]="kat.courses" matSort  class="mat-elevation-z8">                                        <ng-container matColumnDef="name" >                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> {{\'curriculum.NAME\' | translate }} </th>                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>                    </ng-container>                                        <ng-container matColumnDef="id">                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id"> ID </th>                        <td mat-cell *matCellDef="let element"> {{element.id}} </td>                    </ng-container>                                        <ng-container matColumnDef="kredit">                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by kredit"> {{\'curriculum.KREDIT\' | translate }} </th>                        <td mat-cell *matCellDef="let element"> {{element.kredit}} </td>                    </ng-container>                                        <ng-container matColumnDef="recommendedSemester">                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by recommendedSemester"> {{\'curriculum.RS\' | translate }} </th>                        <td mat-cell *matCellDef="let element"> {{element.recommendedSemester}} </td>                    </ng-container>                                        <ng-container matColumnDef="subjectResponsible">                        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by subjectResponsible"> {{\'curriculum.SUBJECT_RESPONSIBLE\' | translate }} </th>                        <td mat-cell *matCellDef="let element"> {{element.user_code}} </td>                    </ng-container>                                        <ng-container matColumnDef="sezon">                      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by sezon"> {{\'curriculum.SEZON\' | translate }} </th>                      <td mat-cell *matCellDef="let element">                         @switch (element.sezon) {                          @case (1) {                            {{\'curriculum.FALL\' | translate }}                          }                          @case(0){                            {{\'curriculum.SPRING\' | translate }}                          }                          @default {                            {{\'curriculum.FALL_SPRING\' | translate }}                          }                        }                       </td>                    </ng-container>                                        <ng-container matColumnDef="apply">                      <th mat-header-cell *matHeaderCellDef > {{\'curriculum.APPLY\' | translate }} </th>                      <td mat-cell *matCellDef="let element" >                        @if(element.can && this.viewMode !== \'other\'){                          <button mat-fab (click)="apply(element)" ><mat-icon>upgrade</mat-icon></button>                        }                         </td>                    </ng-container>                                         <ng-container matColumnDef="course">                      <th mat-header-cell *matHeaderCellDef > {{\'curriculum.COURSE_FORUM\' | translate }} </th>                      <td mat-cell *matCellDef="let element" > <button mat-fab (click)="toCourseForm(element)" ><mat-icon>forum</mat-icon></button>  </td>                    </ng-container>                    <tr mat-header-row *matHeaderRowDef="displayedColumns "></tr>                    <tr mat-row *matRowDef="let row; columns: displayedColumns ;" [class.completed]="row.completed" [class.applied]="row.applied"></tr>                </table>            </mat-card-content>        </mat-card>        }        </mat-card-content>        </mat-card>        <br>      }    </div>     </div>    </mat-card-content></mat-card></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CourseForumComponent', 'selector': 'app-course-forum'},{'name': 'CourseStatisticsComponent', 'selector': 'app-course-statistics'},{'name': 'CurriculumComponent', 'selector': 'app-curriculum'},{'name': 'CurriculumDeveloperComponent', 'selector': 'app-curriculum-developer'},{'name': 'CurriculumVisualizationComponent', 'selector': 'app-curriculum-visualization'},{'name': 'DialogComponent', 'selector': 'app-password-dialog'},{'name': 'ElectronicControllerComponent', 'selector': 'app-electronic-controller'},{'name': 'ForumComponent', 'selector': 'app-forum'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MessagesComponent', 'selector': 'app-messages'},{'name': 'OptimalizationComponent', 'selector': 'app-optimalization'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'StatisticsComponent', 'selector': 'app-statistics'},{'name': 'SubjectTopicComponent', 'selector': 'app-subject-topic'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'CurriculumComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CurriculumComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

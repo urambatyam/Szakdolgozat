@@ -1,0 +1,2603 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>athena documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">athena documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  CurriculumDeveloperComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/curriculum-developer/curriculum-developer.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Komponens a tantervek létrehozására, szerkesztésére és törlésére.
+Kezeli a tantervek listázását és a dinamikus űrlapot a tantervek adatainak kezeléséhez,
+beleértve a specializációkat, kategóriákat és kurzusokat.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-curriculum-developer</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >ReactiveFormsModule</a></code>
+                            <code>MatCardModule</code>
+                            <code>MatIconModule</code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >MatFormFieldModule</a></code>
+                            <code>MatInputModule</code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >FormsModule</a></code>
+                            <code>MatButtonModule</code>
+                            <code>MatPaginatorModule</code>
+                            <code>MatSortModule</code>
+                            <code>MatTableModule</code>
+                            <code>TranslateModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./curriculum-developer.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./curriculum-developer.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#AllCourseNames" >AllCourseNames</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#courseData" >courseData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#courseNames$" >courseNames$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#curriculumData" >curriculumData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#curriculumNames$" >curriculumNames$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#displayedColumns" >displayedColumns</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fb" >fb</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#formVs" >formVs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#tantervForm" >tantervForm</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#tantervNevek" >tantervNevek</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#update" >update</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addCategory" >addCategory</a>
+                            </li>
+                            <li>
+                                <a href="#addCourses" >addCourses</a>
+                            </li>
+                            <li>
+                                <a href="#addSpecialization" >addSpecialization</a>
+                            </li>
+                            <li>
+                                <a href="#close" >close</a>
+                            </li>
+                            <li>
+                                <a href="#create" >create</a>
+                            </li>
+                            <li>
+                                <a href="#generateCategory" >generateCategory</a>
+                            </li>
+                            <li>
+                                <a href="#generateCourse" >generateCourse</a>
+                            </li>
+                            <li>
+                                <a href="#generateSpecialization" >generateSpecialization</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#isCourseInCategory" >isCourseInCategory</a>
+                            </li>
+                            <li>
+                                <a href="#loadCurriculumNames" >loadCurriculumNames</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onCourseSelect" >onCourseSelect</a>
+                            </li>
+                            <li>
+                                <a href="#onSubmit" >onSubmit</a>
+                            </li>
+                            <li>
+                                <a href="#removeCategory" >removeCategory</a>
+                            </li>
+                            <li>
+                                <a href="#removeCourses" >removeCourses</a>
+                            </li>
+                            <li>
+                                <a href="#removeSpecialization" >removeSpecialization</a>
+                            </li>
+                            <li>
+                                <a href="#todelete" >todelete</a>
+                            </li>
+                            <li>
+                                <a href="#toupdate" >toupdate</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCategory"></a>
+                    <span class="name">
+                        <span ><b>addCategory</b></span>
+                        <a href="#addCategory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addCategory(spIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:186</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Hozzáad egy új kategóriát a megadott indexű specializáció <code>categories</code> <code>FormArray</code>-éhez.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>spIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Annak a specializációnak az indexe, amelyhez a kategóriát hozzáadjuk.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCourses"></a>
+                    <span class="name">
+                        <span ><b>addCourses</b></span>
+                        <a href="#addCourses"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addCourses(spIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, ctIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, courseId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="208"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:208</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Hozzáad egy kiválasztott kurzust a megadott indexű specializáció és kategória <code>courses</code> <code>FormArray</code>-éhez.
+Csak akkor adja hozzá, ha a kurzus létezik és még nem szerepel az adott kategóriában.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>spIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A cél specializáció indexe.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>ctIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A cél kategória indexe a specializáción belül.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>courseId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A hozzáadandó kurzus azonosítója.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addSpecialization"></a>
+                    <span class="name">
+                        <span ><b>addSpecialization</b></span>
+                        <a href="#addSpecialization"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addSpecialization()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="168"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:168</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Hozzáad egy új specializációt a tanterv űrlap <code>specializations</code> <code>FormArray</code>-éhez.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="close"></a>
+                    <span class="name">
+                        <span ><b>close</b></span>
+                        <a href="#close"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>close()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="386"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:386</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Bezárja a tanterv szerkesztő/létrehozó űrlapot és visszaállítja az állapotát.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="create"></a>
+                    <span class="name">
+                        <span ><b>create</b></span>
+                        <a href="#create"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>create()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="372"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:372</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Előkészíti a komponenst egy új tanterv létrehozására.
+Megjeleníti az űrlapot és visszaállítja azt egy üres állapotba.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateCategory"></a>
+                    <span class="name">
+                        <span ><b>generateCategory</b></span>
+                        <a href="#generateCategory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>generateCategory()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="143"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:143</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Létrehoz egy új, üres <code>FormGroup</code>-ot egy kategóriához.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#FormCategory" target="_self" >FormCategory</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Egy új kategória <code>FormGroup</code>.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateCourse"></a>
+                    <span class="name">
+                        <span ><b>generateCourse</b></span>
+                        <a href="#generateCourse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>generateCourse()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:157</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Létrehoz egy új, üres <code>FormGroup</code>-ot egy kurzushoz.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#FormCourse" target="_self" >FormCourse</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Egy új kurzus <code>FormGroup</code>.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateSpecialization"></a>
+                    <span class="name">
+                        <span ><b>generateSpecialization</b></span>
+                        <a href="#generateSpecialization"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>generateSpecialization()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:129</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Létrehoz egy új, üres <code>FormGroup</code>-ot egy specializációhoz.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#FormSpecialization" target="_self" >FormSpecialization</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Egy új specializáció <code>FormGroup</code>.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isCourseInCategory"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>isCourseInCategory</b></span>
+                        <a href="#isCourseInCategory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isCourseInCategory(spIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, ctIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, courseId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="249"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:249</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Ellenőrzi, hogy egy adott kurzus (ID alapján) már szerepel-e egy specifikus kategória kurzusai között az űrlapon.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>spIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A vizsgált specializáció indexe.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>ctIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A vizsgált kategória indexe.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>courseId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A keresett kurzus ID-ja.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Igaz, ha a kurzus már szerepel a kategóriában, egyébként hamis.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadCurriculumNames"></a>
+                    <span class="name">
+                        <span ><b>loadCurriculumNames</b></span>
+                        <a href="#loadCurriculumNames"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadCurriculumNames()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="115"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Betölti az összes tanterv nevét a szerverről és frissíti a táblázat adatforrását.
+Leiratkozik a <code>curriculumNames$</code> subject jelzésekor.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="471"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:471</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Leiratkozik az aktív <code>Subject</code>-ekről a komponens megsemmisülésekor,
+hogy elkerülje a memóriaszivárgást.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="99"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicializálja a komponenst: beállítja a form láthatóságát hamisra,
+lekérdezi az összes kurzus nevét és betölti a meglévő tantervek neveit.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCourseSelect"></a>
+                    <span class="name">
+                        <span ><b>onCourseSelect</b></span>
+                        <a href="#onCourseSelect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onCourseSelect(event: Event, spIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, ctIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="233"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:233</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eseménykezelő a kurzus kiválasztó <code>&lt;select&gt;</code> elem <code>change</code> eseményére.
+Meghívja az <code>addCourses</code> metódust a kiválasztott kurzus ID-jával, majd visszaállítja a select értékét.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A DOM <code>change</code> esemény objektuma.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>spIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A specializáció indexe, amelyhez a kurzust hozzáadjuk.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>ctIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A kategória indexe, amelyhez a kurzust hozzáadjuk.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmit"></a>
+                    <span class="name">
+                        <span ><b>onSubmit</b></span>
+                        <a href="#onSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSubmit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="403"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:403</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Kezeli a tanterv űrlap elküldését.
+Összeállítja a <code>Curriculum</code> objektumot az űrlap adataiból.
+Meghívja a megfelelő szerviz metódust (create vagy update) az <code>update</code> flag alapján.
+Sikeres művelet után bezárja az űrlapot és frissíti a tantervek listáját.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeCategory"></a>
+                    <span class="name">
+                        <span ><b>removeCategory</b></span>
+                        <a href="#removeCategory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeCategory(spIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, ctIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="196"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:196</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eltávolít egy kategóriát a megadott indexű specializáció <code>categories</code> <code>FormArray</code>-éből a kategória indexe alapján.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>spIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Annak a specializációnak az indexe, amelyből a kategóriát eltávolítjuk.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>ctIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Az eltávolítandó kategória indexe a specializáción belül.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeCourses"></a>
+                    <span class="name">
+                        <span ><b>removeCourses</b></span>
+                        <a href="#removeCourses"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeCourses(spIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, ctIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, cIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="265"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:265</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eltávolít egy kurzust a megadott indexű specializáció, kategória <code>courses</code> <code>FormArray</code>-éből a kurzus indexe alapján.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>spIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Annak a specializációnak az indexe, amelyből a kurzust eltávolítjuk.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>ctIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Annak a kategóriának az indexe, amelyből a kurzust eltávolítjuk.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>cIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Az eltávolítandó kurzus indexe a kategórián belül.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeSpecialization"></a>
+                    <span class="name">
+                        <span ><b>removeSpecialization</b></span>
+                        <a href="#removeSpecialization"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeSpecialization(spIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="177"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:177</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eltávolít egy specializációt a tanterv űrlap <code>specializations</code> <code>FormArray</code>-éből a megadott index alapján.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>spIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Az eltávolítandó specializáció indexe.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="todelete"></a>
+                    <span class="name">
+                        <span ><b>todelete</b></span>
+                        <a href="#todelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>todelete(curriculum: <a href="../interfaces/Curriculum.html" target="_self">Curriculum</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="342"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:342</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Töröl egy tantervet a szerverről az ID alapján.
+Sikeres törlés után újratölti a tantervek listáját.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>curriculum</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Curriculum.html" target="_self" >Curriculum</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A törlendő tanterv (legalább az ID szükséges).</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toupdate"></a>
+                    <span class="name">
+                        <span ><b>toupdate</b></span>
+                        <a href="#toupdate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toupdate(curriculum: <a href="../interfaces/Curriculum.html" target="_self">Curriculum</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="276"
+                                    class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:276</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Előkészíti a komponenst egy meglévő tanterv szerkesztésére.
+Beállítja az <code>update</code> és <code>formVs</code> flag-eket, lekérdezi a tanterv részletes adatait ID alapján,
+és feltölti a <code>tantervForm</code>-ot a kapott adatokkal.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>curriculum</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Curriculum.html" target="_self" >Curriculum</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>A szerkesztendő tanterv alapadatai (legalább az ID szükséges).</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AllCourseNames"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>AllCourseNames</b></span>
+                        <a href="#AllCourseNames"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Course[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:91</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="courseData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>courseData</b></span>
+                        <a href="#courseData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(CourseService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="courseNames$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>courseNames$</b></span>
+                        <a href="#courseNames$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="curriculumData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>curriculumData</b></span>
+                        <a href="#curriculumData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(CurriculumService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="curriculumNames$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>curriculumNames$</b></span>
+                        <a href="#curriculumNames$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayedColumns"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>displayedColumns</b></span>
+                        <a href="#displayedColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&#x27;name&#x27;, &#x27;update&#x27;, &#x27;delete&#x27;]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fb"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fb</b></span>
+                        <a href="#fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NonNullableFormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formVs"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>formVs</b></span>
+                        <a href="#formVs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tantervForm"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>tantervForm</b></span>
+                        <a href="#tantervForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >Form</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.fb.group({
+    id: this.fb.control&lt;number | null&gt;(null),
+    tName: this.fb.control&lt;string&gt;(&#x27;&#x27;),
+    specializations: this.fb.array&lt;FormSpecialization&gt;([])
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tantervNevek"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>tantervNevek</b></span>
+                        <a href="#tantervNevek"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new MatTableDataSource&lt;Name&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:84</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="update"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>update</b></span>
+                        <a href="#update"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/app/pages/curriculum-developer/curriculum-developer.component.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, OnDestroy, OnInit } from &#x27;@angular/core&#x27;;
+import { MatCardModule } from &#x27;@angular/material/card&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { MatFormFieldModule } from &#x27;@angular/material/form-field&#x27;;
+import { MatInputModule } from &#x27;@angular/material/input&#x27;;
+import { FormArray, FormControl, FormGroup, FormsModule, NonNullableFormBuilder } from &#x27;@angular/forms&#x27;;
+import { MatButtonModule } from &#x27;@angular/material/button&#x27;;
+import { ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
+import { CurriculumService } from &#x27;../../services/mysql/curriculum.service&#x27;;
+import { Curriculum } from &#x27;../../models/curriculum&#x27;;
+import { Specialization} from &#x27;../../models/special&#x27;;
+import { Category} from &#x27;../../models/category&#x27;;
+import { MatPaginatorModule } from &#x27;@angular/material/paginator&#x27;;
+import { MatSortModule } from &#x27;@angular/material/sort&#x27;;
+import { catchError, EMPTY, firstValueFrom, from, map, Subject, takeUntil } from &#x27;rxjs&#x27;;
+import { MatTableDataSource, MatTableModule } from &#x27;@angular/material/table&#x27;;
+import { Course } from &#x27;../../models/course&#x27;;
+import { CourseService } from &#x27;../../services/mysql/course.service&#x27;;
+import { Name } from &#x27;../../models/curriculumNames&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+
+/** Típus a kurzus form groupjához. */
+type FormCourse &#x3D; FormGroup&lt;{
+  id:FormControl&lt;number | null&gt;
+  name:FormControl&lt;string|null&gt;
+}&gt;;
+
+/** Típus a kategória form groupjához, amely kurzusokat tartalmaz. */
+type FormCategory &#x3D; FormGroup&lt;{
+  id:FormControl&lt;number | null&gt;
+  catName: FormControl&lt;string&gt;
+  courses: FormArray&lt;FormCourse&gt;
+  min: FormControl&lt;number&gt;
+}&gt;;
+
+/** Típus a specializáció form groupjához, amely kategóriákat tartalmaz. */
+type FormSpecialization &#x3D; FormGroup&lt;{
+  id:FormControl&lt;number | null&gt;
+  spName: FormControl&lt;string&gt;
+  required: FormControl&lt;number&gt; 
+  categories: FormArray&lt;FormCategory&gt;
+}&gt;;
+
+/** Típus a teljes tanterv form groupjához. */
+type Form &#x3D; FormGroup&lt;{
+  id:FormControl&lt;number | null&gt;
+  tName: FormControl&lt;string&gt;
+  specializations: FormArray&lt;FormSpecialization&gt;;
+}&gt;;
+
+/**
+ * @description
+ * Komponens a tantervek létrehozására, szerkesztésére és törlésére.
+ * Kezeli a tantervek listázását és a dinamikus űrlapot a tantervek adatainak kezeléséhez,
+ * beleértve a specializációkat, kategóriákat és kurzusokat.
+ */
+@Component({
+  selector: &#x27;app-curriculum-developer&#x27;,
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatCardModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    TranslateModule
+  ],
+  templateUrl: &#x27;./curriculum-developer.component.html&#x27;,
+  styleUrl: &#x27;./curriculum-developer.component.scss&#x27;
+})
+export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
+  private curriculumData &#x3D; inject(CurriculumService);
+  private courseData &#x3D; inject(CourseService);
+  private fb &#x3D; inject(NonNullableFormBuilder);
+  private curriculumNames$ &#x3D; new Subject&lt;void&gt;();
+  private courseNames$ &#x3D; new Subject&lt;void&gt;();
+  private update:boolean &#x3D; false;
+  protected displayedColumns: string[] &#x3D; [&#x27;name&#x27;, &#x27;update&#x27;, &#x27;delete&#x27;];
+  protected tantervNevek &#x3D; new MatTableDataSource&lt;Name&gt;();
+  protected formVs &#x3D; false;
+  protected tantervForm:Form &#x3D; this.fb.group({
+    id: this.fb.control&lt;number | null&gt;(null),
+    tName: this.fb.control&lt;string&gt;(&#x27;&#x27;),
+    specializations: this.fb.array&lt;FormSpecialization&gt;([])
+  });
+  protected AllCourseNames:Course[] &#x3D; [];
+
+  /**
+   * @description
+   * Inicializálja a komponenst: beállítja a form láthatóságát hamisra,
+   * lekérdezi az összes kurzus nevét és betölti a meglévő tantervek neveit.
+   * @override
+   */
+  ngOnInit(): void {
+    this.formVs &#x3D; false;
+    from(this.courseData.getAllCoursesNames()).pipe(
+      takeUntil(this.courseNames$),
+      map(courses &#x3D;&gt; {
+        this.AllCourseNames &#x3D; courses;
+      })
+    ).subscribe();
+    this.loadCurriculumNames()
+  }
+
+  /**
+   * @description
+   * Betölti az összes tanterv nevét a szerverről és frissíti a táblázat adatforrását.
+   * Leiratkozik a &#x60;curriculumNames$&#x60; subject jelzésekor.
+   */
+  loadCurriculumNames() {
+    from(this.curriculumData.getAllCurriculumNames()).pipe(
+      takeUntil(this.curriculumNames$),
+      map(curriculums &#x3D;&gt; {
+        this.tantervNevek.data &#x3D; curriculums;
+      })
+    ).subscribe();
+  }
+
+  /**
+   * @description
+   * Létrehoz egy új, üres &#x60;FormGroup&#x60;-ot egy specializációhoz.
+   * @returns {FormSpecialization} Egy új specializáció &#x60;FormGroup&#x60;.
+   */
+  generateSpecialization():FormSpecialization{
+    return this.fb.group({
+      id: this.fb.control&lt;number | null&gt;(null),
+      spName: this.fb.control&lt;string&gt;(&#x27;&#x27;),
+      required: this.fb.control&lt;number&gt;(-1), 
+      categories: this.fb.array&lt;FormCategory&gt;([])
+    })
+  }
+
+  /**
+   * @description
+   * Létrehoz egy új, üres &#x60;FormGroup&#x60;-ot egy kategóriához.
+   * @returns {FormCategory} Egy új kategória &#x60;FormGroup&#x60;.
+   */
+  generateCategory():FormCategory{
+    return this.fb.group({
+      id: this.fb.control&lt;number | null&gt;(null),
+      min: this.fb.control&lt;number&gt;(0),
+      catName: this.fb.control&lt;string&gt;(&#x27;&#x27;), 
+      courses: this.fb.array&lt;FormCourse&gt;([])
+    })
+  }
+
+  /**
+   * @description
+   * Létrehoz egy új, üres &#x60;FormGroup&#x60;-ot egy kurzushoz.
+   * @returns {FormCourse} Egy új kurzus &#x60;FormGroup&#x60;.
+   */
+  generateCourse():FormCourse{
+    return this.fb.group({
+      id: this.fb.control&lt;number | null&gt;(null),
+      name: this.fb.control&lt;string | null&gt;(null),
+    })
+  }
+
+  /**
+   * @description
+   * Hozzáad egy új specializációt a tanterv űrlap &#x60;specializations&#x60; &#x60;FormArray&#x60;-éhez.
+   */
+  addSpecialization():void{
+    this.tantervForm.controls.specializations.push(this.generateSpecialization())
+  }
+
+  /**
+   * @description
+   * Eltávolít egy specializációt a tanterv űrlap &#x60;specializations&#x60; &#x60;FormArray&#x60;-éből a megadott index alapján.
+   * @param {number} spIndex Az eltávolítandó specializáció indexe.
+   */
+  removeSpecialization(spIndex:number):void{
+    this.tantervForm.controls.specializations.removeAt(spIndex);
+  }
+
+  /**
+   * @description
+   * Hozzáad egy új kategóriát a megadott indexű specializáció &#x60;categories&#x60; &#x60;FormArray&#x60;-éhez.
+   * @param {number} spIndex Annak a specializációnak az indexe, amelyhez a kategóriát hozzáadjuk.
+   */
+  addCategory(spIndex:number):void{
+    this.tantervForm.controls.specializations.at(spIndex).controls.categories.push(this.generateCategory())
+  }
+
+  /**
+   * @description
+   * Eltávolít egy kategóriát a megadott indexű specializáció &#x60;categories&#x60; &#x60;FormArray&#x60;-éből a kategória indexe alapján.
+   * @param {number} spIndex Annak a specializációnak az indexe, amelyből a kategóriát eltávolítjuk.
+   * @param {number} ctIndex Az eltávolítandó kategória indexe a specializáción belül.
+   */
+  removeCategory(spIndex:number, ctIndex:number):void{
+    this.tantervForm.controls.specializations.at(spIndex).controls.categories.removeAt(ctIndex);
+  }
+
+  /**
+   * @description
+   * Hozzáad egy kiválasztott kurzust a megadott indexű specializáció és kategória &#x60;courses&#x60; &#x60;FormArray&#x60;-éhez.
+   * Csak akkor adja hozzá, ha a kurzus létezik és még nem szerepel az adott kategóriában.
+   * @param {number} spIndex A cél specializáció indexe.
+   * @param {number} ctIndex A cél kategória indexe a specializáción belül.
+   * @param {number} courseId A hozzáadandó kurzus azonosítója.
+   */
+  addCourses(spIndex:number, ctIndex:number, courseId:number):void{
+    const categoryCoursesArray &#x3D; this.tantervForm.controls.specializations.at(spIndex).controls.categories.at(ctIndex).controls.courses;
+    const selectedCourse &#x3D; this.AllCourseNames.find(course &#x3D;&gt; course.id &#x3D;&#x3D;&#x3D; courseId);
+    const isDuplicate &#x3D; categoryCoursesArray.controls.some(
+      courseControl &#x3D;&gt; courseControl.controls.id.value &#x3D;&#x3D;&#x3D; courseId
+    );
+
+    if (selectedCourse &amp;&amp; !isDuplicate) {
+      const courseForm &#x3D; this.generateCourse();
+      courseForm.patchValue({
+        id: selectedCourse.id,
+        name: selectedCourse.name
+      });
+      categoryCoursesArray.push(courseForm);
+    }
+  }
+
+  /**
+   * @description
+   * Eseménykezelő a kurzus kiválasztó &#x60;&lt;select&gt;&#x60; elem &#x60;change&#x60; eseményére.
+   * Meghívja az &#x60;addCourses&#x60; metódust a kiválasztott kurzus ID-jával, majd visszaállítja a select értékét.
+   * @param {Event} event A DOM &#x60;change&#x60; esemény objektuma.
+   * @param {number} spIndex A specializáció indexe, amelyhez a kurzust hozzáadjuk.
+   * @param {number} ctIndex A kategória indexe, amelyhez a kurzust hozzáadjuk.
+   */
+  onCourseSelect(event: Event, spIndex: number, ctIndex: number): void {
+    const select &#x3D; event.target as HTMLSelectElement;
+    if (select.value) {
+      this.addCourses(spIndex, ctIndex, Number(select.value));
+      select.value &#x3D; &#x27;&#x27;; 
+    }
+  }
+
+  /**
+   * @description
+   * Ellenőrzi, hogy egy adott kurzus (ID alapján) már szerepel-e egy specifikus kategória kurzusai között az űrlapon.
+   * @param {number} spIndex A vizsgált specializáció indexe.
+   * @param {number} ctIndex A vizsgált kategória indexe.
+   * @param {number} courseId A keresett kurzus ID-ja.
+   * @returns {boolean} Igaz, ha a kurzus már szerepel a kategóriában, egyébként hamis.
+   */
+  protected isCourseInCategory(spIndex: number, ctIndex: number, courseId: number): boolean {
+    const categoryCoursesArray &#x3D; this.tantervForm.controls.specializations
+      .at(spIndex).controls.categories.at(ctIndex).controls.courses;
+
+    return categoryCoursesArray.controls.some(
+      courseControl &#x3D;&gt; courseControl.controls.id.value &#x3D;&#x3D;&#x3D; courseId
+    );
+  }
+
+  /**
+   * @description
+   * Eltávolít egy kurzust a megadott indexű specializáció, kategória &#x60;courses&#x60; &#x60;FormArray&#x60;-éből a kurzus indexe alapján.
+   * @param {number} spIndex Annak a specializációnak az indexe, amelyből a kurzust eltávolítjuk.
+   * @param {number} ctIndex Annak a kategóriának az indexe, amelyből a kurzust eltávolítjuk.
+   * @param {number} cIndex Az eltávolítandó kurzus indexe a kategórián belül.
+   */
+  removeCourses(spIndex:number, ctIndex:number, cIndex:number):void{
+    this.tantervForm.controls.specializations.at(spIndex).controls.categories.at(ctIndex).controls.courses.removeAt(cIndex);
+  }
+
+  /**
+   * @description
+   * Előkészíti a komponenst egy meglévő tanterv szerkesztésére.
+   * Beállítja az &#x60;update&#x60; és &#x60;formVs&#x60; flag-eket, lekérdezi a tanterv részletes adatait ID alapján,
+   * és feltölti a &#x60;tantervForm&#x60;-ot a kapott adatokkal.
+   * @param {Curriculum} curriculum A szerkesztendő tanterv alapadatai (legalább az ID szükséges).
+   */
+  toupdate(curriculum: Curriculum) {
+    this.update &#x3D; true;
+    this.formVs &#x3D; true;
+    if(curriculum.id){
+      this.tantervForm.controls.specializations.clear();
+
+      firstValueFrom(
+        from(this.curriculumData.getCurriculum(curriculum.id)).pipe(
+          map(
+            loadedCurriculum &#x3D;&gt; { 
+              this.tantervForm.patchValue({
+                id: loadedCurriculum.id ?? null,
+                tName: loadedCurriculum.name,
+              });
+
+              loadedCurriculum.specializations.forEach((spec, specIndex) &#x3D;&gt; { 
+                const specForm &#x3D; this.generateSpecialization();
+                specForm.patchValue({
+                  id: spec.id,
+                  spName: spec.name,
+                  required: spec.required ? specIndex : -1
+                });
+
+                spec.categories.forEach(cat &#x3D;&gt; {
+                  const catForm &#x3D; this.generateCategory();
+                  catForm.patchValue({
+                    id: cat.id,
+                    catName: cat.name,
+                    min: cat.min
+                  });
+
+                  cat.courses.forEach( c &#x3D;&gt; {
+                    const courseForm &#x3D; this.generateCourse();
+                        courseForm.patchValue({
+                          id: c.id ?? null,
+                          name: c.name ?? null,
+                        });
+
+                    (catForm.get(&#x27;courses&#x27;) as FormArray).push(courseForm);
+                  });
+
+                  (specForm.get(&#x27;categories&#x27;) as FormArray).push(catForm);
+                });
+                this.tantervForm.controls.specializations.push(specForm);
+              });
+            }
+          ),
+          catchError(error &#x3D;&gt; {
+            console.error(&#x27;Hiba a tanterv betöltésekor:&#x27;, error);
+            this.close(); 
+            return EMPTY;
+          })
+        )
+      );
+    }else{
+      console.error(&quot;A szerkesztendő tantervnek nincs ID-ja!&quot;);
+      this.close(); 
+    }
+  }
+
+  /**
+   * @description
+   * Töröl egy tantervet a szerverről az ID alapján.
+   * Sikeres törlés után újratölti a tantervek listáját.
+   * @param {Curriculum} curriculum A törlendő tanterv (legalább az ID szükséges).
+   */
+  todelete(curriculum: Curriculum) {
+    if(curriculum.id){
+      if (!confirm(&#x60;Biztosan törölni szeretné a(z) &quot;${curriculum.name}&quot; tantervet?&#x60;)) {
+         return;
+      }
+
+      firstValueFrom(
+        from(this.curriculumData.deleteCurriculum(curriculum.id)).pipe(
+          map(
+            response &#x3D;&gt;{
+              console.log(&#x27;Törlési válasz:&#x27;, response);
+              this.loadCurriculumNames(); 
+            }
+          ),
+          catchError(error &#x3D;&gt; {
+            console.error(&#x27;Hiba a tanterv törlésekor:&#x27;, error);
+            return EMPTY;
+          })
+        )
+      );
+    } else {
+       console.error(&quot;A törlendő tantervnek nincs ID-ja!&quot;);
+    }
+  }
+
+  /**
+   * @description
+   * Előkészíti a komponenst egy új tanterv létrehozására.
+   * Megjeleníti az űrlapot és visszaállítja azt egy üres állapotba.
+   */
+  create() {
+    this.formVs &#x3D; true;
+    this.update &#x3D; false;
+    this.tantervForm &#x3D; this.fb.group({
+      id: this.fb.control&lt;number | null&gt;(null),
+      tName: this.fb.control&lt;string&gt;(&#x27;&#x27;), 
+      specializations: this.fb.array&lt;FormSpecialization&gt;([])
+    });
+  }
+
+  /**
+   * @description
+   * Bezárja a tanterv szerkesztő/létrehozó űrlapot és visszaállítja az állapotát.
+   */
+  close() {
+    this.update &#x3D; false;
+    this.formVs &#x3D; false;
+    this.tantervForm &#x3D; this.fb.group({
+      id: this.fb.control&lt;number | null&gt;(null),
+      tName: this.fb.control&lt;string&gt;(&#x27;&#x27;), 
+      specializations: this.fb.array&lt;FormSpecialization&gt;([])
+    });
+  }
+
+  /**
+   * @description
+   * Kezeli a tanterv űrlap elküldését.
+   * Összeállítja a &#x60;Curriculum&#x60; objektumot az űrlap adataiból.
+   * Meghívja a megfelelő szerviz metódust (create vagy update) az &#x60;update&#x60; flag alapján.
+   * Sikeres művelet után bezárja az űrlapot és frissíti a tantervek listáját.
+   */
+  onSubmit() {
+    if (this.tantervForm.invalid) {
+      console.error(&quot;Az űrlap érvénytelen!&quot;);
+      return;
+    }
+
+    const requiredSpecializationIndex &#x3D; this.tantervForm.controls.specializations.controls.findIndex(
+        (spControl, index) &#x3D;&gt; spControl.controls.required.value &#x3D;&#x3D;&#x3D; index
+    );
+
+    const curriculum: Curriculum &#x3D; {
+      id: this.tantervForm.controls.id.value, 
+      name: this.tantervForm.controls.tName.getRawValue(),
+      specializations: this.tantervForm.controls.specializations.controls.map((spControl, spIndex): Specialization &#x3D;&gt; {
+        return {
+          id: spControl.controls.id.getRawValue() ?? null,
+          name: spControl.controls.spName.getRawValue(),
+          required: spIndex &#x3D;&#x3D;&#x3D; requiredSpecializationIndex,
+          categories: spControl.controls.categories.controls.map((catControl): Category &#x3D;&gt; {
+            return {
+              id: catControl.controls.id.getRawValue() ?? null,
+              name: catControl.controls.catName.getRawValue(),
+              min: catControl.controls.min.getRawValue(),
+              courses: catControl.controls.courses.controls.map((courseControl): Course &#x3D;&gt; {
+                return {
+                  id: courseControl.controls.id.getRawValue() ?? null,
+                  name: courseControl.controls.name.getRawValue() ?? null,
+                  recommendedSemester: null,
+                  subjectResponsible: null,
+                  kredit: null,
+                  subjectMatter: null,
+                  user_code: null,
+                  sezon: null
+                };
+              })
+            };
+          })
+        };
+      })
+    };
+
+    const apiCall &#x3D; this.update
+      ? this.curriculumData.updateCurriculum(curriculum)
+      : this.curriculumData.createCurriculum(curriculum);
+
+    firstValueFrom(
+      from(apiCall).pipe(
+        map(response &#x3D;&gt; {
+          console.log(this.update ? &#x27;Update válasz:&#x27; : &#x27;Create válasz:&#x27;, response);
+          this.loadCurriculumNames(); 
+          this.close(); 
+        }),
+        catchError(error &#x3D;&gt; {
+          console.error(&#x27;Hiba a tanterv mentésekor:&#x27;, error);
+          alert(&#x27;Hiba a tanterv mentésekor:&#x27;+ error);
+          this.formVs &#x3D; true; 
+          return EMPTY;
+        })
+      )
+    );
+  }
+
+  /**
+   * @description
+   * Leiratkozik az aktív &#x60;Subject&#x60;-ekről a komponens megsemmisülésekor,
+   * hogy elkerülje a memóriaszivárgást.
+   * @override
+   */
+  ngOnDestroy(): void {
+    this.curriculumNames$.next();
+    this.curriculumNames$.complete();
+    this.courseNames$.next();
+    this.courseNames$.complete();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-card&gt;
+    &lt;mat-card-header&gt;
+        &lt;mat-card-title&gt;{{&#x27;curriculum-develepor.TITLE&#x27; | translate }}&lt;/mat-card-title&gt;
+    &lt;/mat-card-header&gt;
+    &lt;mat-card-content  &gt;
+      @if(!formVs){
+          &lt;table [dataSource]&#x3D;&quot;tantervNevek&quot;  mat-table class&#x3D;&quot;mat-elevation-z8&quot; &gt;
+              &lt;ng-container matColumnDef&#x3D;&quot;name&quot; &gt;
+                  &lt;th mat-header-cell *matHeaderCellDef &gt;{{&#x27;curriculum-develepor.NAME&#x27; | translate }}&lt;/th&gt;
+                  &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt; {{element.name}} &lt;/td&gt;
+                  &lt;td mat-footer-cell *matFooterCellDef&gt;&lt;/td&gt;
+              &lt;/ng-container&gt;
+        
+              &lt;ng-container matColumnDef&#x3D;&quot;update&quot;&gt;
+                  &lt;th mat-header-cell *matHeaderCellDef &gt;{{&#x27;curriculum-develepor.MODIFY&#x27; | translate }}&lt;/th&gt;
+                  &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot; &gt; &lt;button mat-fab (click)&#x3D;&quot;toupdate(element)&quot; &gt;&lt;mat-icon&gt;update&lt;/mat-icon&gt;&lt;/button&gt;&lt;/td&gt;
+                  &lt;td mat-footer-cell *matFooterCellDef&gt;&lt;/td&gt;
+              &lt;/ng-container&gt;
+        
+              &lt;ng-container matColumnDef&#x3D;&quot;delete&quot;&gt;
+                  &lt;th mat-header-cell *matHeaderCellDef &gt; {{&#x27;curriculum-develepor.DELETE&#x27; | translate }} &lt;/th&gt;
+                  &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot; &gt; &lt;button mat-fab (click)&#x3D;&quot;todelete(element)&quot; &gt;&lt;mat-icon&gt;delete&lt;/mat-icon&gt;&lt;/button&gt;&lt;/td&gt;
+                  &lt;td mat-footer-cell *matFooterCellDef&gt;&lt;button mat-fab (click)&#x3D;&quot;create()&quot; &gt;&lt;mat-icon&gt;add&lt;/mat-icon&gt;&lt;/button&gt;&lt;/td&gt;
+              &lt;/ng-container&gt;
+        
+              &lt;tr mat-header-row *matHeaderRowDef&#x3D;&quot;displayedColumns &quot;&gt;&lt;/tr&gt;
+              &lt;tr mat-row *matRowDef&#x3D;&quot;let row; columns: displayedColumns ;&quot;&gt;&lt;/tr&gt;
+              &lt;tr mat-footer-row *matFooterRowDef&#x3D;&quot;displayedColumns&quot;&gt;&lt;/tr&gt;
+        
+          &lt;/table&gt;
+      }@else {
+          &lt;form [formGroup]&#x3D;&quot;tantervForm&quot; (ngSubmit)&#x3D;&quot;onSubmit()&quot;  &gt;
+              &lt;div&gt;
+                  &lt;mat-label&gt; {{&#x27;curriculum-develepor.CURRICULUM_NAME&#x27; | translate }}&lt;/mat-label&gt;&lt;br&gt;
+                  &lt;input type&#x3D;&quot;text&quot; formControlName&#x3D;&quot;tName&quot;&gt;
+              &lt;/div&gt;
+                &lt;!-- Specializációk --&gt;
+              &lt;div  formArrayName&#x3D;&quot;specializations&quot;&gt;
+                  @for (specialization of tantervForm.controls.specializations.controls; track spIndex; let spIndex &#x3D; $index) {
+                      &lt;div  class&#x3D;&quot;form-specialization&quot; [formGroupName]&#x3D;&quot;spIndex&quot;&gt;
+                          &lt;mat-label&gt;{{&#x27;curriculum-develepor.SPECIALIZATION&#x27; | translate }}&lt;/mat-label&gt;&lt;br&gt;
+                          &lt;input type&#x3D;&quot;text&quot; formControlName&#x3D;&quot;spName&quot;&gt;
+                          &lt;input type&#x3D;&quot;radio&quot; [id]&#x3D;&quot;spIndex&quot; name&#x3D;&quot;required&quot; formControlName&#x3D;&quot;required&quot; [value]&#x3D;&quot;spIndex&quot;&gt;
+                          &lt;label [for]&#x3D;&quot;spIndex&quot;&gt;{{&#x27;curriculum-develepor.REQUIRED&#x27; | translate}}&lt;/label&gt;
+                          &lt;mat-icon (click)&#x3D;&quot;removeSpecialization(spIndex)&quot;&gt;remove&lt;/mat-icon&gt;
+                          
+                          &lt;!-- Kategoriák --&gt;
+                          &lt;div formArrayName&#x3D;&quot;categories&quot;&gt;
+                              @for (category of specialization.controls.categories.controls; track ctIndex; let ctIndex &#x3D; $index) {
+                                  &lt;div class&#x3D;&quot;form-category&quot; [formGroupName]&#x3D;&quot;ctIndex&quot;&gt;
+                                      &lt;mat-label&gt;{{&#x27;curriculum-develepor.CATEGORY&#x27; | translate }}&lt;/mat-label&gt;&lt;br&gt;
+                                      &lt;input type&#x3D;&quot;text&quot; formControlName&#x3D;&quot;catName&quot;&gt;
+                                      &lt;mat-label&gt;{{&#x27;curriculum-develepor.CATEGORY_MIN&#x27; | translate }}&lt;/mat-label&gt;
+                                      &lt;input type&#x3D;&quot;number&quot; formControlName&#x3D;&quot;min&quot;&gt;
+                                      &lt;mat-icon (click)&#x3D;&quot;removeCategory(spIndex, ctIndex)&quot;&gt;remove&lt;/mat-icon&gt;
+                                      
+                                      &lt;!-- Kurzusok --&gt;
+                                      &lt;div formArrayName&#x3D;&quot;courses&quot;&gt;
+                                        &lt;mat-label&gt;{{&#x27;curriculum-develepor.COURSE&#x27; | translate }}&lt;/mat-label&gt;&lt;br&gt;
+                                          @for (course of category.controls.courses.controls; track cIndex; let cIndex &#x3D; $index) {
+                                            &lt;div class&#x3D;&quot;form-courses&quot; [formGroupName]&#x3D;&quot;cIndex&quot;&gt;
+                                                &lt;input type&#x3D;&quot;text&quot; formControlName&#x3D;&quot;name&quot; [readonly]&#x3D;true&gt;
+                                                &lt;mat-icon (click)&#x3D;&quot;removeCourses(spIndex, ctIndex,cIndex)&quot;&gt;remove&lt;/mat-icon&gt;&lt;br&gt;
+                                            &lt;/div&gt;
+                                          }
+                                          &lt;select (change)&#x3D;&quot;onCourseSelect($event, spIndex, ctIndex)&quot;&gt;
+                                            &lt;option value&#x3D;&quot;&quot;&gt;{{&#x27;curriculum-develepor.COURSE_CHOOSE&#x27; | translate }}&lt;/option&gt;
+                                            @for(name of AllCourseNames; track name.id){
+                                                @if (name.id &amp;&amp; !isCourseInCategory(spIndex, ctIndex, name.id)) {
+                                                    &lt;option [value]&#x3D;&quot;name.id&quot;&gt;{{name.name}}&lt;/option&gt;
+                                                }
+                                            }
+                                        &lt;/select&gt;
+                                      &lt;/div&gt;
+                                  &lt;/div&gt;
+                              }
+                              &lt;mat-icon (click)&#x3D;&quot;addCategory(spIndex)&quot;&gt;add&lt;/mat-icon&gt;
+                          &lt;/div&gt;
+                      &lt;/div&gt;
+                  }
+                  &lt;mat-icon (click)&#x3D;&quot;addSpecialization()&quot;&gt;add&lt;/mat-icon&gt;
+              &lt;/div&gt;
+    
+              &lt;div&gt;
+                &lt;button mat-raised-button type&#x3D;&quot;submit&quot;&gt;{{&#x27;curriculum-develepor.SAVE&#x27; | translate }}&lt;/button&gt;
+                &lt;button mat-raised-button type&#x3D;&quot;button&quot; (click)&#x3D;&quot;close()&quot;&gt;{{&#x27;curriculum-develepor.CLOSE&#x27; | translate }}&lt;/button&gt;
+              &lt;/div&gt;
+          &lt;/form&gt;
+        }
+    &lt;/mat-card-content&gt;
+  &lt;/mat-card&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-card>    <mat-card-header>        <mat-card-title>{{\'curriculum-develepor.TITLE\' | translate }}</mat-card-title>    </mat-card-header>    <mat-card-content  >      @if(!formVs){          <table [dataSource]="tantervNevek"  mat-table class="mat-elevation-z8" >              <ng-container matColumnDef="name" >                  <th mat-header-cell *matHeaderCellDef >{{\'curriculum-develepor.NAME\' | translate }}</th>                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>                  <td mat-footer-cell *matFooterCellDef></td>              </ng-container>                      <ng-container matColumnDef="update">                  <th mat-header-cell *matHeaderCellDef >{{\'curriculum-develepor.MODIFY\' | translate }}</th>                  <td mat-cell *matCellDef="let element" > <button mat-fab (click)="toupdate(element)" ><mat-icon>update</mat-icon></button></td>                  <td mat-footer-cell *matFooterCellDef></td>              </ng-container>                      <ng-container matColumnDef="delete">                  <th mat-header-cell *matHeaderCellDef > {{\'curriculum-develepor.DELETE\' | translate }} </th>                  <td mat-cell *matCellDef="let element" > <button mat-fab (click)="todelete(element)" ><mat-icon>delete</mat-icon></button></td>                  <td mat-footer-cell *matFooterCellDef><button mat-fab (click)="create()" ><mat-icon>add</mat-icon></button></td>              </ng-container>                      <tr mat-header-row *matHeaderRowDef="displayedColumns "></tr>              <tr mat-row *matRowDef="let row; columns: displayedColumns ;"></tr>              <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>                  </table>      }@else {          <form [formGroup]="tantervForm" (ngSubmit)="onSubmit()"  >              <div>                  <mat-label> {{\'curriculum-develepor.CURRICULUM_NAME\' | translate }}</mat-label><br>                  <input type="text" formControlName="tName">              </div>                <!-- Specializációk -->              <div  formArrayName="specializations">                  @for (specialization of tantervForm.controls.specializations.controls; track spIndex; let spIndex = $index) {                      <div  class="form-specialization" [formGroupName]="spIndex">                          <mat-label>{{\'curriculum-develepor.SPECIALIZATION\' | translate }}</mat-label><br>                          <input type="text" formControlName="spName">                          <input type="radio" [id]="spIndex" name="required" formControlName="required" [value]="spIndex">                          <label [for]="spIndex">{{\'curriculum-develepor.REQUIRED\' | translate}}</label>                          <mat-icon (click)="removeSpecialization(spIndex)">remove</mat-icon>                                                    <!-- Kategoriák -->                          <div formArrayName="categories">                              @for (category of specialization.controls.categories.controls; track ctIndex; let ctIndex = $index) {                                  <div class="form-category" [formGroupName]="ctIndex">                                      <mat-label>{{\'curriculum-develepor.CATEGORY\' | translate }}</mat-label><br>                                      <input type="text" formControlName="catName">                                      <mat-label>{{\'curriculum-develepor.CATEGORY_MIN\' | translate }}</mat-label>                                      <input type="number" formControlName="min">                                      <mat-icon (click)="removeCategory(spIndex, ctIndex)">remove</mat-icon>                                                                            <!-- Kurzusok -->                                      <div formArrayName="courses">                                        <mat-label>{{\'curriculum-develepor.COURSE\' | translate }}</mat-label><br>                                          @for (course of category.controls.courses.controls; track cIndex; let cIndex = $index) {                                            <div class="form-courses" [formGroupName]="cIndex">                                                <input type="text" formControlName="name" [readonly]=true>                                                <mat-icon (click)="removeCourses(spIndex, ctIndex,cIndex)">remove</mat-icon><br>                                            </div>                                          }                                          <select (change)="onCourseSelect($event, spIndex, ctIndex)">                                            <option value="">{{\'curriculum-develepor.COURSE_CHOOSE\' | translate }}</option>                                            @for(name of AllCourseNames; track name.id){                                                @if (name.id && !isCourseInCategory(spIndex, ctIndex, name.id)) {                                                    <option [value]="name.id">{{name.name}}</option>                                                }                                            }                                        </select>                                      </div>                                  </div>                              }                              <mat-icon (click)="addCategory(spIndex)">add</mat-icon>                          </div>                      </div>                  }                  <mat-icon (click)="addSpecialization()">add</mat-icon>              </div>                  <div>                <button mat-raised-button type="submit">{{\'curriculum-develepor.SAVE\' | translate }}</button>                <button mat-raised-button type="button" (click)="close()">{{\'curriculum-develepor.CLOSE\' | translate }}</button>              </div>          </form>        }    </mat-card-content>  </mat-card></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CourseForumComponent', 'selector': 'app-course-forum'},{'name': 'CourseStatisticsComponent', 'selector': 'app-course-statistics'},{'name': 'CurriculumComponent', 'selector': 'app-curriculum'},{'name': 'CurriculumDeveloperComponent', 'selector': 'app-curriculum-developer'},{'name': 'CurriculumVisualizationComponent', 'selector': 'app-curriculum-visualization'},{'name': 'DialogComponent', 'selector': 'app-password-dialog'},{'name': 'ElectronicControllerComponent', 'selector': 'app-electronic-controller'},{'name': 'ForumComponent', 'selector': 'app-forum'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MessagesComponent', 'selector': 'app-messages'},{'name': 'OptimalizationComponent', 'selector': 'app-optimalization'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'StatisticsComponent', 'selector': 'app-statistics'},{'name': 'SubjectTopicComponent', 'selector': 'app-subject-topic'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'CurriculumDeveloperComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CurriculumDeveloperComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

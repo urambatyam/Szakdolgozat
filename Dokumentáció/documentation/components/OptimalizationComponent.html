@@ -1,0 +1,3246 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>athena documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">athena documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  OptimalizationComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/optimalization/optimalization.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Komponens a tanterv optimalizálására.
+Lehetővé teszi a felhasználó számára, hogy kiválasszon egy tantervet, megadjon különböző
+optimalizálási paramétereket (algoritmus, kredithatár, specializációk, preferenciák),
+és elindítsa az optimalizálást. Az eredményt vizuálisan is megjeleníti.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-optimalization</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/CurriculumVisualizationComponent.html" target="_self" >CurriculumVisualizationComponent</a></code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >ReactiveFormsModule</a></code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >FormsModule</a></code>
+                                <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >MatFormFieldModule</a></code>
+                            <code>MatInputModule</code>
+                            <code>MatCardModule</code>
+                            <code>MatButtonModule</code>
+                            <code>MatSelectModule</code>
+                            <code>TranslateModule</code>
+                            <code>MatRadioModule</code>
+                            <code>MatCheckboxModule</code>
+                            <code>MatChipsModule</code>
+                            <code>MatIconModule</code>
+                            <code>MatAutocompleteModule</code>
+                            <code>CommonModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./optimalization.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./optimalization.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#allCourse" >allCourse</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#allCourses" >allCourses</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#allreqmet" >allreqmet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#allSpecializations" >allSpecializations</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#currentNegInput" >currentNegInput</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#currentPozInput" >currentPozInput</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#currentSpecInput" >currentSpecInput</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#curriculumNames" >curriculumNames</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#curriculumService" >curriculumService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fb" >fb</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#filteredNegativs" >filteredNegativs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#filteredPozs" >filteredPozs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#filteredSpecializations" >filteredSpecializations</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#noOptimum" >noOptimum</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#optimalizationService" >optimalizationService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#optimizationForm" >optimizationForm</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#optimizationResult" >optimizationResult</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#selectedCurriculum" >selectedCurriculum</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#selectedNegativs" >selectedNegativs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#selectedPozs" >selectedPozs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#selectedSpecializations" >selectedSpecializations</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#separatorKeysCodes" >separatorKeysCodes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#specializationNames" >specializationNames</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#addChipItem" >addChipItem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#addNegativ" >addNegativ</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#addPozitiv" >addPozitiv</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#addSpecialization" >addSpecialization</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#loadCurriculaNames" >loadCurriculaNames</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#loadCurriculumDetails" >loadCurriculumDetails</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#onSubmit" >onSubmit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#removeChipItem" >removeChipItem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#removeNegativ" >removeNegativ</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#removePozitiv" >removePozitiv</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#removeSpecialization" >removeSpecialization</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#resetCurriculumDependentState" >resetCurriculumDependentState</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#selectAutocompleteItem" >selectAutocompleteItem</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#selectedCurriculumChange" >selectedCurriculumChange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#selectedNegativ" >selectedNegativ</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#selectedPozitiv" >selectedPozitiv</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#selectedSpecialization" >selectedSpecialization</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#creditLimitControl" >creditLimitControl</a>
+                                </li>
+                                <li>
+                                    <a href="#formInvalid" >formInvalid</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addChipItem"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>addChipItem</b></span>
+                        <a href="#addChipItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addChipItem(event: MatChipInputEvent, allItemsSource: () => void, targetSignal: <a href="../interfaces/Name.html" target="_self">WritableSignal&lt;Name[]&gt;</a>, inputModelSignal: WritableSignal<string>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="381"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:381</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Általános segédmetódus elem hozzáadásához chip input esemény alapján.
+Megkeresi az elemet a teljes listában a beírt érték alapján, és ha létezik és még nincs kiválasztva,
+hozzáadja a cél signalhoz. Üríti az input mezőt.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatChipInputEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>allItemsSource</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>targetSignal</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Name.html" target="_self" >WritableSignal&lt;Name[]&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>inputModelSignal</td>
+                                            <td>
+                                                        <code>WritableSignal&lt;string&gt;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addNegativ"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>addNegativ</b></span>
+                        <a href="#addNegativ"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addNegativ(event: MatChipInputEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="316"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:316</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Hozzáad egy negatív kurzust a kiválasztottakhoz a chip input esemény alapján.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatChipInputEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addPozitiv"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>addPozitiv</b></span>
+                        <a href="#addPozitiv"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addPozitiv(event: MatChipInputEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="346"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:346</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Hozzáad egy pozitív kurzust a kiválasztottakhoz a chip input esemény alapján.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatChipInputEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addSpecialization"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>addSpecialization</b></span>
+                        <a href="#addSpecialization"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addSpecialization(event: MatChipInputEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="286"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:286</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Hozzáad egy specializációt a kiválasztottakhoz a chip input esemény alapján.
+Csak akkor adja hozzá, ha a beírt érték létezik és még nincs kiválasztva.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatChipInputEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadCurriculaNames"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>loadCurriculaNames</b></span>
+                        <a href="#loadCurriculaNames"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadCurriculaNames()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="159"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:159</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Betölti az összes elérhető tanterv nevét a szolgáltatáson keresztül.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadCurriculumDetails"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>loadCurriculumDetails</b></span>
+                        <a href="#loadCurriculumDetails"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadCurriculumDetails(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="180"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:180</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Betölti egy adott tanterv részletes adatait ID alapján.
+Frissíti a releváns signal-okat az autocomplete mezőkhöz.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="118"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:118</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Inicializálja a komponenst a tanterv nevek betöltésével.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmit"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>onSubmit</b></span>
+                        <a href="#onSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onSubmit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="220"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:220</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Elküldi az optimalizálási kérést a szolgáltatásnak a formban megadott adatok alapján.
+Kezeli a betöltési állapotot és feldolgozza a kapott eredményt vagy hibát.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise<void> Promise, ami akkor oldódik fel, ha a kérés befejeződött.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeChipItem"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>removeChipItem</b></span>
+                        <a href="#removeChipItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeChipItem(itemToRemove: <a href="../interfaces/Name.html" target="_self">Name</a>, targetSignal: <a href="../interfaces/Name.html" target="_self">WritableSignal&lt;Name[]&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="409"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:409</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Általános segédmetódus elem eltávolításához a kiválasztott elemeket tartalmazó signalból.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>itemToRemove</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Name.html" target="_self" >Name</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>targetSignal</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Name.html" target="_self" >WritableSignal&lt;Name[]&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeNegativ"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>removeNegativ</b></span>
+                        <a href="#removeNegativ"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeNegativ(neg: <a href="../interfaces/Name.html" target="_self">Name</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="326"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:326</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eltávolít egy negatív kurzust a kiválasztottak listájából.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>neg</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Name.html" target="_self" >Name</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removePozitiv"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>removePozitiv</b></span>
+                        <a href="#removePozitiv"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removePozitiv(po: <a href="../interfaces/Name.html" target="_self">Name</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="356"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:356</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eltávolít egy pozitív kurzust a kiválasztottak listájából.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>po</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Name.html" target="_self" >Name</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeSpecialization"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>removeSpecialization</b></span>
+                        <a href="#removeSpecialization"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeSpecialization(spec: <a href="../interfaces/Name.html" target="_self">Name</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="296"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:296</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eltávolít egy specializációt a kiválasztottak listájából.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>spec</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Name.html" target="_self" >Name</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetCurriculumDependentState"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>resetCurriculumDependentState</b></span>
+                        <a href="#resetCurriculumDependentState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resetCurriculumDependentState()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="145"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:145</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Alaphelyzetbe állítja a tantervtől függő állapotokat (kurzusok, specializációk, kiválasztások).</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectAutocompleteItem"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>selectAutocompleteItem</b></span>
+                        <a href="#selectAutocompleteItem"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>selectAutocompleteItem(event: MatAutocompleteSelectedEvent, targetSignal: <a href="../interfaces/Name.html" target="_self">WritableSignal&lt;Name[]&gt;</a>, inputModelSignal: WritableSignal<string>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="424"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:424</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Általános segédmetódus elem hozzáadásához autocomplete kiválasztási esemény alapján.
+Ha az elem még nincs kiválasztva, hozzáadja a cél signalhoz. Üríti az input mezőt.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatAutocompleteSelectedEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>targetSignal</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Name.html" target="_self" >WritableSignal&lt;Name[]&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>inputModelSignal</td>
+                                            <td>
+                                                        <code>WritableSignal&lt;string&gt;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedCurriculumChange"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>selectedCurriculumChange</b></span>
+                        <a href="#selectedCurriculumChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>selectedCurriculumChange(event: MatSelectChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="128"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:128</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Eseménykezelő a tanterv kiválasztó  értékének változására.
+Betölti a kiválasztott tanterv részleteit és alaphelyzetbe állítja a kapcsolódó űrlapmezőket és signal-okat.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatSelectChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedNegativ"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>selectedNegativ</b></span>
+                        <a href="#selectedNegativ"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>selectedNegativ(event: MatAutocompleteSelectedEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="336"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:336</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Hozzáad egy negatív kurzust a kiválasztottakhoz az autocomplete kiválasztási eseménye alapján.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatAutocompleteSelectedEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedPozitiv"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>selectedPozitiv</b></span>
+                        <a href="#selectedPozitiv"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>selectedPozitiv(event: MatAutocompleteSelectedEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="366"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:366</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Hozzáad egy pozitív kurzust a kiválasztottakhoz az autocomplete kiválasztási eseménye alapján.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatAutocompleteSelectedEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedSpecialization"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>selectedSpecialization</b></span>
+                        <a href="#selectedSpecialization"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>selectedSpecialization(event: MatAutocompleteSelectedEvent)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="306"
+                                    class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:306</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Hozzáad egy specializációt a kiválasztottakhoz az autocomplete kiválasztási eseménye alapján.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>MatAutocompleteSelectedEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allCourse"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>allCourse</b></span>
+                        <a href="#allCourse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Name[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:88</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allCourses"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>allCourses</b></span>
+                        <a href="#allCourses"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Name.html" target="_self" >Name[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allreqmet"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>allreqmet</b></span>
+                        <a href="#allreqmet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>boolean | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allSpecializations"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>allSpecializations</b></span>
+                        <a href="#allSpecializations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Name[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:101</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentNegInput"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>currentNegInput</b></span>
+                        <a href="#currentNegInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>model(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentPozInput"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>currentPozInput</b></span>
+                        <a href="#currentPozInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>model(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentSpecInput"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>currentSpecInput</b></span>
+                        <a href="#currentSpecInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>model(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="curriculumNames"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>curriculumNames</b></span>
+                        <a href="#curriculumNames"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Name.html" target="_self" >Name[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="curriculumService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>curriculumService</b></span>
+                        <a href="#curriculumService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(CurriculumService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fb"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fb</b></span>
+                        <a href="#fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NonNullableFormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filteredNegativs"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>filteredNegativs</b></span>
+                        <a href="#filteredNegativs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+    const searchText &#x3D; this.currentNegInput().toLowerCase();
+    const selected &#x3D; this.selectedNegativs();
+    const courses &#x3D; this.allCourse() ?? [];
+    return courses.filter(neg &#x3D;&gt;
+      !selected.some(s &#x3D;&gt; s.id &#x3D;&#x3D;&#x3D; neg.id) &amp;&amp;
+      neg.name.toLowerCase().includes(searchText)
+    );
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filteredPozs"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>filteredPozs</b></span>
+                        <a href="#filteredPozs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+    const searchText &#x3D; this.currentPozInput().toLowerCase();
+    const selected &#x3D; this.selectedPozs();
+    const courses &#x3D; this.allCourse() ?? [];
+    return courses.filter(po &#x3D;&gt;
+      !selected.some(s &#x3D;&gt; s.id &#x3D;&#x3D;&#x3D; po.id) &amp;&amp;
+      po.name.toLowerCase().includes(searchText)
+    );
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filteredSpecializations"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>filteredSpecializations</b></span>
+                        <a href="#filteredSpecializations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+    const searchText &#x3D; this.currentSpecInput().toLowerCase();
+    const selected &#x3D; this.selectedSpecializations();
+    const specializations &#x3D; this.allSpecializations() ?? [];
+    return specializations.filter(spec &#x3D;&gt;
+      !selected.some(s &#x3D;&gt; s.id &#x3D;&#x3D;&#x3D; spec.id) &amp;&amp;
+      spec.name.toLowerCase().includes(searchText)
+    );
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>isLoading</b></span>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="noOptimum"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>noOptimum</b></span>
+                        <a href="#noOptimum"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[] | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="optimalizationService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>optimalizationService</b></span>
+                        <a href="#optimalizationService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(OptimalizationService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="optimizationForm"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>optimizationForm</b></span>
+                        <a href="#optimizationForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#Form" target="_self" >FormGroup</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.fb.group({
+    curriculum_id: [null as number | null, Validators.required], 
+    algorithm: [&#x27;greedy&#x27;, Validators.required],
+    creditLimit: [30, [Validators.required, Validators.min(1)]],
+    selectedSpecializationIds: [[] as number[]], 
+    startWithFall: [true],
+    considerRecommendations: [false],
+    negativIds: [[] as number[]], 
+    pozitivIds: [[] as number[]] 
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="optimizationResult"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>optimizationResult</b></span>
+                        <a href="#optimizationResult"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>OptimizedPlanResponse | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedCurriculum"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>selectedCurriculum</b></span>
+                        <a href="#selectedCurriculum"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Curriculum.html" target="_self" >Curriculum | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedNegativs"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>selectedNegativs</b></span>
+                        <a href="#selectedNegativs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Name[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedPozs"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>selectedPozs</b></span>
+                        <a href="#selectedPozs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Name[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedSpecializations"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>selectedSpecializations</b></span>
+                        <a href="#selectedSpecializations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Name[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:102</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="separatorKeysCodes"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>separatorKeysCodes</b></span>
+                        <a href="#separatorKeysCodes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[ENTER, COMMA]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="specializationNames"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>specializationNames</b></span>
+                        <a href="#specializationNames"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Name.html" target="_self" >Name[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="creditLimitControl"></a>
+                        <span class="name"><b>creditLimitControl</b><a href="#creditLimitControl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>creditLimitControl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="266" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:266</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Getter a kredithatár form control eléréséhez.</p>
+</div>
+
+                                <div>
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formInvalid"></a>
+                        <span class="name"><b>formInvalid</b><a href="#formInvalid"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>formInvalid()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="275" class="link-to-prism">src/app/pages/optimalization/optimalization.component.ts:275</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Getter, ami jelzi, hogy az űrlap érvénytelen-e.</p>
+</div>
+
+                                <div>
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, computed, inject, model, signal, WritableSignal } from &#x27;@angular/core&#x27;;
+import { ReactiveFormsModule, NonNullableFormBuilder, FormsModule, FormGroup, Validators } from &#x27;@angular/forms&#x27;;
+import { CurriculumService } from &#x27;../../services/mysql/curriculum.service&#x27;;
+import { OptimalizationService } from &#x27;../../services/mysql/optimalization.service&#x27;;
+import { Name } from &#x27;../../models/curriculumNames&#x27;;
+import { Curriculum } from &#x27;../../models/curriculum&#x27;;
+import { Optimalization, OptimizedPlanResponse,  } from &#x27;../../models/optimalization&#x27;; 
+import { catchError, EMPTY, firstValueFrom, from, map } from &#x27;rxjs&#x27;;
+import { MatSelectChange, MatSelectModule } from &#x27;@angular/material/select&#x27;;
+import { MatFormFieldModule } from &#x27;@angular/material/form-field&#x27;;
+import { MatInputModule } from &#x27;@angular/material/input&#x27;;
+import { MatCardModule } from &#x27;@angular/material/card&#x27;;
+import { MatButtonModule } from &#x27;@angular/material/button&#x27;;
+import {MatRadioModule} from &#x27;@angular/material/radio&#x27;;
+import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
+import { MatCheckboxModule } from &#x27;@angular/material/checkbox&#x27;;
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from &#x27;@angular/material/autocomplete&#x27;;
+import {MatChipInputEvent, MatChipsModule} from &#x27;@angular/material/chips&#x27;;
+import {COMMA, ENTER} from &#x27;@angular/cdk/keycodes&#x27;;
+import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { CurriculumVisualizationComponent } from &#x27;./curriculum-visualization/curriculum-visualization.component&#x27;;
+
+/**
+ * @description
+ * Komponens a tanterv optimalizálására.
+ * Lehetővé teszi a felhasználó számára, hogy kiválasszon egy tantervet, megadjon különböző
+ * optimalizálási paramétereket (algoritmus, kredithatár, specializációk, preferenciák),
+ * és elindítsa az optimalizálást. Az eredményt vizuálisan is megjeleníti.
+ */
+@Component({
+  selector: &#x27;app-optimalization&#x27;,
+  standalone: true,
+  imports: [
+    CurriculumVisualizationComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatButtonModule,
+    MatSelectModule,
+    TranslateModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    CommonModule,
+  ],
+  templateUrl: &#x27;./optimalization.component.html&#x27;,
+  styleUrl: &#x27;./optimalization.component.scss&#x27;
+})
+export class OptimalizationComponent implements OnInit {
+  protected curriculumNames: Name[] &#x3D; [];
+  private specializationNames: Name[] &#x3D; [];
+  protected selectedCurriculum: Curriculum | null &#x3D; null;
+  protected optimizationResult: OptimizedPlanResponse | null &#x3D; null; 
+  private allCourses: Name[] &#x3D; [];
+  protected isLoading &#x3D; false;
+  protected allreqmet: boolean | null &#x3D; null;
+  private fb &#x3D; inject(NonNullableFormBuilder);
+  private curriculumService &#x3D; inject(CurriculumService);
+  private optimalizationService &#x3D; inject(OptimalizationService);
+  protected noOptimum: string[] | null &#x3D; null; 
+  protected optimizationForm: FormGroup &#x3D; this.fb.group({
+    curriculum_id: [null as number | null, Validators.required], 
+    algorithm: [&#x27;greedy&#x27;, Validators.required],
+    creditLimit: [30, [Validators.required, Validators.min(1)]],
+    selectedSpecializationIds: [[] as number[]], 
+    startWithFall: [true],
+    considerRecommendations: [false],
+    negativIds: [[] as number[]], 
+    pozitivIds: [[] as number[]] 
+  });
+  readonly currentPozInput &#x3D; model(&#x27;&#x27;);
+  readonly selectedPozs &#x3D; signal&lt;Name[]&gt;([]);
+  readonly filteredPozs &#x3D; computed(() &#x3D;&gt; {
+    const searchText &#x3D; this.currentPozInput().toLowerCase();
+    const selected &#x3D; this.selectedPozs();
+    const courses &#x3D; this.allCourse() ?? [];
+    return courses.filter(po &#x3D;&gt;
+      !selected.some(s &#x3D;&gt; s.id &#x3D;&#x3D;&#x3D; po.id) &amp;&amp;
+      po.name.toLowerCase().includes(searchText)
+    );
+  });
+  readonly currentNegInput &#x3D; model(&#x27;&#x27;);
+  readonly allCourse &#x3D; signal&lt;Name[]&gt;([]);
+  readonly selectedNegativs &#x3D; signal&lt;Name[]&gt;([]);
+  readonly filteredNegativs &#x3D; computed(() &#x3D;&gt; {
+    const searchText &#x3D; this.currentNegInput().toLowerCase();
+    const selected &#x3D; this.selectedNegativs();
+    const courses &#x3D; this.allCourse() ?? [];
+    return courses.filter(neg &#x3D;&gt;
+      !selected.some(s &#x3D;&gt; s.id &#x3D;&#x3D;&#x3D; neg.id) &amp;&amp;
+      neg.name.toLowerCase().includes(searchText)
+    );
+  });
+  readonly separatorKeysCodes: number[] &#x3D; [ENTER, COMMA];
+  readonly currentSpecInput &#x3D; model(&#x27;&#x27;);
+  readonly allSpecializations &#x3D; signal&lt;Name[]&gt;([]);
+  readonly selectedSpecializations &#x3D; signal&lt;Name[]&gt;([]);
+  readonly filteredSpecializations &#x3D; computed(() &#x3D;&gt; {
+    const searchText &#x3D; this.currentSpecInput().toLowerCase();
+    const selected &#x3D; this.selectedSpecializations();
+    const specializations &#x3D; this.allSpecializations() ?? [];
+    return specializations.filter(spec &#x3D;&gt;
+      !selected.some(s &#x3D;&gt; s.id &#x3D;&#x3D;&#x3D; spec.id) &amp;&amp;
+      spec.name.toLowerCase().includes(searchText)
+    );
+  });
+
+  /**
+   * @description
+   * Inicializálja a komponenst a tanterv nevek betöltésével.
+   * @override
+   */
+  ngOnInit(): void {
+    this.loadCurriculaNames();
+  }
+
+  /**
+   * @description
+   * Eseménykezelő a tanterv kiválasztó  értékének változására.
+   * Betölti a kiválasztott tanterv részleteit és alaphelyzetbe állítja a kapcsolódó űrlapmezőket és signal-okat.
+   * @param MatSelectChange event A kiválasztási esemény objektuma.
+   */
+  protected selectedCurriculumChange(event: MatSelectChange): void {
+    const curriculumId &#x3D; event.value as number | null;
+    if (curriculumId) {
+      this.optimizationForm.patchValue({ curriculum_id: curriculumId });
+      this.resetCurriculumDependentState(); 
+      this.loadCurriculumDetails(curriculumId);
+    } else {
+      this.resetCurriculumDependentState();
+      this.selectedCurriculum &#x3D; null; 
+    }
+  }
+
+  /**
+   * @description
+   * Alaphelyzetbe állítja a tantervtől függő állapotokat (kurzusok, specializációk, kiválasztások).
+   * @private
+   */
+  private resetCurriculumDependentState(): void {
+    this.allCourse.set([]);
+    this.selectedNegativs.set([]);
+    this.selectedPozs.set([]); 
+    this.specializationNames &#x3D; [];
+    this.selectedSpecializations.set([]);
+    this.allSpecializations.set([]);
+  }
+
+  /**
+   * @description
+   * Betölti az összes elérhető tanterv nevét a szolgáltatáson keresztül.
+   * @private
+   */
+  private loadCurriculaNames(): void {
+    firstValueFrom(
+      from(this.curriculumService.getAllCurriculumNames()).pipe(
+        map(curricula &#x3D;&gt; {
+          this.curriculumNames &#x3D; Array.isArray(curricula) ? curricula : (curricula ? [curricula] : []);
+        }),
+        catchError(error &#x3D;&gt; {
+          console.error(&#x27;Hiba a tanterv nevek betöltésekor:&#x27;, error);
+          return EMPTY;
+        })
+      )
+    );
+  }
+
+  /**
+   * @description
+   * Betölti egy adott tanterv részletes adatait ID alapján.
+   * Frissíti a releváns signal-okat az autocomplete mezőkhöz.
+   * @param number id A betöltendő tanterv azonosítója.
+   * @private
+   */
+  private loadCurriculumDetails(id: number): void {
+    firstValueFrom(
+      from(this.curriculumService.getCurriculum(id)).pipe(
+        map(curriculum &#x3D;&gt; {
+          this.selectedCurriculum &#x3D; curriculum;
+          this.specializationNames &#x3D; curriculum.specializations?.map(spec &#x3D;&gt; ({
+            id: spec.id ?? 0, 
+            name: spec.name ?? &#x27;N/A&#x27;, 
+          })) ?? [];
+          this.allSpecializations.set(this.specializationNames);
+          const coursesMap &#x3D; new Map&lt;number, string&gt;();
+          curriculum.specializations?.forEach(spec &#x3D;&gt; {
+            spec.categories?.forEach(cat &#x3D;&gt; {
+              cat.courses?.forEach(course &#x3D;&gt; {
+                if (course.id &amp;&amp; course.name &amp;&amp; !coursesMap.has(course.id)) {
+                  coursesMap.set(course.id, course.name);
+                }
+              });
+            });
+          });
+          this.allCourses &#x3D; Array.from(coursesMap, ([id, name]) &#x3D;&gt; ({ id, name }))
+                                .sort((a, b) &#x3D;&gt; a.name.localeCompare(b.name));
+          this.allCourse.set(this.allCourses);
+        }),
+        catchError(error &#x3D;&gt; {
+          console.error(&#x27;Hiba a tanterv részleteinek betöltésekor:&#x27;, error);
+          this.selectedCurriculum &#x3D; null; 
+          this.resetCurriculumDependentState(); 
+          return EMPTY;
+        })
+      )
+    );
+  }
+
+  /**
+   * @description
+   * Elküldi az optimalizálási kérést a szolgáltatásnak a formban megadott adatok alapján.
+   * Kezeli a betöltési állapotot és feldolgozza a kapott eredményt vagy hibát.
+   * @returns Promise&lt;void&gt; Promise, ami akkor oldódik fel, ha a kérés befejeződött.
+   */
+  async onSubmit(): Promise&lt;void&gt; {
+    this.allreqmet &#x3D; null; 
+    this.optimizationResult &#x3D; null;
+    this.noOptimum &#x3D; null;
+    if (this.optimizationForm.invalid) {
+      Object.values(this.optimizationForm.controls).forEach(control &#x3D;&gt; {
+        control.markAsTouched();
+      });
+      console.error(&#x27;Form is invalid:&#x27;, this.optimizationForm.errors);
+      return; 
+    }
+    this.isLoading &#x3D; true; 
+    const optimizationData: Optimalization &#x3D; {
+      curriculum_id: this.optimizationForm.get(&#x27;curriculum_id&#x27;)?.value ?? 0, 
+      algorithm: this.optimizationForm.get(&#x27;algorithm&#x27;)?.value ?? &#x27;greedy&#x27;,
+      creditLimit: this.optimizationForm.get(&#x27;creditLimit&#x27;)?.value ?? 30,
+      selectedSpecializationIds: this.selectedSpecializations().map(spec &#x3D;&gt; spec.id), 
+      considerRecommendations: this.optimizationForm.get(&#x27;considerRecommendations&#x27;)?.value ?? false,
+      negativIds: this.selectedNegativs().map(neg &#x3D;&gt; neg.id), 
+      pozitivIds: this.selectedPozs().map(po &#x3D;&gt; po.id) 
+    };
+
+    try {
+      const result &#x3D; await firstValueFrom(
+        this.optimalizationService.optimizeCurriculum(optimizationData)
+      );
+      this.allreqmet &#x3D; result.optimizedPlan?.all_requirements_met ?? false; 
+      if (this.allreqmet) {
+        this.optimizationResult &#x3D; result;
+      } else {
+        this.noOptimum &#x3D; result.optimizedPlan?.warnings ?? [&#x27;Ismeretlen hiba: Nem minden követelmény teljesült.&#x27;];
+        this.optimizationResult &#x3D; result; 
+      }
+    } catch (error) {
+      console.error(&#x27;Optimalizálási hiba:&#x27;, error);
+      this.noOptimum &#x3D; [&#x27;Hiba történt az optimalizálás során. Próbálja újra később.&#x27;]; 
+    } finally {
+      this.isLoading &#x3D; false; 
+    }
+  }
+
+  /**
+   * @description
+   * Getter a kredithatár form control eléréséhez.
+   * @returns AbstractControl | null A kredithatár form control.
+   */
+  get creditLimitControl() {
+    return this.optimizationForm.get(&#x27;creditLimit&#x27;);
+  }
+
+  /**
+   * @description
+   * Getter, ami jelzi, hogy az űrlap érvénytelen-e.
+   * @returns boolean Igaz, ha az űrlap érvénytelen.
+   */
+  get formInvalid() {
+    return this.optimizationForm.invalid;
+  }
+
+  /**
+   * @description
+   * Hozzáad egy specializációt a kiválasztottakhoz a chip input esemény alapján.
+   * Csak akkor adja hozzá, ha a beírt érték létezik és még nincs kiválasztva.
+   * @param MatChipInputEvent event A chip input esemény.
+   * @protected
+   */
+  protected addSpecialization(event: MatChipInputEvent): void {
+    this.addChipItem(event, this.allSpecializations, this.selectedSpecializations, this.currentSpecInput);
+  }
+
+  /**
+   * @description
+   * Eltávolít egy specializációt a kiválasztottak listájából.
+   * @param Name spec Az eltávolítandó specializáció.
+   * @protected
+   */
+  protected removeSpecialization(spec: Name): void {
+    this.removeChipItem(spec, this.selectedSpecializations);
+  }
+
+  /**
+   * @description
+   * Hozzáad egy specializációt a kiválasztottakhoz az autocomplete kiválasztási eseménye alapján.
+   * @param MatAutocompleteSelectedEvent event Az autocomplete kiválasztási esemény.
+   * @protected
+   */
+  protected selectedSpecialization(event: MatAutocompleteSelectedEvent): void {
+    this.selectAutocompleteItem(event, this.selectedSpecializations, this.currentSpecInput);
+  }
+
+  /**
+   * @description
+   * Hozzáad egy negatív kurzust a kiválasztottakhoz a chip input esemény alapján.
+   * @param MatChipInputEvent event A chip input esemény.
+   * @protected
+   */
+  protected addNegativ(event: MatChipInputEvent): void {
+    this.addChipItem(event, this.allCourse, this.selectedNegativs, this.currentNegInput);
+  }
+
+  /**
+   * @description
+   * Eltávolít egy negatív kurzust a kiválasztottak listájából.
+   * @param Name neg Az eltávolítandó negatív kurzus.
+   * @protected
+   */
+  protected removeNegativ(neg: Name): void {
+    this.removeChipItem(neg, this.selectedNegativs);
+  }
+
+  /**
+   * @description
+   * Hozzáad egy negatív kurzust a kiválasztottakhoz az autocomplete kiválasztási eseménye alapján.
+   * @param MatAutocompleteSelectedEvent event Az autocomplete kiválasztási esemény.
+   * @protected
+   */
+  protected selectedNegativ(event: MatAutocompleteSelectedEvent): void {
+    this.selectAutocompleteItem(event, this.selectedNegativs, this.currentNegInput);
+  }
+
+  /**
+   * @description
+   * Hozzáad egy pozitív kurzust a kiválasztottakhoz a chip input esemény alapján.
+   * @param MatChipInputEvent event A chip input esemény.
+   * @protected
+   */
+  protected addPozitiv(event: MatChipInputEvent): void {
+    this.addChipItem(event, this.allCourse, this.selectedPozs, this.currentPozInput);
+  }
+
+  /**
+   * @description
+   * Eltávolít egy pozitív kurzust a kiválasztottak listájából.
+   * @param Name po Az eltávolítandó pozitív kurzus.
+   * @protected
+   */
+  protected removePozitiv(po: Name): void {
+    this.removeChipItem(po, this.selectedPozs);
+  }
+
+  /**
+   * @description
+   * Hozzáad egy pozitív kurzust a kiválasztottakhoz az autocomplete kiválasztási eseménye alapján.
+   * @param MatAutocompleteSelectedEvent event Az autocomplete kiválasztási esemény.
+   * @protected
+   */
+  protected selectedPozitiv(event: MatAutocompleteSelectedEvent): void {
+    this.selectAutocompleteItem(event, this.selectedPozs, this.currentPozInput);
+  }
+
+  /**
+   * @description
+   * Általános segédmetódus elem hozzáadásához chip input esemény alapján.
+   * Megkeresi az elemet a teljes listában a beírt érték alapján, és ha létezik és még nincs kiválasztva,
+   * hozzáadja a cél signalhoz. Üríti az input mezőt.
+   * @param MatChipInputEvent event A chip input esemény.
+   * @param () &#x3D;&gt; Name[] allItemsSource Függvény, ami visszaadja az összes választható elemet.
+   * @param WritableSignal&lt;Name[]&gt; targetSignal A signal, amihez hozzáadjuk az elemet.
+   * @param WritableSignal&lt;string&gt; inputModelSignal Az input mezőhöz kötött model signal.
+   * @private
+   */
+  private addChipItem(
+    event: MatChipInputEvent,
+    allItemsSource: () &#x3D;&gt; Name[],
+    targetSignal: WritableSignal&lt;Name[]&gt;,
+    inputModelSignal: WritableSignal&lt;string&gt;
+  ): void {
+    const value &#x3D; (event.value || &#x27;&#x27;).trim().toLowerCase();
+    if (value) {
+      const allItems &#x3D; allItemsSource() ?? [];
+      const itemToAdd &#x3D; allItems.find(
+        item &#x3D;&gt; item.name.toLowerCase() &#x3D;&#x3D;&#x3D; value
+      );
+
+      if (itemToAdd &amp;&amp; !targetSignal().some(selected &#x3D;&gt; selected.id &#x3D;&#x3D;&#x3D; itemToAdd.id)) {
+        targetSignal.update(currentItems &#x3D;&gt; [...currentItems, itemToAdd]);
+      }
+    }
+    event.chipInput!.clear();
+    inputModelSignal.set(&#x27;&#x27;);
+  }
+
+  /**
+   * @description
+   * Általános segédmetódus elem eltávolításához a kiválasztott elemeket tartalmazó signalból.
+   * @param Name itemToRemove Az eltávolítandó elem.
+   * @param WritableSignal&lt;Name[]&gt; targetSignal A signal, amiből eltávolítjuk az elemet.
+   * @private
+   */
+  private removeChipItem(itemToRemove: Name, targetSignal: WritableSignal&lt;Name[]&gt;): void {
+    targetSignal.update(currentItems &#x3D;&gt;
+      currentItems.filter(item &#x3D;&gt; item.id !&#x3D;&#x3D; itemToRemove.id)
+    );
+  }
+
+  /**
+   * @description
+   * Általános segédmetódus elem hozzáadásához autocomplete kiválasztási esemény alapján.
+   * Ha az elem még nincs kiválasztva, hozzáadja a cél signalhoz. Üríti az input mezőt.
+   * @param MatAutocompleteSelectedEvent event Az autocomplete kiválasztási esemény.
+   * @param WritableSignal&lt;Name[]&gt; targetSignal A signal, amihez hozzáadjuk az elemet.
+   * @param WritableSignal&lt;string&gt; inputModelSignal Az input mezőhöz kötött model signal.
+   * @private
+   */
+  private selectAutocompleteItem(
+    event: MatAutocompleteSelectedEvent,
+    targetSignal: WritableSignal&lt;Name[]&gt;,
+    inputModelSignal: WritableSignal&lt;string&gt;
+  ): void {
+    const selectedValue &#x3D; event.option.value as Name;
+    if (selectedValue &amp;&amp; !targetSignal().some(selected &#x3D;&gt; selected.id &#x3D;&#x3D;&#x3D; selectedValue.id)) {
+      targetSignal.update(currentItems &#x3D;&gt; [...currentItems, selectedValue]);
+    }
+    inputModelSignal.set(&#x27;&#x27;);
+    event.option.deselect(); 
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-card&gt;
+  &lt;mat-card-header&gt;
+    &lt;mat-card-title&gt;{{&quot;optimalization.TITLE&quot; | translate}}&lt;/mat-card-title&gt;
+  &lt;/mat-card-header&gt;
+  &lt;mat-card-content&gt;
+    &lt;section&gt;
+      &lt;form [formGroup]&#x3D;&quot;optimizationForm&quot; (ngSubmit)&#x3D;&quot;onSubmit()&quot;&gt;
+        &lt;mat-form-field&gt;
+          &lt;mat-label&gt;{{&quot;optimalization.CURRICULUM&quot; | translate}}&lt;/mat-label&gt;
+          &lt;mat-select formControlName&#x3D;&quot;curriculum_id&quot; (selectionChange)&#x3D;&quot;selectedCurriculumChange($event)&quot;&gt;
+            &lt;mat-option&gt;{{&quot;optimalization.NOT_CHOOSEN&quot; | translate}}&lt;/mat-option&gt;
+            @for(curriculum of curriculumNames; track curriculum.id){
+              &lt;mat-option [value]&#x3D;&quot;curriculum.id&quot;&gt;{{ curriculum.name }}&lt;/mat-option&gt;
+            }
+          &lt;/mat-select&gt;
+          @if(optimizationForm.get(&#x27;curriculum_id&#x27;)?.touched &amp;&amp; optimizationForm.get(&#x27;curriculum_id&#x27;)?.invalid){
+            &lt;mat-error&gt;{{&quot;optimalization.ERROR1&quot; | translate}}&lt;/mat-error&gt;
+          }
+        &lt;/mat-form-field&gt;
+        &lt;mat-form-field &gt;
+          &lt;mat-label&gt;{{&quot;optimalization.SPECIALIZATION&quot; | translate}}&lt;/mat-label&gt;
+          &lt;mat-chip-grid #chipGrid aria-label&#x3D;&quot;Fruit selection&quot;&gt;
+            @for (spec of selectedSpecializations(); track $index) {
+              &lt;mat-chip-row (removed)&#x3D;&quot;removeSpecialization(spec)&quot;&gt;
+                {{spec.name}}
+                &lt;button matChipRemove [attr.aria-label]&#x3D;&quot;&#x27;remove &#x27; + spec.name&quot;&gt;
+                  &lt;mat-icon&gt;cancel&lt;/mat-icon&gt;
+                &lt;/button&gt;
+              &lt;/mat-chip-row&gt;
+            }
+          &lt;/mat-chip-grid&gt;
+          &lt;input
+            name&#x3D;&quot;currentFruit&quot;
+            placeholder&#x3D;&quot;{{&#x27;optimalization.PLACEHOLDER_SPECIALIZATION&#x27; | translate}}&quot;
+            #fruitInput
+            [disabled]&#x3D;&quot;selectedCurriculum &#x3D;&#x3D; null&quot;
+            [(ngModel)]&#x3D;&quot;currentSpecInput &quot; [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;
+            [matChipInputFor]&#x3D;&quot;chipGrid&quot;
+            [matAutocomplete]&#x3D;&quot;auto&quot;
+            [matChipInputSeparatorKeyCodes]&#x3D;&quot;separatorKeysCodes&quot;
+            (matChipInputTokenEnd)&#x3D;&quot;addSpecialization($event)&quot;
+          /&gt;
+          &lt;mat-autocomplete #auto&#x3D;&quot;matAutocomplete&quot; (optionSelected)&#x3D;&quot;selectedSpecialization($event); fruitInput.value &#x3D; &#x27;&#x27;&quot;&gt;
+            @for (spec of filteredSpecializations(); track spec.id) {
+              &lt;mat-option [value]&#x3D;&quot;spec&quot;&gt;{{spec.name}}&lt;/mat-option&gt;
+            }
+          &lt;/mat-autocomplete&gt;
+        &lt;/mat-form-field&gt;
+
+        &lt;mat-form-field &gt;
+          &lt;mat-label&gt;{{&quot;optimalization.NEGATIV&quot; | translate}}&lt;/mat-label&gt;
+          &lt;mat-chip-grid #negChipGrid aria-label&#x3D;&quot;Negative selection&quot;&gt;
+            @for (neg of selectedNegativs(); track $index) {
+              &lt;mat-chip-row (removed)&#x3D;&quot;removeNegativ(neg)&quot;&gt;
+                {{neg.name}}
+                &lt;button matChipRemove [attr.aria-label]&#x3D;&quot;&#x27;remove &#x27; + neg.name&quot;&gt;
+                  &lt;mat-icon&gt;cancel&lt;/mat-icon&gt;
+                &lt;/button&gt;
+              &lt;/mat-chip-row&gt;
+            }
+          &lt;/mat-chip-grid&gt;
+          &lt;input
+            placeholder&#x3D;&quot;{{ &#x27;optimalization.PLACEHOLDER_NEGATIV&#x27; | translate }}&quot;
+            #negInput
+            [disabled]&#x3D;&quot;selectedCurriculum &#x3D;&#x3D; null&quot;
+            [(ngModel)]&#x3D;&quot;currentNegInput&quot; [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;
+            [matChipInputFor]&#x3D;&quot;negChipGrid&quot;
+            [matAutocomplete]&#x3D;&quot;negAuto&quot;
+            [matChipInputSeparatorKeyCodes]&#x3D;&quot;separatorKeysCodes&quot;
+            (matChipInputTokenEnd)&#x3D;&quot;addNegativ($event)&quot;
+          /&gt;
+          &lt;mat-autocomplete #negAuto&#x3D;&quot;matAutocomplete&quot; (optionSelected)&#x3D;&quot;selectedNegativ($event); negInput.value &#x3D; &#x27;&#x27;&quot;&gt;
+            @for (spec of filteredNegativs(); track spec.id) {
+              &lt;mat-option [value]&#x3D;&quot;spec&quot;&gt;{{spec.name}}&lt;/mat-option&gt;
+            }
+          &lt;/mat-autocomplete&gt;
+        &lt;/mat-form-field&gt;
+ 
+
+        &lt;mat-form-field &gt;
+          &lt;mat-label&gt;{{&quot;optimalization.POZITIV&quot; | translate}}&lt;/mat-label&gt;
+          &lt;mat-chip-grid #pozChipGrid aria-label&#x3D;&quot;Pozitiv selection&quot;&gt;
+            @for (po of selectedPozs(); track $index) {
+              &lt;mat-chip-row (removed)&#x3D;&quot;removePozitiv(po)&quot;&gt;
+                {{po.name}}
+                &lt;button matChipRemove [attr.aria-label]&#x3D;&quot;&#x27;remove &#x27; + po.name&quot;&gt;
+                  &lt;mat-icon&gt;cancel&lt;/mat-icon&gt;
+                &lt;/button&gt;
+              &lt;/mat-chip-row&gt;
+            }
+          &lt;/mat-chip-grid&gt;
+          &lt;input
+            placeholder&#x3D;&quot;{{ &#x27;optimalization.PLACEHOLDER_POZITIV&#x27; | translate }}&quot;
+            #pozInput
+            [disabled]&#x3D;&quot;selectedCurriculum &#x3D;&#x3D; null&quot;
+            [(ngModel)]&#x3D;&quot;currentPozInput&quot; [ngModelOptions]&#x3D;&quot;{standalone: true}&quot;
+            [matChipInputFor]&#x3D;&quot;pozChipGrid&quot;
+            [matAutocomplete]&#x3D;&quot;pozAuto&quot;
+            [matChipInputSeparatorKeyCodes]&#x3D;&quot;separatorKeysCodes&quot;
+            (matChipInputTokenEnd)&#x3D;&quot;addPozitiv($event)&quot;
+          /&gt;
+          &lt;mat-autocomplete #pozAuto&#x3D;&quot;matAutocomplete&quot; (optionSelected)&#x3D;&quot;selectedPozitiv($event); pozInput.value &#x3D; &#x27;&#x27;&quot;&gt;
+            @for (po of filteredPozs(); track po.id) {
+              &lt;mat-option [value]&#x3D;&quot;po&quot;&gt;{{po.name}}&lt;/mat-option&gt;
+            }
+          &lt;/mat-autocomplete&gt;
+        &lt;/mat-form-field&gt;
+
+        &lt;mat-form-field appearance&#x3D;&quot;fill&quot; class&#x3D;&quot;form-field&quot;&gt;
+          &lt;mat-label&gt;{{ &#x27;optimalization.COURSE_LIMIT&#x27; | translate }}&lt;/mat-label&gt;
+          &lt;input matInput type&#x3D;&quot;number&quot; formControlName&#x3D;&quot;creditLimit&quot;&gt;
+          @if(creditLimitControl?.hasError(&#x27;required&#x27;)){
+            &lt;mat-error&gt;
+              {{ &#x27;optimalization.COURSE_LIMIT_REQUIRED&#x27; | translate }}
+            &lt;/mat-error&gt;
+          }
+          @if(creditLimitControl?.hasError(&#x27;min&#x27;)){
+            &lt;mat-error&gt;
+              {{ &#x27;optimalization.COURSE_LIMIT_MIN_VALUE&#x27; | translate }}
+            &lt;/mat-error&gt; 
+          }
+        &lt;/mat-form-field&gt;
+
+        &lt;div&gt;
+          &lt;label&gt;{{&quot;optimalization.ALGORISM&quot; | translate}}&lt;/label&gt;&lt;br&gt;
+          &lt;mat-radio-group formControlName&#x3D;&quot;algorithm&quot;&gt;
+            &lt;mat-radio-button value&#x3D;&quot;bnb&quot; checked&#x3D;&quot;true&quot; color&#x3D;&quot;primary&quot;&gt;{{&quot;optimalization.BNB&quot; | translate}}&lt;/mat-radio-button&gt;
+            &lt;mat-radio-button value&#x3D;&quot;greedy&quot; color&#x3D;&quot;primary&quot;&gt;{{&quot;optimalization.GREEDY&quot; | translate}}&lt;/mat-radio-button&gt;
+          &lt;/mat-radio-group&gt;
+        &lt;/div&gt;
+       
+        &lt;mat-checkbox formControlName&#x3D;&quot;considerRecommendations&quot; color&#x3D;&quot;primary&quot;&gt;{{&quot;optimalization.RECOMMENDED&quot; | translate}}&lt;/mat-checkbox&gt;
+        
+        &lt;button mat-raised-button color&#x3D;&quot;primary&quot; type&#x3D;&quot;submit&quot; [disabled]&#x3D;&quot;formInvalid || isLoading&quot; class&#x3D;&quot;submit-button&quot;&gt;
+          &lt;span&gt;{{ isLoading ? (&#x27;optimalization.LOADING&#x27; | translate) : (&#x27;optimalization.CURRICULUM_OPTIMALIZATION&#x27; | translate) }}&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/section&gt;&lt;br&gt;
+    
+    @if(optimizationResult &amp;&amp;allreqmet){
+      &lt;section&gt;
+        &lt;app-curriculum-visualization [optimizedPlan]&#x3D;&quot;optimizationResult.optimizedPlan&quot;&gt;&lt;/app-curriculum-visualization&gt;
+        &lt;br&gt;
+        &lt;div class&#x3D;&quot;curriculum-container&quot;&gt;
+          &lt;div class&#x3D;&quot;cards-grid&quot;&gt;
+            @for(spec of optimizationResult.creditsBreakdown; track $index){
+              &lt;mat-card class&#x3D;&quot;spec-card&quot;&gt;
+                &lt;mat-card-header&gt;
+                  &lt;div class&#x3D;&quot;header-content&quot;&gt;
+                    &lt;mat-card-title&gt;{{spec.specialization_name}}&lt;/mat-card-title&gt;
+                    &lt;div class&#x3D;&quot;spec-stats&quot;&gt;
+                      &lt;div class&#x3D;&quot;credits-display&quot;&gt;
+                        &lt;span class&#x3D;&quot;earned&quot;&gt;{{spec.credits_earned}}&lt;/span&gt;
+                        &lt;span class&#x3D;&quot;separator&quot;&gt;/&lt;/span&gt;
+                        &lt;span class&#x3D;&quot;required&quot;&gt;{{spec.min}}&lt;/span&gt;
+                      &lt;/div&gt;
+                      &lt;div class&#x3D;&quot;completion-badge&quot; [class.completed]&#x3D;&quot;spec.is_completed&quot; [class.incomplete]&#x3D;&quot;!spec.is_completed&quot;&gt;
+                        {{(spec.is_completed ? &#x27;optimalization.COMPLETED&#x27; : &#x27;optimalization.NOT_COMPLETED&#x27;) | translate}}
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/mat-card-header&gt;
+        
+                &lt;mat-card-content&gt;
+                  &lt;div class&#x3D;&quot;spec-progress-container&quot;&gt;
+                    &lt;div class&#x3D;&quot;progress-bar-container&quot;&gt;
+                      &lt;div class&#x3D;&quot;progress-bar-background&quot;&gt;&lt;/div&gt;
+                      &lt;div class&#x3D;&quot;progress-bar-fill&quot; 
+                           [style.width.%]&#x3D;&quot;(spec.credits_earned / spec.min) * 100 &gt; 100 ? 100 : (spec.credits_earned / spec.min) * 100&quot;&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+        
+                  &lt;div class&#x3D;&quot;categories-container&quot;&gt;
+                    @for(cat of spec.categories; track $index){
+                      &lt;div class&#x3D;&quot;category-item&quot;&gt;
+                        &lt;div class&#x3D;&quot;category-header&quot;&gt;
+                          &lt;span class&#x3D;&quot;category-name&quot;&gt;{{cat.category_name}}&lt;/span&gt;
+                          &lt;div class&#x3D;&quot;category-stats&quot;&gt;
+                            &lt;span class&#x3D;&quot;earned&quot;&gt;{{cat.credits_earned}}&lt;/span&gt;
+                            &lt;span class&#x3D;&quot;separator&quot;&gt;/&lt;/span&gt;
+                            &lt;span class&#x3D;&quot;required&quot;&gt;{{cat.min}}&lt;/span&gt;
+                          &lt;/div&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div class&#x3D;&quot;category-progress-container&quot;&gt;
+                          &lt;div class&#x3D;&quot;progress-bar-background&quot;&gt;&lt;/div&gt;
+                          &lt;div class&#x3D;&quot;progress-bar-fill&quot; 
+                               [style.width.%]&#x3D;&quot;(cat.credits_earned / cat.min) * 100 &gt; 100 ? 100 : (cat.credits_earned / cat.min) * 100&quot;&gt;
+                          &lt;/div&gt;
+          
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    }
+                  &lt;/div&gt;
+                &lt;/mat-card-content&gt;
+              &lt;/mat-card&gt;
+            }
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+    }@else if(allreqmet &#x3D;&#x3D;&#x3D; false) {
+      &lt;mat-error&gt;{{noOptimum}}&lt;/mat-error&gt;
+    }
+  &lt;/mat-card-content&gt;
+&lt;/mat-card&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-card>  <mat-card-header>    <mat-card-title>{{"optimalization.TITLE" | translate}}</mat-card-title>  </mat-card-header>  <mat-card-content>    <section>      <form [formGroup]="optimizationForm" (ngSubmit)="onSubmit()">        <mat-form-field>          <mat-label>{{"optimalization.CURRICULUM" | translate}}</mat-label>          <mat-select formControlName="curriculum_id" (selectionChange)="selectedCurriculumChange($event)">            <mat-option>{{"optimalization.NOT_CHOOSEN" | translate}}</mat-option>            @for(curriculum of curriculumNames; track curriculum.id){              <mat-option [value]="curriculum.id">{{ curriculum.name }}</mat-option>            }          </mat-select>          @if(optimizationForm.get(\'curriculum_id\')?.touched && optimizationForm.get(\'curriculum_id\')?.invalid){            <mat-error>{{"optimalization.ERROR1" | translate}}</mat-error>          }        </mat-form-field>        <mat-form-field >          <mat-label>{{"optimalization.SPECIALIZATION" | translate}}</mat-label>          <mat-chip-grid #chipGrid aria-label="Fruit selection">            @for (spec of selectedSpecializations(); track $index) {              <mat-chip-row (removed)="removeSpecialization(spec)">                {{spec.name}}                <button matChipRemove [attr.aria-label]="\'remove \' + spec.name">                  <mat-icon>cancel</mat-icon>                </button>              </mat-chip-row>            }          </mat-chip-grid>          <input            name="currentFruit"            placeholder="{{\'optimalization.PLACEHOLDER_SPECIALIZATION\' | translate}}"            #fruitInput            [disabled]="selectedCurriculum == null"            [(ngModel)]="currentSpecInput " [ngModelOptions]="{standalone: true}"            [matChipInputFor]="chipGrid"            [matAutocomplete]="auto"            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"            (matChipInputTokenEnd)="addSpecialization($event)"          />          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSpecialization($event); fruitInput.value = \'\'">            @for (spec of filteredSpecializations(); track spec.id) {              <mat-option [value]="spec">{{spec.name}}</mat-option>            }          </mat-autocomplete>        </mat-form-field>        <mat-form-field >          <mat-label>{{"optimalization.NEGATIV" | translate}}</mat-label>          <mat-chip-grid #negChipGrid aria-label="Negative selection">            @for (neg of selectedNegativs(); track $index) {              <mat-chip-row (removed)="removeNegativ(neg)">                {{neg.name}}                <button matChipRemove [attr.aria-label]="\'remove \' + neg.name">                  <mat-icon>cancel</mat-icon>                </button>              </mat-chip-row>            }          </mat-chip-grid>          <input            placeholder="{{ \'optimalization.PLACEHOLDER_NEGATIV\' | translate }}"            #negInput            [disabled]="selectedCurriculum == null"            [(ngModel)]="currentNegInput" [ngModelOptions]="{standalone: true}"            [matChipInputFor]="negChipGrid"            [matAutocomplete]="negAuto"            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"            (matChipInputTokenEnd)="addNegativ($event)"          />          <mat-autocomplete #negAuto="matAutocomplete" (optionSelected)="selectedNegativ($event); negInput.value = \'\'">            @for (spec of filteredNegativs(); track spec.id) {              <mat-option [value]="spec">{{spec.name}}</mat-option>            }          </mat-autocomplete>        </mat-form-field>         <mat-form-field >          <mat-label>{{"optimalization.POZITIV" | translate}}</mat-label>          <mat-chip-grid #pozChipGrid aria-label="Pozitiv selection">            @for (po of selectedPozs(); track $index) {              <mat-chip-row (removed)="removePozitiv(po)">                {{po.name}}                <button matChipRemove [attr.aria-label]="\'remove \' + po.name">                  <mat-icon>cancel</mat-icon>                </button>              </mat-chip-row>            }          </mat-chip-grid>          <input            placeholder="{{ \'optimalization.PLACEHOLDER_POZITIV\' | translate }}"            #pozInput            [disabled]="selectedCurriculum == null"            [(ngModel)]="currentPozInput" [ngModelOptions]="{standalone: true}"            [matChipInputFor]="pozChipGrid"            [matAutocomplete]="pozAuto"            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"            (matChipInputTokenEnd)="addPozitiv($event)"          />          <mat-autocomplete #pozAuto="matAutocomplete" (optionSelected)="selectedPozitiv($event); pozInput.value = \'\'">            @for (po of filteredPozs(); track po.id) {              <mat-option [value]="po">{{po.name}}</mat-option>            }          </mat-autocomplete>        </mat-form-field>        <mat-form-field appearance="fill" class="form-field">          <mat-label>{{ \'optimalization.COURSE_LIMIT\' | translate }}</mat-label>          <input matInput type="number" formControlName="creditLimit">          @if(creditLimitControl?.hasError(\'required\')){            <mat-error>              {{ \'optimalization.COURSE_LIMIT_REQUIRED\' | translate }}            </mat-error>          }          @if(creditLimitControl?.hasError(\'min\')){            <mat-error>              {{ \'optimalization.COURSE_LIMIT_MIN_VALUE\' | translate }}            </mat-error>           }        </mat-form-field>        <div>          <label>{{"optimalization.ALGORISM" | translate}}</label><br>          <mat-radio-group formControlName="algorithm">            <mat-radio-button value="bnb" checked="true" color="primary">{{"optimalization.BNB" | translate}}</mat-radio-button>            <mat-radio-button value="greedy" color="primary">{{"optimalization.GREEDY" | translate}}</mat-radio-button>          </mat-radio-group>        </div>               <mat-checkbox formControlName="considerRecommendations" color="primary">{{"optimalization.RECOMMENDED" | translate}}</mat-checkbox>                <button mat-raised-button color="primary" type="submit" [disabled]="formInvalid || isLoading" class="submit-button">          <span>{{ isLoading ? (\'optimalization.LOADING\' | translate) : (\'optimalization.CURRICULUM_OPTIMALIZATION\' | translate) }}</span>        </button>      </form>    </section><br>        @if(optimizationResult &&allreqmet){      <section>        <app-curriculum-visualization [optimizedPlan]="optimizationResult.optimizedPlan"></app-curriculum-visualization>        <br>        <div class="curriculum-container">          <div class="cards-grid">            @for(spec of optimizationResult.creditsBreakdown; track $index){              <mat-card class="spec-card">                <mat-card-header>                  <div class="header-content">                    <mat-card-title>{{spec.specialization_name}}</mat-card-title>                    <div class="spec-stats">                      <div class="credits-display">                        <span class="earned">{{spec.credits_earned}}</span>                        <span class="separator">/</span>                        <span class="required">{{spec.min}}</span>                      </div>                      <div class="completion-badge" [class.completed]="spec.is_completed" [class.incomplete]="!spec.is_completed">                        {{(spec.is_completed ? \'optimalization.COMPLETED\' : \'optimalization.NOT_COMPLETED\') | translate}}                      </div>                    </div>                  </div>                </mat-card-header>                        <mat-card-content>                  <div class="spec-progress-container">                    <div class="progress-bar-container">                      <div class="progress-bar-background"></div>                      <div class="progress-bar-fill"                            [style.width.%]="(spec.credits_earned / spec.min) * 100 > 100 ? 100 : (spec.credits_earned / spec.min) * 100">                      </div>                    </div>                  </div>                          <div class="categories-container">                    @for(cat of spec.categories; track $index){                      <div class="category-item">                        <div class="category-header">                          <span class="category-name">{{cat.category_name}}</span>                          <div class="category-stats">                            <span class="earned">{{cat.credits_earned}}</span>                            <span class="separator">/</span>                            <span class="required">{{cat.min}}</span>                          </div>                        </div>                                                <div class="category-progress-container">                          <div class="progress-bar-background"></div>                          <div class="progress-bar-fill"                                [style.width.%]="(cat.credits_earned / cat.min) * 100 > 100 ? 100 : (cat.credits_earned / cat.min) * 100">                          </div>                                  </div>                      </div>                    }                  </div>                </mat-card-content>              </mat-card>            }          </div>        </div>      </section>    }@else if(allreqmet === false) {      <mat-error>{{noOptimum}}</mat-error>    }  </mat-card-content></mat-card></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CourseForumComponent', 'selector': 'app-course-forum'},{'name': 'CourseStatisticsComponent', 'selector': 'app-course-statistics'},{'name': 'CurriculumComponent', 'selector': 'app-curriculum'},{'name': 'CurriculumDeveloperComponent', 'selector': 'app-curriculum-developer'},{'name': 'CurriculumVisualizationComponent', 'selector': 'app-curriculum-visualization'},{'name': 'DialogComponent', 'selector': 'app-password-dialog'},{'name': 'ElectronicControllerComponent', 'selector': 'app-electronic-controller'},{'name': 'ForumComponent', 'selector': 'app-forum'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MessagesComponent', 'selector': 'app-messages'},{'name': 'OptimalizationComponent', 'selector': 'app-optimalization'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'StatisticsComponent', 'selector': 'app-statistics'},{'name': 'SubjectTopicComponent', 'selector': 'app-subject-topic'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'OptimalizationComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'OptimalizationComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
