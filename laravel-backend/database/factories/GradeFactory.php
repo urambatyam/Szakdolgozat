@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Grade;
-use App\Models\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +20,8 @@ class GradeFactory extends Factory
     {
         return [
             'grade' => fake()->numberBetween(1,5),
-            'year' => fake()->randomElement([2023,2024,2025]),
+            'year' => fake()->numberBetween(2022, date('Y')),
+            'sezon' => fake()->boolean(),
         ];
     }
 }
