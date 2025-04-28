@@ -8,7 +8,7 @@ use App\Models\Course;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail; 
-use App\Mail\NewUserRegistered;      
+use App\Mail\UpdateGrade;      
 use Illuminate\Support\Facades\Log;
 use App\Models\User; 
 /**
@@ -265,9 +265,9 @@ class GradeController extends Controller
         $courseName = Course::find($grade->course_id)->name;
         $adminEmail = "salt90502@gmail.com";
         try {
-            Mail::to($user->email)->send(new NewUserRegistered($user, $values['grade'], $courseName));
+            Mail::to($user->email)->send(new UpdateGrade($values['grade'], $courseName));
             if ($adminEmail) {
-                 Mail::to($adminEmail)->send(new NewUserRegistered($user, $values['grade'], $courseName));
+                 Mail::to($adminEmail)->send(new UpdateGrade($values['grade'], $courseName));
             }
         } catch (\Exception $e) {
             Log::error('email küldése a jegy frissítésénél sikertelen: ' . $user->email . ' Hiba: ' . $e->getMessage());

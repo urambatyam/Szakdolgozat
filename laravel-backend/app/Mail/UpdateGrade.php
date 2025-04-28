@@ -14,14 +14,14 @@ use Illuminate\Queue\SerializesModels;
 class UpdateGrade extends Mailable
 {
     use Queueable, SerializesModels;
-    public int $grade;
+    public string $grade;
     public string $courseName;
     /**
      * Létrehoza az új üzenet `instance`.
      * @param $grade az új jegy
      * @param $courseName a kurzusnév
      */
-    public function __construct(int $grade, string $courseName)
+    public function __construct($grade, $courseName)
     {
         $this->grade = $grade;
         $this->courseName = $courseName;
