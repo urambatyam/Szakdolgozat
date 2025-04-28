@@ -455,7 +455,7 @@ class CalculusController extends Controller
             if(count($semesterAverages) > 2){
                 $regression = new Regression\Linear($pairs);
                 $semesterRegression = $regression->getParameters();
-                $semesterRegression['pairs'] = $semesterAverages;
+                $semesterRegression['pairs'] = $pairs;
                 $semesterRegression['label'] = $kki['label'];
             }else{
                 $semesterRegression = ['m' => 0, 'b' => 0, 'pairs' => [] ,'label' => []];
