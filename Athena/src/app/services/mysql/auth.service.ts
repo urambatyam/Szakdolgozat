@@ -58,12 +58,7 @@ export class AuthService {
     return this.http.post<any>(
       environment.baseUrl+'/register',
       newUser,
-      {headers}).pipe(
-        tap(response => {
-          localStorage.setItem('token', response.token);
-          this.LoggedUser.next(response.user);
-        })
-      );
+      {headers})
   }
   /**
    * Frisiti a lekért `LoggedUser` felhasználó adtokat
