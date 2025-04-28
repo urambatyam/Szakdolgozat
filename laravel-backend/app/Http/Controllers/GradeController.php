@@ -7,6 +7,10 @@ use App\Models\Grade;
 use App\Models\Course;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Mail; 
+use App\Mail\NewUserRegistered;      
+use Illuminate\Support\Facades\Log;
+use App\Models\User; 
 /**
  * A jegyekkel és kurzusfelvételekkel kapcsolatos műveleteket kezelő kontroller.
  * Felelős a jegyek listázásáért, új kurzusfelvétel (jegy létrehozása null értékkel) validálásáért és rögzítéséért,
@@ -24,6 +28,9 @@ class GradeController extends Controller
 
     /**
      * Létrehoza a jegyet, úgy hogy ellenőrzi a kurzus felvétel feltételeit(Tejesítette az előzményeket, megfelelő szezon van, diák).
+     * @param Request $request A bejövő HTTP kérés.
+     * @return JsonResponse A létrehozott jegyet tartalmazó JSON válasz.
+     * @throws ValidationException Ha a validálás sikertelen.
      */
     public function store(Request $request): JsonResponse
     {
@@ -32,7 +39,7 @@ class GradeController extends Controller
                 'success' => false,
                 'message' => 'Csak bejelentkezett diákok vehetnek fel kurzusokat.',
                 'reason' => 'auth_student_required'
-            ], 403); // Forbidden
+            ], 403); 
         }
         /** @var User $student */
         $student = Auth::user();
@@ -60,7 +67,7 @@ class GradeController extends Controller
                 'success' => false,
                 'message' => 'A kurzus ebben a félévben nem vehető fel.',
                 'reason' => 'invalid_season'
-            ], 400); // Bad Request
+            ], 400); 
         }
 
         $alreadyApplied = Grade::where('user_code', $student->code)
@@ -72,7 +79,7 @@ class GradeController extends Controller
                 'success' => false,
                 'message' => 'Ezt a kurzust már felvetted.',
                 'reason' => 'already_applied'
-            ], 400); // Bad Request
+            ], 400); 
         }
 
         $prerequisiteIds = $course->prerequisites()
@@ -116,12 +123,14 @@ class GradeController extends Controller
                 'success' => false,
                 'message' => 'Hiba történt a kurzus felvétele közben.'.$e->getMessage(),
                 'reason' => 'creation_failed'
-            ], 500); // Internal Server Error
+            ], 500); 
         }
     }
 
     /**
      * Lekér egy jegyet id alapján.
+     * @param Grade $grade A lekérdezett jegy.
+     * @return JsonResponse A lekérdezett jegyet tartalmazó JSON válasz.
      */
     public function show(Grade $garde)
     {
@@ -129,6 +138,8 @@ class GradeController extends Controller
     }
     /**
      * Lekéri az összes jegyet ami egy kurzus hoz tartozik.
+     * @param Request $request A bejövő HTTP kérés.
+     * @param int $course_id A kurzus azonosítója.
      */
     public function getAllGradesInCourse(Request $request, int $course_id)
     {
@@ -169,6 +180,8 @@ class GradeController extends Controller
     }
     /**
      * Lekéri az összes jegyet ami egy diákhoz tartozik.
+     * @param Request $request A bejövő HTTP kérés.
+     * @param String $studentCode A diák azonosítója.
      */
     public function getAllGradesOFStudent(Request $request, String $studentCode)
     {
@@ -205,7 +218,7 @@ class GradeController extends Controller
             ->distinct()
             ->get()
             ->map(function ($item) {
-                return (object) [ // Itt alakítjuk objektummá a tömböt.
+                return (object) [
                     'year' => $item->year,
                     'sezon' => $item->sezon,
                     'current' => false,
@@ -238,6 +251,8 @@ class GradeController extends Controller
 
     /**
      * Firisiti a jegyek értékét.
+     * @param Request $request A bejövő HTTP kérés.
+     * @param Grade $grade A frissítendő jegy.
      */
     public function update(Request $request, Grade $grade)
     {
@@ -246,12 +261,28 @@ class GradeController extends Controller
         ]);
 
         $grade->update($values);
+        $user = User::find($grade->user_code);
+        $courseName = Course::find($grade->course_id)->name;
+        $adminEmail = "salt90502@gmail.com";
+        try {
+            Mail::to($user->email)->send(new NewUserRegistered($user, $values['grade'], $courseName));
+            if ($adminEmail) {
+                 Mail::to($adminEmail)->send(new NewUserRegistered($user, $values['grade'], $courseName));
+            }
+        } catch (\Exception $e) {
+            Log::error('email küldése a jegy frissítésénél sikertelen: ' . $user->email . ' Hiba: ' . $e->getMessage());
+             return response()->json([
+                 'message' => 'Jegy frissítésve, de az értesítő email küldése sikertelen!',
+                 'user' => $user
+             ], 201); 
+        }
 
         return $grade;
     }
 
     /**
      * Törli a jegykeket.
+     * @param Grade $grade A törlendő jegy.
      */
     public function destroy(Grade $grade)
     {

@@ -118,8 +118,6 @@ export class ElectronicControllerComponent implements OnInit, OnDestroy {
           this.title = state.courseName;
           this.courseId = state.courseId;
           this.displayedColumns = ['user_code', 'grade'];
-          //this.columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
-          //console.log("fejlec", this.columnsToDisplayWithExpand);
           this.sortField = 'user_code';
         } else {
           console.error("Hiányzó kurzus adatok a 'course' nézethez. Navigációs state:", state);
@@ -130,7 +128,6 @@ export class ElectronicControllerComponent implements OnInit, OnDestroy {
       } else {
         this.title = 'electronic-controller.TITLE';
         this.displayedColumns = ['course_name', 'grade'];
-        //this.columnsToDisplayWithExpand = [...this.displayedColumns, 'remove'];
         this.sortField = 'course_name';
         if (!this.studentCode) {
           console.error("Hallgatói kód hiányzik 'student' módban.");

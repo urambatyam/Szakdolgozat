@@ -12,7 +12,7 @@ import { creatD } from './charts/distrubution';
 import { createLR } from './charts/linearRegression';
 import { creatCR } from './charts/completionRate';
 import { creatBP } from './charts/boxplot';
-import { CourseStatisticType} from './charts/common'; // Importáljuk a szükséges típusokat
+import { CourseStatisticType} from './charts/common'; 
 
 /**
  * Komponens a kurzusokhoz tartozó statisztikai diagramok megjelenítésére és kezelésére.

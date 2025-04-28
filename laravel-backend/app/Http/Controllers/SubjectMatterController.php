@@ -31,7 +31,7 @@ class SubjectMatterController extends Controller
      * A frissítéshez szükség van a tematika ('id') és a kurzus ('course_id') azonosítójára is.
      *
      * @param Request $request A bejövő HTTP kérés, amely tartalmazza a frissítendő adatokat.
-     * @return SubjectMatter|JsonResponse A frissített SubjectMatter modell példány, vagy hiba esetén JSON válasz.
+     * @return JsonResponse A frissített SubjectMatter modell példány, vagy hiba esetén JSON válasz.
      * @throws ValidationException Ha a validálás sikertelen.
      */
     public function update(Request $request)

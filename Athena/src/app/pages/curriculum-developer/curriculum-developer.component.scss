@@ -48,7 +48,6 @@ form {
     margin-bottom: $spacing-unit * 2; 
   }
 
-  // Specializációk tömbje
   div[formArrayName="specializations"] {
     display: flex;
     flex-direction: column;

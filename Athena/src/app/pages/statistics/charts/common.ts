@@ -73,7 +73,7 @@ export const NOdatalayout = {
         },
         annotations: [
           {
-            text: 'Nincs elég adat', // TODO: Ezt is lehetne fordítani/paraméterezni
+            text: 'Nincs elég adat', 
             xref: 'paper',
             yref: 'paper',
             x: 0.5,

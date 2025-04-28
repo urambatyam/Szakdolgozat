@@ -410,6 +410,5 @@ export class CourseForumComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    //this.getAllCourses$.complete();
   }
 }

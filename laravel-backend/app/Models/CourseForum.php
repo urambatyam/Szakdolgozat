@@ -15,7 +15,6 @@ class CourseForum extends Model
     protected $fillable = [
         'message',
         'user_code',
-        //'course_name'
         'course_id'
     ];
 
