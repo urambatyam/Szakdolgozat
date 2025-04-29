@@ -104,7 +104,7 @@
                       #prereqAutocomplete="matAutocomplete"
                       (optionSelected)="onPrerequisiteSelected($event)"
                     >
-                    @for(course of courseNames; track course.id){
+                    @for(course of autoCourseNames; track course.id){
                         <mat-option [value]="course">
                             {{ course.name }}
                           </mat-option>

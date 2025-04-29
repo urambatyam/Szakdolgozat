@@ -10,7 +10,7 @@ import { NOdatalayout } from './common';
 export function creatCR(targetElement: HTMLDivElement, response?: any) {
   let layout: Partial<Layout>;
   let data: Partial<PlotData>[] = [];
-  if(!response){
+  if(!response || (response.failed === 0 && response.completed === 0 && response.absent === 0)){
     data = [{
       values: [],
       labels: [],

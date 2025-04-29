@@ -78,6 +78,7 @@ export class CourseForumComponent implements OnInit, OnDestroy{
     prerequisites: this.fb.control<Name[] | null>(null),
   });
   protected courseNames: Course[] = [];
+  protected autoCourseNames: Course[] = [];
   protected title: any;
   protected displayedColumns: string[] = ['name', 'update', 'delete', 'controller', 'view'];
   selectedCourse: Course|null = null;
@@ -189,6 +190,18 @@ export class CourseForumComponent implements OnInit, OnDestroy{
           map(response => {
             this.courseNames = response.data;
             this.totalItems = response.total;
+          }),
+          catchError(error => {
+            console.error('Hiba a kurzusok lekérése közben: ', error);
+            return EMPTY;
+          })
+        )
+      );
+      await firstValueFrom(
+        this.courseData.getAllCoursesNames().pipe(
+          takeUntil(this.destroy$),
+          map(response => {
+            this.autoCourseNames = response;
           }),
           catchError(error => {
             console.error('Hiba a kurzusok lekérése közben: ', error);

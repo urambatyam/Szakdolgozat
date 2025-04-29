@@ -310,6 +310,11 @@ class CalculusController extends Controller
         $grades = Grade::whereHas('course', function ($query) use ($course_id) {
             $query->where('id', $course_id);
         })->where('grade','!=', null)->pluck('grade')->toArray();
+        if(empty($grades)){
+            return response()->json(
+                ["message" => "Nincs jegy!"],200
+             );
+        }
         $result = [
             "frequency" => Distribution::frequency($grades),
             "mean" => Average::mean($grades),
