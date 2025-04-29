@@ -264,20 +264,46 @@ class GradeController extends Controller
         $user = User::find($grade->user_code);
         $courseName = Course::find($grade->course_id)->name;
         $adminEmail = "salt90502@gmail.com";
-        try {
-            Mail::to($user->email)->send(new UpdateGrade($values['grade'], $courseName));
-            if ($adminEmail) {
-                 Mail::to($adminEmail)->send(new UpdateGrade($values['grade'], $courseName));
+        $userEmailSent = false;
+        $adminEmailSent = false;
+        $emailError = null;
+        if ($adminEmail) {
+            try {
+                Mail::to($adminEmail)->send(new UpdateGrade($values['grade'], $courseName, $user ? $user->name : $grade->user_code)); 
+                $adminEmailSent = true;
+            } catch (\Exception $e) {
+                Log::error('Admin email küldése sikertelen (jegy frissítés): ' . $adminEmail . ' Hiba: ' . $e->getMessage());
+                $emailError .= 'Admin értesítő küldése sikertelen.'; 
             }
-        } catch (\Exception $e) {
-            Log::error('email küldése a jegy frissítésénél sikertelen: ' . $user->email . ' Hiba: ' . $e->getMessage());
-             return response()->json([
-                 'message' => 'Jegy frissítésve, de az értesítő email küldése sikertelen!',
-                 'user' => $user
-             ], 201); 
+        }
+        if ($user && $user->email) {
+            try {
+                Mail::to($user->email)->send(new UpdateGrade($values['grade'], $courseName,$user->name));
+                $userEmailSent = true;
+            } catch (\Exception $e) {
+                Log::error('Email küldése a felhasználónak sikertelen (jegy frissítés): ' . $user->email . ' Hiba: ' . $e->getMessage());
+                $emailError = 'Felhasználói értesítő küldése sikertelen. '; 
+            }
+        } else {
+             Log::warning('Nem található felhasználó vagy email cím a jegyhez tartozó értesítéshez: user_code=' . $grade->user_code);
+             $emailError = 'Felhasználói értesítő nem küldhető (nincs email cím). ';
         }
 
-        return $grade;
+        $message = 'Jegy sikeresen frissítve';
+        if ($emailError) {
+            $message .= ',de az email küldés sikertelen.: ' . trim($emailError);
+        } elseif ($userEmailSent && $adminEmailSent) {
+             $message .= '. Értesítő email sikeresen elküldve.';
+        } elseif ($adminEmailSent) {
+             $message .= '. Admin értesítő sikeresen elküldve.';
+        }
+
+        return response()->json([
+            'message' => $message,
+            'grade' => $grade->refresh(), 
+            'user_email_sent' => $userEmailSent,
+            'admin_email_sent' => $adminEmailSent
+        ], 200);
     }
 
     /**

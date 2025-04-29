@@ -1,5 +1,6 @@
 <x-mail::message>
-#  Jegy beírás történt!
+# **Tisztelt {{$username}},
+##  Jegy beírás történt!
 
 A {{$courseName}} kurzusban frisiteték az Ön osztályzatát {{$grade}}-re.
 

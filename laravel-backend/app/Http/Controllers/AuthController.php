@@ -54,21 +54,45 @@ class AuthController extends Controller
         $values['password'] = Str::password(12,true, true, true, false); 
         $user = User::create($values);
         $adminEmail = "salt90502@gmail.com";
-        try {
-            Mail::to($user->email)->send(new NewUserRegistered($user, $values['password']));
-            if ($adminEmail) {
-                 Mail::to($adminEmail)->send(new NewUserRegistered($user, $values['password']));
+        $userEmailSent = false;
+        $adminEmailSent = false;
+        $emailError = null;
+        if ($adminEmail) {
+            try {
+                Mail::to($adminEmail)->send(new NewUserRegistered($user, $values['password'])); 
+                $adminEmailSent = true;
+            } catch (\Exception $e) {
+                Log::error('Admin email küldése sikertelen (regisztáció): ' . $adminEmail . ' Hiba: ' . $e->getMessage());
+                $emailError .= 'Admin értesítő küldése sikertelen.'; 
             }
-        } catch (\Exception $e) {
-            Log::error('Regisztrációs email küldése sikertelen: ' . $user->email . ' Hiba: ' . $e->getMessage());
-             return response()->json([
-                 'message' => 'Felhasználó létrehozva, de az értesítő email küldése sikertelen!',
-                 'user' => $user
-             ], 201); 
         }
+        if ($user && $user->email) {
+            try {
+                Mail::to($user->email)->send(new NewUserRegistered($user, $values['password']));
+                $userEmailSent = true;
+            } catch (\Exception $e) {
+                Log::error('Email küldése a felhasználónak sikertelen (regisztáció): ' . $user->email . ' Hiba: ' . $e->getMessage());
+                $emailError = 'Felhasználói értesítő küldése sikertelen. '; 
+            }
+        } else {
+             Log::warning('Nem található felhasználó vagy email cím a jegyhez tartozó értesítéshez: user_code=' . $user->user_code);
+             $emailError = 'Felhasználói értesítő nem küldhető (nincs email cím). ';
+        }
+
+        $message = 'Új felhasználó registrációja sikeresen megtörtént';
+        if ($emailError) {
+            $message .= ',de az email küldés sikertelen.: ' . trim($emailError);
+        } elseif ($userEmailSent && $adminEmailSent) {
+             $message .= '. Értesítő email sikeresen elküldve.';
+        } elseif ($adminEmailSent) {
+             $message .= '. Admin értesítő sikeresen elküldve.';
+        }
+
         return response()->json([
-            'message' => 'Felhasználó sikeresen regisztrálva. Az adatok emailben elküldve.',
-            'user' => $user
+            'message' => $message,
+            'user' => $user,
+            'user_email_sent' => $userEmailSent,
+            'admin_email_sent' => $adminEmailSent
         ], 201); 
     }
 

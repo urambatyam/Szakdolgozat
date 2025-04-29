@@ -16,15 +16,17 @@ class UpdateGrade extends Mailable
     use Queueable, SerializesModels;
     public string $grade;
     public string $courseName;
+    public string $username;
     /**
      * Létrehoza az új üzenet `instance`.
      * @param $grade az új jegy
      * @param $courseName a kurzusnév
      */
-    public function __construct($grade, $courseName)
+    public function __construct($grade, $courseName, $username)
     {
         $this->grade = $grade;
         $this->courseName = $courseName;
+        $this->username = $username;
     }
 
 
@@ -48,6 +50,7 @@ class UpdateGrade extends Mailable
             with: [
                 'grade' => $this->grade,
                 'courseName' => $this->courseName,
+                'username' => $this->username,
             ],
         );
     }
