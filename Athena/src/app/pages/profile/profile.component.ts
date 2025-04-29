@@ -118,7 +118,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe(result => {
       if (result) {
-        console.log('Dialógus bezárva, eredmény: ', result);
 
         const updateObservable = isPassword
           ? this.auth.updatePassword(currentUserCode, result.password, result.new) 
@@ -135,11 +134,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
           next: () => {
             const successKey = isPassword ? 'profile.SUCCESS_PASSWORD_UPDATE' : 'profile.SUCCESS_EMAIL_UPDATE';
             this.showSnackbar(successKey, 'success-snackbar');
-            console.log(isPassword ? 'Jelszó frissítési folyamat sikeres.' : 'Email frissítési folyamat sikeres.');
           },
         });
-      } else {
-        console.log('Dialógus bezárva eredmény nélkül (Mégse gomb).');
       }
     });
   }

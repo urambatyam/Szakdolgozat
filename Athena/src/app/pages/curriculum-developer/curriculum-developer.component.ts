@@ -349,7 +349,6 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
         from(this.curriculumData.deleteCurriculum(curriculum.id)).pipe(
           map(
             response =>{
-              console.log('Törlési válasz:', response);
               this.loadCurriculumNames(); 
             }
           ),
@@ -448,7 +447,6 @@ export class CurriculumDeveloperComponent implements OnInit, OnDestroy {
     firstValueFrom(
       from(apiCall).pipe(
         map(response => {
-          console.log(this.update ? 'Update válasz:' : 'Create válasz:', response);
           this.loadCurriculumNames(); 
           this.close(); 
         }),

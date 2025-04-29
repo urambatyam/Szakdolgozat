@@ -76,7 +76,6 @@ export class AuthService {
       { headers }
     ).pipe(
       tap(user => {
-        console.log('checkAuthentication successful, user:', user);
         this.LoggedUser.next(user); 
       }),
       catchError((error) => {
@@ -138,7 +137,6 @@ export class AuthService {
       { headers }
     ).pipe(
       switchMap(() => {
-        console.log('Email change successful, calling checkAuthentication...');
         return this.checkAuthentication(); 
       }),
       catchError(error => {

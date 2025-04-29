@@ -51,7 +51,7 @@ export class SubjectTopicComponent implements OnInit {
    */
   private async getSubjectMatter(courseId: number | null): Promise<void> {
     if (!courseId) { 
-      console.log("Nem kaptam meg a kurzus ID-t:", courseId);
+      alert("Nem kaptam meg a kurzus ID-t:"+ courseId);
       return; 
     }
     try {

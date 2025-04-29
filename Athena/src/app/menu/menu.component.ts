@@ -4,7 +4,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from '../services/mysql/auth.service';
-import { catchError, EMPTY, filter, firstValueFrom, from, map, Observable, of, shareReplay, Subject, takeUntil, tap} from 'rxjs';
+import { catchError, EMPTY, filter, firstValueFrom, from, map, Observable, of, shareReplay, Subject, takeUntil} from 'rxjs';
 import { TranslateModule, TranslateService} from '@ngx-translate/core';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -73,7 +73,6 @@ export class MenuComponent implements OnInit, OnDestroy {
             this.role = user?.role ?? null;
           }
         ),
-        tap(() => {console.log("role ",this.role)}),
         catchError(error => {
           console.error('Hiba: ', error);
           return of({ role: null })
@@ -115,7 +114,6 @@ export class MenuComponent implements OnInit, OnDestroy {
    * Bezárja az oldalsó menüt, ha nyitva volt.
    */
   protected async logOut(){
-    //console.log("Sikeres kijelenkezés");
     await firstValueFrom(
       from(this.auth.logout()).pipe(
         catchError(error => {

@@ -121,7 +121,6 @@ export class StatisticsComponent implements AfterViewInit, OnDestroy {
     }
     setTimeout(() => {
         if (this._statistics === targetStatistic && this.chartContainer?.nativeElement) {
-            console.log(`Rendering chart for ${targetStatistic} after timeout.`);
             switch (targetStatistic) {
                 case StatisticType.Tan:
                     this.fetchAndRenderChart(this.statisticsService.studentTAN(), createT, "statistics.TAN");
@@ -163,7 +162,6 @@ export class StatisticsComponent implements AfterViewInit, OnDestroy {
           }
           const targetElement = this.chartContainer.nativeElement; 
           const response = await firstValueFrom(dataObservable.pipe(takeUntil(this.destroy$)));
-          console.log(`${titleKey} data:`, response);
           createChartFn(targetElement, response);
       } catch (error) {
           console.error(`${titleKey} Hiba: `, error);
@@ -182,7 +180,6 @@ export class StatisticsComponent implements AfterViewInit, OnDestroy {
   private async fetchAndSetProgress(): Promise<void> {
       try {
           const response = await firstValueFrom(this.statisticsService.progres().pipe(takeUntil(this.destroy$)));
-          console.log('Progress data:', response);
           this.progressData = response as ProgressResponse;
       } catch (error) {
           console.error('Progress Hiba: ', error);
@@ -203,7 +200,6 @@ export class StatisticsComponent implements AfterViewInit, OnDestroy {
     ).subscribe(() => {
       this.ngZone.run(() => {
         if (this.chartContainer?.nativeElement && this._statistics !== StatisticType.Progress) {
-          console.log('Resizing Plotly chart...');
           Plotly.Plots.resize(this.chartContainer.nativeElement);
         }
       });

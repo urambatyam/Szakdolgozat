@@ -135,7 +135,6 @@ export class CourseStatisticsComponent implements  AfterViewInit, OnDestroy {
     ).subscribe(() => {
       this.ngZone.run(() => { 
         if (this.chartContainer?.nativeElement) {
-          console.log('Resizing Plotly chart...');
           Plotly.Plots.resize(this.chartContainer.nativeElement);
         }
       });

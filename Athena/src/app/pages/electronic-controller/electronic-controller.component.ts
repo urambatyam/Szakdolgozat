@@ -181,7 +181,6 @@ export class ElectronicControllerComponent implements OnInit, OnDestroy {
    * @param element A módosítandó jegy.
    */
   protected GradeSelectionChange(event: MatSelectChange, element: Grade) {
-    console.log("kiválasztot ", event.value, ' jegy ', element);
     this.update(event.value, element);
   }
 
@@ -237,7 +236,6 @@ export class ElectronicControllerComponent implements OnInit, OnDestroy {
    * @private
    */
   private async getGrades() {
-    console.log('getgrades ', this.viewMode, ' id ', this.courseId);
     this.grades = [];
     this.semesters = [];
     this.totalItems = 0;
@@ -285,7 +283,6 @@ export class ElectronicControllerComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.error('Hiba a jegyek lekérésekor:', error);
     }
-    console.log("currwent ", this.currentSemester);
   }
 
   /**

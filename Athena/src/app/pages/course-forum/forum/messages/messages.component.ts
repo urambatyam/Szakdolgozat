@@ -47,7 +47,7 @@ export class MessagesComponent implements OnInit{
     if(this.courseId){
       await this.getForums(this.courseId);
     }else{
-      console.log("nem kaptam meg a kurzus id-t",this.courseId);
+      console.error("nem kaptam meg a kurzus id-t",this.courseId);
     }
   }
   /**

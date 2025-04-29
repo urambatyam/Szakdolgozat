@@ -121,7 +121,6 @@ export class RegistrationComponent implements OnDestroy, OnInit {
  * @returns void
  */
 protected onSubmit(): void {
-    console.log(this.registForm);
     if (this.registForm.invalid) {
       this.registForm.markAllAsTouched();
       return;

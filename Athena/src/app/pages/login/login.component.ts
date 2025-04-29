@@ -68,7 +68,6 @@ export class LoginComponent {
       await firstValueFrom(
         this.auth.login(code, password).pipe(
           tap(() => {
-            console.log('Sikeres login');
             this.router.navigateByUrl('curriculum');
           }),
           catchError((error: unknown) => {
