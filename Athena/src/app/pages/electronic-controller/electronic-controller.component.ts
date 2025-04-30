@@ -159,7 +159,7 @@ export class ElectronicControllerComponent implements OnInit, OnDestroy {
    * @param element A törlendő jegy.
    */
   protected async remove(element: Grade) {
-    if (element.id && this.viewMode === 'course') {
+    if (element.id && this.viewMode === 'student') {
       await firstValueFrom(
         this.gradeService.deleteGrade(element.id)
           .pipe(

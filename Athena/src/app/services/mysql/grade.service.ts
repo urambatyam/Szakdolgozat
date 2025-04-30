@@ -24,8 +24,8 @@ export class GradeService {
      * @param course_id - Annak a kurzusnak az azonosítója, amelyre a felhasználó jelentkezik.
      * @returns Observable, amely a backend válaszát tartalmazza.
      */
-    createGrade(course_id : number): Observable<{ success: boolean; reason?: string }>{ 
-      return this.http.post<{ success: boolean; reason?: string }>(
+    createGrade(course_id : number): Observable<any>{ 
+      return this.http.post<any>(
         environment.baseUrl+'/grade',
         {course_id: course_id},
         {headers: this.auth.getHeaders()}

@@ -38,7 +38,7 @@ class GradeController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Csak bejelentkezett diákok vehetnek fel kurzusokat.',
-                'reason' => 'auth_student_required'
+                'reason' => 'curriculum.auth_student_required'
             ], 403); 
         }
         /** @var User $student */
@@ -56,9 +56,9 @@ class GradeController extends Controller
 
         if ($courseSeason === null) {
             $canApplyBasedOnSeason = true; 
-        } elseif ($courseSeason === true && $isAutumnSemester) {
+        } elseif ($courseSeason == true && $isAutumnSemester) {
             $canApplyBasedOnSeason = true; 
-        } elseif ($courseSeason === false && !$isAutumnSemester) {
+        } elseif ($courseSeason == false && !$isAutumnSemester) {
             $canApplyBasedOnSeason = true; 
         }
 
@@ -66,7 +66,7 @@ class GradeController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'A kurzus ebben a félévben nem vehető fel.',
-                'reason' => 'invalid_season'
+                'reason' => 'curriculum.invalid_season'
             ], 400); 
         }
 
@@ -78,7 +78,7 @@ class GradeController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Ezt a kurzust már felvetted.',
-                'reason' => 'already_applied'
+                'reason' => 'curriculum.already_applied'
             ], 400); 
         }
 
@@ -100,7 +100,7 @@ class GradeController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Nem teljesítetted a kurzus összes előkövetelményét.',
-                    'reason' => 'prerequisites_not_met',
+                    'reason' => 'curriculum.prerequisites_not_met',
                     'missing_ids' => array_values($missingPrerequisites)
                 ], 400); 
             }
@@ -110,6 +110,7 @@ class GradeController extends Controller
             $student->grades()->create([
                 'course_id' => $courseId,
                 'sezon' => $isAutumnSemester,
+                'year' => (int)date("Y"),
                 'grade' => null 
             ]);
 
@@ -122,7 +123,7 @@ class GradeController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Hiba történt a kurzus felvétele közben.'.$e->getMessage(),
-                'reason' => 'creation_failed'
+                'reason' => 'curriculum.creation_failed'
             ], 500); 
         }
     }

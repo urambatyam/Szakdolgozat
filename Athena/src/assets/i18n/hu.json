@@ -101,6 +101,13 @@
         "CLOSE": "Mégse"
     },
     "curriculum":{
+        "auth_student_required": "Csak diák jelentkezhet",
+        "invalid_season": "Helytelen szezon",
+        "already_applied": "Már felveted",
+        "prerequisites_not_met": "Előkövetelmények nicsenek teljesiteve",
+        "creation_failed": "Nem sikerült felvétel",
+        "APPLY_SUCCESS": "Sikeres kurzus felvétel",
+        "APPLY_FAILED_UNKNOWN": "Nem sikerült kurzus felvétel",
         "SELECT_COLUMNS": "Oszlopok",
         "COURSE": "Kurzus",
         "MIN_KREDIT": "Teljesitendő kredit: ",

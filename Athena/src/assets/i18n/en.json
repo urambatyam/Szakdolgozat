@@ -101,6 +101,13 @@
         "CLOSE": "Close"
     },
     "curriculum":{
+        "auth_student_required": "Only student could apply",
+        "invalid_season": "Invalid season",
+        "already_applied": "Already applied",
+        "prerequisites_not_met": "Prerequisites not met",
+        "creation_failed": "Apply failed",
+        "APPLY_SUCCESS": "Applied successfully",
+        "APPLY_FAILED_UNKNOWN": "Failed to apply",
         "SELECT_COLUMNS": "Select columns",
         "COURSE": "Course",
         "MIN_KREDIT": "Credits to be completed: ",

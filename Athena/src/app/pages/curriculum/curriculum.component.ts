@@ -284,17 +284,21 @@ export class CurriculumComponent implements OnInit, OnDestroy {
         if (response.success) {
           course.applied = true;
           course.completed = false;
-          const mes = this.translate.instant('curriculum.APPLY_SUCCESS', { courseName: course.name });
+          const mes = this.translate.instant('curriculum.APPLY_SUCCESS');
           this.showSnackbar(mes);
         } else {
           course.applied = false;
-          const mes = response.reason || this.translate.instant('curriculum.APPLY_FAILED_UNKNOWN', { courseName: course.name });
+          const mes = response.reason || this.translate.instant('curriculum.APPLY_FAILED_UNKNOWN');
           this.showSnackbar(mes);
         }
       } catch (error) {
-        course.applied = false;
+        if((error as HttpErrorResponse)?.error?.reason === "curriculum.already_applied" && !course.completed){
+          course.applied = true;
+        }else{
+          course.applied = false;
+        } 
         console.error(`Hiba a(z) ${course.name} kurzusra való jelentkezéskor:`, error);
-        const mes = (error as HttpErrorResponse)?.error?.reason || this.translate.instant('curriculum.APPLY_FAILED_SERVER', { courseName: course.name });
+        const mes =  this.translate.instant((error as HttpErrorResponse)?.error?.reason) || this.translate.instant('curriculum.APPLY_FAILED_UNKNOWN');
         this.showSnackbar(mes);
       }
     } else {
